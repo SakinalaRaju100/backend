@@ -1,0 +1,56 @@
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+
+// Load environment variables
+dotenv.config();
+
+// Initialize express app
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Basic route
+app.get("/test", (req, res) => {
+  res.json({ message: "Welcome to test route" });
+});
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to server" });
+  // res.sendFile(__dirname + "/files/taxi.html");
+});
+app.get("/taxi", (req, res) => {
+  res.sendFile(__dirname + "/files/taxi.html");
+});
+
+// uploads folder
+// app.use("/dharavi/uploads", express.static("uploads"));
+
+// Import routes
+
+// API routes
+// app.use("/dharavi/api", require("./routes/index"));
+
+// Handle 404 routes
+app.use((req, res) => {
+  res.status(404).json({
+    status: false,
+    message: "Route not found",
+  });
+});
+
+// Start server
+const PORT = process.env.PORT || 4500;
+app.listen(PORT, () => {
+  console.log(`Server is running on port http://localhost:${PORT}`);
+});
+
+// Handle unhandled promise rejections
+process.on("unhandledRejection", (err) => {
+  console.log("UNHANDLED REJECTION! 💥 Shutting down...");
+  console.error(err);
+  process.exit(1);
+});

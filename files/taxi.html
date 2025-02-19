@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Information Form</title>
+
+    <!-- Add Material Icons stylesheet -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- <link rel="icon" type="image/x-icon" href="/favicon.ico" /> -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- React and Material-UI CDN links -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
+    <!-- Add Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    />
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        /* padding: 20px; */
+        /* background-color: #f5f5f5; */
+        background-color: #fff;
+      }
+      .form-container {
+        max-width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+        /* padding: 20px; */
+        /* border-radius: 8px; */
+        /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .error {
+        color: red;
+        font-size: 12px;
+      }
+      .box {
+        padding: 10px;
+      }
+      .css-19kzrtu {
+        padding: 0px !important;
+      }
+      .css-1ex1afd-MuiTableCell-root {
+        padding: 4px !important;
+      }
+
+      /* Center the loader */
+      .loader-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f9f9f9;
+      }
+
+      /* Loading spinner styles */
+      .loader {
+        border: 8px solid #f3f3f3; /* Light gray */
+        border-top: 8px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+      }
+
+      /* Keyframes for animation */
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Add a div for the map -->
+    <div
+      id="map"
+      style="
+        height: 400px;
+        width: 100%;
+        margin-top: 2px;
+        border: 1px solid orange;
+        border-radius: 6px;
+      "
+    ></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const {
+        AppBar,
+        Box,
+        Button,
+        Card,
+        CardContent,
+        CardMedia,
+        Container,
+        Grid,
+        IconButton,
+        Menu,
+        MenuItem,
+        Paper,
+        Toolbar,
+        Typography,
+        useTheme,
+        ThemeProvider,
+        createTheme,
+        MobileStepper,
+        Dialog,
+        DialogTitle,
+        DialogContent,
+        DialogActions,
+        Table,
+        TableBody,
+        TableCell,
+        TableHead,
+        TableRow,
+        Chip,
+        Tabs,
+        Tab,
+        TextField,
+        TableContainer,
+        FormControl,
+        InputLabel,
+        Select,
+        FormHelperText,
+      } = MaterialUI;
+
+      const StudentForm = () => {
+        const [allVehicles, setAllVehicles] = useState([
+          {
+            name: "Raghu",
+            mobile: "123",
+            time: "time",
+            from: "A",
+            to: "B",
+            location: [17.4410451, 78.6660831],
+            locationName: "ghatkesar",
+            available: 2,
+          },
+          {
+            name: "Raghu2",
+            mobile: "1232",
+            time: "time2",
+            from: "A2",
+            to: "B2",
+            location: [17.4729087, 78.8153675],
+            locationName: "Bhuvanagiri",
+            available: 1,
+          },
+          {
+            name: "Raghu3",
+            mobile: "1233",
+            time: "time3",
+            from: "A3",
+            to: "B3",
+            location: [17.9742239, 79.483573],
+            locationName: "Kazipet",
+            available: 2,
+          },
+        ]);
+        const [currentCoordinates, setCurrentCoordinates] = useState([]);
+        const [dialogPopup1, setDialogPopup1] = useState(false);
+        const [dialogPopup2, setDialogPopup2] = useState(false);
+        const [name, setName] = useState("");
+        const [mobile, setMobile] = useState("");
+        const [vehicleNumber, setVehicleNumber] = useState("");
+        const [availableSeats, setAvailableSeats] = useState(2);
+        const [submitted, setSubmitted] = useState(false);
+        const [pickupLocation, setPickupLocation] = useState("");
+        const [dropLocation, setDropLocation] = useState("");
+        const [stops, setStops] = useState([
+          { name: "Hanamkonda", distance: 0 },
+          { name: "Kazipet", distance: 15 },
+          { name: "Ghanpur", distance: 30 },
+          { name: "Raghunathpally", distance: 45 },
+          { name: "Jangaon", distance: 60 },
+          { name: "aleir", distance: 75 },
+          { name: "Bhongiri", distance: 95 },
+          { name: "Bibinagar", distance: 105 },
+          { name: "Ghatkesar", distance: 115 },
+          { name: "Uppal", distance: 130 },
+        ]);
+        const [userData, setUserData] = useState(null);
+
+        useEffect(() => {
+          const storedData = localStorage.getItem("userObj");
+          if (storedData) {
+            setUserData(JSON.parse(storedData));
+            const a = document.getElementById("map");
+            a.style.display = "block";
+          } else {
+            const a = document.getElementById("map");
+            a.style.display = "none";
+          }
+
+          // Initialize the Leaflet map
+          const map = L.map("map").setView([17.692118, 79.142845], 9);
+
+          // Add OpenStreetMap tile layer
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: "© OpenStreetMap",
+          }).addTo(map);
+
+          var marker = L.marker([17.692118, 79.142845])
+            .addTo(map)
+            .bindPopup(`Current Location`)
+            .openPopup();
+
+          // Add all markers from the allVehicles array
+          allVehicles.forEach((marker) => {
+            L.marker(marker.location, {
+              icon: L.icon({
+                iconUrl: "/Taxi.png",
+                // iconUrl: "/redCarTopViewIcon.png",
+                iconSize: [70, 70],
+              }),
+              maxZoom: 5, // Added maxZoom property to markers
+            })
+              .addTo(map)
+              .bindPopup(
+                `${marker.name} - ${marker.mobile},  seats: ${marker.available}`
+              );
+            // .openPopup();
+          });
+          getCoordinates();
+
+          // document.getElementById("map").style.display = "none"; // Hide the map
+        }, []);
+
+        const toggleMap = () => {
+          const storedData = localStorage.getItem("userObj");
+          if (storedData) {
+            setUserData(JSON.parse(storedData));
+            const a = document.getElementById("map");
+            a.style.display = "block";
+          } else {
+            const a = document.getElementById("map");
+            a.style.display = "none";
+          }
+        };
+
+        const getCoordinates = async () => {
+          if (!navigator.geolocation) {
+            console.error("Geolocation is not supported by this browser.");
+            alert("Geolocation is not supported by your browser.");
+            return [];
+          }
+
+          try {
+            // Check the current permission status
+            const permissionStatus = await navigator.permissions.query({
+              name: "geolocation",
+            });
+
+            if (permissionStatus.state === "denied") {
+              alert(
+                "Location access is denied. Please enable location access in your browser settings."
+              );
+            }
+
+            if (permissionStatus.state === "prompt") {
+              alert(
+                "This feature requires location access. Please allow it when prompted."
+              );
+            }
+            // navigator.geolocation.getCurrentPosition();
+
+            return new Promise((resolve, reject) => {
+              navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                  const { latitude, longitude } = position.coords;
+                  console.log("Current Coordinates:", latitude, longitude);
+                  setCurrentCoordinates([latitude, longitude]);
+                  resolve([latitude, longitude]);
+                },
+                (error) => {
+                  console.error("Error getting location:", error);
+                  if (error.code === error.PERMISSION_DENIED) {
+                    alert("Please allow location access to use this feature.");
+                  }
+                  reject([]);
+                }
+              );
+            });
+          } catch (error) {
+            console.error("Error checking location permission:", error);
+            return [];
+          }
+        };
+
+        return (
+          <div>
+            {!userData && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginTop: "20px",
+                }}
+              >
+                <Button
+                  type="button"
+                  variant="outlined"
+                  color="secondary"
+                  style={{ flex: 1, marginRight: "10px" }} // Added margin for spacing
+                  onClick={() => setDialogPopup1(true)} // Added onClick to open the dialog
+                >
+                  Looking for car
+                </Button>
+                <Button
+                  type="button"
+                  variant="contained"
+                  color="primary"
+                  style={{ flex: 1 }} // Adjusted to take equal space
+                  onClick={() => setDialogPopup2(true)} // Added onClick to open the dialog
+                >
+                  Looking for Passengers
+                </Button>
+              </div>
+            )}
+            {userData && (
+              <div>
+                <Card
+                  style={{ backgroundColor: "#f0f8ff", borderRadius: "8px" }}
+                >
+                  <CardContent>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography variant="h6" style={{ color: "orange" }}>
+                        Raid Information
+                      </Typography>
+                      <IconButton
+                        style={{
+                          color: "green",
+                          border: "2px solid gray",
+                          borderRadius: "5px",
+                        }}
+                        onClick={() => {
+                          setUserData(null);
+                          localStorage.removeItem("userObj");
+                          toggleMap();
+                        }}
+                        aria-label="close"
+                      >
+                        <span className="material-icons">close</span> Delete
+                      </IconButton>
+                    </div>
+                    <Typography variant="h6" style={{ color: "blue" }}>
+                      Name: {userData.name} - {userData.mobile}
+                    </Typography>
+                    <Typography variant="h6" style={{ color: "green" }}>
+                      from : {userData.pickupLocation} to:{" "}
+                      {userData.dropLocation}{" "}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+            <Dialog open={dialogPopup1} onClose={() => setDialogPopup1(false)}>
+              <DialogTitle>Enter Your Details</DialogTitle>
+              <DialogContent>
+                <TextField
+                  size="small"
+                  autoFocus
+                  margin="dense"
+                  label="Your Name"
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  error={!name && submitted}
+                  helperText={!name && submitted ? "Name is required" : ""}
+                />
+                <TextField
+                  size="small"
+                  margin="dense"
+                  label="Mobile Number"
+                  type="Number"
+                  fullWidth
+                  variant="outlined"
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                  error={(!mobile || !/^[0-9]{10}$/.test(mobile)) && submitted}
+                  helperText={
+                    !mobile && submitted
+                      ? "Mobile number is required"
+                      : !/^[0-9]{10}$/.test(mobile) && submitted
+                      ? "Mobile number must be 10 digits"
+                      : ""
+                  }
+                />
+
+                <div>
+                  <FormControl
+                    fullWidth
+                    margin="dense"
+                    error={!pickupLocation && submitted}
+                  >
+                    <InputLabel id="pickup-label">Pick Up Location</InputLabel>
+                    <Select
+                      labelId="pickup-label"
+                      value={pickupLocation}
+                      onChange={(e) => {
+                        getCoordinates();
+                        setPickupLocation(e.target.value);
+                      }}
+                    >
+                      {stops.map((el, ind) => (
+                        <MenuItem key={"to" + ind} value={el.name}>
+                          {el.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+
+                    {!pickupLocation && submitted && (
+                      <FormHelperText>
+                        Select your pick up location
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                  <FormControl
+                    fullWidth
+                    margin="dense"
+                    error={!dropLocation && submitted}
+                  >
+                    <InputLabel id="drop-label">Drop Location</InputLabel>
+                    <Select
+                      labelId="drop-label"
+                      value={dropLocation}
+                      onChange={(e) => setDropLocation(e.target.value)}
+                    >
+                      {stops.map((el, ind) => (
+                        <MenuItem key={"from" + ind} value={el.name}>
+                          {el.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {!dropLocation && submitted && (
+                      <FormHelperText>Select your drop location</FormHelperText>
+                    )}
+                  </FormControl>
+                </div>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() => {
+                    setName("");
+                    setMobile("");
+                    setDialogPopup1(false);
+                    setSubmitted(false);
+                    setPickupLocation("");
+                    setDropLocation("");
+                  }}
+                  color="primary"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={async () => {
+                    const mobilePattern = /^[0-9]{10}$/;
+                    setSubmitted(true);
+                    if (
+                      name &&
+                      mobile &&
+                      mobilePattern.test(mobile) &&
+                      pickupLocation &&
+                      dropLocation
+                    ) {
+                      getCoordinates();
+                      // let a = [];
+                      // if (navigator.geolocation) {
+                      //   await navigator.geolocation.getCurrentPosition(
+                      //     async (position) => {
+                      //       const { latitude, longitude } = position.coords;
+                      //       a = [latitude, longitude];
+                      //       await setCurrentCoordinates([latitude, longitude]);
+                      //       console.log(
+                      //         "Current Coordinatesq2:",
+                      //         latitude,
+                      //         longitude
+                      //       );
+                      //     },
+                      //     (error) => {
+                      //       console.error("Error getting location:", error);
+                      //     }
+                      //   );
+                      // } else {
+                      //   console.error(
+                      //     "Geolocation is not supported by this browser."
+                      //   );
+                      // }
+
+                      console.log(
+                        "name, mobile",
+                        name,
+                        mobile,
+                        pickupLocation,
+                        dropLocation,
+                        currentCoordinates
+                        // a
+                      );
+
+                      // Set values in local storage
+                      localStorage.setItem(
+                        "userObj",
+                        JSON.stringify({
+                          name,
+                          mobile,
+                          pickupLocation,
+                          dropLocation,
+                          currentCoordinates,
+                          // a,
+                        })
+                      );
+                      setUserData({
+                        name,
+                        mobile,
+                        pickupLocation,
+                        dropLocation,
+                        currentCoordinates,
+                        // a,
+                      });
+                      toggleMap();
+                      setDialogPopup1(false);
+                    } else {
+                      console.log("Some fields are missing");
+                    }
+                  }}
+                  color="primary"
+                >
+                  Continue
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog open={dialogPopup2} onClose={() => setDialogPopup2(false)}>
+              <DialogTitle>Enter Your Details</DialogTitle>
+              <DialogContent>
+                <TextField
+                  size="small"
+                  autoFocus
+                  margin="dense"
+                  label="Your Name"
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  error={!name && submitted}
+                  helperText={!name && submitted ? "Name is required" : ""}
+                />
+                <TextField
+                  size="small"
+                  margin="dense"
+                  label="Mobile Number"
+                  type="Number"
+                  fullWidth
+                  variant="outlined"
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                  error={(!mobile || !/^[0-9]{10}$/.test(mobile)) && submitted}
+                  helperText={
+                    !mobile && submitted
+                      ? "Mobile number is required"
+                      : !/^[0-9]{10}$/.test(mobile) && submitted
+                      ? "Mobile number must be 10 digits"
+                      : ""
+                  }
+                />
+
+                <TextField
+                  size="small"
+                  margin="dense"
+                  label="Enter Vehicle Number"
+                  type="Text"
+                  fullWidth
+                  // variant="standard"
+                  // variant="filled"
+                  variant="outlined"
+                  value={vehicleNumber}
+                  onChange={(e) => setVehicleNumber(e.target.value)}
+                  error={!vehicleNumber && submitted}
+                  helperText={
+                    !vehicleNumber && submitted
+                      ? "Vehicle Number is required"
+                      : ""
+                  }
+                />
+                <TextField
+                  size="small"
+                  margin="dense"
+                  label="Seats available"
+                  type="Number"
+                  fullWidth
+                  // variant="standard"
+                  // variant="filled"
+                  variant="outlined"
+                  value={availableSeats}
+                  onChange={(e) => setAvailableSeats(e.target.value)}
+                  error={availableSeats < 1 && submitted}
+                  helperText={
+                    availableSeats < 1 && submitted
+                      ? "Seats available atleast 1"
+                      : ""
+                  }
+                />
+
+                <div>
+                  <FormControl
+                    fullWidth
+                    margin="dense"
+                    error={!pickupLocation && submitted}
+                  >
+                    <InputLabel id="pickup-label">Pick Up Location</InputLabel>
+                    <Select
+                      labelId="pickup-label"
+                      value={pickupLocation}
+                      onChange={(e) => {
+                        getCoordinates();
+                        setPickupLocation(e.target.value);
+                      }}
+                    >
+                      {stops.map((el, ind) => (
+                        <MenuItem key={"to" + ind} value={el.name}>
+                          {el.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {!pickupLocation && submitted && (
+                      <FormHelperText>
+                        Select your pick up location
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                  <FormControl
+                    fullWidth
+                    margin="dense"
+                    error={!dropLocation && submitted}
+                  >
+                    <InputLabel id="drop-label">Drop Location</InputLabel>
+                    <Select
+                      labelId="drop-label"
+                      value={dropLocation}
+                      onChange={(e) => setDropLocation(e.target.value)}
+                    >
+                      {stops.map((el, ind) => (
+                        <MenuItem key={"from" + ind} value={el.name}>
+                          {el.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {!dropLocation && submitted && (
+                      <FormHelperText>Select your drop location</FormHelperText>
+                    )}
+                  </FormControl>
+                </div>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={() => {
+                    setName("");
+                    setMobile("");
+                    setDialogPopup1(false);
+                    setVehicleNumber("");
+                    setDialogPopup2(false);
+                    setSubmitted(false);
+                    setPickupLocation("");
+                    setDropLocation("");
+                  }}
+                  color="primary"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={async () => {
+                    const mobilePattern = /^[0-9]{10}$/;
+                    setSubmitted(true);
+                    if (
+                      name &&
+                      mobile &&
+                      mobilePattern.test(mobile) &&
+                      pickupLocation &&
+                      dropLocation
+                    ) {
+                      getCoordinates();
+                      // let a = [];
+                      // if (navigator.geolocation) {
+                      //   await navigator.geolocation.getCurrentPosition(
+                      //     async (position) => {
+                      //       const { latitude, longitude } = position.coords;
+                      //       a = [latitude, longitude];
+                      //       await setCurrentCoordinates([latitude, longitude]);
+                      //       console.log(
+                      //         "Current Coordinatesq2:",
+                      //         latitude,
+                      //         longitude
+                      //       );
+                      //     },
+                      //     (error) => {
+                      //       console.error("Error getting location:", error);
+                      //     }
+                      //   );
+                      // } else {
+                      //   console.error(
+                      //     "Geolocation is not supported by this browser."
+                      //   );
+                      // }
+
+                      console.log(
+                        "name, mobile",
+                        name,
+                        mobile,
+                        pickupLocation,
+                        dropLocation,
+                        currentCoordinates
+                        // a
+                      );
+
+                      // Set values in local storage
+                      localStorage.setItem(
+                        "userObj",
+                        JSON.stringify({
+                          name,
+                          mobile,
+                          pickupLocation,
+                          dropLocation,
+                          currentCoordinates,
+                          // a,
+                        })
+                      );
+                      setUserData({
+                        name,
+                        mobile,
+                        pickupLocation,
+                        dropLocation,
+                        currentCoordinates,
+                        // a,
+                      });
+                      toggleMap();
+                      setDialogPopup2(false);
+                    } else {
+                      console.log("Some fields are missing");
+                    }
+                  }}
+                  color="primary"
+                >
+                  Continue
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+        );
+      };
+
+      // Render the form to the DOM
+      ReactDOM.render(<StudentForm />, document.getElementById("root"));
+    </script>
+    <!-- Add Leaflet and Leaflet Routing Machine scripts -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+  </body>
+</html>
