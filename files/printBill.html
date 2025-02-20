@@ -91,17 +91,7 @@
         const [products, setProducts] = useState([]);
 
         const handlePrint = () => {
-          console.log("print", print);
-          // const billContent = `
-          //   Name: ${name}
-          //   Phone Number: ${phoneNumber}
-          //   Product Name: ${productName}
-          //   Total Revenue: ${totalRevenue}
-          // `;
-          // const printWindow = window.open("", "", "height=400,width=600");
-          // printWindow.document.write("<pre>" + billContent + "</pre>");
-          // printWindow.document.close();
-          // printWindow.print();
+          window.print(); // This will trigger the print dialog
         };
 
         const handleDialogClose = () => {
@@ -371,6 +361,11 @@
                 </Typography>
               </Box>
               <hr />
+              <Box display="flex" justifyContent="center" mt={2}>
+                <Button variant="contained" onClick={handlePrint}>
+                  Print Bill
+                </Button>
+              </Box>
             </Container>
           </div>
         );
