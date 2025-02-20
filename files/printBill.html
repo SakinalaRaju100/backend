@@ -152,7 +152,7 @@
                     onClick={() => {
                       setProducts((pre) => [
                         ...pre,
-                        { name: "", type: "", price: 0 },
+                        { name: "", type: "", price: null },
                       ]);
                     }}
                   >
@@ -182,6 +182,7 @@
                           padding: "6px",
                           margin: "6px",
                           backgroundColor: "gray",
+                          color: "white",
                         }}
                         contentEditable="true"
                         onBlur={(e) => {
@@ -198,6 +199,7 @@
                           padding: "6px",
                           margin: "6px",
                           backgroundColor: "gray",
+                          color: "white",
                         }}
                         contentEditable="true"
                         onBlur={(e) => {
@@ -215,6 +217,7 @@
                           padding: "6px",
                           margin: "6px",
                           backgroundColor: "gray",
+                          color: "white",
                         }}
                         contentEditable="true"
                         onBlur={(e) => {
