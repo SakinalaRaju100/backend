@@ -29,6 +29,9 @@ app.get("/", (req, res) => {
 app.get("/taxi", (req, res) => {
   res.sendFile(__dirname + "/files/taxi.html");
 });
+app.get("/anil", (req, res) => {
+  res.sendFile(__dirname + "/files/printBill.html");
+});
 
 // uploads folder
 // app.use("/dharavi/uploads", express.static("uploads"));
