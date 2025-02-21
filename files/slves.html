@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slves</title>
+    <title>Light Selling Dashboard</title>
 
     <!-- Add Material Icons stylesheet -->
     <link
@@ -47,47 +47,73 @@
         AppBar,
         Box,
         Button,
+        Container,
+        Toolbar,
+        Typography,
+        Grid,
         Card,
         CardContent,
         CardMedia,
-        Container,
-        Grid,
-        IconButton,
-        Menu,
-        MenuItem,
-        Paper,
-        Toolbar,
-        Typography,
-        useTheme,
-        ThemeProvider,
-        createTheme,
-        MobileStepper,
-        Dialog,
-        DialogTitle,
-        DialogContent,
-        DialogActions,
-        Table,
-        TableBody,
-        TableCell,
-        TableHead,
-        TableRow,
-        Chip,
-        Tabs,
-        Tab,
-        TextField,
-        TableContainer,
-        FormControl,
-        InputLabel,
-        Select,
-        FormHelperText,
-        Autocomplete,
-        Avatar,
+        Footer,
       } = MaterialUI;
 
       const HomePage = () => {
+        const items = [
+          {
+            id: 1,
+            name: "LED Bulb",
+            price: "$10",
+            image:
+              "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+          },
+          {
+            id: 2,
+            name: "Table Lamp",
+            price: "$25",
+            image:
+              "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+          },
+          {
+            id: 3,
+            name: "Chandelier",
+            price: "$150",
+            image: "https://via.placeholder.com/150?text=Chandelier",
+          },
+        ];
+
         return (
           <div>
-            <h3>slves</h3>
+            <AppBar position="static">
+              <Toolbar>
+                <Typography variant="h6">Light Selling Dashboard</Typography>
+              </Toolbar>
+            </AppBar>
+            <Container>
+              <Typography variant="h4" gutterBottom>
+                Available Items
+              </Typography>
+              <Grid container spacing={3}>
+                {items.map((item) => (
+                  <Grid item xs={12} sm={6} md={4} key={item.id}>
+                    <Card>
+                      <CardMedia
+                        component="img"
+                        alt={item.name}
+                        height="140"
+                        image={item.image}
+                      />
+                      <CardContent>
+                        <Typography variant="h5">{item.name}</Typography>
+                        <Typography variant="body2">{item.price}</Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Container>
+            <footer style={{ textAlign: "center", padding: "20px" }}>
+              <Typography variant="body2">© 2023 Light Selling</Typography>
+            </footer>
           </div>
         );
       };
