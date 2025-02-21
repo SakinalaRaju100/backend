@@ -26,6 +26,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to server" });
   // res.sendFile(__dirname + "/files/taxi.html");
 });
+app.get("/kunur", (req, res) => {
+  res.sendFile(__dirname + "/files/chittiLoans.html");
+});
 app.get("/taxi", (req, res) => {
   res.sendFile(__dirname + "/files/taxi.html");
 });

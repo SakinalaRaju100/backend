@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Information Form</title>
+
+    <!-- Add Material Icons stylesheet -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- <link rel="icon" type="image/x-icon" href="/favicon.ico" /> -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- React and Material-UI CDN links -->
+    <!-- <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.production.min.js"></script> -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
+    <!-- Remove Babel script for production -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
+    <!-- Add Moment.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        /* padding: 20px; */
+        /* background-color: #f5f5f5; */
+        background-color: #fff;
+      }
+      .form-container {
+        max-width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+        /* padding: 20px; */
+        /* border-radius: 8px; */
+        /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .error {
+        color: red;
+        font-size: 12px;
+      }
+      .box {
+        padding: 10px;
+      }
+      .css-19kzrtu {
+        padding: 0px !important;
+      }
+      .css-1ex1afd-MuiTableCell-root {
+        padding: 4px !important;
+      }
+
+      /* Center the loader */
+      .loader-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f9f9f9;
+      }
+
+      /* Loading spinner styles */
+      .loader {
+        border: 8px solid #f3f3f3; /* Light gray */
+        border-top: 8px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+      }
+
+      /* Keyframes for animation */
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const {
+        AppBar,
+        Box,
+        Button,
+        Card,
+        CardContent,
+        CardMedia,
+        Container,
+        Grid,
+        IconButton,
+        Menu,
+        MenuItem,
+        Paper,
+        Toolbar,
+        Typography,
+        useTheme,
+        ThemeProvider,
+        createTheme,
+        MobileStepper,
+        Dialog,
+        Table,
+        TableBody,
+        TableCell,
+        TableHead,
+        TableRow,
+        Chip,
+        Tabs,
+        Tab,
+        TextField,
+        TableContainer,
+        FormControl,
+        InputLabel,
+        Select,
+        FormHelperText,
+        DialogTitle,
+        DialogContent,
+        DialogActions,
+      } = MaterialUI;
+
+      const StudentForm = () => {
+        const numberOfMonths = 36;
+        const [listData, setListData] = useState([
+          { id: 1, fullName: "John Doe", father: "James Doe" },
+          { id: 2, fullName: "Jane Smith", father: "Robert Smith" },
+          { id: 3, fullName: "Mike Johnson", father: "David Johnson" },
+          { id: 4, fullName: "Sarah Williams", father: "Thomas Williams" },
+          { id: 5, fullName: "Alex Brown", father: "Richard Brown" },
+          { id: 6, fullName: "Emily Davis", father: "Michael Davis" },
+          { id: 7, fullName: "Chris Wilson", father: "Paul Wilson" },
+          { id: 8, fullName: "Lisa Anderson", father: "Mark Anderson" },
+          { id: 9, fullName: "Kevin Taylor", father: "Steven Taylor" },
+          { id: 10, fullName: "Rachel Moore", father: "Joseph Moore" },
+        ]);
+
+        // Update the payment data structure to use ISO format dates
+        const [paymentData, setPaymentData] = useState([
+          {
+            id: 1,
+            payment: 500,
+            date: "2025-01-10", // Updated to ISO format
+          },
+          {
+            id: 1,
+            payment: 500,
+            date: "2024-12-10",
+          },
+          {
+            id: 2,
+            payment: 500,
+            date: "2025-01-10",
+          },
+          {
+            id: 4,
+            payment: 500,
+            date: "2025-01-10",
+          },
+          {
+            id: 1,
+            payment: 500,
+            date: "2024-11-10",
+          },
+
+          {
+            id: 3,
+            payment: 450,
+            date: "2024-12-15",
+          },
+          {
+            id: 5,
+            payment: 550,
+            date: "2025-01-05",
+          },
+          {
+            id: 2,
+            payment: 500,
+            date: "2024-11-20",
+          },
+          {
+            id: 6,
+            payment: 475,
+            date: "2024-12-01",
+          },
+          {
+            id: 7,
+            payment: 525,
+            date: "2025-01-15",
+          },
+          {
+            id: 8,
+            payment: 500,
+            date: "2024-11-25",
+          },
+          {
+            id: 9,
+            payment: 490,
+            date: "2024-12-20",
+          },
+          {
+            id: 10,
+            payment: 510,
+            date: "2025-01-08",
+          },
+          {
+            id: 3,
+            payment: 450,
+            date: "2024-11-15",
+          },
+          {
+            id: 5,
+            payment: 550,
+            date: "2024-12-05",
+          },
+          {
+            id: 5,
+            payment: 550,
+            date: "2023-12-05",
+          },
+        ]);
+
+        const [existingLoans, setExistingLoans] = useState([
+          {
+            id: "LA1",
+            name: "Jan-2024",
+            date: "2024-01-10",
+            amount: 10000,
+            members: 2,
+            duration: 5,
+          },
+          {
+            id: "LA2",
+            name: "Feb-2024",
+            date: "2024-02-10",
+            amount: 20000,
+            members: 3,
+            duration: 6,
+          },
+        ]);
+        const [loans, setLoans] = useState([
+          {
+            id: 5,
+            name: "Alex Brown",
+            emiSchedule: [
+              {
+                month: "Mar-2025",
+                emi: "1000.00",
+                interest: "100.00",
+                paid: false,
+              },
+              {
+                month: "Apr-2025",
+                emi: "1000.00",
+                interest: "80.00",
+                paid: true,
+              },
+              {
+                month: "May-2025",
+                emi: "1000.00",
+                interest: "60.00",
+                paid: false,
+              },
+              {
+                month: "Jun-2025",
+                emi: "1000.00",
+                interest: "40.00",
+                paid: false,
+              },
+              {
+                month: "Jul-2025",
+                emi: "1000.00",
+                interest: "20.00",
+                paid: false,
+              },
+            ],
+          },
+          {
+            id: 6,
+            name: "Emily Davis",
+            emiSchedule: [
+              {
+                month: "Mar-2025",
+                emi: "1000.00",
+                interest: "100.00",
+                paid: false,
+              },
+              {
+                month: "Apr-2025",
+                emi: "1000.00",
+                interest: "80.00",
+                paid: false,
+              },
+              {
+                month: "May-2025",
+                emi: "1000.00",
+                interest: "60.00",
+                paid: false,
+              },
+              {
+                month: "Jun-2025",
+                emi: "1000.00",
+                interest: "40.00",
+                paid: false,
+              },
+              {
+                month: "Jul-2025",
+                emi: "1000.00",
+                interest: "20.00",
+                paid: false,
+              },
+            ],
+          },
+        ]);
+        const [loanPaymentsData, setLoanPaymentsData] = useState([
+          {
+            loanId: 1,
+            candidateId: 2,
+            payment: 500,
+            date: "2025-01-10", // Updated to ISO format
+            paid: false,
+          },
+          {
+            loanId: 3,
+            candidateId: 2,
+            payment: 500,
+            date: "2025-01-10", // Updated to ISO format
+            paid: true,
+          },
+          {
+            loanId: 1,
+            candidateId: 2,
+            payment: 500,
+            date: "2025-01-10", // Updated to ISO format
+            paid: false,
+          },
+          {
+            loanId: 2,
+            candidateId: 2,
+            payment: 500,
+            date: "2025-01-10", // Updated to ISO format
+            paid: true,
+          },
+        ]);
+
+        const [monthColumns, setMonthColumns] = React.useState([
+          ...Array(numberOfMonths)
+            .fill(0)
+            .map((_, ei) => moment().subtract(ei, "months").format("MMM-YYYY")),
+        ]);
+
+        const [emiTableArr, setEmiTable] = useState([]);
+        const [open, setOpen] = useState(false);
+        const [selectedFullName, setSelectedFullName] = useState("");
+        const [selectedDate, setSelectedDate] = useState("");
+        const [paymentAmount, setPaymentAmount] = useState("");
+        const [selectedTab, setSelectedTab] = useState(0);
+        const [openLoanModal, setOpenLoanModal] = useState(false);
+        const [selectedCandidate, setSelectedCandidate] = useState("");
+        const [selectedCandidates, setSelectedCandidates] = useState([]);
+        const [loanAmount, setLoanAmount] = useState("");
+        const [loanDuration, setLoanDuration] = useState("");
+        const [openLoanDetails, setOpenLoanDetails] = useState(false);
+        const [selectedLoan, setSelectedLoan] = useState(null);
+
+        const handleAddPayment = (e1, e2, e3) => {
+          // Implement the logic to add a new payment
+          // console.log("Adding payment...", e1, e2, e3);
+          setPaymentData((pre) => [
+            ...pre,
+            {
+              id: e1,
+              payment: e2,
+              date: e3 ? e3 : moment().format("YYYY-MM-DD"),
+            },
+          ]);
+          setOpen(false);
+        };
+
+        const handleCreateLoan = (
+          loanAmountProp,
+          loanDurationProp,
+          selectedCandidatesprop = []
+        ) => {
+          // Implement the logic to create a new loan
+          console.log(
+            "Creating loan...",
+            selectedCandidates,
+            loanAmount,
+            loanDuration
+          );
+
+          if (!selectedCandidatesprop && !loanAmountProp && !loanDurationProp) {
+            return setEmiTable([]);
+          }
+          // Create a table to show each person's monthly EMI till the duration
+          const emiTable = selectedCandidatesprop.map((candidateId) => {
+            const candidate = listData.find(
+              (student) => student.id === candidateId
+            );
+
+            const monthlyEMI =
+              loanAmountProp /
+              (selectedCandidatesprop.length * loanDurationProp); // Round up to nearest 100
+            const emiSchedule = [...Array(Number(loanDurationProp))].map(
+              (ele, monthIndex) => ({
+                month: moment()
+                  .add(monthIndex + 1, "months")
+                  .format("MMM-YYYY"),
+                // emi: monthlyEMI.toFixed(2), // Format to 2 decimal places
+                emi: monthlyEMI.toFixed(2), // Format to 2 decimal places
+                interest: (
+                  (loanAmountProp / selectedCandidatesprop.length -
+                    monthlyEMI * monthIndex) *
+                  0.02
+                ).toFixed(2),
+                paid: false,
+              })
+            );
+
+            return {
+              id: candidateId,
+              name: candidate?.fullName,
+              emiSchedule,
+            };
+          });
+
+          // Display the EMI table (you can customize this part as needed)
+          setEmiTable(emiTable);
+          console.log("EMI Table:", emiTable);
+          // setOpenLoanModal(false); // need confirmation to done and close
+        };
+
+        return (
+          <div>
+            <div className="form-container">
+              <div>
+                <center>
+                  <u>
+                    <b>Name of Union</b>
+                  </u>
+                </center>
+              </div>
+              <div>
+                <Tabs
+                  value={selectedTab}
+                  onChange={(e, newValue) => setSelectedTab(newValue)}
+                >
+                  <Tab label="All Members" />
+                  <Tab label="Loans" />
+                  <Tab label="shares" />
+                </Tabs>
+              </div>
+              {selectedTab === 0 && (
+                <div>
+                  <h3>All Members List</h3>
+                  <div style={{ marginBottom: 4 }}>
+                    <Button
+                      variant="contained"
+                      onClick={() => setOpen(true)}
+                      style={{ m: 2 }}
+                    >
+                      Add Payment
+                    </Button>
+                    <Dialog open={open} onClose={() => setOpen(false)}>
+                      <DialogTitle>Add Payment</DialogTitle>
+                      <DialogContent>
+                        <FormControl fullWidth>
+                          <InputLabel id="fullName-label">Full Name</InputLabel>
+                          <Select
+                            labelId="fullName-label"
+                            value={selectedFullName}
+                            onChange={(e) =>
+                              setSelectedFullName(e.target.value)
+                            }
+                          >
+                            {listData.map((student) => (
+                              <MenuItem key={student.id} value={student.id}>
+                                {student.fullName}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                          <FormHelperText>Select a student</FormHelperText>
+                        </FormControl>
+                        <TextField
+                          label="Date"
+                          type="date"
+                          defaultValue={moment().format("YYYY-MM-DD")}
+                          fullWidth
+                          margin="normal"
+                          onChange={(e) => setSelectedDate(e.target.value)}
+                        />
+                        <TextField
+                          label="Payment Amount"
+                          type="number"
+                          fullWidth
+                          margin="normal"
+                          onChange={(e) => setPaymentAmount(e.target.value)}
+                        />
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={() => setOpen(false)}>Cancel</Button>
+                        <Button
+                          onClick={() =>
+                            handleAddPayment(
+                              selectedFullName,
+                              paymentAmount,
+                              selectedDate
+                            )
+                          }
+                        >
+                          Add Payment
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </div>
+                  <Box sx={{ p: 3 }} className="box">
+                    <Box sx={{ overflowX: "auto" }}>
+                      <Table sx={{ minWidth: 650 }}>
+                        <TableHead>
+                          <TableRow sx={{ bgcolor: "primary.main" }}>
+                            <TableCell
+                              sx={{
+                                color: "white",
+                                fontWeight: "bold",
+                                backgroundColor: "primary.main",
+                                position: "sticky",
+                                left: 0,
+                                zIndex: 1,
+                              }}
+                            >
+                              ID
+                            </TableCell>
+                            <TableCell
+                              sx={{
+                                color: "white",
+                                fontWeight: "bold",
+                                backgroundColor: "primary.main",
+                                position: "sticky",
+                                left: "30px",
+                                zIndex: 1,
+                              }}
+                            >
+                              Name
+                            </TableCell>
+                            <TableCell
+                              sx={{
+                                color: "white",
+                                fontWeight: "bold",
+                                backgroundColor: "primary.main",
+                                position: "sticky",
+                                left: "90px",
+                                zIndex: 1,
+                              }}
+                            >
+                              Father
+                            </TableCell>
+                            {monthColumns.map((month) => {
+                              const totalColumnSum = listData.reduce(
+                                (sum, student) => {
+                                  const matchingPayment = paymentData.find(
+                                    (pay) =>
+                                      pay.id === student?.id &&
+                                      moment(pay.date).format("MMM-YYYY") ===
+                                        month
+                                  );
+                                  return (
+                                    Number(sum) +
+                                    (matchingPayment
+                                      ? Number(matchingPayment.payment)
+                                      : 0)
+                                  );
+                                },
+                                0
+                              );
+
+                              return (
+                                <TableCell
+                                  key={month}
+                                  sx={{
+                                    color: "white",
+                                    fontWeight: "bold",
+                                    minWidth: "100px",
+                                  }}
+                                >
+                                  {month}
+                                  <div>(RS {totalColumnSum}/-)</div>
+                                </TableCell>
+                              );
+                            })}
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {listData.map((student, ind) => {
+                            return (
+                              <TableRow
+                                key={ind}
+                                sx={{
+                                  bgcolor: "grey.100",
+                                }}
+                              >
+                                <TableCell
+                                  sx={{
+                                    position: "sticky",
+                                    left: 0,
+                                    backgroundColor: "inherit",
+                                    zIndex: 1,
+                                  }}
+                                >
+                                  {student?.id || ind + 1}
+                                </TableCell>
+                                <TableCell
+                                  sx={{
+                                    position: "sticky",
+                                    left: "30px",
+                                    backgroundColor: "inherit",
+                                    zIndex: 1,
+                                  }}
+                                >
+                                  {student?.fullName}
+                                </TableCell>
+                                <TableCell
+                                  sx={{
+                                    position: "sticky",
+                                    left: "90px",
+                                    backgroundColor: "inherit",
+                                    zIndex: 1,
+                                  }}
+                                >
+                                  {student?.father}
+                                </TableCell>
+
+                                {[...Array(numberOfMonths)].map((month, mi) => {
+                                  const matchingPayment = paymentData.find(
+                                    (pay) =>
+                                      pay.id === student?.id &&
+                                      moment(pay.date).format("MMM-YYYY") ===
+                                        moment()
+                                          .subtract(mi, "months")
+                                          .format("MMM-YYYY")
+                                  );
+
+                                  return (
+                                    <TableCell key={`${student.id}-${mi}`}>
+                                      {matchingPayment ? (
+                                        <div>
+                                          <span
+                                            className="material-icons"
+                                            style={{ color: "green" }}
+                                          >
+                                            check_circle
+                                          </span>{" "}
+                                          &nbsp;
+                                          {matchingPayment?.payment}
+                                        </div>
+                                      ) : (
+                                        <span
+                                          className="material-icons"
+                                          style={{ color: "red" }}
+                                        >
+                                          cancel
+                                        </span>
+                                      )}
+                                    </TableCell>
+                                  );
+                                })}
+                              </TableRow>
+                            );
+                          })}
+                        </TableBody>
+                      </Table>
+                    </Box>
+
+                    <Box sx={{ mt: 3, textAlign: "center" }}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ fontSize: "0.875rem" }}
+                      >
+                        For any updates to student information, please contact
+                        the administration.
+                      </Typography>
+                    </Box>
+                  </Box>
+                </div>
+              )}
+              {selectedTab === 1 && (
+                <div>
+                  <h3>Loans List</h3>
+                  <Button
+                    variant="contained"
+                    onClick={() => setOpenLoanModal(true)}
+                    style={{ m: 2 }}
+                  >
+                    Create Loan
+                  </Button>
+                  <Dialog
+                    open={openLoanModal}
+                    onClose={() => setOpenLoanModal(false)}
+                  >
+                    <DialogTitle>Create Loan</DialogTitle>
+                    <DialogContent>
+                      <FormControl fullWidth sx={{ mb: 2 }}>
+                        <TextField
+                          label="Total Loan Amount"
+                          type="number"
+                          fullWidth
+                          margin="normal"
+                          onChange={(e) => {
+                            setLoanAmount(e.target.value);
+                            handleCreateLoan(
+                              e.target.value,
+                              loanDuration,
+                              selectedCandidates
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormControl fullWidth sx={{ mb: 2 }}>
+                        <TextField
+                          label="Duration (Months)"
+                          type="number"
+                          onChange={(e) => {
+                            setLoanDuration(e.target.value);
+
+                            handleCreateLoan(
+                              loanAmount,
+                              e.target.value,
+                              selectedCandidates
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormControl fullWidth>
+                        <InputLabel id="candidate-label">
+                          Select Candidates
+                        </InputLabel>
+                        <Select
+                          labelId="candidate-label"
+                          multiple
+                          value={selectedCandidates}
+                          onChange={async (e) => {
+                            await setSelectedCandidates(e.target.value);
+                            handleCreateLoan(
+                              loanAmount,
+                              loanDuration,
+                              e.target.value
+                            );
+                          }} // Updates the array with selected values
+                          renderValue={(selected) => {
+                            return selected.join(", "); // Show selected candidates as a comma-separated list
+                          }}
+                        >
+                          {listData.map((student) => (
+                            <MenuItem key={student.id} value={student.id}>
+                              {student.fullName}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        <FormHelperText>
+                          Select candidates for the loan
+                        </FormHelperText>
+                      </FormControl>
+                      <div>
+                        {emiTableArr.length > 0 && (
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell>EMI Months</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {emiTableArr.map((emi) => (
+                                <TableRow key={emi.id}>
+                                  <TableCell style={{ fontSize: "8px" }}>
+                                    {emi.name}
+                                  </TableCell>
+                                  <TableCell style={{ fontSize: "9px" }}>
+                                    {emi.emiSchedule.map((schedule, index) => (
+                                      <div
+                                        key={index}
+                                        style={{
+                                          color: schedule.paid
+                                            ? "green"
+                                            : "red",
+                                        }}
+                                      >
+                                        {schedule.month}: {schedule.emi}/-:
+                                        {schedule.interest}/-
+                                      </div>
+                                    ))}
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        )}
+                      </div>
+                    </DialogContent>
+
+                    <DialogActions>
+                      <Button onClick={() => setOpenLoanModal(false)}>
+                        Cancel
+                      </Button>
+                      <Button onClick={() => {}}>Confirm</Button>
+                    </DialogActions>
+                  </Dialog>
+                  <hr />
+                  <h4 style={{ margin: 3 }}>Existing Loans</h4>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      // alignItems: "center",
+                    }}
+                  >
+                    {existingLoans.map((loan) => (
+                      <Card
+                        key={loan.id}
+                        sx={{
+                          margin: 1,
+                          width: "300px",
+                          backgroundColor: "#f5f5f5",
+                        }}
+                      >
+                        <CardContent>
+                          <Typography
+                            variant="h5"
+                            component="div"
+                            style={{ color: "orange" }}
+                          >
+                            {loan.id} : {loan.name}
+                          </Typography>
+                          <Typography
+                            color="text.secondary"
+                            style={{ color: "green" }}
+                          >
+                            Loan Date: {moment(loan.date).format("MMM-DD-YYYY")}{" "}
+                            {/* Replace with actual loan date if available */}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            style={{ color: "orange" }}
+                          >
+                            Amount: {loan.amount}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            style={{ color: "purple" }}
+                          >
+                            Members: {loan.members} (each:{" "}
+                            {(loan.amount / loan.members).toFixed(2)})
+                          </Typography>
+                          <Typography variant="body2" style={{ color: "red" }}>
+                            Duration: {loan.duration} months
+                          </Typography>
+                          <Button
+                            variant="contained"
+                            onClick={() => {
+                              setOpenLoanDetails(true);
+                              setSelectedLoan(loan);
+                            }}
+                          >
+                            View Details
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </Box>
+                  <Dialog
+                    open={openLoanDetails}
+                    onClose={() => setOpenLoanDetails(false)}
+                  >
+                    <DialogTitle>Loan Details</DialogTitle>
+                    <DialogContent>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Details</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {loans.map((loan, ind) => (
+                            <TableRow key={loan.id + loan.name}>
+                              <TableCell style={{ fontSize: "9px" }}>
+                                {loan.id} {loan.name}
+                              </TableCell>
+                              <TableCell>
+                                {loan.emiSchedule.map((emi, index) => (
+                                  <div key={index}>
+                                    <TableCell style={{ fontSize: "9px" }}>
+                                      {emi.month} {emi.emi} {emi.interest}{" "}
+                                      {emi.paid ? (
+                                        <span
+                                          className="material-icons"
+                                          style={{ color: "green" }}
+                                        >
+                                          check_circle
+                                        </span>
+                                      ) : (
+                                        <span
+                                          className="material-icons"
+                                          style={{ color: "red" }}
+                                        >
+                                          cancel
+                                        </span>
+                                      )}
+                                    </TableCell>
+                                  </div>
+                                ))}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={() => setOpenLoanDetails(false)}>
+                        Close
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
+              )}
+              {selectedTab === 2 && (
+                <div>
+                  <h5>Each Person Total Share shown here..</h5>
+                  {/* ... existing code for Loans ... */}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      };
+
+      // Render the form to the DOM
+      ReactDOM.render(<StudentForm />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
