@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Appointment</title>
+
+    <!-- Add Material Icons stylesheet -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- <link rel="icon" type="image/x-icon" href="/favicon.ico" /> -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- React and Material-UI CDN links -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Add Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    />
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        /* padding: 20px; */
+        /* background-color: #f5f5f5; */
+        background-color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const {
+        AppBar,
+        Box,
+        Button,
+        Card,
+        CardContent,
+        CardMedia,
+        Container,
+        Grid,
+        IconButton,
+        Menu,
+        MenuItem,
+        Paper,
+        Toolbar,
+        Typography,
+        useTheme,
+        ThemeProvider,
+        createTheme,
+        MobileStepper,
+        Dialog,
+        DialogTitle,
+        DialogContent,
+        DialogActions,
+        Table,
+        TableBody,
+        TableCell,
+        TableHead,
+        TableRow,
+        Chip,
+        Tabs,
+        Tab,
+        TextField,
+        TableContainer,
+        FormControl,
+        InputLabel,
+        Select,
+        FormHelperText,
+        Autocomplete,
+        Avatar,
+      } = MaterialUI;
+
+      const HomePage = () => {
+        const [selectedHospital, setSelectedHospital] = useState(null);
+        const [filterdDoctors, setFilterdDoctors] = useState([]);
+        const [hospitals, setHospitals] = useState([
+          {
+            hospitalId: "01",
+            name: "Hospital A",
+            image: "hospital",
+            type: "hospital",
+            location: [],
+            city: "Hyderabad",
+            pincode: 506145,
+            headName: "Ram",
+          },
+          {
+            hospitalId: "02",
+            name: "Hospital B",
+            image: "hospital",
+            type: "hospital",
+            location: [],
+            city: "Delhi",
+            pincode: 500142,
+            headName: "Ramu",
+          },
+          {
+            hospitalId: "04",
+            name: "Hospital D",
+            image: "hospital",
+            type: "hospital",
+            location: [],
+            city: "Delhi",
+            pincode: 500142,
+            headName: "Ramu",
+          },
+        ]);
+        const [doctors, setDoctors] = useState([
+          {
+            hospitalId: "01",
+            name: "arjun",
+            image: "doctor",
+            specialist: "neuro",
+            experience: "3",
+          },
+          {
+            hospitalId: "01",
+            name: "ramu",
+            image: "doctor",
+            specialist: "ortho",
+            experience: "5",
+          },
+          {
+            hospitalId: "02",
+            name: "vikram",
+            image: "doctor",
+            specialist: "general",
+            experience: "2",
+          },
+          {
+            hospitalId: "03",
+            name: "Madhu",
+            image: "doctor",
+            specialist: "neuro",
+            experience: "3",
+          },
+          {
+            hospitalId: "01",
+            name: "ria",
+            image: "doctor",
+            specialist: "ENT",
+            experience: "2",
+          },
+          {
+            hospitalId: "02",
+            name: "vennela",
+            image: "doctor",
+            specialist: "heart",
+            experience: "2",
+          },
+        ]);
+
+        return (
+          <div>
+            <FormControl fullWidth>
+              <Autocomplete
+                options={hospitals} // Add more hospitals as needed
+                getOptionLabel={(option) => option?.name ?? ""}
+                value={selectedHospital}
+                onChange={(event, newValue) => {
+                  console.log("newValue", newValue);
+
+                  if (!newValue) {
+                    setSelectedHospital(null);
+                    setDoctors([]); // Reset doctors if no hospital is selected
+                    return;
+                  }
+
+                  setSelectedHospital(newValue);
+
+                  console.log("doctors", doctors);
+                  // Use newValue directly since setSelectedHospital is asynchronous
+                  const filteredDoctors = doctors.filter(
+                    (doc) => doc.hospitalId === newValue.hospitalId
+                  );
+                  console.log("filteredDoctors", filteredDoctors);
+                  setFilterdDoctors(filteredDoctors);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    placeholder="Select Hospital"
+                    variant="outlined"
+                  />
+                )}
+              />
+
+              <FormHelperText>Type to search for a hospital</FormHelperText>
+            </FormControl>
+            <div>
+              {selectedHospital && <h3>Doctors List:</h3>}
+              <Grid container spacing={3}>
+                {!selectedHospital && ( // Check if filteredDoctors is empty
+                  <Grid item xs={12}>
+                    <Typography variant="h6" align="center">
+                      Select Hospital
+                    </Typography>
+                  </Grid>
+                )}
+
+                {selectedHospital &&
+                  filterdDoctors.length === 0 && ( // Check if filteredDoctors is empty
+                    <Grid item xs={12}>
+                      <Typography variant="h6" align="center">
+                        No doctors in this Hospital
+                      </Typography>
+                    </Grid>
+                  )}
+                {filterdDoctors.map((doctor, doctorIndex) => (
+                  <Grid item xs={12} sm={6} md={2} key={doctorIndex}>
+                    <Card
+                      sx={{
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          transform: "translateY(-8px)",
+                          boxShadow: 6,
+                        },
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        height="340"
+                        image={"./doctor.png"}
+                        alt={doctor.name}
+                        sx={{ objectFit: "cover" }}
+                      />
+                      <CardContent sx={{ flexGrow: 1 }}>
+                        <Typography
+                          variant="h6"
+                          gutterBottom
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          {doctor.name}
+                        </Typography>
+
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 1,
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                            }}
+                          >
+                            <span
+                              className="material-icons"
+                              style={{
+                                fontSize: "18px",
+                                color: "primary.main",
+                              }}
+                            >
+                              school
+                            </span>
+                            <Typography variant="body2">
+                              {doctor.subject}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 1,
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                            }}
+                          >
+                            <span
+                              className="material-icons"
+                              style={{
+                                fontSize: "18px",
+                                color: "primary.main",
+                              }}
+                            >
+                              phone
+                            </span>
+                            <Typography variant="body2">
+                              {doctor.phone}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </CardContent>
+
+                      <Box
+                        sx={{
+                          p: 2,
+                          borderTop: "1px solid",
+                          borderColor: "divider",
+                        }}
+                      >
+                        <Box sx={{ display: "flex", gap: 1 }}>
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            startIcon={
+                              <span className="material-icons">email</span>
+                            }
+                            // href={`mailto:${doctor.email}`}
+                            sx={{ flex: 1 }}
+                          >
+                            Email
+                          </Button>
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            startIcon={
+                              <span className="material-icons">phone</span>
+                            }
+                            href={`tel:${doctor.phone}`}
+                            sx={{ flex: 1 }}
+                          >
+                            Call
+                          </Button>
+                        </Box>
+                      </Box>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
+          </div>
+        );
+      };
+
+      // Render the form to the DOM
+      ReactDOM.render(<HomePage />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

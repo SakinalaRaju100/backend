@@ -23,7 +23,7 @@ app.get("/test", (req, res) => {
   res.json({ message: "Welcome to test route" });
 });
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Rajuparusharamulu server" });
+  res.json({ message: "Welcome to Digital world" });
   // res.sendFile(__dirname + "/files/taxi.html");
 });
 app.get("/kunur", (req, res) => {
@@ -34,6 +34,9 @@ app.get("/taxi", (req, res) => {
 });
 app.get("/anil", (req, res) => {
   res.sendFile(__dirname + "/files/printBill.html");
+});
+app.get("/appointment", (req, res) => {
+  res.sendFile(__dirname + "/files/appointment.html");
 });
 
 // uploads folder
