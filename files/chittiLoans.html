@@ -818,7 +818,18 @@
                       <Button onClick={() => setOpenLoanModal(false)}>
                         Cancel
                       </Button>
-                      <Button onClick={() => {}}>Confirm</Button>
+                      <Button
+                        onClick={() => {
+                          console.log("first", {
+                            loanAmount,
+                            loanDuration,
+                            selectedCandidates,
+                            emiTableArr,
+                          });
+                        }}
+                      >
+                        Confirm
+                      </Button>
                     </DialogActions>
                   </Dialog>
                   <hr />
