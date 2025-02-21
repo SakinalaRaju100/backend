@@ -85,22 +85,52 @@
       } = MaterialUI;
 
       const HomePage = () => {
-        // const [selectedHospital, setSelectedHospital] = useState(null);
+        const [selectedCatagery, setSelectedCatagery] = useState(null);
+        const [selectedHospital, setSelectedHospital] = useState(null);
 
-        // need to remove
-
-        const [selectedHospital, setSelectedHospital] = useState({
-          hospitalId: "01",
-          name: "Hospital A",
-          image: "hospital",
-          type: "hospital",
-          location: [],
-          city: "Hyderabad",
-          pincode: 506145,
-          headName: "Ram",
-          mobile: "123",
-        });
         const [filterdDoctors, setFilterdDoctors] = useState([]);
+        const [catageries, setCatageries] = useState([
+          {
+            catageryId: "01",
+            name: "Orthopedict",
+            discription: "Deals with Bones",
+          },
+          {
+            catageryId: "02",
+            name: "Cardiology",
+            discription: "Deals with Heart Conditions",
+          },
+          {
+            catageryId: "03",
+            name: "Dermatology",
+            discription: "Deals with Skin Issues",
+          },
+          {
+            catageryId: "04",
+            name: "Pediatrics",
+            discription: "Deals with Children's Health",
+          },
+          {
+            catageryId: "05",
+            name: "Gynecology",
+            discription: "Deals with Women's Health",
+          },
+          {
+            catageryId: "06",
+            name: "Orthopedics",
+            discription: "Deals with Bones and Joints",
+          },
+          {
+            catageryId: "07",
+            name: "General fevers",
+            discription: "Deals with general fevers",
+          },
+          {
+            catageryId: "08",
+            name: "Other",
+            discription: "Deals with Others",
+          },
+        ]);
         const [hospitals, setHospitals] = useState([
           {
             hospitalId: "01",
@@ -205,15 +235,6 @@
 
         const [activeTab, setActiveTab] = useState(0); // State to manage active tab
 
-        // need to remove
-        useEffect(() => {
-          const filteredDoctors = doctors.filter(
-            (doc) => doc.hospitalId === selectedHospital.hospitalId
-          );
-          console.log("filteredDoctors", filteredDoctors);
-          setFilterdDoctors(filteredDoctors);
-        }, []);
-
         return (
           <div>
             <Tabs
@@ -229,6 +250,31 @@
 
             {activeTab === 0 && ( // Render Book tab content
               <div>
+                <FormControl fullWidth>
+                  <Autocomplete
+                    options={catageries} // Add more hospitals as needed
+                    getOptionLabel={(option) => option?.name ?? ""}
+                    value={selectedCatagery}
+                    onChange={(event, newValue) => {
+                      console.log("newValue", newValue);
+                      setSelectedCatagery(newValue);
+                    }}
+                    // id="disable-clearable"
+                    disableClearable
+                    // disableCloseOnSelect
+
+                    // onClear={() => console.log("something")}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Select Catagery"
+                        variant="outlined"
+                      />
+                    )}
+                  />
+
+                  <FormHelperText>Type to search for a catagery</FormHelperText>
+                </FormControl>
                 <FormControl fullWidth>
                   <Autocomplete
                     options={hospitals} // Add more hospitals as needed
@@ -257,7 +303,7 @@
                     disableClearable
                     // disableCloseOnSelect
 
-                    onClear={() => console.log("something")}
+                    // onClear={() => console.log("something")}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -516,10 +562,12 @@
                       onClick={() => {
                         console.log(
                           "data",
+                          selectedCatagery,
                           selectedHospital,
                           selectedDoctor,
                           selectedSlot
                         );
+                        alert("Booking successfull");
                       }}
                       variant="contained"
                     >
