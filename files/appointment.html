@@ -199,6 +199,18 @@
           },
         ]);
 
+        const [openDialog, setOpenDialog] = useState(false); // State to manage dialog open/close
+
+        // Function to handle opening the dialog
+        const handleOpenDialog = () => {
+          setOpenDialog(true);
+        };
+
+        // Function to handle closing the dialog
+        const handleCloseDialog = () => {
+          setOpenDialog(false);
+        };
+
         // need to remove
         useEffect(() => {
           const filteredDoctors = doctors.filter(
@@ -268,7 +280,7 @@
                   <Grid item xs={6} sm={4} md={2} key={doctorIndex}>
                     <Card
                       sx={{
-                        height: { xs: "270px", sm: "400px", md: "300px" },
+                        height: { xs: "280px", sm: "400px", md: "300px" },
                         // height: "200px",
                         // height: "auto",
                         display: "flex",
@@ -364,8 +376,9 @@
                               variant="contained"
                               size="small"
                               sx={{ fontSize: "10px" }}
+                              onClick={handleOpenDialog} // Open dialog on button click
                             >
-                              Book Appoinment
+                              Book Appointment
                             </Button>
                           </Box>
                         </Box>
@@ -409,6 +422,31 @@
                 ))}
               </Grid>
             </div>
+
+            {/* Dialog for selecting slots */}
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+              <DialogTitle>Select Appointment Slot</DialogTitle>
+              <DialogContent>
+                {/* Add your slot selection logic here */}
+                <Typography>Select a time slot for today:</Typography>
+                {/* Example slot selection (you can customize this) */}
+                <FormControl fullWidth>
+                  <InputLabel id="slot-select-label">Time Slot</InputLabel>
+                  <Select labelId="slot-select-label" defaultValue="">
+                    <MenuItem value={1}>10:00 AM - 11:00 AM</MenuItem>
+                    <MenuItem value={2}>11:00 AM - 12:00 PM</MenuItem>
+                    <MenuItem value={3}>02:00 PM - 03:00 PM</MenuItem>
+                  </Select>
+                  <FormHelperText>Select a time slot</FormHelperText>
+                </FormControl>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseDialog}>Cancel</Button>
+                <Button onClick={handleCloseDialog} variant="contained">
+                  Confirm
+                </Button>
+              </DialogActions>
+            </Dialog>
           </div>
         );
       };
