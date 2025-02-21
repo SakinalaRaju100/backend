@@ -85,7 +85,21 @@
       } = MaterialUI;
 
       const HomePage = () => {
-        const [selectedHospital, setSelectedHospital] = useState(null);
+        // const [selectedHospital, setSelectedHospital] = useState(null);
+
+        // need to remove
+
+        const [selectedHospital, setSelectedHospital] = useState({
+          hospitalId: "01",
+          name: "Hospital A",
+          image: "hospital",
+          type: "hospital",
+          location: [],
+          city: "Hyderabad",
+          pincode: 506145,
+          headName: "Ram",
+          mobile: "123",
+        });
         const [filterdDoctors, setFilterdDoctors] = useState([]);
         const [hospitals, setHospitals] = useState([
           {
@@ -97,6 +111,7 @@
             city: "Hyderabad",
             pincode: 506145,
             headName: "Ram",
+            mobile: "123",
           },
           {
             hospitalId: "02",
@@ -107,6 +122,7 @@
             city: "Delhi",
             pincode: 500142,
             headName: "Ramu",
+            mobile: "123",
           },
           {
             hospitalId: "04",
@@ -117,6 +133,7 @@
             city: "Delhi",
             pincode: 500142,
             headName: "Ramu",
+            mobile: "123",
           },
         ]);
         const [doctors, setDoctors] = useState([
@@ -126,6 +143,9 @@
             image: "doctor",
             specialist: "neuro",
             experience: "3",
+            mobile: "1234",
+            email: "arjun@gmail.com",
+            callLink: "https://link",
           },
           {
             hospitalId: "01",
@@ -133,6 +153,9 @@
             image: "doctor",
             specialist: "ortho",
             experience: "5",
+            mobile: "1234",
+            email: "ramu@gmail.com",
+            callLink: "https://link",
           },
           {
             hospitalId: "02",
@@ -140,6 +163,9 @@
             image: "doctor",
             specialist: "general",
             experience: "2",
+            mobile: "1234",
+            email: "vikram@gmail.com",
+            callLink: "https://link",
           },
           {
             hospitalId: "03",
@@ -147,6 +173,9 @@
             image: "doctor",
             specialist: "neuro",
             experience: "3",
+            mobile: "1234",
+            email: "madhu@gmail.com",
+            callLink: "https://link",
           },
           {
             hospitalId: "01",
@@ -154,6 +183,9 @@
             image: "doctor",
             specialist: "ENT",
             experience: "2",
+            mobile: "1234",
+            email: "ria@gmail.com",
+            callLink: "https://link",
           },
           {
             hospitalId: "02",
@@ -161,8 +193,20 @@
             image: "doctor",
             specialist: "heart",
             experience: "2",
+            mobile: "1234",
+            email: "vennela@gmail.com",
+            callLink: "https://link",
           },
         ]);
+
+        // need to remove
+        useEffect(() => {
+          const filteredDoctors = doctors.filter(
+            (doc) => doc.hospitalId === selectedHospital.hospitalId
+          );
+          console.log("filteredDoctors", filteredDoctors);
+          setFilterdDoctors(filteredDoctors);
+        }, []);
 
         return (
           <div>
@@ -221,10 +265,12 @@
                     </Grid>
                   )}
                 {filterdDoctors.map((doctor, doctorIndex) => (
-                  <Grid item xs={12} sm={6} md={2} key={doctorIndex}>
+                  <Grid item xs={6} sm={4} md={2} key={doctorIndex}>
                     <Card
                       sx={{
-                        height: "100%",
+                        height: { xs: "270px", sm: "400px", md: "300px" },
+                        // height: "200px",
+                        // height: "auto",
                         display: "flex",
                         flexDirection: "column",
                         transition: "all 0.3s ease",
@@ -236,25 +282,25 @@
                     >
                       <CardMedia
                         component="img"
-                        height="340"
+                        // height="340"
                         image={"./doctor.png"}
                         alt={doctor.name}
                         sx={{ objectFit: "cover" }}
                       />
-                      <CardContent sx={{ flexGrow: 1 }}>
+                      <CardContent sx={{ flexGrow: 0, p: 1 }}>
                         <Typography
                           variant="h6"
                           gutterBottom
-                          sx={{ fontWeight: "bold" }}
+                          sx={{ fontWeight: "bold", fontSize: "12px" }}
                         >
-                          {doctor.name}
+                          Dr. {doctor.name}
                         </Typography>
 
                         <Box
                           sx={{
                             display: "flex",
-                            flexDirection: "column",
-                            gap: 1,
+                            flexDirection: "row",
+                            gap: 2,
                           }}
                         >
                           <Box
@@ -271,10 +317,31 @@
                                 color: "primary.main",
                               }}
                             >
-                              school
+                              medical_services
                             </span>
-                            <Typography variant="body2">
-                              {doctor.subject}
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                fontSize: "12px",
+                              }}
+                            >
+                              {doctor.specialist}
+                            </Typography>
+                          </Box>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                            }}
+                          >
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                fontSize: "10px",
+                              }}
+                            >
+                              {`${doctor.experience} years`}
                             </Typography>
                           </Box>
                         </Box>
@@ -283,6 +350,7 @@
                             display: "flex",
                             flexDirection: "column",
                             gap: 1,
+                            mt: 1,
                           }}
                         >
                           <Box
@@ -292,37 +360,33 @@
                               gap: 1,
                             }}
                           >
-                            <span
-                              className="material-icons"
-                              style={{
-                                fontSize: "18px",
-                                color: "primary.main",
-                              }}
+                            <Button
+                              variant="contained"
+                              size="small"
+                              sx={{ fontSize: "10px" }}
                             >
-                              phone
-                            </span>
-                            <Typography variant="body2">
-                              {doctor.phone}
-                            </Typography>
+                              Book Appoinment
+                            </Button>
                           </Box>
                         </Box>
                       </CardContent>
 
                       <Box
                         sx={{
+                          display: "none", // need pay for it
                           p: 2,
                           borderTop: "1px solid",
                           borderColor: "divider",
                         }}
                       >
-                        <Box sx={{ display: "flex", gap: 1 }}>
+                        <Box sx={{ display: "flex", gap: 0.5 }}>
                           <Button
                             variant="outlined"
                             size="small"
                             startIcon={
                               <span className="material-icons">email</span>
                             }
-                            // href={`mailto:${doctor.email}`}
+                            href={`mailto:${doctor.email}`}
                             sx={{ flex: 1 }}
                           >
                             Email
@@ -333,7 +397,7 @@
                             startIcon={
                               <span className="material-icons">phone</span>
                             }
-                            href={`tel:${doctor.phone}`}
+                            href={`tel:${doctor.mobile}`}
                             sx={{ flex: 1 }}
                           >
                             Call
