@@ -246,6 +246,11 @@
                   console.log("filteredDoctors", filteredDoctors);
                   setFilterdDoctors(filteredDoctors);
                 }}
+                // id="disable-clearable"
+                disableClearable
+                // disableCloseOnSelect
+
+                onClear={() => console.log("something")}
                 renderInput={(params) => (
                   <TextField
                     {...params}
