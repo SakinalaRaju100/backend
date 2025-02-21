@@ -202,7 +202,11 @@
                         <span className="material-icons">shopping_cart</span>
                       }
                       onClick={() => {
-                        setOpenDialog(true); // Open the dialog
+                        if (cart.length == 0) {
+                          alert("Your Cart is Empty, Please add Products..");
+                        } else {
+                          setOpenDialog(true); // Open the dialog
+                        }
                       }}
                     >
                       Show Cart
@@ -215,7 +219,7 @@
                       (product) =>
                         product.name
                           .toLowerCase()
-                          .includes(searchTerm.toLowerCase()) // Filter products based on search term
+                          .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
                     ).length === 0 && ( // Check if filteredDoctors is empty
                       <Grid item xs={12}>
                         <Typography variant="h6" align="center">
@@ -228,13 +232,13 @@
                         (product) =>
                           product.name
                             .toLowerCase()
-                            .includes(searchTerm.toLowerCase()) // Filter products based on search term
+                            .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
                       )
                       .map((product, doctorIndex) => (
                         <Grid item xs={6} sm={4} md={2} key={doctorIndex}>
                           <Card
                             sx={{
-                              height: { xs: "220px", sm: "400px", md: "300px" },
+                              height: { xs: "240px", sm: "400px", md: "300px" },
                               // height: "200px",
                               // height: "auto",
                               display: "flex",
@@ -297,7 +301,9 @@
                                     sx={{ fontSize: "10px" }}
                                     onClick={() => {
                                       setCart((pre) => [...pre, product]);
-                                      alert("Product added to cart");
+                                      alert(
+                                        "Product added to cart successfully"
+                                      );
                                     }} // Open dialog on button click
                                   >
                                     Add to Cart
@@ -315,9 +321,27 @@
 
             {activeTab === 1 && ( // Render History tab content
               <div>
-                <Typography variant="h6" align="center">
-                  Service History
-                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="h6" align="center">
+                    Service History
+                  </Typography>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={() => {
+                      alert("Add new service functionality to be implemented."); // Placeholder for functionality
+                    }}
+                    sx={{ m: 2 }} // Add some margin at the bottom
+                  >
+                    Add New
+                  </Button>
+                </Box>
                 <Grid container spacing={1}>
                   {[
                     {
@@ -416,7 +440,7 @@
             )}
 
             <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-              <DialogTitle>Cart Items</DialogTitle>
+              <DialogTitle>Your Cart Items</DialogTitle>
               <DialogContent>
                 <Table>
                   <TableHead>
@@ -476,7 +500,9 @@
                 <Button
                   variant="contained"
                   onClick={() => {
-                    alert(JSON.stringify(cart)); // Implement buy functionality
+                    // alert(JSON.stringify(cart)); // Implement buy functionality
+                    alert("Products ordered successfully"); // Implement buy functionality
+                    setOpenDialog(false);
                   }}
                 >
                   Buy
