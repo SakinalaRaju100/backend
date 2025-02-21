@@ -20,6 +20,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <!-- Add Leaflet CSS -->
     <link
@@ -95,6 +96,22 @@
         const handlePrint = () => {
           window.print(); // This will trigger the print dialog
         };
+
+        function downloadScreen() {
+          // Capture the element with id 'capture'
+          html2canvas(document.querySelector("#root")).then((canvas) => {
+            // Convert the canvas to a data URL
+            const image = canvas.toDataURL("image/png");
+
+            // Create a temporary link element
+            const link = document.createElement("a");
+            link.href = image;
+            link.download = "newBill.png"; // Name of the file to be downloaded
+
+            // Trigger the download
+            link.click();
+          });
+        }
 
         const handleDialogClose = () => {
           setOpenDialog(false);
@@ -253,7 +270,7 @@
                 border: { xs: "2px solid green" },
                 padding: 2,
                 mt: 3,
-                width: "380px",
+                // width: "380px",
               }}
             >
               <Typography variant="h6" textAlign="center">
@@ -379,7 +396,13 @@
               </Box>
               <hr />
               <Box display="flex" justifyContent="center" mt={2}>
-                <Button variant="contained" onClick={handlePrint}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    downloadScreen();
+                    handlePrint();
+                  }}
+                >
                   Print Bill
                 </Button>
               </Box>

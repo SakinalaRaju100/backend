@@ -23,7 +23,7 @@ app.get("/test", (req, res) => {
   res.json({ message: "Welcome to test route" });
 });
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to server" });
+  res.json({ message: "Welcome to Rajuparusharamulu server" });
   // res.sendFile(__dirname + "/files/taxi.html");
 });
 app.get("/kunur", (req, res) => {
