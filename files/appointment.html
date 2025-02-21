@@ -198,18 +198,12 @@
             callLink: "https://link",
           },
         ]);
+        const [selectedDoctor, setSelectedDoctor] = useState(null); // State to manage selected slot
 
         const [openDialog, setOpenDialog] = useState(false); // State to manage dialog open/close
+        const [selectedSlot, setSelectedSlot] = useState(null); // State to manage selected slot
 
-        // Function to handle opening the dialog
-        const handleOpenDialog = () => {
-          setOpenDialog(true);
-        };
-
-        // Function to handle closing the dialog
-        const handleCloseDialog = () => {
-          setOpenDialog(false);
-        };
+        const [activeTab, setActiveTab] = useState(0); // State to manage active tab
 
         // need to remove
         useEffect(() => {
@@ -222,236 +216,421 @@
 
         return (
           <div>
-            <FormControl fullWidth>
-              <Autocomplete
-                options={hospitals} // Add more hospitals as needed
-                getOptionLabel={(option) => option?.name ?? ""}
-                value={selectedHospital}
-                onChange={(event, newValue) => {
-                  console.log("newValue", newValue);
+            <Tabs
+              value={activeTab}
+              onChange={(event, newValue) => setActiveTab(newValue)}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+            >
+              <Tab label="Book" />
+              <Tab label="History" />
+            </Tabs>
 
-                  if (!newValue) {
-                    setSelectedHospital(null);
-                    setDoctors([]); // Reset doctors if no hospital is selected
-                    return;
-                  }
+            {activeTab === 0 && ( // Render Book tab content
+              <div>
+                <FormControl fullWidth>
+                  <Autocomplete
+                    options={hospitals} // Add more hospitals as needed
+                    getOptionLabel={(option) => option?.name ?? ""}
+                    value={selectedHospital}
+                    onChange={(event, newValue) => {
+                      console.log("newValue", newValue);
 
-                  setSelectedHospital(newValue);
+                      if (!newValue) {
+                        setSelectedHospital(null);
+                        setDoctors([]); // Reset doctors if no hospital is selected
+                        return;
+                      }
 
-                  console.log("doctors", doctors);
-                  // Use newValue directly since setSelectedHospital is asynchronous
-                  const filteredDoctors = doctors.filter(
-                    (doc) => doc.hospitalId === newValue.hospitalId
-                  );
-                  console.log("filteredDoctors", filteredDoctors);
-                  setFilterdDoctors(filteredDoctors);
-                }}
-                // id="disable-clearable"
-                disableClearable
-                // disableCloseOnSelect
+                      setSelectedHospital(newValue);
 
-                onClear={() => console.log("something")}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    placeholder="Select Hospital"
-                    variant="outlined"
-                  />
-                )}
-              />
+                      console.log("doctors", doctors);
+                      // Use newValue directly since setSelectedHospital is asynchronous
+                      const filteredDoctors = doctors.filter(
+                        (doc) => doc.hospitalId === newValue.hospitalId
+                      );
+                      console.log("filteredDoctors", filteredDoctors);
+                      setFilterdDoctors(filteredDoctors);
+                    }}
+                    // id="disable-clearable"
+                    disableClearable
+                    // disableCloseOnSelect
 
-              <FormHelperText>Type to search for a hospital</FormHelperText>
-            </FormControl>
-            <div>
-              {selectedHospital && <h3>Doctors List:</h3>}
-              <Grid container spacing={3}>
-                {!selectedHospital && ( // Check if filteredDoctors is empty
-                  <Grid item xs={12}>
-                    <Typography variant="h6" align="center">
-                      Select Hospital
-                    </Typography>
-                  </Grid>
-                )}
-
-                {selectedHospital &&
-                  filterdDoctors.length === 0 && ( // Check if filteredDoctors is empty
-                    <Grid item xs={12}>
-                      <Typography variant="h6" align="center">
-                        No doctors in this Hospital
-                      </Typography>
-                    </Grid>
-                  )}
-                {filterdDoctors.map((doctor, doctorIndex) => (
-                  <Grid item xs={6} sm={4} md={2} key={doctorIndex}>
-                    <Card
-                      sx={{
-                        height: { xs: "280px", sm: "400px", md: "300px" },
-                        // height: "200px",
-                        // height: "auto",
-                        display: "flex",
-                        flexDirection: "column",
-                        transition: "all 0.3s ease",
-                        "&:hover": {
-                          transform: "translateY(-8px)",
-                          boxShadow: 6,
-                        },
-                      }}
-                    >
-                      <CardMedia
-                        component="img"
-                        // height="340"
-                        image={"./doctor.png"}
-                        alt={doctor.name}
-                        sx={{ objectFit: "cover" }}
+                    onClear={() => console.log("something")}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Select Hospital"
+                        variant="outlined"
                       />
-                      <CardContent sx={{ flexGrow: 0, p: 1 }}>
-                        <Typography
-                          variant="h6"
-                          gutterBottom
-                          sx={{ fontWeight: "bold", fontSize: "12px" }}
-                        >
-                          Dr. {doctor.name}
-                        </Typography>
+                    )}
+                  />
 
-                        <Box
+                  <FormHelperText>Type to search for a hospital</FormHelperText>
+                </FormControl>
+                <div>
+                  {selectedHospital && (
+                    <Typography sx={{ m: 1 }}>Doctors in Hospital..</Typography>
+                  )}
+                  <Grid container spacing={3}>
+                    {!selectedHospital && ( // Check if filteredDoctors is empty
+                      <Grid item xs={12}>
+                        <Typography variant="h6" align="center">
+                          Select Hospital
+                        </Typography>
+                      </Grid>
+                    )}
+
+                    {selectedHospital &&
+                      filterdDoctors.length === 0 && ( // Check if filteredDoctors is empty
+                        <Grid item xs={12}>
+                          <Typography variant="h6" align="center">
+                            No doctors in this Hospital
+                          </Typography>
+                        </Grid>
+                      )}
+                    {filterdDoctors.map((doctor, doctorIndex) => (
+                      <Grid item xs={6} sm={4} md={2} key={doctorIndex}>
+                        <Card
                           sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            gap: 2,
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1,
-                            }}
-                          >
-                            <span
-                              className="material-icons"
-                              style={{
-                                fontSize: "18px",
-                                color: "primary.main",
-                              }}
-                            >
-                              medical_services
-                            </span>
-                            <Typography
-                              variant="body2"
-                              sx={{
-                                fontSize: "12px",
-                              }}
-                            >
-                              {doctor.specialist}
-                            </Typography>
-                          </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1,
-                            }}
-                          >
-                            <Typography
-                              variant="body2"
-                              sx={{
-                                fontSize: "10px",
-                              }}
-                            >
-                              {`${doctor.experience} years`}
-                            </Typography>
-                          </Box>
-                        </Box>
-                        <Box
-                          sx={{
+                            height: { xs: "280px", sm: "400px", md: "300px" },
+                            // height: "200px",
+                            // height: "auto",
                             display: "flex",
                             flexDirection: "column",
-                            gap: 1,
-                            mt: 1,
+                            transition: "all 0.3s ease",
+                            "&:hover": {
+                              transform: "translateY(-8px)",
+                              boxShadow: 6,
+                            },
                           }}
                         >
+                          <CardMedia
+                            component="img"
+                            // height="340"
+                            image={"./doctor.png"}
+                            alt={doctor.name}
+                            sx={{ objectFit: "cover" }}
+                          />
+                          <CardContent sx={{ flexGrow: 0, p: 1 }}>
+                            <Typography
+                              variant="h6"
+                              gutterBottom
+                              sx={{ fontWeight: "bold", fontSize: "12px" }}
+                            >
+                              Dr. {doctor.name}
+                            </Typography>
+
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                gap: 2,
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1,
+                                }}
+                              >
+                                <span
+                                  className="material-icons"
+                                  style={{
+                                    fontSize: "18px",
+                                    color: "primary.main",
+                                  }}
+                                >
+                                  medical_services
+                                </span>
+                                <Typography
+                                  variant="body2"
+                                  sx={{
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  {doctor.specialist}
+                                </Typography>
+                              </Box>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1,
+                                }}
+                              >
+                                <Typography
+                                  variant="body2"
+                                  sx={{
+                                    fontSize: "10px",
+                                  }}
+                                >
+                                  {`${doctor.experience} years`}
+                                </Typography>
+                              </Box>
+                            </Box>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 1,
+                                mt: 1,
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1,
+                                }}
+                              >
+                                <Button
+                                  variant="contained"
+                                  size="small"
+                                  sx={{ fontSize: "10px" }}
+                                  onClick={() => {
+                                    setOpenDialog(true);
+                                    setSelectedDoctor(doctor);
+                                  }} // Open dialog on button click
+                                >
+                                  Book Appointment
+                                </Button>
+                              </Box>
+                            </Box>
+                          </CardContent>
+
                           <Box
                             sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1,
+                              display: "none", // need pay for it
+                              p: 2,
+                              borderTop: "1px solid",
+                              borderColor: "divider",
                             }}
                           >
-                            <Button
-                              variant="contained"
-                              size="small"
-                              sx={{ fontSize: "10px" }}
-                              onClick={handleOpenDialog} // Open dialog on button click
-                            >
-                              Book Appointment
-                            </Button>
+                            <Box sx={{ display: "flex", gap: 0.5 }}>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={
+                                  <span className="material-icons">email</span>
+                                }
+                                href={`mailto:${doctor.email}`}
+                                sx={{ flex: 1 }}
+                              >
+                                Email
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={
+                                  <span className="material-icons">phone</span>
+                                }
+                                href={`tel:${doctor.mobile}`}
+                                sx={{ flex: 1 }}
+                              >
+                                Call
+                              </Button>
+                            </Box>
                           </Box>
-                        </Box>
-                      </CardContent>
-
-                      <Box
-                        sx={{
-                          display: "none", // need pay for it
-                          p: 2,
-                          borderTop: "1px solid",
-                          borderColor: "divider",
-                        }}
-                      >
-                        <Box sx={{ display: "flex", gap: 0.5 }}>
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            startIcon={
-                              <span className="material-icons">email</span>
-                            }
-                            href={`mailto:${doctor.email}`}
-                            sx={{ flex: 1 }}
-                          >
-                            Email
-                          </Button>
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            startIcon={
-                              <span className="material-icons">phone</span>
-                            }
-                            href={`tel:${doctor.mobile}`}
-                            sx={{ flex: 1 }}
-                          >
-                            Call
-                          </Button>
-                        </Box>
-                      </Box>
-                    </Card>
+                        </Card>
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
-              </Grid>
-            </div>
+                </div>
 
-            {/* Dialog for selecting slots */}
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-              <DialogTitle>Select Appointment Slot</DialogTitle>
-              <DialogContent>
-                {/* Add your slot selection logic here */}
-                <Typography>Select a time slot for today:</Typography>
-                {/* Example slot selection (you can customize this) */}
-                <FormControl fullWidth>
-                  <InputLabel id="slot-select-label">Time Slot</InputLabel>
-                  <Select labelId="slot-select-label" defaultValue="">
-                    <MenuItem value={1}>10:00 AM - 11:00 AM</MenuItem>
-                    <MenuItem value={2}>11:00 AM - 12:00 PM</MenuItem>
-                    <MenuItem value={3}>02:00 PM - 03:00 PM</MenuItem>
-                  </Select>
-                  <FormHelperText>Select a time slot</FormHelperText>
-                </FormControl>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleCloseDialog}>Cancel</Button>
-                <Button onClick={handleCloseDialog} variant="contained">
-                  Confirm
-                </Button>
-              </DialogActions>
-            </Dialog>
+                {/* Dialog for selecting slots */}
+                <Dialog
+                  open={openDialog}
+                  onClose={() => {
+                    setOpenDialog(false);
+                    setSelectedSlot(null);
+                  }}
+                  fullWidth
+                >
+                  <DialogTitle>Select Slot</DialogTitle>
+                  <DialogContent>
+                    {/* Replace Select with individual cards for time slots */}
+                    <Grid
+                      container
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+
+                        justifyContent: "center",
+                      }}
+                    >
+                      {[
+                        { id: 1, label: "10:00 AM - 11:00 AM" },
+                        { id: 2, label: "11:00 AM - 12:00 PM" },
+                        { id: 3, label: "02:00 PM - 03:00 PM" },
+                        { id: 4, label: "10:00 AM - 11:00 AM" },
+                        { id: 5, label: "11:00 AM - 12:00 PM" },
+                        { id: 6, label: "02:00 PM - 03:00 PM" },
+                        { id: 7, label: "02:00 PM - 03:00 PM" },
+                      ].map((slot) => (
+                        <Grid item xs={4} md={3} key={slot.id}>
+                          <Card
+                            sx={{
+                              padding: 2,
+                              m: 1,
+                              cursor: "pointer",
+                              border: "1px solid",
+                              borderColor: "blue",
+                              "&:hover": {
+                                boxShadow: 3,
+                              },
+
+                              backgroundColor:
+                                selectedSlot === slot.id
+                                  ? "red"
+                                  : "transparent", // Keep background red if selected
+                            }}
+                            onClick={() => {
+                              setSelectedSlot(slot.id); // Set the selected slot
+                              console.log(`Selected slot: ${slot.label}`);
+                              // Add logic to handle slot selection
+                            }}
+                          >
+                            <Typography
+                              sx={{ fontSize: "10px", color: "blue" }}
+                            >
+                              {slot.label}
+                            </Typography>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={() => {
+                        setOpenDialog(false);
+                        setSelectedSlot(null);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        console.log(
+                          "data",
+                          selectedHospital,
+                          selectedDoctor,
+                          selectedSlot
+                        );
+                      }}
+                      variant="contained"
+                    >
+                      Book
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </div>
+            )}
+
+            {activeTab === 1 && ( // Render History tab content
+              <div>
+                <Typography variant="h6" align="center">
+                  Appointment History
+                </Typography>
+                <Grid container spacing={1}>
+                  {[
+                    {
+                      hospital: "Hospital A",
+                      doctor: "Dr. Arjun",
+                      date: "2023-10-01",
+                      time: "10:00 AM - 11:00 AM",
+                      status: "Confirmed",
+                    },
+                    {
+                      hospital: "Hospital B",
+                      doctor: "Dr. Ramu",
+                      date: "2023-10-02",
+                      time: "11:00 AM - 12:00 PM",
+                      status: "Pending",
+                    },
+                    {
+                      hospital: "Hospital B",
+                      doctor: "Dr. Ramu",
+                      date: "2023-10-02",
+                      time: "11:00 AM - 12:00 PM",
+                      status: "Completed",
+                    },
+                    {
+                      hospital: "Hospital A",
+                      doctor: "Dr. Ria",
+                      date: "2023-10-03",
+                      time: "02:00 PM - 03:00 PM",
+                      status: "Cancelled",
+                    },
+                  ].map((appointment, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                      <Card sx={{ padding: 2, margin: 1 }}>
+                        <Typography variant="h6">
+                          {appointment.hospital}
+                        </Typography>
+                        <Typography variant="body1">
+                          {appointment.doctor}
+                        </Typography>
+                        <Typography variant="body2">
+                          {appointment.date}
+                        </Typography>
+                        <Typography variant="body2">
+                          {appointment.time}
+                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            color={
+                              appointment.status === "Confirmed"
+                                ? "green"
+                                : appointment.status === "Cancelled"
+                                ? "red"
+                                : appointment.status === "Completed"
+                                ? "blue"
+                                : "orange"
+                            }
+                          >
+                            {appointment.status}
+                          </Typography>
+                          {appointment.status === "Completed" && (
+                            <Button
+                              size="small"
+                              variant="contained"
+                              color="primary"
+                              sx={{ marginLeft: 2 }} // Add margin for spacing
+                              onClick={() => {
+                                // Logic to download the prescription
+                                console.log(
+                                  "Download prescription for"
+                                  // appointment.doctor
+                                );
+                              }}
+                            >
+                              <span
+                                className="material-icons"
+                                style={{ marginRight: 4 }}
+                              >
+                                download
+                              </span>
+                              Prescription
+                            </Button>
+                          )}
+                        </Box>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </div>
+            )}
           </div>
         );
       };

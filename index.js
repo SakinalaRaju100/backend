@@ -32,11 +32,16 @@ app.get("/kunur", (req, res) => {
 app.get("/taxi", (req, res) => {
   res.sendFile(__dirname + "/files/taxi.html");
 });
+
+app.get("/appointment", (req, res) => {
+  res.sendFile(__dirname + "/files/appointment.html");
+});
+
 app.get("/anil", (req, res) => {
   res.sendFile(__dirname + "/files/printBill.html");
 });
-app.get("/appointment", (req, res) => {
-  res.sendFile(__dirname + "/files/appointment.html");
+app.get("/slves", (req, res) => {
+  res.sendFile(__dirname + "/files/slves.html");
 });
 
 // uploads folder
