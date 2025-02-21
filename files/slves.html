@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Light Selling Dashboard</title>
+    <title>slves</title>
 
     <!-- Add Material Icons stylesheet -->
     <link
@@ -20,7 +20,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <!-- Add Leaflet CSS -->
     <link
@@ -47,73 +47,417 @@
         AppBar,
         Box,
         Button,
-        Container,
-        Toolbar,
-        Typography,
-        Grid,
         Card,
         CardContent,
         CardMedia,
-        Footer,
+        Container,
+        Grid,
+        IconButton,
+        Menu,
+        MenuItem,
+        Paper,
+        Toolbar,
+        Typography,
+        useTheme,
+        ThemeProvider,
+        createTheme,
+        MobileStepper,
+        Dialog,
+        DialogTitle,
+        DialogContent,
+        DialogActions,
+        Table,
+        TableBody,
+        TableCell,
+        TableHead,
+        TableRow,
+        Chip,
+        Tabs,
+        Tab,
+        TextField,
+        TableContainer,
+        FormControl,
+        InputLabel,
+        Select,
+        FormHelperText,
+        Autocomplete,
+        Avatar,
       } = MaterialUI;
 
       const HomePage = () => {
-        const items = [
+        const [products, serProducts] = useState([
           {
-            id: 1,
-            name: "LED Bulb",
-            price: "$10",
-            image:
-              "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+            productId: "01",
+            name: "Street Light",
+            image: "product",
+            description: "50W capacity",
+            available: "3",
           },
           {
-            id: 2,
-            name: "Table Lamp",
-            price: "$25",
-            image:
-              "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+            productId: "02",
+            name: "CC Camera",
+            image: "product",
+            description: "full 4 set",
+            available: "3",
           },
           {
-            id: 3,
-            name: "Chandelier",
-            price: "$150",
-            image: "https://via.placeholder.com/150?text=Chandelier",
+            productId: "03",
+            name: "Smartphone",
+            image: "smartphone.png",
+            description: "Latest model with 128GB storage",
+            available: "5",
           },
-        ];
+          {
+            productId: "04",
+            name: "Laptop",
+            image: "laptop.png",
+            description: "15-inch display, 16GB RAM",
+            available: "2",
+          },
+          {
+            productId: "05",
+            name: "Headphones",
+            image: "headphones.png",
+            description: "Noise-cancelling over-ear headphones",
+            available: "10",
+          },
+          {
+            productId: "06",
+            name: "Smart Watch",
+            image: "smartwatch.png",
+            description: "Fitness tracking and notifications",
+            available: "15",
+          },
+          {
+            productId: "07",
+            name: "Bluetooth Speaker",
+            image: "speaker.png",
+            description: "Portable wireless speaker with deep bass",
+            available: "8",
+          },
+          {
+            productId: "08",
+            name: "Tablet",
+            image: "tablet.png",
+            description: "10-inch display, 64GB storage",
+            available: "4",
+          },
+          {
+            productId: "09",
+            name: "Gaming Console",
+            image: "console.png",
+            description: "Latest generation gaming console",
+            available: "6",
+          },
+          {
+            productId: "10",
+            name: "Wireless Mouse",
+            image: "mouse.png",
+            description: "Ergonomic design with long battery life",
+            available: "20",
+          },
+        ]);
+        const [cart, setCart] = useState([]);
+        const [activeTab, setActiveTab] = useState(0); // State to manage active tab
+        const [searchTerm, setSearchTerm] = useState(""); // State to manage search term
+        const [openDialog, setOpenDialog] = useState(false); // State to manage dialog visibility
 
         return (
           <div>
-            <AppBar position="static">
-              <Toolbar>
-                <Typography variant="h6">Light Selling Dashboard</Typography>
-              </Toolbar>
-            </AppBar>
-            <Container>
-              <Typography variant="h4" gutterBottom>
-                Available Items
-              </Typography>
-              <Grid container spacing={3}>
-                {items.map((item) => (
-                  <Grid item xs={12} sm={6} md={4} key={item.id}>
-                    <Card>
-                      <CardMedia
-                        component="img"
-                        alt={item.name}
-                        height="140"
-                        image={item.image}
-                      />
-                      <CardContent>
-                        <Typography variant="h5">{item.name}</Typography>
-                        <Typography variant="body2">{item.price}</Typography>
-                      </CardContent>
-                    </Card>
+            <Tabs
+              value={activeTab}
+              onChange={(event, newValue) => setActiveTab(newValue)}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+            >
+              <Tab label="Buy" />
+              <Tab label="Service" />
+            </Tabs>
+
+            {activeTab === 0 && ( // Render Book tab content
+              <div>
+                <div>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      m: 2,
+                    }}
+                  >
+                    <TextField
+                      sx={{ mr: 1 }}
+                      label="Search Products.."
+                      variant="outlined"
+                      fullWidth
+                      onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
+                    />
+
+                    <Button
+                      variant="contained"
+                      size="small"
+                      startIcon={
+                        <span className="material-icons">shopping_cart</span>
+                      }
+                      onClick={() => {
+                        setOpenDialog(true); // Open the dialog
+                      }}
+                    >
+                      Show Cart
+                    </Button>
+                  </Box>
+                  <Typography sx={{ m: 1 }}>Products..</Typography>
+
+                  <Grid container spacing={3}>
+                    {products.filter(
+                      (product) =>
+                        product.name
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase()) // Filter products based on search term
+                    ).length === 0 && ( // Check if filteredDoctors is empty
+                      <Grid item xs={12}>
+                        <Typography variant="h6" align="center">
+                          No products
+                        </Typography>
+                      </Grid>
+                    )}
+                    {products
+                      .filter(
+                        (product) =>
+                          product.name
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase()) // Filter products based on search term
+                      )
+                      .map((product, doctorIndex) => (
+                        <Grid item xs={6} sm={4} md={2} key={doctorIndex}>
+                          <Card
+                            sx={{
+                              height: { xs: "220px", sm: "400px", md: "300px" },
+                              // height: "200px",
+                              // height: "auto",
+                              display: "flex",
+                              flexDirection: "column",
+                              transition: "all 0.3s ease",
+                              "&:hover": {
+                                transform: "translateY(-8px)",
+                                boxShadow: 6,
+                              },
+                            }}
+                          >
+                            <CardMedia
+                              component="img"
+                              // height="340"
+                              image={"./light2.jpg"}
+                              alt={product.name}
+                              sx={{ objectFit: "cover" }}
+                            />
+                            <CardContent sx={{ flexGrow: 0, p: 1 }}>
+                              <Typography
+                                variant="h6"
+                                gutterBottom
+                                sx={{ fontWeight: "bold", fontSize: "12px" }}
+                              >
+                                {product.name}
+                              </Typography>
+                              <Typography
+                                variant="h6"
+                                gutterBottom
+                                sx={{ fontWeight: "bold", fontSize: "12px" }}
+                              >
+                                {product.description}
+                              </Typography>
+                              <Typography
+                                variant="h6"
+                                gutterBottom
+                                sx={{ fontWeight: "bold", fontSize: "12px" }}
+                              >
+                                Available : {`${product.available} years`}
+                              </Typography>
+
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: 1,
+                                  mt: 1,
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 1,
+                                  }}
+                                >
+                                  <Button
+                                    variant="contained"
+                                    size="small"
+                                    sx={{ fontSize: "10px" }}
+                                    onClick={() => {
+                                      setCart((pre) => [...pre, product]);
+                                      alert("Product added to cart");
+                                    }} // Open dialog on button click
+                                  >
+                                    Add to Cart
+                                  </Button>
+                                </Box>
+                              </Box>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
                   </Grid>
-                ))}
-              </Grid>
-            </Container>
-            <footer style={{ textAlign: "center", padding: "20px" }}>
-              <Typography variant="body2">© 2023 Light Selling</Typography>
-            </footer>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 1 && ( // Render History tab content
+              <div>
+                <Typography variant="h6" align="center">
+                  Service History
+                </Typography>
+                <Grid container spacing={1}>
+                  {[
+                    {
+                      hospital: "Hospital A",
+                      product: "Dr. Arjun",
+                      date: "2023-10-01",
+                      time: "10:00 AM - 11:00 AM",
+                      status: "Confirmed",
+                    },
+                    {
+                      hospital: "Hospital B",
+                      product: "Dr. Ramu",
+                      date: "2023-10-02",
+                      time: "11:00 AM - 12:00 PM",
+                      status: "Pending",
+                    },
+                    {
+                      hospital: "Hospital B",
+                      product: "Dr. Ramu",
+                      date: "2023-10-02",
+                      time: "11:00 AM - 12:00 PM",
+                      status: "Completed",
+                    },
+                    {
+                      hospital: "Hospital A",
+                      product: "Dr. Ria",
+                      date: "2023-10-03",
+                      time: "02:00 PM - 03:00 PM",
+                      status: "Cancelled",
+                    },
+                  ].map((appointment, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                      <Card sx={{ padding: 2, margin: 1 }}>
+                        <Typography variant="h6">
+                          {appointment.hospital}
+                        </Typography>
+                        <Typography variant="body1">
+                          {appointment.product}
+                        </Typography>
+                        <Typography variant="body2">
+                          {appointment.date}
+                        </Typography>
+                        <Typography variant="body2">
+                          {appointment.time}
+                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            color={
+                              appointment.status === "Confirmed"
+                                ? "green"
+                                : appointment.status === "Cancelled"
+                                ? "red"
+                                : appointment.status === "Completed"
+                                ? "blue"
+                                : "orange"
+                            }
+                          >
+                            {appointment.status}
+                          </Typography>
+                        </Box>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </div>
+            )}
+
+            <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+              <DialogTitle>Cart Items</DialogTitle>
+              <DialogContent>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Description</TableCell>
+
+                      <TableCell>Quantity</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {cart.map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell>{item.description}</TableCell>
+
+                        <TableCell>
+                          <TextField
+                            type="number"
+                            defaultValue={1}
+                            inputProps={{ min: 1 }}
+                            onChange={(e) => {
+                              const newQuantity = e.target.value;
+                              setCart((prevCart) => {
+                                const updatedCart = [...prevCart];
+                                updatedCart[index] = {
+                                  ...updatedCart[index],
+                                  quantity: newQuantity,
+                                }; // Update quantity
+                                return updatedCart;
+                              });
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            variant="contained"
+                            onClick={() => {
+                              setCart((prevCart) =>
+                                prevCart.filter((_, i) => i !== index)
+                              ); // Remove item from cart
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </DialogContent>
+              <DialogActions>
+                <Button variant="outlined" onClick={() => setOpenDialog(false)}>
+                  Close
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    alert(JSON.stringify(cart)); // Implement buy functionality
+                  }}
+                >
+                  Buy
+                </Button>
+              </DialogActions>
+            </Dialog>
           </div>
         );
       };
