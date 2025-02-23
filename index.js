@@ -43,6 +43,12 @@ app.get("/anil", (req, res) => {
 app.get("/slves", (req, res) => {
   res.sendFile(__dirname + "/files/slves.html");
 });
+app.get("/96766", (req, res) => {
+  res.sendFile(__dirname + "/files/s96766.html");
+});
+app.get("/967663", (req, res) => {
+  res.sendFile(__dirname + "/files/s967663.html");
+});
 
 // uploads folder
 // app.use("/dharavi/uploads", express.static("uploads"));

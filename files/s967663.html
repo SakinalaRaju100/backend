@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>slves</title>
+
+    <!-- Add Material Icons stylesheet -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- <link rel="icon" type="image/x-icon" href="/favicon.ico" /> -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- React and Material-UI CDN links -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Add Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    />
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        /* padding: 20px; */
+        /* background-color: #f5f5f5; */
+        background-color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const {
+        AppBar,
+        Box,
+        Button,
+        Card,
+        CardContent,
+        CardMedia,
+        Container,
+        Grid,
+        IconButton,
+        Menu,
+        MenuItem,
+        Paper,
+        Toolbar,
+        Typography,
+        useTheme,
+        ThemeProvider,
+        createTheme,
+        MobileStepper,
+        Dialog,
+        DialogTitle,
+        DialogContent,
+        DialogActions,
+        Table,
+        TableBody,
+        TableCell,
+        TableHead,
+        TableRow,
+        Chip,
+        Tabs,
+        Tab,
+        TextField,
+        TableContainer,
+        FormControl,
+        InputLabel,
+        Select,
+        FormHelperText,
+        Autocomplete,
+        Avatar,
+      } = MaterialUI;
+
+      const HomePage = () => {
+        const [products, serProducts] = useState([
+          {
+            productId: "01",
+            name: "Street Light",
+            image: "product",
+            description: "50W capacity",
+            available: "3",
+          },
+          {
+            productId: "02",
+            name: "CC Camera",
+            image: "product",
+            description: "full 4 set",
+            available: "3",
+          },
+          {
+            productId: "03",
+            name: "Smartphone",
+            image: "smartphone.png",
+            description: "Latest model with 128GB storage",
+            available: "5",
+          },
+          {
+            productId: "04",
+            name: "Laptop",
+            image: "laptop.png",
+            description: "15-inch display, 16GB RAM",
+            available: "2",
+          },
+          {
+            productId: "05",
+            name: "Headphones",
+            image: "headphones.png",
+            description: "Noise-cancelling over-ear headphones",
+            available: "10",
+          },
+          {
+            productId: "06",
+            name: "Smart Watch",
+            image: "smartwatch.png",
+            description: "Fitness tracking and notifications",
+            available: "15",
+          },
+          {
+            productId: "07",
+            name: "Bluetooth Speaker",
+            image: "speaker.png",
+            description: "Portable wireless speaker with deep bass",
+            available: "8",
+          },
+          {
+            productId: "08",
+            name: "Tablet",
+            image: "tablet.png",
+            description: "10-inch display, 64GB storage",
+            available: "4",
+          },
+          {
+            productId: "09",
+            name: "Gaming Console",
+            image: "console.png",
+            description: "Latest generation gaming console",
+            available: "6",
+          },
+          {
+            productId: "10",
+            name: "Wireless Mouse",
+            image: "mouse.png",
+            description: "Ergonomic design with long battery life",
+            available: "20",
+          },
+        ]);
+        const [cart, setCart] = useState([]);
+        const [activeTab, setActiveTab] = useState(0); // State to manage active tab
+        const [searchTerm, setSearchTerm] = useState(""); // State to manage search term
+        const [openDialog, setOpenDialog] = useState(false); // State to manage dialog visibility
+        const [openProductDialog, setOpenProductDialog] = useState(false); // State to manage product dialog visibility
+        const [selectedProducts, setSelectedProducts] = useState([]); // State to store selected products
+        const [openServiceDialog, setOpenServiceDialog] = useState(false); // State to manage service dialog visibility
+        const [name, setName] = useState(""); // State to manage name
+        const [mobile, setMobile] = useState(""); // State to manage mobile
+        const [address, setAddress] = useState(""); // State to manage address
+        const [role, setRole] = useState(""); // State to manage role
+        const [selectedProduct, setSelectedProduct] = useState(""); // State to manage selected product
+        const [quantity, setQuantity] = useState(""); // State to manage quantity
+
+        return <div>967663</div>;
+      };
+
+      // Render the form to the DOM
+      ReactDOM.render(<HomePage />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
