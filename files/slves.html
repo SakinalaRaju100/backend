@@ -163,6 +163,13 @@
         const [openDialog, setOpenDialog] = useState(false); // State to manage dialog visibility
         const [openProductDialog, setOpenProductDialog] = useState(false); // State to manage product dialog visibility
         const [selectedProducts, setSelectedProducts] = useState([]); // State to store selected products
+        const [openServiceDialog, setOpenServiceDialog] = useState(false); // State to manage service dialog visibility
+        const [name, setName] = useState(""); // State to manage name
+        const [mobile, setMobile] = useState(""); // State to manage mobile
+        const [address, setAddress] = useState(""); // State to manage address
+        const [role, setRole] = useState(""); // State to manage role
+        const [selectedProduct, setSelectedProduct] = useState(""); // State to manage selected product
+        const [quantity, setQuantity] = useState(""); // State to manage quantity
 
         return (
           <div>
@@ -335,7 +342,7 @@
                     size="small"
                     variant="outlined"
                     onClick={() => {
-                      alert("Add new service functionality to be implemented."); // Placeholder for functionality
+                      setOpenServiceDialog(true); // Open the service dialog
                     }}
                     sx={{ m: 2 }} // Add some margin at the bottom
                   >
@@ -541,6 +548,104 @@
                   onClick={() => setOpenProductDialog(false)}
                 >
                   Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+
+            <Dialog
+              open={openServiceDialog}
+              onClose={() => setOpenServiceDialog(false)}
+            >
+              <DialogTitle>Add New Service</DialogTitle>
+              <DialogContent>
+                <TextField
+                  label="Name"
+                  fullWidth
+                  margin="normal"
+                  onChange={(e) => setName(e.target.value)} // State to manage name
+                />
+                <TextField
+                  label="Mobile"
+                  fullWidth
+                  margin="normal"
+                  onChange={(e) => setMobile(e.target.value)} // State to manage mobile
+                />
+                <TextField
+                  label="Address"
+                  fullWidth
+                  margin="normal"
+                  onChange={(e) => setAddress(e.target.value)} // State to manage address
+                />
+                <TextField
+                  label="Role"
+                  fullWidth
+                  margin="normal"
+                  onChange={(e) => setRole(e.target.value)} // State to manage role
+                />
+
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Description</TableCell>
+
+                      <TableCell>Quantity</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {products.map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell>{item.description}</TableCell>
+
+                        <TableCell>
+                          <TextField
+                            type="number"
+                            defaultValue={1}
+                            inputProps={{ min: 1 }}
+                            onChange={(e) => {
+                              const newQuantity = e.target.value;
+                              setCart((prevCart) => {
+                                const updatedCart = [...prevCart];
+                                updatedCart[index] = {
+                                  ...updatedCart[index],
+                                  quantity: newQuantity,
+                                }; // Update quantity
+                                return updatedCart;
+                              });
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            variant="contained"
+                            onClick={() => {
+                              setCart((prevCart) =>
+                                prevCart.filter((_, i) => i !== index)
+                              ); // Remove item from cart
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setOpenServiceDialog(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    // Handle submit logic here
+                    alert("Service added successfully!"); // Placeholder for submit action
+                    setOpenServiceDialog(false);
+                  }}
+                >
+                  Submit
                 </Button>
               </DialogActions>
             </Dialog>
