@@ -22,9 +22,12 @@ app.use(express.static(path.join(__dirname, "files")));
 app.get("/test", (req, res) => {
   res.json({ message: "Welcome to test route" });
 });
+// app.get("/", (req, res) => {
+//   res.json({ message: "Welcome to Digital world" });
+//   // res.sendFile(__dirname + "/files/taxi.html");
+// });
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Digital world" });
-  // res.sendFile(__dirname + "/files/taxi.html");
+  res.sendFile(__dirname + "/files/appointment.html");
 });
 app.get("/kunur", (req, res) => {
   res.sendFile(__dirname + "/files/chittiLoans.html");
