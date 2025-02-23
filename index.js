@@ -29,6 +29,9 @@ app.get("/test", (req, res) => {
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/files/appointment.html");
 });
+app.get("/app", (req, res) => {
+  res.sendFile(__dirname + "/files/appointment.html");
+});
 app.get("/kunur", (req, res) => {
   res.sendFile(__dirname + "/files/chittiLoans.html");
 });
@@ -45,12 +48,6 @@ app.get("/anil", (req, res) => {
 });
 app.get("/slves", (req, res) => {
   res.sendFile(__dirname + "/files/slves.html");
-});
-app.get("/96766", (req, res) => {
-  res.sendFile(__dirname + "/files/s96766.html");
-});
-app.get("/967663", (req, res) => {
-  res.sendFile(__dirname + "/files/s967663.html");
 });
 
 // uploads folder
