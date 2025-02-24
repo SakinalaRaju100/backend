@@ -39,7 +39,7 @@ app.get("/taxi", (req, res) => {
   res.sendFile(__dirname + "/files/taxi.html");
 });
 app.get("/goldnoon", (req, res) => {
-  res.sendFile(__dirname + "/files/taxi.html");
+  res.sendFile(__dirname + "/files/gn.html");
 });
 
 app.get("/appointment", (req, res) => {

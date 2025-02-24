@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>slves</title>
+
+    <!-- Add Material Icons stylesheet -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- <link rel="icon" type="image/x-icon" href="/favicon.ico" /> -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- React and Material-UI CDN links -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Add Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    />
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        /* padding: 20px; */
+        /* background-color: #f5f5f5; */
+        background-color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const {
+        AppBar,
+        Box,
+        Button,
+        Card,
+        CardContent,
+        CardMedia,
+        Container,
+        Grid,
+        IconButton,
+        Menu,
+        MenuItem,
+        Paper,
+        Toolbar,
+        Typography,
+        useTheme,
+        ThemeProvider,
+        createTheme,
+        MobileStepper,
+        Dialog,
+        DialogTitle,
+        DialogContent,
+        DialogActions,
+        Table,
+        TableBody,
+        TableCell,
+        TableHead,
+        TableRow,
+        Chip,
+        Tabs,
+        Tab,
+        TextField,
+        TableContainer,
+        FormControl,
+        InputLabel,
+        Select,
+        FormHelperText,
+        Autocomplete,
+        Avatar,
+        Drawer,
+        List,
+        ListItem,
+        ListItemIcon,
+        ListItemText,
+        Divider,
+        Tooltip,
+      } = MaterialUI;
+
+      const themes = {
+        light: {
+          name: "light",
+          appBarColor: "#3f51b5",
+          drawerColor: "#fff",
+          textColor: "#000",
+        },
+        dark: {
+          name: "dark",
+          appBarColor: "#000",
+          drawerColor: "#333",
+          textColor: "#fff",
+        },
+        blue: {
+          name: "blue",
+          // appBarColor: "#2196f3",
+          appBarColor: "red",
+          drawerColor: "#e3f2fd",
+          // textColor: "#000",
+          textColor: "blue",
+        },
+        green: {
+          name: "green",
+          // appBarColor: "#4caf50",
+          appBarColor: "orange",
+          drawerColor: "#e8f5e9",
+          // textColor: "#000",
+          textColor: "green",
+        },
+        red: {
+          name: "red",
+          appBarColor: "#f44336",
+          drawerColor: "#ffebee",
+          textColor: "#000",
+        },
+      };
+
+      const HomePage = () => {
+        const [open, setOpen] = useState(false);
+        const [dialogOpen, setDialogOpen] = useState(false);
+        const [notificationsOpen, setNotificationsOpen] = useState(false);
+        const [settingsOpen, setSettingsOpen] = useState(false);
+        const [theme, setTheme] = useState(themes.light);
+        const notifications = [
+          {
+            title: "Notification 1",
+            details: "This is the first notification",
+            icon: "info",
+            severity: "info",
+          },
+          {
+            title: "Notification 2",
+            details: "This is the second notification",
+            icon: "warning",
+            severity: "warning",
+          },
+          {
+            title: "Notification 3",
+            details: "This is the third notification",
+            icon: "error",
+            severity: "error",
+          },
+        ];
+
+        const handleDrawerToggle = () => {
+          setOpen(!open);
+        };
+
+        const handleDialogToggle = () => {
+          setDialogOpen(!dialogOpen);
+        };
+
+        const handleNotificationsToggle = () => {
+          setNotificationsOpen(!notificationsOpen);
+        };
+
+        const handleSettingsToggle = () => {
+          setSettingsOpen(!settingsOpen);
+        };
+
+        const logout = () => {
+          if (window.confirm("Are you sure you want to log out?")) {
+            // Add your logout logic here (e.g., clear user session, redirect, etc.)
+            console.log("User logged out");
+          }
+        };
+
+        const menuItems = [
+          { text: "Dashboard", icon: "home", path: "/dashboard" },
+          { text: "My Page", icon: "article", path: "/my-page" },
+          { text: "Terms & Conditions", icon: "video_library", path: "/terms" },
+          { text: "Reviews", icon: "message", badge: 4, path: "/reviews" },
+          { text: "About Us", icon: "message", path: "/about" },
+          { text: "Contact Us", icon: "people", path: "/contact" },
+          {
+            text: "Profile",
+            icon: "people",
+            path: "/profile",
+            clickfunc: handleDialogToggle,
+          },
+          {
+            text: "Settings",
+            icon: "settings",
+            path: "/settings",
+            clickfunc: handleSettingsToggle,
+          },
+          {
+            text: "Logout",
+            icon: "logout",
+            path: "/logout",
+            clickfunc: logout,
+          },
+        ];
+
+        useEffect(() => {
+          document.body.style.color = theme.textColor;
+          document.body.className = theme.name.toLowerCase();
+        }, [theme]);
+
+        return (
+          <Box sx={{ display: "flex" }}>
+            <AppBar
+              position="fixed"
+              sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            >
+              <Toolbar>
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  onClick={handleDrawerToggle}
+                >
+                  <span className="material-icons">menu</span>
+                </IconButton>
+                <Typography variant="h6" noWrap component="div">
+                  My App
+                </Typography>
+                <Box
+                  sx={{
+                    marginLeft: "auto",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton
+                    color="inherit"
+                    onClick={handleNotificationsToggle}
+                  >
+                    <span className="material-icons">notifications</span>
+                    <Box
+                      sx={{
+                        backgroundColor: "orange",
+                        borderRadius: "50%",
+                        padding: "1px 4px",
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        fontSize: "0.75rem",
+                      }}
+                    >
+                      3
+                    </Box>
+                  </IconButton>
+
+                  <Box
+                    sx={{
+                      position: "relative",
+                      display: "inline-flex",
+                      alignItems: "center",
+                    }}
+                    onClick={handleDialogToggle}
+                  >
+                    <Tooltip title="User Name" arrow>
+                      <Avatar
+                        alt="User Name"
+                        src="../files/doctor.png"
+                        sx={{ width: 40, height: 40, marginLeft: 1 }}
+                      />
+                    </Tooltip>
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        bottom: 0,
+                        right: 0,
+                        width: 12,
+                        height: 12,
+                        borderRadius: "50%",
+                        backgroundColor: "green",
+                        border: "2px solid white",
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </Toolbar>
+            </AppBar>
+            <Drawer
+              variant="temporary"
+              open={open}
+              onClose={handleDrawerToggle}
+              sx={{
+                width: 250,
+                flexShrink: 0,
+                [`& .MuiDrawer-paper`]: { width: 250, boxSizing: "border-box" },
+              }}
+            >
+              <Toolbar />
+              <Box sx={{ overflow: "auto" }}>
+                <List>
+                  {menuItems.map((item, index) => (
+                    <ListItem
+                      button
+                      key={item.text}
+                      onClick={() => (item.clickfunc ? item.clickfunc() : null)}
+                    >
+                      <ListItemIcon>
+                        <span
+                          className="material-icons"
+                          style={{ color: "#3f51b5" }}
+                        >
+                          {item.icon}
+                        </span>
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={item.text}
+                        sx={{ fontSize: item.fontSize || "inherit" }}
+                      />
+                      {item.badge && (
+                        <Box
+                          sx={{
+                            backgroundColor: "yellow",
+                            borderRadius: "50%",
+                            padding: "2px 6px",
+                            marginLeft: "auto",
+                          }}
+                        >
+                          {item.badge}
+                        </Box>
+                      )}
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            </Drawer>
+            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+              <Toolbar />
+              <Typography paragraph>
+                Welcome to My App. This is the main content area.
+              </Typography>
+            </Box>
+            <Dialog // profile dialog
+              open={dialogOpen}
+              onClose={handleDialogToggle}
+              fullWidth
+            >
+              <DialogTitle>User Details</DialogTitle>
+              <DialogContent>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    padding: "16px",
+                    backgroundColor: "#3f51b5",
+                    color: "#fff",
+                    borderRadius: "8px",
+                    boxShadow: 3,
+                  }}
+                >
+                  <Avatar
+                    alt="Gene A. Stepp"
+                    src="../files/doctor.png"
+                    sx={{
+                      p: 1,
+                      width: 56,
+                      height: 56,
+                      border: "2px dashed #fff",
+                    }}
+                  />
+                  <Typography variant="h6" sx={{ mt: 2 }}>
+                    Raju. Sakinala
+                  </Typography>
+                  <Typography variant="body2">Role : Admin</Typography>
+                  <Typography variant="body2">Id : GN45249</Typography>
+                  <Typography variant="body2">Phone : 9676612345</Typography>
+                  <Typography variant="body2">
+                    sakinala.raju@gmail.com
+                  </Typography>
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                    gap: 1,
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      handleDialogToggle();
+                      logout();
+                    }}
+                  >
+                    Log out
+                  </Button>
+                  <Button variant="contained" onClick={handleDialogToggle}>
+                    Close
+                  </Button>
+                </Box>
+              </DialogActions>
+            </Dialog>
+
+            <Dialog // notification dialog
+              open={notificationsOpen}
+              onClose={handleNotificationsToggle}
+              fullWidth
+            >
+              <DialogTitle>Recent Notifications</DialogTitle>
+              <DialogContent>
+                <List>
+                  {notifications.map((notification, index) => (
+                    <ListItem
+                      key={index}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexDirection: "row",
+                      }}
+                    >
+                      <ListItemText
+                        primary={notification.title}
+                        secondary={notification.details}
+                      />
+                      <IconButton
+                        onClick={() => {
+                          console.log("Clicked notification Close icon");
+                          /* Dismiss logic here */
+                        }}
+                      >
+                        <span className="material-icons">close</span>
+                      </IconButton>
+                    </ListItem>
+                  ))}
+                </List>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleNotificationsToggle}>Close</Button>
+              </DialogActions>
+            </Dialog>
+
+            <Dialog // settings dialog
+              open={settingsOpen}
+              onClose={handleSettingsToggle}
+              fullWidth
+            >
+              <DialogTitle>Select Theme and Language</DialogTitle>
+              <DialogContent>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  <FormControl>
+                    <InputLabel id="theme-select-label">Theme</InputLabel>
+                    <Select
+                      labelId="theme-select-label"
+                      value={theme.name}
+                      onChange={(e) => setTheme(themes[e.target.value])}
+                    >
+                      {Object.keys(themes).map((key) => (
+                        <MenuItem key={key} value={key}>
+                          {themes[key].name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl>
+                    <InputLabel id="language-select-label">Language</InputLabel>
+                    <Select labelId="language-select-label" defaultValue="">
+                      <MenuItem value="en">English</MenuItem>
+                      <MenuItem value="es">Spanish</MenuItem>
+                      <MenuItem value="fr">French</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleSettingsToggle}>Close</Button>
+              </DialogActions>
+            </Dialog>
+          </Box>
+        );
+      };
+
+      // Render the form to the DOM
+      ReactDOM.render(<HomePage />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
