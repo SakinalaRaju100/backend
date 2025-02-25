@@ -392,7 +392,9 @@
             );
           } else {
             setLoginData(null);
-            setFilteredMenuItems([]);
+            setFilteredMenuItems((pre) =>
+              menuItems.filter((item) => item.role === "all")
+            );
           }
           document.body.style.color = theme.textColor;
           document.body.className = theme.name.toLowerCase();
