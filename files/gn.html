@@ -364,7 +364,11 @@
                   <span className="material-icons">menu</span>
                 </IconButton>
                 <Typography variant="h6" noWrap component="div">
-                  Goldnoon Fintech
+                  Goldnoon
+                  <span style={{ fontSize: "8px" }}>
+                    {" "}
+                    {loginData?.role ? `(${loginData?.role})` : ``}
+                  </span>
                 </Typography>
                 <Box
                   sx={{
