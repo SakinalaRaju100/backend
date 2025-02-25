@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slves</title>
+    <title>gn</title>
 
     <!-- Add Material Icons stylesheet -->
     <link
@@ -129,6 +129,12 @@
       };
 
       const HomePage = () => {
+        const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+        const [loginMethod, setLoginMethod] = useState("email"); // 'email' or 'phone'
+        const [isOtpMode, setIsOtpMode] = useState(false);
+
+        const [loginData, setLoginData] = useState(null);
+
         const [open, setOpen] = useState(false);
         const [dialogOpen, setDialogOpen] = useState(false);
         const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -136,19 +142,19 @@
         const [theme, setTheme] = useState(themes.light);
         const notifications = [
           {
-            title: "Notification 1",
+            title: "Notification",
             details: "This is the first notification",
             icon: "info",
             severity: "info",
           },
           {
-            title: "Notification 2",
+            title: "Notification",
             details: "This is the second notification",
             icon: "warning",
             severity: "warning",
           },
           {
-            title: "Notification 3",
+            title: "Notification",
             details: "This is the third notification",
             icon: "error",
             severity: "error",
@@ -171,10 +177,28 @@
           setSettingsOpen(!settingsOpen);
         };
 
+        const handleLoginDialogToggle = () => {
+          setLoginDialogOpen(!loginDialogOpen);
+        };
+
+        const handleLoginSubmit = () => {
+          console.log("Login submitted");
+          setLoginData({
+            name: "Raju",
+            id: "GN1234",
+            role: "Customer",
+            email: "sakinala.raju@gn.com",
+            mobile: "9676639383",
+          });
+          // Add your login logic here
+          handleLoginDialogToggle();
+        };
+
         const logout = () => {
           if (window.confirm("Are you sure you want to log out?")) {
             // Add your logout logic here (e.g., clear user session, redirect, etc.)
             console.log("User logged out");
+            setLoginData(null);
           }
         };
 
@@ -255,37 +279,65 @@
                     </Box>
                   </IconButton>
 
-                  <Box
-                    sx={{
-                      position: "relative",
-                      display: "inline-flex",
-                      alignItems: "center",
-                    }}
-                    onClick={handleDialogToggle}
-                  >
-                    <Tooltip title="User Name" arrow>
-                      <Avatar
-                        alt="User Name"
-                        src="../files/doctor.png"
-                        sx={{ width: 40, height: 40, marginLeft: 1 }}
-                      />
-                    </Tooltip>
+                  {loginData ? (
                     <Box
                       sx={{
-                        position: "absolute",
-                        bottom: 0,
-                        right: 0,
-                        width: 12,
-                        height: 12,
-                        borderRadius: "50%",
-                        backgroundColor: "green",
-                        border: "2px solid white",
+                        position: "relative",
+                        display: "inline-flex",
+                        alignItems: "center",
                       }}
-                    />
-                  </Box>
+                      onClick={handleDialogToggle}
+                    >
+                      <Tooltip title="User Name" arrow>
+                        <Avatar
+                          alt="User Name"
+                          src="../files/doctor.png"
+                          sx={{ width: 40, height: 40, marginLeft: 1 }}
+                        />
+                      </Tooltip>
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          bottom: 0,
+                          right: 0,
+                          width: 12,
+                          height: 12,
+                          borderRadius: "50%",
+                          backgroundColor: "green",
+                          border: "2px solid white",
+                        }}
+                      />
+                    </Box>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      startIcon={<span className="material-icons">login</span>}
+                      sx={{
+                        ml: 1,
+                        borderRadius: "20px",
+                        textTransform: "none",
+                        backgroundColor: "white",
+                        color: theme.appBarColor,
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                          transform: "scale(1.02)",
+                        },
+                        transition: "all 0.2s ease-in-out",
+                      }}
+                      onClick={() => {
+                        // Add your login logic here
+                        console.log("Login clicked");
+                        handleLoginDialogToggle();
+                      }}
+                    >
+                      Login
+                    </Button>
+                  )}
                 </Box>
               </Toolbar>
             </AppBar>
+
             <Drawer
               variant="temporary"
               open={open}
@@ -420,17 +472,56 @@
                       sx={{
                         display: "flex",
                         alignItems: "center",
-                        flexDirection: "row",
+                        gap: 1,
+                        backgroundColor: "#f5f5f5",
+                        borderRadius: "5px",
+                        mb: 1,
+                        p: 2,
+                        "&:hover": {
+                          backgroundColor: "#e0e0e0",
+                        },
                       }}
                     >
-                      <ListItemText
-                        primary={notification.title}
-                        secondary={notification.details}
-                      />
+                      <Avatar
+                        sx={{
+                          bgcolor:
+                            notification.severity === "error"
+                              ? "#f44336"
+                              : notification.severity === "warning"
+                              ? "#ff9800"
+                              : "#2196f3",
+                          width: 32,
+                          height: 32,
+                        }}
+                      >
+                        <span
+                          className="material-icons"
+                          style={{ fontSize: "16px" }}
+                        >
+                          {notification.icon}
+                        </span>
+                      </Avatar>
+                      <Box sx={{ flexGrow: 1 }}>
+                        <Typography
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          {notification.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {notification.details}
+                        </Typography>
+                      </Box>
                       <IconButton
+                        size="small"
                         onClick={() => {
                           console.log("Clicked notification Close icon");
                           /* Dismiss logic here */
+                        }}
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: "rgba(0, 0, 0, 0.04)",
+                          },
                         }}
                       >
                         <span className="material-icons">close</span>
@@ -478,6 +569,118 @@
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleSettingsToggle}>Close</Button>
+              </DialogActions>
+            </Dialog>
+
+            <Dialog // login dashboard
+              open={loginDialogOpen}
+              onClose={handleLoginDialogToggle}
+              fullWidth
+            >
+              <DialogTitle>Login</DialogTitle>
+              <DialogContent>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    // pt: 2,
+                  }}
+                >
+                  <TextField
+                    // label="User "
+                    placeholder="Enter ID or email or Mobile number"
+                    type="text" // once entered it will check for validation
+                    fullWidth
+                    variant="outlined"
+                  />
+
+                  <FormControl component="fieldset">
+                    <Typography variant="body2" sx={{ mb: 1 }}>
+                      Authentication Method
+                    </Typography>
+                    <Box sx={{ display: "flex", gap: 2 }}>
+                      <Box
+                        onClick={() => setIsOtpMode(false)}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          // padding: "8px 16px",
+                          // border: "1px solid #ccc",
+                          // borderRadius: "4px",
+                          cursor: "pointer",
+                          backgroundColor: !isOtpMode
+                            ? "#e3f2fd"
+                            : "transparent",
+                          borderColor: !isOtpMode ? "#2196f3" : "#ccc",
+                        }}
+                      >
+                        <span
+                          className="material-icons"
+                          style={{ color: !isOtpMode ? "#2196f3" : "inherit" }}
+                        >
+                          {!isOtpMode
+                            ? "radio_button_checked"
+                            : "radio_button_unchecked"}
+                        </span>
+                        <Typography>Password</Typography>
+                      </Box>
+                      <Box
+                        onClick={() => setIsOtpMode(true)}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          // padding: "8px 16px",
+                          // border: "1px solid #ccc",
+                          // borderRadius: "4px",
+                          cursor: "pointer",
+                          backgroundColor: isOtpMode
+                            ? "#e3f2fd"
+                            : "transparent",
+                          borderColor: isOtpMode ? "#2196f3" : "#ccc",
+                        }}
+                      >
+                        <span
+                          className="material-icons"
+                          style={{ color: isOtpMode ? "#2196f3" : "inherit" }}
+                        >
+                          {isOtpMode
+                            ? "radio_button_checked"
+                            : "radio_button_unchecked"}
+                        </span>
+                        <Typography>OTP</Typography>
+                      </Box>
+                    </Box>
+                  </FormControl>
+
+                  {!isOtpMode ? (
+                    <TextField
+                      label="Password"
+                      type="password"
+                      fullWidth
+                      variant="outlined"
+                    />
+                  ) : (
+                    <TextField
+                      label="OTP"
+                      type="number"
+                      fullWidth
+                      variant="outlined"
+                    />
+                  )}
+
+                  <Button sx={{ alignSelf: "flex-start" }} color="primary">
+                    Forgot Password?
+                  </Button>
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleLoginDialogToggle}>Cancel</Button>
+                <Button variant="contained" onClick={handleLoginSubmit}>
+                  Login
+                </Button>
               </DialogActions>
             </Dialog>
           </Box>
