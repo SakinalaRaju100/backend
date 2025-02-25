@@ -237,6 +237,7 @@
         const [notificationsOpen, setNotificationsOpen] = useState(false);
         const [settingsOpen, setSettingsOpen] = useState(false);
         const [theme, setTheme] = useState(themes.light);
+        const [filteredMenuItems, setFilteredMenuItems] = useState([]);
 
         const notifications = [
           {
@@ -294,7 +295,7 @@
 
             setLoginData(a);
             handleLoginDialogToggle();
-
+            window.location.reload();
             setLoginUser("");
             setPassword("");
             setOtp("");
@@ -313,45 +314,85 @@
         };
 
         const menuItems = [
-          { text: "Dashboard", icon: "home", path: "/dashboard" },
-          { text: "My Page", icon: "article", path: "/my-page" },
-          { text: "admins", icon: "people", path: "/" },
-          { text: "Sales Members", icon: "people", path: "/" },
-          { text: "Customers", icon: "people", path: "/" },
-          { text: "Sales Reports", icon: "article", path: "/" },
-          { text: "Sales Targets", icon: "article", path: "/" },
-          { text: "Customer loans", icon: "article", path: "/" },
-          { text: "Customer Refferences", icon: "video_library", path: "/" },
+          { text: "Dashboard", icon: "home", role: "all", path: "/dashboard" },
+          // { text: "My Page", icon: "article", role: "all,sales ", path: "/my-page" },
+          { text: "admins", icon: "people", role: "admin", path: "/" },
+          { text: "Sales Members", icon: "people", role: "admin", path: "/" },
+          { text: "Customers", icon: "people", role: "admin", path: "/" },
+          { text: "Sales Reports", icon: "article", role: "sales", path: "/" },
+          { text: "Sales Targets", icon: "article", role: "sales", path: "/" },
+          {
+            text: "Customer loans",
+            icon: "article",
+            role: "customer",
+            path: "/",
+          },
+          {
+            text: "Customer Refferences",
+            icon: "video_library",
+            role: "customer",
+            path: "/",
+          },
 
-          { text: "Reviews", icon: "message", badge: 4, path: "/reviews" },
-          { text: "About Us", icon: "message", path: "/about" },
-          { text: "Contact Us", icon: "people", path: "/contact" },
-          { text: "Terms & Conditions", icon: "video_library", path: "/terms" },
+          {
+            text: "Company Reviews",
+            icon: "message",
+
+            role: "all",
+            badge: 4,
+            path: "/reviews",
+          },
+          {
+            text: "About Us",
+            icon: "message",
+            role: "all",
+            path: "/about",
+          },
+          { text: "Contact Us", icon: "people", role: "all", path: "/contact" },
+          {
+            text: "Terms & Conditions",
+            icon: "video_library",
+            role: "all",
+            path: "/terms",
+          },
 
           {
             text: "Profile",
             icon: "people",
+            role: "all",
             path: "/profile",
             clickfunc: handleDialogToggle,
           },
           {
             text: "Settings",
             icon: "settings",
+            role: "all",
             path: "/settings",
+
             clickfunc: handleSettingsToggle,
           },
           {
             text: loginData ? "Logout" : "Login",
             icon: "logout",
+            role: "all",
             path: "/",
             clickfunc: loginData ? logout : handleLoginDialogToggle,
           },
         ];
 
         useEffect(() => {
-          const storedData = localStorage.getItem("gnUserObj");
+          const storedData = JSON.parse(localStorage.getItem("gnUserObj"));
+          console.log("storedData", storedData);
           if (storedData) {
-            setLoginData(JSON.parse(storedData));
+            setLoginData(storedData);
+            setFilteredMenuItems((pre) =>
+              menuItems.filter(
+                (item) => item.role === "all" || item.role === storedData.role
+              )
+            );
+          } else {
+            setLoginData(null);
+            setFilteredMenuItems([]);
           }
           document.body.style.color = theme.textColor;
           document.body.className = theme.name.toLowerCase();
@@ -359,6 +400,7 @@
 
         return (
           <Box sx={{ display: "flex" }}>
+            {console.log("filteredMenuItems", filteredMenuItems)}
             <AppBar
               position="fixed"
               sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -477,38 +519,45 @@
               <Toolbar />
               <Box sx={{ overflow: "auto" }}>
                 <List>
-                  {menuItems.map((item, index) => (
-                    <ListItem
-                      button
-                      key={item.text}
-                      onClick={() => (item.clickfunc ? item.clickfunc() : null)}
-                    >
-                      <ListItemIcon>
-                        <span
-                          className="material-icons"
-                          style={{ color: "#3f51b5" }}
-                        >
-                          {item.icon}
-                        </span>
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={item.text}
-                        sx={{ fontSize: item.fontSize || "inherit" }}
-                      />
-                      {item.badge && (
-                        <Box
-                          sx={{
-                            backgroundColor: "yellow",
-                            borderRadius: "50%",
-                            padding: "2px 6px",
-                            marginLeft: "auto",
-                          }}
-                        >
-                          {item.badge}
-                        </Box>
-                      )}
-                    </ListItem>
-                  ))}
+                  {filteredMenuItems
+                    // {menuItems
+                    // .filter((item) => {
+                    //   return item.role === ("all" || loginData?.role);
+                    // })
+                    .map((item, index) => (
+                      <ListItem
+                        button
+                        key={item.text}
+                        onClick={() =>
+                          item.clickfunc ? item.clickfunc() : null
+                        }
+                      >
+                        <ListItemIcon>
+                          <span
+                            className="material-icons"
+                            style={{ color: "#3f51b5" }}
+                          >
+                            {item.icon}
+                          </span>
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={item.text}
+                          sx={{ fontSize: item.fontSize || "inherit" }}
+                        />
+                        {item.badge && (
+                          <Box
+                            sx={{
+                              backgroundColor: "yellow",
+                              borderRadius: "50%",
+                              padding: "2px 6px",
+                              marginLeft: "auto",
+                            }}
+                          >
+                            {item.badge}
+                          </Box>
+                        )}
+                      </ListItem>
+                    ))}
                 </List>
               </Box>
             </Drawer>
