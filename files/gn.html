@@ -128,18 +128,116 @@
         },
       };
 
+      const users = [
+        {
+          name: "Raju",
+          id: "GNC01",
+          role: "customer",
+          mobile: "9676610001",
+          email: "raju@gn.com",
+          otp: "123456",
+          loginExpiration: "",
+          password: "123456789",
+          address: "",
+          roleId: 0,
+          theme: "",
+        },
+        {
+          name: "Ram",
+          id: "GNC02",
+          role: "customer",
+          mobile: "9676610002",
+          email: "ram@gn.com",
+          otp: "123456",
+          loginExpiration: "",
+          password: "123456789",
+          address: "",
+          roleId: 0,
+          theme: "",
+        },
+        {
+          name: "shyam",
+          id: "GNS01",
+          role: "sales",
+          mobile: "9676610003",
+          email: "shyam@gn.com",
+          otp: "123456",
+          loginExpiration: "",
+          password: "123456789",
+          address: "",
+          roleId: 0,
+          theme: "",
+        },
+        {
+          name: "Arjun",
+          id: "GNA01",
+          role: "admin",
+          mobile: "9676610004",
+          email: "arjun@gn.com",
+          otp: "123456",
+          loginExpiration: "",
+          password: "123456789",
+          address: "",
+          roleId: 0,
+          theme: "",
+        },
+        {
+          name: "Chendu",
+          id: "GNC03",
+          role: "customer",
+          mobile: "9676610005",
+          email: "chendu@gn.com",
+          otp: "123456",
+          loginExpiration: "",
+          password: "123456789",
+          address: "",
+          roleId: 0,
+          theme: "",
+        },
+        {
+          name: "Abhishek",
+          id: "GNA02",
+          role: "admin",
+          mobile: "9676610006",
+          email: "abhishek@gn.com",
+          otp: "123456",
+          loginExpiration: "",
+          password: "123456789",
+          address: "",
+          roleId: 0,
+          theme: "",
+        },
+        {
+          name: "Sridhar",
+          id: "GNS02",
+          role: "sales",
+          mobile: "9676610007",
+          email: "sakinala.raju@gn.com",
+          otp: "123456",
+          loginExpiration: "",
+          password: "123456789",
+          address: "",
+          roleId: 0,
+          theme: "",
+        },
+      ];
+
       const HomePage = () => {
         const [loginDialogOpen, setLoginDialogOpen] = useState(false);
-        const [loginMethod, setLoginMethod] = useState("email"); // 'email' or 'phone'
+
+        const [loginUser, setLoginUser] = useState("");
         const [isOtpMode, setIsOtpMode] = useState(false);
+        const [otp, setOtp] = useState("");
+        const [password, setPassword] = useState("");
 
         const [loginData, setLoginData] = useState(null);
 
-        const [open, setOpen] = useState(false);
+        const [open, setOpen] = useState(false); // profle popup
         const [dialogOpen, setDialogOpen] = useState(false);
         const [notificationsOpen, setNotificationsOpen] = useState(false);
         const [settingsOpen, setSettingsOpen] = useState(false);
         const [theme, setTheme] = useState(themes.light);
+
         const notifications = [
           {
             title: "Notification",
@@ -183,15 +281,18 @@
 
         const handleLoginSubmit = () => {
           console.log("Login submitted");
-          setLoginData({
-            name: "Raju",
-            id: "GN1234",
-            role: "Customer",
-            email: "sakinala.raju@gn.com",
-            mobile: "9676639383",
-          });
-          // Add your login logic here
-          handleLoginDialogToggle();
+          console.log("loginUser", loginUser, password, otp);
+
+          const a = users.find((user) => user.mobile == loginUser) ?? null;
+          if (a) {
+            setLoginData(a);
+            handleLoginDialogToggle();
+            setLoginUser("");
+            setPassword("");
+            setOtp("");
+          } else {
+            alert("User not found");
+          }
         };
 
         const logout = () => {
@@ -222,10 +323,10 @@
             clickfunc: handleSettingsToggle,
           },
           {
-            text: "Logout",
+            text: loginData ? "Logout" : "Login",
             icon: "logout",
-            path: "/logout",
-            clickfunc: logout,
+            path: "/",
+            clickfunc: loginData ? logout : handleLoginDialogToggle,
           },
         ];
 
@@ -593,6 +694,15 @@
                     type="text" // once entered it will check for validation
                     fullWidth
                     variant="outlined"
+                    // autoFocus
+
+                    // margin="dense"
+                    value={loginUser}
+                    onChange={(e) => setLoginUser(e.target.value)}
+                    // error={!loginUser && loginSubmitted}
+                    // helperText={
+                    //   !loginUser && loginSubmitted ? "user is required" : ""
+                    // }
                   />
 
                   <FormControl component="fieldset">
@@ -661,6 +771,8 @@
                       type="password"
                       fullWidth
                       variant="outlined"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   ) : (
                     <TextField
@@ -668,12 +780,14 @@
                       type="number"
                       fullWidth
                       variant="outlined"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
                     />
                   )}
 
-                  <Button sx={{ alignSelf: "flex-start" }} color="primary">
+                  {/*<Button sx={{ alignSelf: "flex-start" }} color="primary">
                     Forgot Password?
-                  </Button>
+                  </Button>*/}
                 </Box>
               </DialogContent>
               <DialogActions>
