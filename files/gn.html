@@ -373,13 +373,13 @@
 
             clickfunc: handleSettingsToggle,
           },
-          {
-            text: loginData ? "Logout" : "Login",
-            icon: "logout",
-            role: "all",
-            path: "/",
-            clickfunc: loginData ? logout : handleLoginDialogToggle,
-          },
+          // {
+          //   text: loginData?.name ? "Logout" : "Login",
+          //   icon: "logout",
+          //   role: "all",
+          //   path: "/",
+          //   clickfunc: loginData ? logout : handleLoginDialogToggle,
+          // },
         ];
 
         useEffect(() => {
@@ -405,6 +405,7 @@
         return (
           <Box sx={{ display: "flex" }}>
             {console.log("filteredMenuItems", filteredMenuItems)}
+            {console.log("loginData", loginData)}
             <AppBar
               position="fixed"
               sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
