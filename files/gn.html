@@ -134,7 +134,7 @@
           id: "GNC01",
           role: "customer",
           mobile: "9676610001",
-          email: "raju@gn.com",
+          email: "sakinala.raju@gn.com",
           otp: "123456",
           loginExpiration: "",
           password: "123456789",
@@ -285,8 +285,16 @@
 
           const a = users.find((user) => user.mobile == loginUser) ?? null;
           if (a) {
+            localStorage.setItem(
+              "gnUserObj",
+              JSON.stringify({
+                ...a,
+              })
+            );
+
             setLoginData(a);
             handleLoginDialogToggle();
+
             setLoginUser("");
             setPassword("");
             setOtp("");
@@ -300,6 +308,7 @@
             // Add your logout logic here (e.g., clear user session, redirect, etc.)
             console.log("User logged out");
             setLoginData(null);
+            localStorage.removeItem("gnUserObj");
           }
         };
 
@@ -331,6 +340,10 @@
         ];
 
         useEffect(() => {
+          const storedData = localStorage.getItem("gnUserObj");
+          if (storedData) {
+            setLoginData(JSON.parse(storedData));
+          }
           document.body.style.color = theme.textColor;
           document.body.className = theme.name.toLowerCase();
         }, [theme]);
@@ -351,7 +364,7 @@
                   <span className="material-icons">menu</span>
                 </IconButton>
                 <Typography variant="h6" noWrap component="div">
-                  My App
+                  Goldnoon Fintech
                 </Typography>
                 <Box
                   sx={{
@@ -360,26 +373,6 @@
                     alignItems: "center",
                   }}
                 >
-                  <IconButton
-                    color="inherit"
-                    onClick={handleNotificationsToggle}
-                  >
-                    <span className="material-icons">notifications</span>
-                    <Box
-                      sx={{
-                        backgroundColor: "orange",
-                        borderRadius: "50%",
-                        padding: "1px 4px",
-                        position: "absolute",
-                        top: 0,
-                        right: 0,
-                        fontSize: "0.75rem",
-                      }}
-                    >
-                      3
-                    </Box>
-                  </IconButton>
-
                   {loginData ? (
                     <Box
                       sx={{
@@ -389,6 +382,25 @@
                       }}
                       onClick={handleDialogToggle}
                     >
+                      <IconButton
+                        color="inherit"
+                        onClick={handleNotificationsToggle}
+                      >
+                        <span className="material-icons">notifications</span>
+                        <Box
+                          sx={{
+                            backgroundColor: "orange",
+                            borderRadius: "50%",
+                            padding: "1px 4px",
+                            position: "absolute",
+                            top: 0,
+                            right: 0,
+                            fontSize: "0.75rem",
+                          }}
+                        >
+                          3
+                        </Box>
+                      </IconButton>
                       <Tooltip title="User Name" arrow>
                         <Avatar
                           alt="User Name"
@@ -524,13 +536,19 @@
                     }}
                   />
                   <Typography variant="h6" sx={{ mt: 2 }}>
-                    Raju. Sakinala
+                    {loginData?.name ?? ""}
                   </Typography>
-                  <Typography variant="body2">Role : Admin</Typography>
-                  <Typography variant="body2">Id : GN45249</Typography>
-                  <Typography variant="body2">Phone : 9676612345</Typography>
                   <Typography variant="body2">
-                    sakinala.raju@gmail.com
+                    Role : {loginData?.role ?? ""}
+                  </Typography>
+                  <Typography variant="body2">
+                    Id : {loginData?.id ?? ""}
+                  </Typography>
+                  <Typography variant="body2">
+                    mobile : {loginData?.mobile ?? ""}
+                  </Typography>
+                  <Typography variant="body2">
+                    {loginData?.email ?? ""}
                   </Typography>
                 </Box>
               </DialogContent>
