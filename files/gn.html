@@ -309,6 +309,8 @@
             // Add your logout logic here (e.g., clear user session, redirect, etc.)
             console.log("User logged out");
             setLoginData(null);
+            window.location.reload();
+
             localStorage.removeItem("gnUserObj");
           }
         };
