@@ -35,6 +35,26 @@
         margin: 1px;
         /* background-color: #f5f5f5; */
         background-color: #fff;
+
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 100%; /* Ensure the container does not exceed the viewport width */
+      }
+      .carousel {
+        position: relative;
+        height: 300px;
+        overflow: hidden;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .ad-content {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        color: white;
       }
 
       /* Common styles for all notifications */
@@ -176,8 +196,8 @@
         blue: {
           name: "blue",
           // appBarColor: "#2196f3",
-          appBarColor: "#3f51b5",
-          drawerColor: "#3f51b5",
+          appBarColor: "#03a9f4",
+          drawerColor: "#03a9f4",
           textColor: "#000",
           // textColor: "blue",
         },
@@ -196,6 +216,57 @@
           textColor: "red",
         },
       };
+
+      // Achievements Section
+      const achievements = [
+        {
+          title: "State Level Science Fair Winners",
+          date: "August 2023",
+          description:
+            "Our students won first place in the State Level Science Fair Competition",
+          icon: "emoji_events",
+        },
+        {
+          title: "100% Pass Rate in Class X",
+          date: "May 2023",
+          description:
+            "All our students successfully passed Class X examinations with distinction",
+          icon: "school",
+        },
+        {
+          title: "Best School Award",
+          date: "July 2023",
+          description:
+            "Received Best School Award from the District Education Department",
+          icon: "stars",
+        },
+        {
+          title: "National Sports Championship",
+          date: "July 2023",
+          description:
+            "Our school team won Gold in National Level Sports Championship",
+          icon: "sports_score",
+        },
+        {
+          title: "Math Olympiad Winners",
+          date: "June 2023",
+          description: "Students secured top positions in State Math Olympiad",
+          icon: "calculate",
+        },
+        {
+          title: "Cultural Excellence",
+          date: "May 2023",
+          description: "First prize in State Level Cultural Competition",
+          icon: "theater_comedy",
+        },
+        {
+          title: "View More Achievements",
+          date: "",
+          description: "Click to see all our achievements and accolades",
+          icon: "add_circle",
+          isViewMore: true,
+        },
+      ];
 
       const users = [
         {
@@ -814,6 +885,268 @@
                 </Container>
               </Box>
 
+              {/* Achievements Section */}
+
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  overflowX: "auto",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                }}
+              >
+                <Container
+                  // maxWidth="lg"
+                  // maxWidth={false}
+
+                  sx={{
+                    display: "inline-block",
+                    minWidth: "200px",
+                    maxWidth: {
+                      xs: "320px", // Full width on extra-small screens
+                      sm: "450px", // 450px on small screens
+                      md: "600px", // 600px on medium screens
+                      lg: "800px", // 800px on large screens
+                    },
+                    my: 4,
+
+                    position: "relative",
+                    "& .MuiContainer-root": {
+                      overflowX: "auto",
+                      scrollBehavior: "smooth",
+                      "&::-webkit-scrollbar": {
+                        display: "none",
+                      },
+                      msOverflowStyle: "none",
+                      scrollbarWidth: "none",
+                    },
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    gutterBottom
+                    sx={{
+                      textAlign: "center",
+                      mb: 4,
+                      fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
+                      position: "relative",
+                      "&:after": {
+                        content: '""',
+                        position: "absolute",
+                        bottom: "-10px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: "60px",
+                        height: "3px",
+                        backgroundColor: "primary.main",
+                      },
+                    }}
+                  >
+                    Latest Achievements
+                  </Typography>
+
+                  <Box sx={{ position: "relative" }}>
+                    <IconButton
+                      sx={{
+                        position: "absolute",
+                        left: -20,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        backgroundColor: "white",
+                        boxShadow: 2,
+                        "&:hover": { backgroundColor: "grey.100" },
+                        zIndex: 2,
+                      }}
+                      onClick={() => {
+                        const container = document.getElementById(
+                          "achievements-scroll"
+                        );
+                        container.scrollBy({ left: -300, behavior: "smooth" });
+                      }}
+                    >
+                      <span className="material-icons">chevron_left</span>
+                    </IconButton>
+
+                    <Box
+                      id="achievements-scroll"
+                      sx={{
+                        display: "flex",
+                        overflowX: "auto",
+                        gap: 3,
+                        pb: 2,
+                        scrollBehavior: "smooth",
+                        "&::-webkit-scrollbar": { display: "none" },
+                        msOverflowStyle: "none",
+                        scrollbarWidth: "none",
+                      }}
+                    >
+                      {achievements.map((achievement, index) => (
+                        <Card
+                          key={index}
+                          sx={{
+                            minWidth: 300,
+                            maxWidth: 300,
+                            height: "300px",
+                            flex: "0 0 auto",
+                            display: "flex",
+                            flexDirection: "column",
+                            transition: "transform 0.2s",
+                            "&:hover": {
+                              transform: achievement.isViewMore
+                                ? "translateY(-5px)"
+                                : "translateY(-5px)",
+                              boxShadow: 3,
+                            },
+                            ...(achievement.isViewMore && {
+                              backgroundColor: "primary.main",
+                              color: "white",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                              transition: "all 0.3s ease",
+                              "&:hover": {
+                                backgroundColor: "primary.dark",
+                                transform: "translateY(-5px)",
+                                boxShadow: 3,
+                              },
+                            }),
+                          }}
+                        >
+                          {achievement.isViewMore ? (
+                            <CardContent
+                              sx={{
+                                textAlign: "center",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                height: "100%",
+                                padding: "24px",
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  backgroundColor: "rgba(255,255,255,0.2)",
+                                  borderRadius: "50%",
+                                  width: 80,
+                                  height: 80,
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  mb: 2,
+                                  transition: "all 0.3s ease",
+                                }}
+                              >
+                                <span
+                                  className="material-icons"
+                                  style={{ fontSize: "40px" }}
+                                >
+                                  {achievement.icon}
+                                </span>
+                              </Box>
+                              <Typography
+                                variant="h6"
+                                component="div"
+                                sx={{ mt: 2, fontWeight: "bold" }}
+                              >
+                                {achievement.title}
+                              </Typography>
+                              <Typography
+                                variant="body1"
+                                sx={{ mt: 1, opacity: 0.9 }}
+                              >
+                                Click to explore more achievements
+                              </Typography>
+                            </CardContent>
+                          ) : (
+                            <CardContent
+                              sx={{
+                                flexGrow: 1,
+                                padding: "24px",
+                                height: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  mb: 2,
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    backgroundColor: "primary.main",
+                                    borderRadius: "50%",
+                                    p: 1,
+                                    mr: 2,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  <span
+                                    className="material-icons"
+                                    style={{ color: "white" }}
+                                  >
+                                    {achievement.icon}
+                                  </span>
+                                </Box>
+                                <Typography variant="h6" component="div">
+                                  {achievement.title}
+                                </Typography>
+                              </Box>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                gutterBottom
+                              >
+                                {achievement.date}
+                              </Typography>
+                              <Typography
+                                variant="body1"
+                                sx={{
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  display: "-webkit-box",
+                                  WebkitLineClamp: 4,
+                                  WebkitBoxOrient: "vertical",
+                                }}
+                              >
+                                {achievement.description}
+                              </Typography>
+                            </CardContent>
+                          )}
+                        </Card>
+                      ))}
+                    </Box>
+
+                    <IconButton
+                      sx={{
+                        position: "absolute",
+                        right: -20,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        backgroundColor: "white",
+                        boxShadow: 2,
+                        "&:hover": { backgroundColor: "grey.100" },
+                        zIndex: 2,
+                      }}
+                      onClick={() => {
+                        const container = document.getElementById(
+                          "achievements-scroll"
+                        );
+                        container.scrollBy({ left: 300, behavior: "smooth" });
+                      }}
+                    >
+                      <span className="material-icons">chevron_right</span>
+                    </IconButton>
+                  </Box>
+                </Container>
+              </Box>
+
               {/* About Us Section */}
               <Box sx={{ py: 6, bgcolor: "grey.100" }}>
                 <Container maxWidth="lg">
@@ -861,7 +1194,7 @@
                           display: "flex",
                           flexDirection: "column",
                           p: { xs: 2, sm: 2, md: 3 },
-                          m: { xs: 2, sm: 2, md: 3 },
+                          // m: { xs: 2, sm: 2, md: 3 },
 
                           fontSize: {
                             xs: "0.875rem", // Extra small screens
