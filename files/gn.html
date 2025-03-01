@@ -92,39 +92,45 @@
       } = MaterialUI;
 
       const themes = {
+        orange: {
+          name: "orange",
+          appBarColor: "orange",
+          drawerColor: "orange",
+          textColor: "orange",
+        },
         light: {
           name: "light",
           appBarColor: "#3f51b5",
-          drawerColor: "#fff",
+          drawerColor: "#3f51b5",
           textColor: "#000",
         },
         dark: {
           name: "dark",
           appBarColor: "#000",
           drawerColor: "#333",
-          textColor: "#fff",
+          textColor: "#000",
         },
         blue: {
           name: "blue",
           // appBarColor: "#2196f3",
-          appBarColor: "red",
-          drawerColor: "#e3f2fd",
-          // textColor: "#000",
-          textColor: "blue",
+          appBarColor: "#3f51b5",
+          drawerColor: "#3f51b5",
+          textColor: "#000",
+          // textColor: "blue",
         },
         green: {
           name: "green",
           // appBarColor: "#4caf50",
-          appBarColor: "orange",
-          drawerColor: "#e8f5e9",
+          appBarColor: "green",
+          drawerColor: "green",
           // textColor: "#000",
           textColor: "green",
         },
         red: {
           name: "red",
-          appBarColor: "#f44336",
-          drawerColor: "#ffebee",
-          textColor: "#000",
+          appBarColor: "red",
+          drawerColor: "red",
+          textColor: "red",
         },
       };
 
@@ -236,7 +242,7 @@
         const [dialogOpen, setDialogOpen] = useState(false);
         const [notificationsOpen, setNotificationsOpen] = useState(false);
         const [settingsOpen, setSettingsOpen] = useState(false);
-        const [theme, setTheme] = useState(themes.light);
+        const [theme, setTheme] = useState(themes.orange);
         const [filteredMenuItems, setFilteredMenuItems] = useState([]);
 
         const notifications = [
@@ -408,7 +414,10 @@
             {console.log("loginData", loginData)}
             <AppBar
               position="fixed"
-              sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              sx={{
+                zIndex: (theme) => theme.zIndex.drawer + 1,
+                backgroundColor: theme.appBarColor,
+              }}
             >
               <Toolbar>
                 <IconButton
@@ -549,14 +558,18 @@
                         <ListItemIcon>
                           <span
                             className="material-icons"
-                            style={{ color: "#3f51b5" }}
+                            // style={{ color: "#3f51b5" }}
+                            style={{ color: theme.drawerColor }}
                           >
                             {item.icon}
                           </span>
                         </ListItemIcon>
                         <ListItemText
                           primary={item.text}
-                          sx={{ fontSize: item.fontSize || "inherit" }}
+                          sx={{
+                            fontSize: item.fontSize || "inherit",
+                            color: theme.drawerColor,
+                          }}
                         />
                         {item.badge && (
                           <Box
@@ -584,6 +597,7 @@
             <Dialog // profile dialog
               open={dialogOpen}
               onClose={handleDialogToggle}
+              // sx={{ backgroundColor: theme.appBarColor }}
               fullWidth
             >
               <DialogTitle>User Details</DialogTitle>
@@ -595,7 +609,8 @@
                     justifyContent: "center",
                     flexDirection: "column",
                     padding: "16px",
-                    backgroundColor: "#3f51b5",
+                    // backgroundColor: "#3f51b5",
+                    backgroundColor: theme.appBarColor,
                     color: "#fff",
                     borderRadius: "8px",
                     boxShadow: 3,
