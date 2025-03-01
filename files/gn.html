@@ -752,10 +752,18 @@
             >
               <DialogTitle>Select Theme and Language</DialogTitle>
               <DialogContent>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    pt: 1,
+                  }}
+                >
                   <FormControl>
                     <InputLabel id="theme-select-label">Theme</InputLabel>
                     <Select
+                      label="Theme"
                       labelId="theme-select-label"
                       value={theme.name}
                       onChange={(e) => setTheme(themes[e.target.value])}
@@ -769,7 +777,11 @@
                   </FormControl>
                   <FormControl>
                     <InputLabel id="language-select-label">Language</InputLabel>
-                    <Select labelId="language-select-label" defaultValue="">
+                    <Select
+                      labelId="language-select-label"
+                      defaultValue=""
+                      label="Language"
+                    >
                       <MenuItem value="en">English</MenuItem>
                       <MenuItem value="es">Spanish</MenuItem>
                       <MenuItem value="fr">French</MenuItem>
