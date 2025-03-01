@@ -31,9 +31,72 @@
     <style>
       body {
         font-family: "Roboto", sans-serif;
-        /* padding: 20px; */
+        padding: 0px;
+        margin: 1px;
         /* background-color: #f5f5f5; */
         background-color: #fff;
+      }
+
+      /* Common styles for all notifications */
+      .notification {
+        margin: 10px 0;
+        padding: 15px;
+        font-size: 16px;
+        border-radius: 5px;
+        display: flex;
+        align-items: left;
+        justify-content: left;
+        font-family: Arial, sans-serif;
+      }
+      .notification:hover {
+        margin: 11px 0;
+        padding: 15px;
+        font-size: 16px;
+        border-radius: 6px;
+        color: Gold;
+        background-color: #03a9f4; /* Light background on hover */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+        transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+      }
+
+      /* Success notification */
+      .success {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      .success .icon {
+        margin-right: 10px;
+      }
+
+      /* Error notification */
+      .error {
+        background-color: #f44336;
+        color: white;
+      }
+
+      .error .icon {
+        margin-right: 10px;
+      }
+
+      /* Warning notification */
+      .warning {
+        background-color: #ff9800;
+        color: white;
+      }
+
+      .warning .icon {
+        margin-right: 10px;
+      }
+
+      /* General notification */
+      .general {
+        background-color: #03a9f4;
+        color: white;
+      }
+
+      .general .icon {
+        margin-right: 10px;
       }
     </style>
   </head>
@@ -408,9 +471,41 @@
           document.body.className = theme.name.toLowerCase();
         }, [theme]);
 
+        // Carousel images
+        const carouselImages = [
+          {
+            label: "Welcome to ZPHS Kunur",
+            imgPath:
+              "https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+            description: "Empowering minds, Building futures",
+          },
+          {
+            label: "Quality Education",
+            imgPath:
+              "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+            description: "Excellence in Learning",
+          },
+          {
+            label: "Modern Facilities",
+            imgPath:
+              "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+            description: "State-of-the-art Infrastructure",
+          },
+        ];
+
+        const [activeStep, setActiveStep] = React.useState(0);
+        const maxSteps = carouselImages.length;
+
+        React.useEffect(() => {
+          const timer = setInterval(() => {
+            setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
+          }, 5000);
+
+          return () => clearInterval(timer);
+        }, [maxSteps]);
+
         return (
           <Box sx={{ display: "flex" }}>
-            {console.log("filteredMenuItems", filteredMenuItems)}
             {console.log("loginData", loginData)}
             <AppBar
               position="fixed"
@@ -588,11 +683,549 @@
                 </List>
               </Box>
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Box component="main" sx={{ flexGrow: 1, p: 0.5, m: 0 }}>
               <Toolbar />
-              <Typography paragraph>
-                Welcome to My App. This is the main content area.
-              </Typography>
+              <Typography paragraph>/ Dashboard</Typography>
+              {/* Hero Section with Carousel */}
+              <Box
+                sx={{
+                  position: "relative",
+                  height: { xs: "40vh", sm: "50vh", md: "75vh" },
+                }}
+              >
+                <Paper
+                  square
+                  elevation={0}
+                  sx={{
+                    height: "100%",
+                    position: "relative",
+                    backgroundColor: "grey.800",
+                    color: "#fff",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundImage: `url(${carouselImages[activeStep].imgPath})`,
+                    transition: "background-image 0.5s ease-in-out",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      bottom: 0,
+                      right: 0,
+                      left: 0,
+                      backgroundColor: "rgba(0,0,0,.5)",
+                    }}
+                  />
+                  <Container
+                    maxWidth="md"
+                    sx={{
+                      position: "relative",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
+                      px: { xs: 2, sm: 3, md: 4 },
+                    }}
+                  >
+                    <Typography
+                      variant="h2"
+                      component="h1"
+                      gutterBottom
+                      sx={{
+                        fontSize: { xs: "2rem", sm: "3rem", md: "3.75rem" },
+                      }}
+                    >
+                      {carouselImages[activeStep].label}
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      paragraph
+                      sx={{
+                        fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.5rem" },
+                      }}
+                    >
+                      {carouselImages[activeStep].description}
+                    </Typography>
+                  </Container>
+                </Paper>
+                <MobileStepper
+                  steps={maxSteps}
+                  position="static"
+                  activeStep={activeStep}
+                  sx={{
+                    position: "absolute",
+                    bottom: 0, // You can adjust the bottom distance as needed
+                    left: "50%", // Centers horizontally
+                    transform: "translateX(-50%)", // Ensures the element is centered by shifting it back by 50%
+                    width: "auto", // Use auto or a fixed width if needed
+                    background: "transparent",
+                  }}
+                />
+              </Box>
+
+              {/* News & Updates */}
+              <Box sx={{ bgcolor: "grey.100", py: 6 }}>
+                <Container maxWidth="lg">
+                  <Typography
+                    variant="h4"
+                    gutterBottom
+                    sx={{
+                      textAlign: "center",
+                      mb: 4,
+                      position: "relative",
+                      "&:after": {
+                        content: '""',
+                        position: "absolute",
+                        bottom: "-10px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: "60px",
+                        height: "3px",
+                        backgroundColor: "primary.main",
+                      },
+                    }}
+                  >
+                    News & Updates
+                  </Typography>
+                  <div>
+                    <div className="notification success">
+                      <span className="icon">✔</span> Success.. Everything is
+                      good!
+                    </div>
+
+                    <div className="notification error">
+                      <span className="icon">✘</span> Error.. Something has gone
+                      wrong!
+                    </div>
+
+                    <div className="notification warning">
+                      <span className="icon">⚠</span> Warning.. A little
+                      warning...
+                    </div>
+
+                    <div className="notification general">
+                      <span className="icon">ℹ</span> General.. Just a little
+                      information...
+                    </div>
+                  </div>
+                </Container>
+              </Box>
+
+              {/* About Us Section */}
+              <Box sx={{ py: 6, bgcolor: "grey.100" }}>
+                <Container maxWidth="lg">
+                  <Typography
+                    variant="h4"
+                    gutterBottom
+                    sx={{
+                      textAlign: "center",
+                      mb: 4,
+                      fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
+                      position: "relative",
+                      "&:after": {
+                        content: '""',
+                        position: "absolute",
+                        bottom: "-10px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: "60px",
+                        height: "3px",
+                        backgroundColor: "primary.main",
+                      },
+                    }}
+                  >
+                    About Us
+                  </Typography>
+
+                  <Grid
+                    container
+                    spacing={{ xs: 2, sm: 3, md: 4 }}
+                    sx={{
+                      minHeight: {
+                        xs: "400px", // Minimum height for extra small screens
+                        sm: "500px", // Minimum height for small screens
+                        md: "600px", // Minimum height for medium and larger screens
+                      },
+                      height: "100%", // Ensure it takes full height of its container
+                    }}
+                  >
+                    {/* School History */}
+                    <Grid item xs={12} md={12}>
+                      <Card
+                        sx={{
+                          // height: "100%",
+                          // height: { xs: 10, sm: 3, md: 4 },
+                          display: "flex",
+                          flexDirection: "column",
+                          p: { xs: 2, sm: 2, md: 3 },
+                          m: { xs: 2, sm: 2, md: 3 },
+
+                          fontSize: {
+                            xs: "0.875rem", // Extra small screens
+                            sm: "1rem", // Small screens
+                            md: "1.125rem", // Medium and larger screens
+                          },
+                        }}
+                      >
+                        <Typography variant="h5" gutterBottom color="primary">
+                          Our History
+                        </Typography>
+                        <Typography variant="body1" paragraph>
+                          Established in 1953, ZPHS Kunur has been a beacon of
+                          learning in our community for over 71 years. What
+                          started as a small school with just 50 students has
+                          grown into a prestigious institution serving over 600
+                          students today.
+                        </Typography>
+                      </Card>
+                    </Grid>
+
+                    {/* Google Map */}
+                    <Grid item xs={12} md={12}>
+                      <Card
+                        sx={{
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            flex: 1,
+                            minHeight: "300px",
+                            width: "100%",
+                          }}
+                        >
+                          <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15308.310789227932!2d79.4824236!3d17.8419678!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3356bb3a5df671%3A0x791f9bf3757175a2!2sZPHS%20Kunur!5e0!3m2!1sen!2sin!4v1701234567890!5m2!1sen!2sin"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            allowFullScreen=""
+                            loading="lazy"
+                          ></iframe>
+                        </Box>
+                        <Box sx={{ p: 3 }}>
+                          <Typography variant="h6" gutterBottom>
+                            Our Location
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            ZPHS Kunur, Near Ranganayaka swamy temple, Kunur
+                            Village, Zaffargadh mandal, Jangaon District,
+                            Telengana State india Country
+                          </Typography>
+                        </Box>
+                      </Card>
+                    </Grid>
+                  </Grid>
+                </Container>
+              </Box>
+
+              {/* Footer */}
+              <Box
+                component="footer"
+                id="contact-section"
+                sx={{ bgcolor: "primary.main", color: "white", py: 6, mt: 4 }}
+              >
+                <Container maxWidth="lg">
+                  <Grid container spacing={4}>
+                    <Grid item xs={12} md={4}>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          color: "#FFD700",
+                          fontWeight: "bold",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span className="material-icons">contact_support</span>
+                        Contact Us
+                      </Typography>
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 2,
+                        }}
+                      >
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            location_on
+                          </span>
+                          <Typography variant="body2">
+                            ZPHS Kunur
+                            <br />
+                            Kunur Village
+                          </Typography>
+                        </Box>
+
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            phone
+                          </span>
+                          <Typography
+                            variant="body2"
+                            component="a"
+                            href="tel:+911234567890"
+                            sx={{
+                              color: "white",
+                              textDecoration: "none",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                          >
+                            +91 8985804256
+                          </Typography>
+                        </Box>
+
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            email
+                          </span>
+                          <Typography
+                            variant="body2"
+                            component="a"
+                            href="mailto:zphskunur1973@gmail.com"
+                            sx={{
+                              color: "white",
+                              textDecoration: "none",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                          >
+                            zphskunur1973@gmail.com
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            email
+                          </span>
+                          <Typography
+                            variant="body2"
+                            component="a"
+                            href="mailto:zphskunur.goldenjubilee@gmail.com"
+                            sx={{
+                              color: "white",
+                              textDecoration: "none",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                          >
+                            zphskunur.goldenjubilee@gmail.com
+                          </Typography>
+                        </Box>
+
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            schedule
+                          </span>
+                          <Typography variant="body2">
+                            Monday - Saturday
+                            <br />
+                            9:00 AM - 5:00 PM
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+
+                    <Grid
+                      item
+                      xs={12}
+                      md={4}
+                      sx={{
+                        display: {
+                          xs: "none", // Hidden on extra-small screens
+                          md: "block", // Visible on small screens and up
+                          sm: "none", // Visible on small screens and up
+                        },
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          color: "#98FB98",
+                          fontWeight: "bold",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span className="material-icons">link</span>
+                        Quick Links
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 1,
+                        }}
+                      >
+                        {[
+                          "Admissions",
+                          "Academic Calendar",
+                          "Facilities",
+                          "Staff Directory",
+                        ].map((link, linkindex) => (
+                          <Typography
+                            key={linkindex}
+                            variant="body2"
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              cursor: "pointer",
+                              transition: "all 0.3s ease",
+                              "&:hover": {
+                                paddingLeft: "10px",
+                                color: "#98FB98",
+                              },
+                            }}
+                          >
+                            <span
+                              className="material-icons"
+                              style={{ fontSize: "8px" }}
+                            >
+                              circle
+                            </span>
+                            {link}
+                          </Typography>
+                        ))}
+                      </Box>
+                    </Grid>
+
+                    <Grid item xs={12} md={4}>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          color: "#FF69B4",
+                          fontWeight: "bold",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span className="material-icons">share</span>
+                        Follow Us
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 2,
+                          mb: 2,
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        {[
+                          {
+                            icon: "facebook",
+                            name: "Facebook",
+                            link: "https://facebook.com",
+                          },
+                          {
+                            icon: "spatial_tracking",
+                            name: "X (Twitter)",
+                            link: "https://twitter.com",
+                          },
+                          {
+                            icon: "photo_camera",
+                            name: "Instagram",
+                            link: "https://instagram.com",
+                          },
+                          {
+                            icon: "play_circle",
+                            name: "YouTube",
+                            link: "https://youtube.com",
+                          },
+                          {
+                            icon: "work",
+                            name: "LinkedIn",
+                            link: "https://linkedin.com",
+                          },
+                        ].map((social, socialindex) => (
+                          <Button
+                            key={socialindex}
+                            href={social.link}
+                            target="_blank"
+                            startIcon={
+                              <span className="material-icons">
+                                {social.icon}
+                              </span>
+                            }
+                            sx={{
+                              color: "white",
+                              border: "2px solid white",
+                              borderRadius: "20px",
+                              px: 2,
+                              py: 0,
+                              "&:hover": {
+                                backgroundColor: "white",
+                                color: "primary.main",
+                              },
+                            }}
+                          >
+                            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                              {social.name}
+                            </Box>
+                          </Button>
+                        ))}
+                      </Box>
+                      <Typography variant="body2" sx={{ mt: 2 }}>
+                        Stay connected with us on social media for the latest
+                        updates and news.
+                      </Typography>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Box
+                        sx={{
+                          borderTop: "1px solid rgba(255,255,255,0.1)",
+                          pt: 2,
+                          mt: 2,
+                          textAlign: "center",
+                        }}
+                      >
+                        <Typography variant="body2">
+                          © 2025 All rights reserved.
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Container>
+              </Box>
             </Box>
             <Dialog // profile dialog
               open={dialogOpen}
@@ -658,10 +1291,28 @@
                       handleDialogToggle();
                       logout();
                     }}
+                    sx={{
+                      color: theme.appBarColor,
+                      borderColor: theme.appBarColor,
+                      "&:hover": {
+                        borderColor: theme.appBarColor,
+                        backgroundColor: `${theme.appBarColor}10`,
+                      },
+                    }}
                   >
                     Log out
                   </Button>
-                  <Button variant="contained" onClick={handleDialogToggle}>
+                  <Button
+                    variant="contained"
+                    onClick={handleDialogToggle}
+                    sx={{
+                      backgroundColor: theme.appBarColor,
+                      "&:hover": {
+                        backgroundColor: theme.appBarColor,
+                        opacity: 0.9,
+                      },
+                    }}
+                  >
                     Close
                   </Button>
                 </Box>
@@ -741,7 +1392,17 @@
                 </List>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleNotificationsToggle}>Close</Button>
+                <Button
+                  onClick={handleNotificationsToggle}
+                  sx={{
+                    color: theme.appBarColor,
+                    "&:hover": {
+                      backgroundColor: `${theme.appBarColor}10`,
+                    },
+                  }}
+                >
+                  Close
+                </Button>
               </DialogActions>
             </Dialog>
 
@@ -750,7 +1411,11 @@
               onClose={handleSettingsToggle}
               fullWidth
             >
-              <DialogTitle>Select Theme and Language</DialogTitle>
+              <DialogTitle
+                sx={{ fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" } }}
+              >
+                Choose Theme & Language
+              </DialogTitle>
               <DialogContent>
                 <Box
                   sx={{
@@ -790,7 +1455,17 @@
                 </Box>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleSettingsToggle}>Close</Button>
+                <Button
+                  onClick={handleSettingsToggle}
+                  sx={{
+                    color: theme.appBarColor,
+                    "&:hover": {
+                      backgroundColor: `${theme.appBarColor}10`,
+                    },
+                  }}
+                >
+                  Close
+                </Button>
               </DialogActions>
             </Dialog>
 
@@ -912,8 +1587,28 @@
                 </Box>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleLoginDialogToggle}>Cancel</Button>
-                <Button variant="contained" onClick={handleLoginSubmit}>
+                <Button
+                  onClick={handleLoginDialogToggle}
+                  sx={{
+                    color: theme.appBarColor,
+                    "&:hover": {
+                      backgroundColor: `${theme.appBarColor}10`,
+                    },
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleLoginSubmit}
+                  sx={{
+                    backgroundColor: theme.appBarColor,
+                    "&:hover": {
+                      backgroundColor: theme.appBarColor,
+                      opacity: 0.9,
+                    },
+                  }}
+                >
                   Login
                 </Button>
               </DialogActions>
