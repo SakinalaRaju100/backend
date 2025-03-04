@@ -805,8 +805,8 @@
                     </Box>
                   </Box>
 
-                  <Box sx={{ width: "270px", overflowX: "auto" }}>
-                    <TableContainer sx={{ minWidth: "650px" }}>
+                  <Box sx={{ width: "100%", overflowX: "auto" }}>
+                    <TableContainer sx={{ minWidth: "250px" }}>
                       <Table sx={{}}>
                         <TableHead>
                           <TableRow sx={{ bgcolor: "primary.main" }}>
@@ -2338,7 +2338,10 @@
                 </List>
               </Box>
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 0.5, m: 0 }}>
+            <Box
+              component="main"
+              sx={{ flexGrow: 1, p: 0.5, m: 0, width: "100%" }}
+            >
               <Toolbar />
 
               <Typography paragraph>Breadcrumb Here</Typography>
