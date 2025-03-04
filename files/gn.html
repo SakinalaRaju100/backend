@@ -118,16 +118,6 @@
       .general .icon {
         margin-right: 10px;
       }
-
-      .enroll-table {
-        font-family: "Roboto", sans-serif;
-        padding: 0px;
-        margin: 1px;
-        /* background-color: #f5f5f5; */
-        background-color: #fff;
-
-        overflow-x: auto;
-      }
     </style>
   </head>
   <body>
@@ -607,7 +597,6 @@
         };
         return (
           <div
-            className="enroll-table"
             style={{
               overflowX: "scroll",
             }}
@@ -816,23 +805,24 @@
                     </Box>
                   </Box>
 
-                  <Box sx={{ overflowX: "auto" }}>
-                    <Table sx={{ minWidth: 650 }}>
-                      <TableHead>
-                        <TableRow sx={{ bgcolor: "primary.main" }}>
-                          <TableCell
-                            sx={{
-                              color: "white",
-                              fontWeight: "bold",
-                              backgroundColor: "primary.main",
-                              position: "sticky",
-                              left: 0,
-                              zIndex: 1,
-                            }}
-                          >
-                            No.
-                          </TableCell>
-                          {/*<TableCell
+                  <Box sx={{ width: "270px", overflowX: "auto" }}>
+                    <TableContainer sx={{ minWidth: "650px" }}>
+                      <Table sx={{}}>
+                        <TableHead>
+                          <TableRow sx={{ bgcolor: "primary.main" }}>
+                            <TableCell
+                              sx={{
+                                color: "white",
+                                fontWeight: "bold",
+                                backgroundColor: "primary.main",
+                                position: "sticky",
+                                left: 0,
+                                zIndex: 1,
+                              }}
+                            >
+                              No.
+                            </TableCell>
+                            {/*<TableCell
                         sx={{
                           // width: "100px",
                           color: "white",
@@ -845,12 +835,12 @@
                       >
                         Full Name
                       </TableCell>*/}
-                          <TableCell
-                            sx={{ color: "white", fontWeight: "bold" }}
-                          >
-                            Full Name
-                          </TableCell>
-                          {/* <TableCell
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Full Name
+                            </TableCell>
+                            {/* <TableCell
                       sx={{
                         color: "white",
                         fontWeight: "bold",
@@ -859,80 +849,83 @@
                       Father
                     </TableCell> */}
 
-                          <TableCell
-                            sx={{
-                              color: "white",
-                              fontWeight: "bold",
-                            }}
-                          >
-                            Gender
-                          </TableCell>
-
-                          <TableCell
-                            sx={{ color: "white", fontWeight: "bold" }}
-                          >
-                            Phone
-                          </TableCell>
-                          <TableCell
-                            sx={{ color: "white", fontWeight: "bold" }}
-                          >
-                            Profession
-                          </TableCell>
-                          <TableCell
-                            sx={{ color: "white", fontWeight: "bold" }}
-                          >
-                            Village
-                          </TableCell>
-
-                          <TableCell
-                            sx={{ color: "white", fontWeight: "bold" }}
-                          >
-                            Batch Year
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {getFilteredlist().map((student, ind) => (
-                          <TableRow
-                            key={ind}
-                            onClick={() => {
-                              setSelectedStudent(student);
-                              setOpenStudentDetailsModal(true);
-                              setChecked(student?.enrolled);
-                              setFamilyMembers(student?.familyMembers);
-                            }}
-                            sx={{
-                              "&:nth-of-type(odd)": { bgcolor: "grey.50" },
-                              "&:hover": { bgcolor: "grey.100" },
-                            }}
-                          >
                             <TableCell
                               sx={{
                                 color: "white",
                                 fontWeight: "bold",
-                                position: "sticky",
-                                left: 0,
-                                backgroundColor: student?.enrolled
-                                  ? "lightblue"
-                                  : "lightgreen",
-                                zIndex: 1,
                               }}
                             >
-                              {student?.Code ?? "-"}
+                              Gender
                             </TableCell>
-                            <TableCell>{student?.fullName ?? "-"}</TableCell>
-                            {/* <TableCell>{student?.father}</TableCell> */}
-                            <TableCell>{student?.gender ?? "-"}</TableCell>
-                            <TableCell>{student?.phone ?? "-"}</TableCell>
-                            <TableCell>
-                              {student?.profession ? student?.profession : "-"}
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Phone
                             </TableCell>
-                            <TableCell>{student?.village ?? "-"}</TableCell>
-                            <TableCell>{student?.batchYear ?? "-"}</TableCell>
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Profession
+                            </TableCell>
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Village
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Batch Year
+                            </TableCell>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                        </TableHead>
+                        <TableBody>
+                          {getFilteredlist().map((student, ind) => (
+                            <TableRow
+                              key={ind}
+                              onClick={() => {
+                                setSelectedStudent(student);
+                                setOpenStudentDetailsModal(true);
+                                setChecked(student?.enrolled);
+                                setFamilyMembers(student?.familyMembers);
+                              }}
+                              sx={{
+                                "&:nth-of-type(odd)": { bgcolor: "grey.50" },
+                                "&:hover": { bgcolor: "grey.100" },
+                              }}
+                            >
+                              <TableCell
+                                sx={{
+                                  color: "white",
+                                  fontWeight: "bold",
+                                  position: "sticky",
+                                  left: 0,
+                                  backgroundColor: student?.enrolled
+                                    ? "lightblue"
+                                    : "lightgreen",
+                                  zIndex: 1,
+                                }}
+                              >
+                                {student?.Code ?? "-"}
+                              </TableCell>
+                              <TableCell>{student?.fullName ?? "-"}</TableCell>
+                              {/* <TableCell>{student?.father}</TableCell> */}
+                              <TableCell>{student?.gender ?? "-"}</TableCell>
+                              <TableCell>{student?.phone ?? "-"}</TableCell>
+                              <TableCell>
+                                {student?.profession
+                                  ? student?.profession
+                                  : "-"}
+                              </TableCell>
+                              <TableCell>{student?.village ?? "-"}</TableCell>
+                              <TableCell>{student?.batchYear ?? "-"}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
                   </Box>
 
                   <Box sx={{ mt: 3, textAlign: "center" }}>
@@ -1955,8 +1948,8 @@
         );
       };
       const HomePage = () => {
-        // const [bodyarea, setBodyarea] = useState("Sales");
-        const [bodyarea, setBodyarea] = useState("Dashboard");
+        const [bodyarea, setBodyarea] = useState("Sales");
+        // const [bodyarea, setBodyarea] = useState("Dashboard");
         const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
         const [loginUser, setLoginUser] = useState("");
