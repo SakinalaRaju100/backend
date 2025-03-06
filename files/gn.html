@@ -174,6 +174,47 @@
         Tooltip,
       } = MaterialUI;
 
+      const branches = [
+        {
+          name: "GN warangal",
+          code: "GNB001",
+          address: {
+            city: "Warangal",
+            state: "TS",
+            country: "india",
+            pincode: "506031",
+          },
+          location: ["12", "13"],
+          status: true,
+          joinDate: "",
+        },
+        {
+          name: "GN Hyderabad",
+          code: "GNB002",
+          address: {
+            city: "Hyderabad",
+            state: "Hyderabad",
+            country: "Hyderabad",
+            pincode: "500301",
+          },
+          location: ["12", "13"],
+          status: true,
+          joinDate: "",
+        },
+        {
+          name: "GN delhi",
+          code: "GNB003",
+          address: {
+            city: "delhi",
+            state: "delhi",
+            country: "india",
+            pincode: "110001",
+          },
+          location: ["12", "13"],
+          status: true,
+          joinDate: "",
+        },
+      ];
       const themes = {
         orange: {
           name: "orange",
@@ -270,7 +311,7 @@
 
       const users = [
         {
-          name: "Raju",
+          fullName: "Raju",
           id: "GNC01",
           role: "customer",
           mobile: "9676610001",
@@ -288,7 +329,7 @@
           careOf: "",
         },
         {
-          name: "Ram",
+          fullName: "Ram",
           id: "GNC02",
           role: "customer",
           mobile: "9676610002",
@@ -306,7 +347,7 @@
           careOf: "",
         },
         {
-          name: "shyam",
+          fullName: "shyam",
           id: "GNS01",
           role: "sales",
           mobile: "9676610003",
@@ -324,7 +365,7 @@
           careOf: "",
         },
         {
-          name: "Arjun",
+          fullName: "Arjun",
           id: "GNA01",
           role: "admin",
           mobile: "9676610004",
@@ -342,7 +383,7 @@
           careOf: "",
         },
         {
-          name: "Chendu",
+          fullName: "Chendu",
           id: "GNC03",
           role: "customer",
           mobile: "9676610005",
@@ -360,7 +401,7 @@
           careOf: "",
         },
         {
-          name: "Abhishek",
+          fullName: "Abhishek",
           id: "GNA02",
           role: "admin",
           mobile: "9676610006",
@@ -378,7 +419,7 @@
           careOf: "",
         },
         {
-          name: "Sridhar",
+          fullName: "Sridhar",
           id: "GNS02",
           role: "sales",
           mobile: "9676610007",
@@ -397,6 +438,8 @@
         },
       ];
 
+      const roles = ["admin", "cluster", "manager", "sales", "customer"];
+
       const Management = () => {
         // let baseURL = "http://localhost:1954";
         // let baseURL = "https://www.zphskunur.in";
@@ -408,18 +451,19 @@
         const [showList, setShowList] = useState(true);
         const [loading, setLoading] = useState(false);
         const [selectedStudent, setSelectedStudent] = React.useState(null);
+        const [newUserModal, setNewUserModal] = React.useState(false);
         const [openStudentDetailsModal, setOpenStudentDetailsModal] =
           React.useState(false);
 
-        const [student, setStudent] = useState({
+        const [user, setUser] = useState({
           fullName: "",
           gender: "",
           father: "",
           email: "",
           phone: "",
           profession: "",
-          village: "Kunur",
-          batchYear: "",
+          branch: "",
+          role: "",
         });
 
         const [errors, setErrors] = useState({});
@@ -429,7 +473,7 @@
 
           switch (name) {
             case "id":
-              if (!value) newErrors.id = "Student ID is required.";
+              if (!value) newErrors.id = "user ID is required.";
               else delete newErrors.id;
               break;
             // case "surname":
@@ -449,38 +493,38 @@
                 delete newErrors.email;
               }
               break;
-            case "phone":
-              if (!value) {
-                newErrors.phone = "Phone number is required.";
-              } else if (!/^\d{10}$/.test(value)) {
-                newErrors.phone = "Phone number must be 10 digits.";
-              } else {
-                delete newErrors.phone;
-              }
-              break;
-            case "address":
-              if (!value) newErrors.address = "Address is required.";
-              else delete newErrors.address;
-              break;
+            // case "phone":
+            //   if (!value) {
+            //     newErrors.phone = "Phone number is required.";
+            //   } else if (!/^\d{10}$/.test(value)) {
+            //     newErrors.phone = "Phone number must be 10 digits.";
+            //   } else {
+            //     delete newErrors.phone;
+            //   }
+            //   break;
+            // case "address":
+            //   if (!value) newErrors.address = "Address is required.";
+            //   else delete newErrors.address;
+            //   break;
             //   case "profession":
             //     if (!value) newErrors.profession = "Profession is required.";
             //     else delete newErrors.profession;
             //     break;
-            case "father":
-              if (!value) newErrors.father = "Father's name is required.";
-              else delete newErrors.father;
-              break;
-            case "profession":
-              if (!value)
-                newErrors.profession = "profession's name is required.";
-              else delete newErrors.profession;
-              break;
-            // case "batchYear":
-            //   if (!value) newErrors.batchYear = "Batch Year is required.";
+            // case "father":
+            //   if (!value) newErrors.father = "Gardian name is required.";
+            //   else delete newErrors.father;
+            //   break;
+            // case "profession":
+            //   if (!value)
+            //     newErrors.profession = "profession's name is required.";
+            //   else delete newErrors.profession;
+            //   break;
+            // case "role":
+            //   if (!value) newErrors.role = "Batch Year is required.";
             //   else if (!/^\d{4}$/.test(value)) {
-            //     newErrors.batchYear = "Batch Year must be a 4-digit year.";
+            //     newErrors.role = "Batch Year must be a 4-digit year.";
             //   } else {
-            //     delete newErrors.batchYear;
+            //     delete newErrors.role;
             //   }
             //   break;
             default:
@@ -492,8 +536,8 @@
 
         const handleChange = (event) => {
           const { name, value } = event.target;
-          setStudent({
-            ...student,
+          setUser({
+            ...user,
             [name]: value,
           });
 
@@ -501,31 +545,46 @@
         };
 
         const handleSubmit = (event) => {
-          console.log("student", student);
-          console.log("errors", errors);
           event.preventDefault();
+          console.log("user", user);
+          console.log("errors", errors);
           try {
             if (
-              Object.keys(errors).length === 0 &&
-              Object.values(student).every((val) => val !== "")
+              Object.keys(errors).length === 0
+              // &&
+              // Object.values(user).every((val) => val !== "")
             ) {
-              axios
-                .post(`${baseURL}/new-enroll`, student)
+              users.push({
+                ...user,
+                roleId: 0,
+                theme: "",
+                active: true,
+                joinDate: "",
+                branchCode: "GNB01",
+                gender: "Male",
+                careOf: "",
+              });
 
-                .then((res) => {
-                  alert(res.data.message);
-                  if (res.data.message != "Same details enrolled") {
-                    setShowList(true);
-                    fetchListDate();
-                  }
-                })
-                .catch((error) => {
-                  // setShowList(true);
-                  // setShowList(false);
-                  // alert("catch", error);
-                  alert(error.message);
-                  console.log("Error occurred:", error);
-                });
+              console.log("users", users);
+              // axios
+              //   .post(`${baseURL}/new-enroll`, user)
+
+              //   .then((res) => {
+              //     alert(res.data.message);
+              //     if (res.data.message != "Same details enrolled") {
+              //       setShowList(true);
+              //       fetchListDate();
+              //     }
+              //   })
+              //   .catch((error) => {
+              //     // setShowList(true);
+              //     // setShowList(false);
+              //     // alert("catch", error);
+              //     alert(error.message);
+              //     console.log("Error occurred:", error);
+              //   });
+
+              setShowList(true);
             } else {
               alert("some fileds missing");
             }
@@ -582,54 +641,25 @@
           }
         };
 
-        const [nameFilter, setNameFilter] = React.useState("");
-        const [nameFilterTemp, setNameFilterTemp] = React.useState("");
+        const [searchFilter, setSearchFilter] = React.useState("");
 
-        const [batchYearFilter, setBatchYearFilter] =
-          React.useState("1999-2000");
+        const [roleFilter, setRoleFilter] = React.useState("");
 
         const getFilteredlist = () => {
-          // console.log("filter", nameFilter, batchYearFilter);
-
-          // console.log("listData", listData);
-          return listData.filter((student) => {
+          console.log("listData", listData);
+          return users.filter((user) => {
             return (
-              (student?.fullName
-                .toLowerCase()
-                .includes(nameFilter.toLowerCase()) ||
-                // student?.father.toLowerCase().includes(nameFilter.toLowerCase()) ||
-                student?.gender
-                  .toLowerCase()
-                  .includes(nameFilter.toLowerCase()) ||
-                student?.village
-                  .toLowerCase()
-                  .includes(nameFilter.toLowerCase()) ||
-                student?.profession
-                  .toLowerCase()
-                  .includes(nameFilter.toLowerCase())) &&
-              (batchYearFilter === "" || student?.batchYear === batchYearFilter)
+              user?.role.toLowerCase().includes(roleFilter.toLowerCase()) &&
+              user?.fullName.toLowerCase().includes(searchFilter.toLowerCase())
             );
           });
         };
-        // console.log("getFilteredlist", getFilteredlist());
 
         const clearStudentFilters = () => {
-          setNameFilter("");
+          setSearchFilter("");
+          setRoleFilter("");
+        };
 
-          setBatchYearFilter("");
-        };
-        const getBatchYears = () => {
-          const currentYear = new Date().getFullYear() - 1;
-          const years = Array.from({ length: 55 }, (_, i) => {
-            const year = currentYear - i;
-            return `${year}-${year + 1}`;
-          });
-          // return years.reverse(); // Reverse to get the latest years first
-          return years; // Reverse to get the latest years first
-        };
-        const handleRowClick = (student) => {
-          // console.log("student", student);
-        };
         return (
           <div
             style={{
@@ -642,7 +672,7 @@
               </div>
             ) : showList ? (
               <div className="form-container">
-                <Box sx={{ p: 3 }} className="box">
+                <Box sx={{ p: 1, m: 1 }} className="box">
                   <Box
                     sx={{
                       display: "flex",
@@ -656,13 +686,7 @@
                       gutterBottom
                       sx={{ fontWeight: "bold", fontSize: "1.25rem" }} // Reduced font size
                     >
-                      Enrollments (active:{" "}
-                      {listData.reduce(
-                        (acc, el) =>
-                          acc + (el.enrolled ? 1 : 0) + el.familyMembers,
-                        0
-                      )}
-                      )
+                      Users
                     </Typography>
                   </Box>
                   <Box
@@ -678,43 +702,26 @@
                       gutterBottom
                       sx={{ fontWeight: "bold", fontSize: "1rem" }} // Reduced font size
                     >
-                      All :{" "}
-                      {listData.reduce(
-                        (acc, el) => acc + (el.enrolled ? 1 : 0),
-                        0
-                      )}{" "}
-                      / {listData.length}
+                      filtered : {users.reduce((acc, el) => acc + 1, 0)} /{" "}
+                      {users.length}
                     </Typography>
-
-                    <Typography
-                      variant="h5"
-                      gutterBottom
-                      sx={{ fontWeight: "bold", fontSize: "1rem" }} // Reduced font size
-                    >
-                      Search :{" "}
-                      {getFilteredlist().reduce(
-                        (acc, el) => acc + (el.enrolled ? 1 : 0),
-                        0
-                      )}{" "}
-                      / {getFilteredlist().length}
-                    </Typography>
-                  </Box>
-
-                  {/* New Student Button */}
-                  <Box sx={{ mb: 3, textAlign: "right" }}>
                     <Button
                       onClick={() => {
-                        alert("Contact administrator");
-                        // setShowList(false);
+                        // alert("Contact administrator");
+                        setShowList(false);
+                        setNewUserModal(true);
                       }}
                       variant="contained"
                       color="primary"
                       // href="https://zphs-school.vercel.app/enroll-form"
                       // href="https://sakinalaraju100.github.io/zphs-school/public/addStudentForm.html"
                     >
-                      New enroll
+                      New User
                     </Button>
                   </Box>
+
+                  {/* New user Button */}
+                  <Box sx={{ mb: 3, textAlign: "right" }}></Box>
 
                   {/* Filters Section */}
 
@@ -750,10 +757,12 @@
                             school
                           </span>
                           <select
-                            value={batchYearFilter}
+                            value={roleFilter}
                             onChange={(e) => {
-                              // console.log("batchYearFilter", e.target.value);
-                              setBatchYearFilter(e.target.value);
+                              // console.log("roleFilter", e.target.value);
+                              setRoleFilter(e.target.value);
+                              setSearchFilter("");
+                              getFilteredlist();
                             }}
                             style={{
                               border: "none",
@@ -763,10 +772,10 @@
                               width: "100%",
                             }}
                           >
-                            <option value="">All Batch Years</option>
-                            {getBatchYears().map((year) => (
-                              <option key={year} value={year}>
-                                {year}
+                            <option value="">All</option>
+                            {roles.map((role, ri) => (
+                              <option key={ri + role} value={role}>
+                                {role}
                               </option>
                             ))}
                           </select>
@@ -795,22 +804,19 @@
                           </span>
                           <input
                             type="text"
-                            // value={nameFilter}
-                            // onChange={(e) => setNameFilter(e.target.value)}
-                            value={nameFilterTemp}
+                            // value={searchFilter}
+                            // onChange={(e) => setSearchFilter(e.target.value)}
+                            value={searchFilter}
                             onChange={(e) => {
-                              setNameFilterTemp(e.target.value);
-                              console.log(
-                                "e.target.value.length",
-                                e.target.value.length
-                              );
-                              if (e.target.value.length > 2) {
-                                setNameFilter(e.target.value);
-                              } else {
-                                setNameFilter("");
-                              }
+                              setSearchFilter(e.target.value);
+                              getFilteredlist();
+                              // if (e.target.value.length > 2) {
+                              //   // setSearchFilter(e.target.value);
+                              // } else {
+                              //   setSearchFilter("");
+                              // }
                             }}
-                            placeholder="Filter by name, profession, gender or village..."
+                            placeholder="Filter by name, role, gender, mobile or branch..."
                             style={{
                               border: "none",
                               outline: "none",
@@ -819,11 +825,10 @@
                               width: "100%",
                             }}
                           />
-                          {nameFilter && (
+                          {searchFilter && (
                             <IconButton
                               onClick={() => {
-                                setNameFilter("");
-                                setNameFilterTemp("");
+                                setSearchFilter("");
                               }}
                               sx={{ ml: 1 }}
                             >
@@ -857,32 +862,12 @@
                             >
                               Code
                             </TableCell>
-                            {/*<TableCell
-                        sx={{
-                          // width: "100px",
-                          color: "white",
-                          fontWeight: "bold",
-                          backgroundColor: "primary.main",
-                          position: "sticky",
-                          left: 0,
-                          zIndex: 1,
-                        }}
-                      >
-                        Full Name
-                      </TableCell>*/}
+
                             <TableCell
                               sx={{ color: "white", fontWeight: "bold" }}
                             >
                               Full Name
                             </TableCell>
-                            {/* <TableCell
-                      sx={{
-                        color: "white",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Father
-                    </TableCell> */}
 
                             <TableCell
                               sx={{ color: "white", fontWeight: "bold" }}
@@ -914,15 +899,14 @@
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {/* {getFilteredlist().map((student, ind) => (*/}
-                          {users.map((student, ind) => (
+                          {getFilteredlist().map((user, ind) => (
                             <TableRow
                               key={ind}
                               onClick={() => {
-                                setSelectedStudent(student);
+                                setSelectedStudent(user);
                                 setOpenStudentDetailsModal(true);
-                                // setChecked(student?.enrolled);
-                                // setFamilyMembers(student?.familyMembers);
+                                // setChecked(user?.enrolled);
+                                // setFamilyMembers(user?.familyMembers);
                               }}
                               sx={{
                                 "&:nth-of-type(odd)": { bgcolor: "grey.50" },
@@ -935,23 +919,21 @@
                                   fontWeight: "bold",
                                   position: "sticky",
                                   left: 0,
-                                  backgroundColor: student?.enrolled
+                                  backgroundColor: user?.enrolled
                                     ? "lightblue"
                                     : "lightgreen",
                                   zIndex: 1,
                                 }}
                               >
-                                {student?.id ?? "-"}
+                                {user?.id ?? "-"}
                               </TableCell>
-                              <TableCell>{student?.name ?? "-"}</TableCell>
-                              {/* <TableCell>{student?.father}</TableCell> */}
-                              <TableCell>{student?.role ?? "-"}</TableCell>
-                              <TableCell>
-                                {student?.branchCode ?? "-"}
-                              </TableCell>
-                              <TableCell>{student?.mobile ?? "-"}</TableCell>
-                              <TableCell>{student?.email ?? "-"}</TableCell>
-                              <TableCell>{student?.address ?? "-"}</TableCell>
+                              <TableCell>{user?.fullName ?? "-"}</TableCell>
+                              {/* <TableCell>{user?.father}</TableCell> */}
+                              <TableCell>{user?.role ?? "-"}</TableCell>
+                              <TableCell>{user?.branchCode ?? "-"}</TableCell>
+                              <TableCell>{user?.mobile ?? "-"}</TableCell>
+                              <TableCell>{user?.email ?? "-"}</TableCell>
+                              <TableCell>{user?.address ?? "-"}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -975,7 +957,7 @@
               </div>
             ) : (
               <div className="form-container">
-                <h2>Student Information Form</h2>
+                <h2>New User Form</h2>
                 <form onSubmit={handleSubmit}>
                   {/*  <form
                   action="https://zphs-school.vercel.app/new-enroll"
@@ -983,33 +965,31 @@
                 >*/}
                   {/* Batch Year */}
                   <FormControl fullWidth margin="normal">
-                    <InputLabel>Batch Year</InputLabel>
+                    <InputLabel>Role</InputLabel>
                     <Select
-                      label="Batch Year"
-                      name="batchYear"
-                      value={student.batchYear}
+                      label="Rale"
+                      name="role"
+                      value={user.role}
                       onChange={handleChange}
                     >
-                      {Array.from({ length: 55 }, (_, index) => {
+                      {roles.map((role, index) => {
                         const year = new Date().getFullYear() - index;
                         return (
-                          <MenuItem key={year} value={year - 1 + "-" + year}>
-                            {year - 1}
-                            {"-"}
-                            {year}
+                          <MenuItem key={index} value={role}>
+                            {role}
                           </MenuItem>
                         );
                       })}
                     </Select>
-                    <FormHelperText error={Boolean(errors.batchYear)}>
-                      {errors.batchYear}
+                    <FormHelperText error={Boolean(errors.role)}>
+                      {errors.role}
                     </FormHelperText>
                   </FormControl>
                   {/* Name */}
                   <TextField
-                    label="Name"
+                    label="full Name"
                     name="fullName"
-                    value={student.fullName}
+                    value={user.fullName}
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
@@ -1018,9 +998,9 @@
                   />
                   {/* Father's Name */}
                   <TextField
-                    label="Father's Name"
+                    label="Care Of Person"
                     name="father"
-                    value={student.father}
+                    value={user.father}
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
@@ -1033,7 +1013,7 @@
                     <Select
                       label="Gender"
                       name="gender"
-                      value={student.gender}
+                      value={user.gender}
                       onChange={handleChange}
                     >
                       <MenuItem value="Male">Male</MenuItem>
@@ -1046,7 +1026,7 @@
                     label="Email"
                     name="email"
                     type="email"
-                    value={student.email}
+                    value={user.email}
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
@@ -1057,7 +1037,7 @@
                   <TextField
                     label="Phone"
                     name="phone"
-                    value={student.phone}
+                    value={user.phone}
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
@@ -1065,39 +1045,20 @@
                     helperText={errors.phone}
                   />
 
-                  {/* profession */}
-                  <TextField
-                    label="Profession"
-                    name="profession"
-                    value={student.profession}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.profession)}
-                    helperText={errors.profession}
-                  />
-
                   {/* Village */}
                   <FormControl fullWidth margin="normal">
-                    <InputLabel>Village</InputLabel>
+                    <InputLabel>Branch</InputLabel>
                     <Select
-                      label="Village"
-                      name="village"
-                      value={student.village}
+                      label="Branch"
+                      name="Branch"
+                      value={user.village}
                       onChange={handleChange}
                     >
-                      <MenuItem value="Kunur">Kunur</MenuItem>
-                      <MenuItem value="Raghunathpalle">Raghunathpally</MenuItem>
-                      <MenuItem value="Konaichelam">Konaichelam</MenuItem>
-                      <MenuItem value="Garmilapally">Garmilapally</MenuItem>
-                      <MenuItem value="Thammadapally">Thammadapally</MenuItem>
-                      <MenuItem value="Uppugal">Uppugal</MenuItem>
-                      <MenuItem value="Dharmapuram">Dharmapuram</MenuItem>
-                      <MenuItem value="Venkatapuram">Venkatapuram</MenuItem>
-                      <MenuItem value="Mallakpally">Mallakpally</MenuItem>
-                      <MenuItem value="Reddypuram">Reddypuram</MenuItem>
-                      <MenuItem value="Lingamorigudem">Lingamorigudem</MenuItem>
-                      <MenuItem value="Others">Others</MenuItem>
+                      {branches.map((branch) => (
+                        <MenuItem key={branch?.code} value={branch?.code}>
+                          {branch?.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
 
@@ -1131,7 +1092,7 @@
               </div>
             )}
 
-            {/* Modal for Student Details*/}
+            {/* Modal for user Details*/}
             {selectedStudent && (
               <Dialog
                 open={openStudentDetailsModal}
@@ -1195,8 +1156,8 @@
                         fontSize: { xs: "12px", md: "15px", lg: "18px" },
                       }}
                     >
-                      {/* Display student's photo in a circle */}
-                      <Box
+                      {/* Display user's photo in a circle */}
+                      {/*<Box
                         component="img"
                         // src={
                         //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
@@ -1209,9 +1170,9 @@
                           borderRadius: "50%",
                           objectFit: "cover",
                         }}
-                      />
+                      />*/}
 
-                      {/* Display student details */}
+                      {/* Display user details */}
 
                       <Typography
                         variant="body1"
@@ -1231,7 +1192,7 @@
                         }}
                       >
                         <strong>Full Name:</strong>{" "}
-                        {selectedStudent?.name ?? "-"}
+                        {selectedStudent?.fullName ?? "-"}
                       </Typography>
                       <Typography
                         variant="body1"
@@ -2134,8 +2095,8 @@
         );
       };
       const HomePage = () => {
-        // const [bodyarea, setBodyarea] = useState("Sales");
-        const [bodyarea, setBodyarea] = useState("Dashboard");
+        const [bodyarea, setBodyarea] = useState("Sales");
+        // const [bodyarea, setBodyarea] = useState("Dashboard");
         const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
         const [loginUser, setLoginUser] = useState("");
@@ -2568,7 +2529,7 @@
                     }}
                   />
                   <Typography variant="h6" sx={{ mt: 2 }}>
-                    {loginData?.name ?? ""}
+                    {loginData?.fullName ?? ""}
                   </Typography>
                   <Typography variant="body2">
                     Role : {loginData?.role ?? ""}
