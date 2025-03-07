@@ -674,7 +674,7 @@
               </div>
             ) : showList ? (
               <div className="form-container">
-                <Box sx={{ p: 1, m: 1 }} className="box">
+                <Box sx={{ p: 0, m: 0, width: "100%" }} className="box">
                   <Box
                     sx={{
                       display: "flex",
@@ -1437,12 +1437,12 @@
                 sx={{
                   display: "inline-block",
                   // minWidth: "200px",
-                  maxWidth: {
-                    xs: "320px", // Full width on extra-small screens
-                    sm: "450px", // 450px on small screens
-                    md: "768px", // 600px on medium screens
-                    lg: "1024px", // 800px on large screens
-                  },
+                  // maxWidth: {
+                  //   xs: "320px", // Full width on extra-small screens
+                  //   sm: "450px", // 450px on small screens
+                  //   md: "768px", // 600px on medium screens
+                  //   lg: "1024px", // 800px on large screens
+                  // },
                   my: 4,
 
                   position: "relative",
@@ -2356,7 +2356,14 @@
                 >
                   <span className="material-icons">menu</span>
                 </IconButton>
-                <Typography variant="h6" noWrap component="div">
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component="div"
+                  onClick={() => {
+                    setBodyarea("Dashboard");
+                  }}
+                >
                   Goldnoon
                   <span style={{ fontSize: "8px" }}>
                     {" "}
