@@ -125,7 +125,6 @@
 
     <script type="text/babel">
       const { useState, useEffect } = React;
-
       const {
         AppBar,
         Box,
@@ -167,11 +166,14 @@
         Avatar,
         Drawer,
         List,
+        Link,
+        Stack,
         ListItem,
         ListItemIcon,
         ListItemText,
         Divider,
         Tooltip,
+        Breadcrumbs,
       } = MaterialUI;
 
       const branches = [
@@ -702,7 +704,8 @@
                       gutterBottom
                       sx={{ fontWeight: "bold", fontSize: "1rem" }} // Reduced font size
                     >
-                      filtered : {users.reduce((acc, el) => acc + 1, 0)} /{" "}
+                      filtered :{" "}
+                      {getFilteredlist().reduce((acc, el) => acc + 1, 0)} /{" "}
                       {users.length}
                     </Typography>
                     <Button
@@ -2095,6 +2098,34 @@
         );
       };
       const HomePage = () => {
+        function handleClick(view) {
+          setBodyarea((pre) => view);
+          event.preventDefault();
+          console.info("You clicked a breadcrumb.");
+        }
+        const breadcrumbs = [
+          <Link
+            underline="hover"
+            key="1"
+            color="inherit"
+            href="/"
+            onClick={() => handleClick("Dashboard")}
+          >
+            Home
+          </Link>,
+          <Link
+            underline="hover"
+            key="2"
+            color="inherit"
+            href="/material-ui/getting-started/installation/"
+            onClick={() => handleClick("Sales")}
+          >
+            Management
+          </Link>,
+          <Typography key="3" sx={{ color: "text.primary" }}>
+            view
+          </Typography>,
+        ];
         const [bodyarea, setBodyarea] = useState("Sales");
         // const [bodyarea, setBodyarea] = useState("Dashboard");
         const [loginDialogOpen, setLoginDialogOpen] = useState(false);
@@ -2490,8 +2521,15 @@
               sx={{ flexGrow: 1, p: 0.5, m: 0, width: "100%" }}
             >
               <Toolbar />
-
-              <Typography paragraph>Breadcrumb Here</Typography>
+              <Stack spacing={2}>
+                <Breadcrumbs
+                  // separator={<NavigateNextIcon fontSize="small" />}
+                  separator="›"
+                  aria-label="breadcrumb"
+                >
+                  {breadcrumbs}
+                </Breadcrumbs>
+              </Stack>
               {bodyarea == "Dashboard" && <Dashboard />}
               {bodyarea == "Customers" && <Customers />}
               {bodyarea == "Sales" && <Management />}
