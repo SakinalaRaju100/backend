@@ -453,7 +453,7 @@
         const [showList, setShowList] = useState(true);
         const [loading, setLoading] = useState(false);
         const [selectedStudent, setSelectedStudent] = React.useState(null);
-        const [newUserModal, setNewUserModal] = React.useState(false);
+        // const [newUserModal, setNewUserModal] = React.useState(false);
         const [openStudentDetailsModal, setOpenStudentDetailsModal] =
           React.useState(false);
 
@@ -712,7 +712,7 @@
                       onClick={() => {
                         // alert("Contact administrator");
                         setShowList(false);
-                        setNewUserModal(true);
+                        // setNewUserModal(true);
                       }}
                       variant="contained"
                       color="primary"
@@ -959,38 +959,43 @@
                 </Box>
               </div>
             ) : (
-              <div className="form-container">
-                <h2>New User Form</h2>
+              <Box
+                sx={{
+                  maxWidth: "500px",
+                  margin: "auto",
+                  padding: "20px",
+                  backgroundColor: "#fff",
+                  borderRadius: "8px",
+                  boxShadow: 2,
+                }}
+              >
+                <Typography variant="h5" textAlign="center" mb={2}>
+                  New User Form
+                </Typography>
                 <form onSubmit={handleSubmit}>
-                  {/*  <form
-                  action="https://zphs-school.vercel.app/new-enroll"
-                  method="POST"
-                >*/}
-                  {/* Batch Year */}
+                  {/* Role Selection */}
                   <FormControl fullWidth margin="normal">
                     <InputLabel>Role</InputLabel>
                     <Select
-                      label="Rale"
+                      label="Role"
                       name="role"
                       value={user.role}
                       onChange={handleChange}
                     >
-                      {roles.map((role, index) => {
-                        const year = new Date().getFullYear() - index;
-                        return (
-                          <MenuItem key={index} value={role}>
-                            {role}
-                          </MenuItem>
-                        );
-                      })}
+                      {roles.map((role, index) => (
+                        <MenuItem key={index} value={role}>
+                          {role}
+                        </MenuItem>
+                      ))}
                     </Select>
                     <FormHelperText error={Boolean(errors.role)}>
                       {errors.role}
                     </FormHelperText>
                   </FormControl>
-                  {/* Name */}
+
+                  {/* Full Name */}
                   <TextField
-                    label="full Name"
+                    label="Full Name"
                     name="fullName"
                     value={user.fullName}
                     onChange={handleChange}
@@ -999,7 +1004,8 @@
                     error={Boolean(errors.fullName)}
                     helperText={errors.fullName}
                   />
-                  {/* Father's Name */}
+
+                  {/* Care Of Person */}
                   <TextField
                     label="Care Of Person"
                     name="father"
@@ -1010,7 +1016,8 @@
                     error={Boolean(errors.father)}
                     helperText={errors.father}
                   />
-                  {/* Gender */}
+
+                  {/* Gender Selection */}
                   <FormControl fullWidth margin="normal">
                     <InputLabel>Gender</InputLabel>
                     <Select
@@ -1036,6 +1043,7 @@
                     error={Boolean(errors.email)}
                     helperText={errors.email}
                   />
+
                   {/* Phone */}
                   <TextField
                     label="Phone"
@@ -1048,13 +1056,13 @@
                     helperText={errors.phone}
                   />
 
-                  {/* Village */}
+                  {/* Branch Selection */}
                   <FormControl fullWidth margin="normal">
                     <InputLabel>Branch</InputLabel>
                     <Select
                       label="Branch"
-                      name="Branch"
-                      value={user.village}
+                      name="branch"
+                      value={user.branch}
                       onChange={handleChange}
                     >
                       {branches.map((branch) => (
@@ -1065,20 +1073,20 @@
                     </Select>
                   </FormControl>
 
-                  {/* Button Actions */}
-                  <div
-                    style={{
+                  {/* Buttons */}
+                  <Box
+                    sx={{
                       display: "flex",
-                      justifyContent: "space-between",
-                      marginTop: "20px",
+                      flexDirection: { xs: "column", sm: "row" },
+                      gap: 2,
+                      mt: 3,
                     }}
                   >
                     <Button
-                      // onClick={() => window.history.back()}
                       onClick={() => setShowList(true)}
                       variant="outlined"
                       color="secondary"
-                      style={{ flex: 1, marginRight: "10px" }} // Added margin for spacing
+                      fullWidth
                     >
                       Back
                     </Button>
@@ -1086,13 +1094,13 @@
                       type="submit"
                       variant="contained"
                       color="primary"
-                      style={{ flex: 1 }} // Adjusted to take equal space
+                      fullWidth
                     >
                       Submit
                     </Button>
-                  </div>
+                  </Box>
                 </form>
-              </div>
+              </Box>
             )}
 
             {/* Modal for user Details*/}
@@ -2126,6 +2134,8 @@
             view
           </Typography>,
         ];
+        const [customerSignUPDialogOpen, setCustomerSignUPDialogOpen] =
+          useState(false);
         const [bodyarea, setBodyarea] = useState("Sales");
         // const [bodyarea, setBodyarea] = useState("Dashboard");
         const [loginDialogOpen, setLoginDialogOpen] = useState(false);
@@ -2136,6 +2146,80 @@
         const [password, setPassword] = useState("");
 
         const [loginData, setLoginData] = useState(null);
+        const [newCustomer, setNewCustomer] = useState(null);
+
+        const [user, setUser] = useState({
+          fullName: "",
+          gender: "",
+          father: "",
+          email: "",
+          phone: "",
+          profession: "",
+          branch: "",
+          role: "",
+        });
+
+        const [errors, setErrors] = useState({});
+
+        const handleChange = (event) => {
+          const { name, value } = event.target;
+          setUser({
+            ...user,
+            [name]: value,
+          });
+
+          validateField(name, value); // validate each field on change
+        };
+
+        const handleSubmit = (event) => {
+          event.preventDefault();
+          console.log("user", user);
+          console.log("errors", errors);
+          try {
+            if (
+              Object.keys(errors).length === 0
+              // &&
+              // Object.values(user).every((val) => val !== "")
+            ) {
+              users.push({
+                ...user,
+                roleId: 0,
+                theme: "",
+                active: true,
+                joinDate: "",
+                branchCode: "GNB01",
+                gender: "Male",
+                careOf: "",
+              });
+
+              console.log("users", users);
+              // axios
+              //   .post(`${baseURL}/new-enroll`, user)
+
+              //   .then((res) => {
+              //     alert(res.data.message);
+              //     if (res.data.message != "Same details enrolled") {
+              //       setShowList(true);
+              //       fetchListDate();
+              //     }
+              //   })
+              //   .catch((error) => {
+              //     // setShowList(true);
+              //     // setShowList(false);
+              //     // alert("catch", error);
+              //     alert(error.message);
+              //     console.log("Error occurred:", error);
+              //   });
+
+              // setShowList(true);
+            } else {
+              alert("some fileds missing");
+            }
+          } catch (err) {
+            console.log("err", err);
+          }
+          // Final validation before submission
+        };
 
         const [open, setOpen] = useState(false); // profle popup
         const [dialogOpen, setDialogOpen] = useState(false);
@@ -2788,7 +2872,35 @@
               onClose={handleLoginDialogToggle}
               fullWidth
             >
-              <DialogTitle>Login</DialogTitle>
+              <DialogTitle>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <Typography>Login</Typography>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => {
+                      console.log("Open a popup for new customer sign up");
+                      handleLoginDialogToggle();
+                      setCustomerSignUPDialogOpen(true);
+                    }}
+                    sx={{
+                      color: theme.appBarColor,
+                      "&:hover": {
+                        backgroundColor: `${theme.appBarColor}10`,
+                      },
+                    }}
+                  >
+                    New Customer
+                  </Button>
+                </div>
+              </DialogTitle>
               <DialogContent>
                 <Box
                   sx={{
@@ -2926,6 +3038,203 @@
                   Login
                 </Button>
               </DialogActions>
+            </Dialog>
+            {/* Sign In Dialog */}
+            <Dialog
+              open={customerSignUPDialogOpen}
+              onClose={() => setCustomerSignUPDialogOpen(false)}
+              fullWidth
+            >
+              <DialogTitle>New Customer</DialogTitle>
+              {/*<DialogContent>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  <TextField
+                    label="Full Name"
+                    variant="outlined"
+                    fullWidth
+                    // value={newCustomerName}
+                    // onChange={(e) => setNewCustomerName(e.target.value)}
+                  />
+                  <TextField
+                    label="Email"
+                    type="email"
+                    variant="outlined"
+                    fullWidth
+                    // value={newCustomerEmail}
+                    // onChange={(e) => setNewCustomerEmail(e.target.value)}
+                  />
+                  <TextField
+                    label="Mobile Number"
+                    type="tel"
+                    variant="outlined"
+                    fullWidth
+                    // value={newCustomerMobile}
+                    // onChange={(e) => setNewCustomerMobile(e.target.value)}
+                  />
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setCustomerSignUPDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    console.log("first");
+                  }} // Function to handle sign-in submission
+                >
+                  New Login
+                </Button>
+              </DialogActions>*/}
+
+              <Box
+                sx={{
+                  maxWidth: "500px",
+                  margin: "auto",
+                  padding: "20px",
+                  backgroundColor: "#fff",
+                  borderRadius: "8px",
+                  boxShadow: 2,
+                }}
+              >
+                <Typography variant="h5" textAlign="center" mb={2}>
+                  New User Form
+                </Typography>
+                <form onSubmit={() => {}}>
+                  {/* Role Selection */}
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel>Role</InputLabel>
+                    <Select
+                      label="Role"
+                      name="role"
+                      value={user.role}
+                      onChange={handleChange}
+                    >
+                      {roles.map((role, index) => (
+                        <MenuItem key={index} value={role}>
+                          {role}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <FormHelperText error={Boolean(errors.role)}>
+                      {errors.role}
+                    </FormHelperText>
+                  </FormControl>
+
+                  {/* Full Name */}
+                  <TextField
+                    label="Full Name"
+                    name="fullName"
+                    value={user.fullName}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.fullName)}
+                    helperText={errors.fullName}
+                  />
+
+                  {/* Care Of Person */}
+                  <TextField
+                    label="Care Of Person"
+                    name="father"
+                    value={user.father}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.father)}
+                    helperText={errors.father}
+                  />
+
+                  {/* Gender Selection */}
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel>Gender</InputLabel>
+                    <Select
+                      label="Gender"
+                      name="gender"
+                      value={user.gender}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="Male">Male</MenuItem>
+                      <MenuItem value="Female">Female</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                  {/* Email */}
+                  <TextField
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={user.email}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.email)}
+                    helperText={errors.email}
+                  />
+
+                  {/* Phone */}
+                  <TextField
+                    label="Phone"
+                    name="phone"
+                    value={user.phone}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.phone)}
+                    helperText={errors.phone}
+                  />
+
+                  {/* Branch Selection */}
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel>Branch</InputLabel>
+                    <Select
+                      label="Branch"
+                      name="branch"
+                      value={user.branch}
+                      onChange={handleChange}
+                    >
+                      {branches.map((branch) => (
+                        <MenuItem key={branch?.code} value={branch?.code}>
+                          {branch?.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
+                  {/* Buttons */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: { xs: "column", sm: "row" },
+                      gap: 2,
+                      mt: 3,
+                    }}
+                  >
+                    <Button
+                      onClick={() => setCustomerSignUPDialogOpen(false)}
+                      variant="outlined"
+                      color="secondary"
+                      fullWidth
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+                </form>
+              </Box>
             </Dialog>
           </Box>
         );
