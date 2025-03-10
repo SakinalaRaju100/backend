@@ -263,45 +263,31 @@
       // Achievements Section
       const achievements = [
         {
-          title: "State Level Science Fair Winners",
-          date: "August 2023",
-          description:
-            "Our students won first place in the State Level Science Fair Competition",
-          icon: "emoji_events",
-        },
-        {
-          title: "100% Pass Rate in Class X",
-          date: "May 2023",
-          description:
-            "All our students successfully passed Class X examinations with distinction",
-          icon: "school",
-        },
-        {
-          title: "Best School Award",
-          date: "July 2023",
-          description:
-            "Received Best School Award from the District Education Department",
+          title: "Founder",
+          date: "July 2019",
+          description: "Pitta. Rajaiah",
           icon: "stars",
         },
         {
-          title: "National Sports Championship",
-          date: "July 2023",
-          description:
-            "Our school team won Gold in National Level Sports Championship",
+          title: "Co - Founder",
+          date: "July 2019",
+          description: "Dhanraj Kalluri",
           icon: "sports_score",
         },
         {
-          title: "Math Olympiad Winners",
-          date: "June 2023",
-          description: "Students secured top positions in State Math Olympiad",
-          icon: "calculate",
+          title: "SLV Tech Solutions",
+          date: "August 2023",
+          description: "Steping into Successful route",
+          icon: "emoji_events",
         },
         {
-          title: "Cultural Excellence",
-          date: "May 2023",
-          description: "First prize in State Level Cultural Competition",
-          icon: "theater_comedy",
+          title: "Skill Development",
+          date: "May 2022",
+          description:
+            "Conducting Programs to bring financial awaireness in Public",
+          icon: "school",
         },
+
         {
           title: "View More Achievements",
           date: "",
@@ -1293,16 +1279,16 @@
               label: "Welcome Goldnoon Fintech",
               imgPath:
                 "https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-              description: "Empowering minds, Building futures",
+              description: "We deal your financial solutions..",
             },
             {
-              label: "Empowering through Money",
+              label: "One Stop For financial needs",
               imgPath:
                 "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
               description: "Excellence in Learning",
             },
             {
-              label: "Explore Facilities",
+              label: "Empowering with Goldnoon",
               imgPath:
                 "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
               description: "State-of-the-art Infrastructure",
@@ -1369,23 +1355,61 @@
                   >
                     <Typography
                       variant="body"
-                      component="h1"
+                      component="h3"
                       gutterBottom
                       sx={{
-                        fontSize: { xs: "2rem", sm: "3rem", md: "3.75rem" },
+                        fontSize: { xs: "1.75rem", sm: "3rem", md: "3.75rem" },
                       }}
                     >
                       {carouselImages[activeStep].label}
                     </Typography>
-                    <Typography
-                      variant="h5"
-                      paragraph
-                      sx={{
-                        fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.5rem" },
-                      }}
-                    >
-                      {carouselImages[activeStep].description}
-                    </Typography>
+                    {activeStep == 0 && (
+                      <Typography
+                        variant="h5"
+                        paragraph
+                        sx={{
+                          fontSize: {
+                            xs: "1.2rem",
+                            sm: "1.5rem",
+                            md: "1.5rem",
+                          },
+
+                          color: theme.appBarColor,
+                        }}
+                      >
+                        {carouselImages[activeStep].description}
+                      </Typography>
+                    )}
+                    {activeStep == 1 && (
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => {
+                          setCustomerSignUPDialogOpen(true);
+                        }}
+                        sx={{
+                          color: theme.appBarColor,
+                          // bgcolor: theme.appBarColor,
+                        }}
+                      >
+                        New Customer
+                      </Button>
+                    )}
+                    {activeStep == 2 && (
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => {
+                          setShareInterestDialogOpen(true);
+                        }}
+                        sx={{
+                          color: theme.appBarColor,
+                          // bgcolor: theme.appBarColor,
+                        }}
+                      >
+                        Become a Partner
+                      </Button>
+                    )}
                   </Container>
                 </Paper>
                 <MobileStepper
@@ -1404,37 +1428,7 @@
               </Box>
 
               {/* News & Updates */}
-              <Box
-                sx={{
-                  bgcolor: "grey.100",
-                  pt: 2,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-                gap={2}
-              >
-                <Button
-                  size="small"
-                  variant="outlined"
-                  onClick={() => {
-                    setCustomerSignUPDialogOpen(true);
-                  }}
-                >
-                  New Customer
-                </Button>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  onClick={() => {
-                    setShareInterestDialogOpen(true);
-                  }}
-                >
-                  Become a Partner
-                </Button>
-              </Box>
-
-              {/* News & Updates */}
-              <Box sx={{ bgcolor: "grey.100", py: 1 }}>
+              <Box sx={{ bgcolor: "grey.100", py: 2 }}>
                 <Container maxWidth="lg">
                   <Typography
                     variant="body"
@@ -1502,7 +1496,7 @@
                     //   md: "768px", // 600px on medium screens
                     //   lg: "1024px", // 800px on large screens
                     // },
-                    my: 4,
+                    my: 2,
 
                     position: "relative",
                     "& .MuiContainer-root": {
@@ -1522,7 +1516,7 @@
                     sx={{
                       textAlign: "center",
                       mb: 4,
-                      fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
+                      fontSize: { xs: "1.25rem", sm: "2rem", md: "2.25rem" },
                       position: "relative",
                       "&:after": {
                         content: '""',
@@ -1532,11 +1526,11 @@
                         transform: "translateX(-50%)",
                         width: "60px",
                         height: "3px",
-                        backgroundColor: "primary.main",
+                        backgroundColor: theme.appBarColor,
                       },
                     }}
                   >
-                    Latest Achievements
+                    Our Founders & Achievements
                   </Typography>
 
                   <Box sx={{ position: "relative" }}>
@@ -1580,7 +1574,7 @@
                           sx={{
                             minWidth: 300,
                             maxWidth: 300,
-                            height: "300px",
+                            height: "200px",
                             flex: "0 0 auto",
                             display: "flex",
                             flexDirection: "column",
@@ -1741,8 +1735,46 @@
                 </Container>
               </Box>
 
+              {/* New Customer and Become apartner button */}
+              <Box
+                sx={{
+                  bgcolor: "grey.100",
+                  pt: 2,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                gap={2}
+              >
+                <Button
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    color: theme.appBarColor,
+                    // bgcolor: theme.appBarColor,
+                  }}
+                  onClick={() => {
+                    setCustomerSignUPDialogOpen(true);
+                  }}
+                >
+                  New Customer
+                </Button>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    color: theme.appBarColor,
+                    // bgcolor: theme.appBarColor,
+                  }}
+                  onClick={() => {
+                    setShareInterestDialogOpen(true);
+                  }}
+                >
+                  Become a Partner
+                </Button>
+              </Box>
+
               {/* About Us Section */}
-              <Box sx={{ py: 6, bgcolor: "grey.100" }}>
+              <Box sx={{ py: 2, bgcolor: "grey.100" }}>
                 <Container maxWidth="lg">
                   {/*<Typography
                   variant="h4"
@@ -1841,9 +1873,8 @@
                             Our Location
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            ZPHS Kunur, Near Ranganayaka swamy temple, Kunur
-                            Village, Zaffargadh mandal, Jangaon District,
-                            Telengana State india Country
+                            Main Branch Located in Hanamkonda, Warangal. Sub
+                            branches where placed in Multiple cities.
                           </Typography>
                         </Box>
                       </Card>
@@ -1894,9 +1925,9 @@
                             location_on
                           </span>
                           <Typography variant="body2">
-                            ZPHS Kunur
+                            Company
                             <br />
-                            Kunur Village
+                            Goldnoon Fintech
                           </Typography>
                         </Box>
 
@@ -1912,14 +1943,14 @@
                           <Typography
                             variant="body2"
                             component="a"
-                            href="tel:+911234567890"
+                            href="tel:+91 9676639383"
                             sx={{
                               color: "white",
                               textDecoration: "none",
                               "&:hover": { textDecoration: "underline" },
                             }}
                           >
-                            +91 8985804256
+                            +91 9676639383
                           </Typography>
                         </Box>
 
@@ -1935,36 +1966,14 @@
                           <Typography
                             variant="body2"
                             component="a"
-                            href="mailto:zphskunur1973@gmail.com"
+                            href="mailto:goldnoon@gmail.com"
                             sx={{
                               color: "white",
                               textDecoration: "none",
                               "&:hover": { textDecoration: "underline" },
                             }}
                           >
-                            zphskunur1973@gmail.com
-                          </Typography>
-                        </Box>
-                        <Box
-                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                        >
-                          <span
-                            className="material-icons"
-                            style={{ fontSize: "20px" }}
-                          >
-                            email
-                          </span>
-                          <Typography
-                            variant="body2"
-                            component="a"
-                            href="mailto:zphskunur.goldenjubilee@gmail.com"
-                            sx={{
-                              color: "white",
-                              textDecoration: "none",
-                              "&:hover": { textDecoration: "underline" },
-                            }}
-                          >
-                            zphskunur.goldenjubilee@gmail.com
+                            goldnoon@gmail.com
                           </Typography>
                         </Box>
 
@@ -1980,7 +1989,7 @@
                           <Typography variant="body2">
                             Monday - Saturday
                             <br />
-                            9:00 AM - 5:00 PM
+                            10:00 AM - 6:00 PM
                           </Typography>
                         </Box>
                       </Box>
@@ -2115,8 +2124,8 @@
                             }
                             sx={{
                               color: "white",
-                              border: "2px solid white",
-                              borderRadius: "20px",
+                              border: { xs: "", sm: "2px solid white" },
+                              borderRadius: { xs: "50%", sm: "20px" },
                               px: 2,
                               py: 0,
                               "&:hover": {
@@ -2182,9 +2191,6 @@
           >
             Management
           </Link>,
-          <Typography key="3" sx={{ color: "text.primary" }}>
-            view
-          </Typography>,
         ];
         const [customerSignUPDialogOpen, setCustomerSignUPDialogOpen] =
           useState(false);
@@ -2426,13 +2432,21 @@
             icon: "message",
             role: "all",
             path: "/about",
+            clickfunc: handleClickDashboardMenu,
           },
-          { text: "Contact Us", icon: "people", role: "all", path: "/contact" },
+          {
+            text: "Contact Us",
+            icon: "people",
+            role: "all",
+            path: "/contact",
+            clickfunc: handleClickDashboardMenu,
+          },
           {
             text: "Terms & Conditions",
             icon: "video_library",
             role: "all",
             path: "/terms",
+            clickfunc: handleClickDashboardMenu,
           },
 
           {
@@ -2464,7 +2478,7 @@
             role: "all",
             path: "/",
             clickfunc: () => {
-              alert("in Progress to fill form");
+              // alert("in Progress to fill form");
               setShareInterestDialogOpen(true);
             },
           },
