@@ -311,6 +311,26 @@
         },
       ];
 
+      const customers = [
+        {
+          fullName: "Raju",
+          id: "GNC01",
+          role: "Sales",
+          mobile: "9676610001",
+          email: "sakinala.raju@gn.com",
+          otp: "123456",
+          loginExpiration: "",
+          password: "123456789",
+          address: "",
+          roleId: 0,
+          theme: "",
+          active: true,
+          joinDate: "",
+          branchCode: "GNB01",
+          gender: "Male",
+          careOf: "",
+        },
+      ];
       const users = [
         {
           fullName: "Raju",
@@ -1269,19 +1289,19 @@
         // Carousel images
         const carouselImages = [
           {
-            label: "Welcome to ZPHS Kunur",
+            label: "Welcome Goldnoon Fintech",
             imgPath:
               "https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
             description: "Empowering minds, Building futures",
           },
           {
-            label: "Quality Education",
+            label: "Empowering through Money",
             imgPath:
               "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
             description: "Excellence in Learning",
           },
           {
-            label: "Modern Facilities",
+            label: "Explore Facilities",
             imgPath:
               "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
             description: "State-of-the-art Infrastructure",
@@ -1384,7 +1404,7 @@
             <Box sx={{ bgcolor: "grey.100", py: 6 }}>
               <Container maxWidth="lg">
                 <Typography
-                  variant="h4"
+                  variant="body"
                   gutterBottom
                   sx={{
                     textAlign: "center",
@@ -1402,27 +1422,25 @@
                     },
                   }}
                 >
-                  News & Updates
+                  Key Benifits with Goldnoon
                 </Typography>
                 <div>
                   <div className="notification success">
-                    <span className="icon">✔</span> Success.. Everything is
-                    good!
+                    <span className="icon">✔</span>
+                    Customized Loan Offers..
                   </div>
 
                   <div className="notification error">
-                    <span className="icon">✘</span> Error.. Something has gone
-                    wrong!
+                    <span className="icon">✔</span> Online & mobile access..
+                    {/*<span className="icon">✘ ⚠ℹ</span> Minimal Documents*/}
                   </div>
 
                   <div className="notification warning">
-                    <span className="icon">⚠</span> Warning.. A little
-                    warning...
+                    <span className="icon">✔</span> Quick Disbursement..
                   </div>
 
                   <div className="notification general">
-                    <span className="icon">ℹ</span> General.. Just a little
-                    information...
+                    <span className="icon">✔</span> Minimal Documents..
                   </div>
                 </div>
               </Container>
@@ -1747,14 +1765,15 @@
                       }}
                     >
                       <Typography variant="h5" gutterBottom color="primary">
-                        Our History
+                        Our Motive
                       </Typography>
                       <Typography variant="body1" paragraph>
-                        Established in 1953, ZPHS Kunur has been a beacon of
-                        learning in our community for over 71 years. What
-                        started as a small school with just 50 students has
-                        grown into a prestigious institution serving over 600
-                        students today.
+                        We Established in 2020, with a strong motive to
+                        empowering individuals and Businesses with seamles
+                        financial solutions as a trusted financial Organization.
+                        We Offers a wind range of Loan Products, Investiments
+                        opportunities, and wealth Management service to meet
+                        financial needs
                       </Typography>
                     </Card>
                   </Grid>
@@ -1776,7 +1795,7 @@
                         }}
                       >
                         <iframe
-                          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15308.310789227932!2d79.4824236!3d17.8419678!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3356bb3a5df671%3A0x791f9bf3757175a2!2sZPHS%20Kunur!5e0!3m2!1sen!2sin!4v1701234567890!5m2!1sen!2sin"
+                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60710.79354192987!2d79.51014090191924!3d18.005488225693174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a334f75c05023ed%3A0x2352eaaf6fe897ea!2sHanamkonda%2C%20Telangana!5e0!3m2!1sen!2sin!4v1741608615942!5m2!1sen!2sin"
                           width="100%"
                           height="100%"
                           style={{ border: 0 }}
@@ -2136,8 +2155,11 @@
         ];
         const [customerSignUPDialogOpen, setCustomerSignUPDialogOpen] =
           useState(false);
-        const [bodyarea, setBodyarea] = useState("Sales");
-        // const [bodyarea, setBodyarea] = useState("Dashboard");
+        const [shareInterestDialogOpen, setShareInterestDialogOpen] =
+          useState(false);
+        const [interestForm, setInterestForm] = useState(false);
+        // const [bodyarea, setBodyarea] = useState("Sales");
+        const [bodyarea, setBodyarea] = useState("Dashboard");
         const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
         const [loginUser, setLoginUser] = useState("");
@@ -2183,12 +2205,13 @@
               // &&
               // Object.values(user).every((val) => val !== "")
             ) {
-              users.push({
+              customers.push({
+                role: "customer",
                 ...user,
                 roleId: 0,
                 theme: "",
                 active: true,
-                joinDate: "",
+                joinDate: new Date(),
                 branchCode: "GNB01",
                 gender: "Male",
                 careOf: "",
@@ -2394,6 +2417,25 @@
 
             clickfunc: handleSettingsToggle,
           },
+          {
+            text: "New Customer",
+            icon: "logout",
+            role: "all",
+            path: "/",
+            clickfunc: () => setCustomerSignUPDialogOpen(true),
+          },
+
+          {
+            text: "Become a Partner",
+            icon: "logout",
+            role: "all",
+            path: "/",
+            clickfunc: () => {
+              alert("in Progress to fill form");
+              setShareInterestDialogOpen(true);
+            },
+          },
+
           // {
           //   text: loginData?.name ? "Logout" : "Login",
           //   icon: "logout",
@@ -3105,10 +3147,10 @@
                   boxShadow: 2,
                 }}
               >
-                <Typography variant="h5" textAlign="center" mb={2}>
-                  New User Form
+                <Typography variant="body" textAlign="center" mb={2}>
+                  New Customer Form
                 </Typography>
-                <form onSubmit={() => {}}>
+                <form onSubmit={handleSubmit}>
                   {/* Full Name */}
                   <TextField
                     label="Full Name"
@@ -3222,6 +3264,99 @@
                   </Box>
                 </form>
               </Box>
+            </Dialog>
+
+            {/* Share Interest Dialog */}
+            <Dialog
+              open={shareInterestDialogOpen}
+              onClose={() => setShareInterestDialogOpen(false)}
+              fullWidth
+            >
+              <DialogTitle>Share Your Interest</DialogTitle>
+              <DialogContent>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  <TextField
+                    label="Name"
+                    variant="outlined"
+                    fullWidth
+                    value={interestForm.name}
+                    onChange={(e) =>
+                      setInterestForm({ ...interestForm, name: e.target.value })
+                    }
+                  />
+                  <TextField
+                    label="Email"
+                    type="email"
+                    variant="outlined"
+                    fullWidth
+                    value={interestForm.email}
+                    onChange={(e) =>
+                      setInterestForm({
+                        ...interestForm,
+                        email: e.target.value,
+                      })
+                    }
+                  />
+                  <TextField
+                    label="Mobile"
+                    type="tel"
+                    variant="outlined"
+                    fullWidth
+                    value={interestForm.mobile}
+                    onChange={(e) =>
+                      setInterestForm({
+                        ...interestForm,
+                        mobile: e.target.value,
+                      })
+                    }
+                  />
+                  <TextField
+                    label="Address"
+                    variant="outlined"
+                    fullWidth
+                    value={interestForm.address}
+                    onChange={(e) =>
+                      setInterestForm({
+                        ...interestForm,
+                        address: e.target.value,
+                      })
+                    }
+                  />
+                  <TextField
+                    label="Note"
+                    variant="outlined"
+                    fullWidth
+                    multiline
+                    rows={4}
+                    value={interestForm.note}
+                    onChange={(e) =>
+                      setInterestForm({ ...interestForm, note: e.target.value })
+                    }
+                  />
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setShareInterestDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    // Handle form submission logic here
+                    console.log("Interest Form Submitted:", interestForm);
+                    setShareInterestDialogOpen(false);
+                  }}
+                  variant="contained"
+                  color="primary"
+                >
+                  Submit
+                </Button>
+              </DialogActions>
             </Dialog>
           </Box>
         );
