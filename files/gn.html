@@ -1285,433 +1285,466 @@
       const Customers = () => {
         return <div> Customers table new</div>;
       };
-      const Dashboard = () => {
-        // Carousel images
-        const carouselImages = [
-          {
-            label: "Welcome Goldnoon Fintech",
-            imgPath:
-              "https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-            description: "Empowering minds, Building futures",
-          },
-          {
-            label: "Empowering through Money",
-            imgPath:
-              "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-            description: "Excellence in Learning",
-          },
-          {
-            label: "Explore Facilities",
-            imgPath:
-              "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-            description: "State-of-the-art Infrastructure",
-          },
-        ];
+      const HomePage = () => {
+        const Dashboard = () => {
+          // Carousel images
+          const carouselImages = [
+            {
+              label: "Welcome Goldnoon Fintech",
+              imgPath:
+                "https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+              description: "Empowering minds, Building futures",
+            },
+            {
+              label: "Empowering through Money",
+              imgPath:
+                "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+              description: "Excellence in Learning",
+            },
+            {
+              label: "Explore Facilities",
+              imgPath:
+                "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+              description: "State-of-the-art Infrastructure",
+            },
+          ];
 
-        const [activeStep, setActiveStep] = React.useState(0);
-        const maxSteps = carouselImages.length;
+          const [activeStep, setActiveStep] = React.useState(0);
+          const maxSteps = carouselImages.length;
 
-        React.useEffect(() => {
-          const timer = setInterval(() => {
-            setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
-          }, 5000);
+          React.useEffect(() => {
+            const timer = setInterval(() => {
+              setActiveStep(
+                (prevActiveStep) => (prevActiveStep + 1) % maxSteps
+              );
+            }, 5000);
 
-          return () => clearInterval(timer);
-        }, [maxSteps]);
+            return () => clearInterval(timer);
+          }, [maxSteps]);
 
-        return (
-          <div>
-            <Box
-              sx={{
-                position: "relative",
-                height: { xs: "40vh", sm: "50vh", md: "75vh" },
-              }}
-            >
-              <Paper
-                square
-                elevation={0}
+          return (
+            <div>
+              <Box
                 sx={{
-                  height: "100%",
                   position: "relative",
-                  backgroundColor: "grey.800",
-                  color: "#fff",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundImage: `url(${carouselImages[activeStep].imgPath})`,
-                  transition: "background-image 0.5s ease-in-out",
+                  height: { xs: "40vh", sm: "50vh", md: "75vh" },
                 }}
               >
-                <Box
+                <Paper
+                  square
+                  elevation={0}
+                  sx={{
+                    height: "100%",
+                    position: "relative",
+                    backgroundColor: "grey.800",
+                    color: "#fff",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundImage: `url(${carouselImages[activeStep].imgPath})`,
+                    transition: "background-image 0.5s ease-in-out",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      bottom: 0,
+                      right: 0,
+                      left: 0,
+                      backgroundColor: "rgba(0,0,0,.5)",
+                    }}
+                  />
+                  <Container
+                    maxWidth="md"
+                    sx={{
+                      position: "relative",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
+                      px: { xs: 2, sm: 3, md: 4 },
+                    }}
+                  >
+                    <Typography
+                      variant="body"
+                      component="h1"
+                      gutterBottom
+                      sx={{
+                        fontSize: { xs: "2rem", sm: "3rem", md: "3.75rem" },
+                      }}
+                    >
+                      {carouselImages[activeStep].label}
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      paragraph
+                      sx={{
+                        fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.5rem" },
+                      }}
+                    >
+                      {carouselImages[activeStep].description}
+                    </Typography>
+                  </Container>
+                </Paper>
+                <MobileStepper
+                  steps={maxSteps}
+                  position="static"
+                  activeStep={activeStep}
                   sx={{
                     position: "absolute",
-                    top: 0,
-                    bottom: 0,
-                    right: 0,
-                    left: 0,
-                    backgroundColor: "rgba(0,0,0,.5)",
+                    bottom: 0, // You can adjust the bottom distance as needed
+                    left: "50%", // Centers horizontally
+                    transform: "translateX(-50%)", // Ensures the element is centered by shifting it back by 50%
+                    width: "auto", // Use auto or a fixed width if needed
+                    background: "transparent",
                   }}
                 />
-                <Container
-                  maxWidth="md"
-                  sx={{
-                    position: "relative",
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    textAlign: "center",
-                    px: { xs: 2, sm: 3, md: 4 },
+              </Box>
+
+              {/* News & Updates */}
+              <Box
+                sx={{
+                  bgcolor: "grey.100",
+                  pt: 2,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                gap={2}
+              >
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => {
+                    setCustomerSignUPDialogOpen(true);
                   }}
                 >
+                  New Customer
+                </Button>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => {
+                    setShareInterestDialogOpen(true);
+                  }}
+                >
+                  Become a Partner
+                </Button>
+              </Box>
+
+              {/* News & Updates */}
+              <Box sx={{ bgcolor: "grey.100", py: 1 }}>
+                <Container maxWidth="lg">
                   <Typography
-                    variant="h2"
-                    component="h1"
+                    variant="body"
                     gutterBottom
                     sx={{
-                      fontSize: { xs: "2rem", sm: "3rem", md: "3.75rem" },
+                      textAlign: "center",
+                      mb: 4,
+                      position: "relative",
+                      // "&:after": {
+                      //   content: '""',
+                      //   position: "absolute",
+                      //   bottom: "-10px",
+                      //   left: "50%",
+                      //   transform: "translateX(-50%)",
+                      //   width: "60px",
+                      //   height: "3px",
+                      //   backgroundColor: "primary.main",
+                      // },
                     }}
                   >
-                    {carouselImages[activeStep].label}
+                    Key Benifits with Goldnoon
                   </Typography>
-                  <Typography
-                    variant="h5"
-                    paragraph
-                    sx={{
-                      fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.5rem" },
-                    }}
-                  >
-                    {carouselImages[activeStep].description}
-                  </Typography>
+                  <div>
+                    <div className="notification success">
+                      <span className="icon">✔</span>
+                      Customized Loan Offers..
+                    </div>
+
+                    <div className="notification error">
+                      <span className="icon">✔</span> Online & mobile access..
+                      {/*<span className="icon">✘ ⚠ℹ</span> Minimal Documents*/}
+                    </div>
+
+                    <div className="notification warning">
+                      <span className="icon">✔</span> Quick Disbursement..
+                    </div>
+
+                    <div className="notification general">
+                      <span className="icon">✔</span> Minimal Documents..
+                    </div>
+                  </div>
                 </Container>
-              </Paper>
-              <MobileStepper
-                steps={maxSteps}
-                position="static"
-                activeStep={activeStep}
+              </Box>
+
+              {/* Achievements Section */}
+
+              <Box
                 sx={{
-                  position: "absolute",
-                  bottom: 0, // You can adjust the bottom distance as needed
-                  left: "50%", // Centers horizontally
-                  transform: "translateX(-50%)", // Ensures the element is centered by shifting it back by 50%
-                  width: "auto", // Use auto or a fixed width if needed
-                  background: "transparent",
-                }}
-              />
-            </Box>
-
-            {/* News & Updates */}
-            <Box sx={{ bgcolor: "grey.100", py: 6 }}>
-              <Container maxWidth="lg">
-                <Typography
-                  variant="body"
-                  gutterBottom
-                  sx={{
-                    textAlign: "center",
-                    mb: 4,
-                    position: "relative",
-                    "&:after": {
-                      content: '""',
-                      position: "absolute",
-                      bottom: "-10px",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      width: "60px",
-                      height: "3px",
-                      backgroundColor: "primary.main",
-                    },
-                  }}
-                >
-                  Key Benifits with Goldnoon
-                </Typography>
-                <div>
-                  <div className="notification success">
-                    <span className="icon">✔</span>
-                    Customized Loan Offers..
-                  </div>
-
-                  <div className="notification error">
-                    <span className="icon">✔</span> Online & mobile access..
-                    {/*<span className="icon">✘ ⚠ℹ</span> Minimal Documents*/}
-                  </div>
-
-                  <div className="notification warning">
-                    <span className="icon">✔</span> Quick Disbursement..
-                  </div>
-
-                  <div className="notification general">
-                    <span className="icon">✔</span> Minimal Documents..
-                  </div>
-                </div>
-              </Container>
-            </Box>
-
-            {/* Achievements Section */}
-
-            <Box
-              sx={{
-                flexGrow: 1,
-                overflowX: "auto",
-                whiteSpace: "nowrap",
-                width: "100%",
-              }}
-            >
-              <Container
-                // maxWidth="lg"
-                // maxWidth={false}
-
-                sx={{
-                  display: "inline-block",
-                  // minWidth: "200px",
-                  // maxWidth: {
-                  //   xs: "320px", // Full width on extra-small screens
-                  //   sm: "450px", // 450px on small screens
-                  //   md: "768px", // 600px on medium screens
-                  //   lg: "1024px", // 800px on large screens
-                  // },
-                  my: 4,
-
-                  position: "relative",
-                  "& .MuiContainer-root": {
-                    overflowX: "auto",
-                    scrollBehavior: "smooth",
-                    "&::-webkit-scrollbar": {
-                      display: "none",
-                    },
-                    msOverflowStyle: "none",
-                    scrollbarWidth: "none",
-                  },
+                  flexGrow: 1,
+                  overflowX: "auto",
+                  whiteSpace: "nowrap",
+                  width: "100%",
                 }}
               >
-                <Typography
-                  variant="h4"
-                  gutterBottom
+                <Container
+                  // maxWidth="lg"
+                  // maxWidth={false}
+
                   sx={{
-                    textAlign: "center",
-                    mb: 4,
-                    fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
+                    display: "inline-block",
+                    // minWidth: "200px",
+                    // maxWidth: {
+                    //   xs: "320px", // Full width on extra-small screens
+                    //   sm: "450px", // 450px on small screens
+                    //   md: "768px", // 600px on medium screens
+                    //   lg: "1024px", // 800px on large screens
+                    // },
+                    my: 4,
+
                     position: "relative",
-                    "&:after": {
-                      content: '""',
-                      position: "absolute",
-                      bottom: "-10px",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      width: "60px",
-                      height: "3px",
-                      backgroundColor: "primary.main",
+                    "& .MuiContainer-root": {
+                      overflowX: "auto",
+                      scrollBehavior: "smooth",
+                      "&::-webkit-scrollbar": {
+                        display: "none",
+                      },
+                      msOverflowStyle: "none",
+                      scrollbarWidth: "none",
                     },
                   }}
                 >
-                  Latest Achievements
-                </Typography>
-
-                <Box sx={{ position: "relative" }}>
-                  <IconButton
+                  <Typography
+                    variant="h4"
+                    gutterBottom
                     sx={{
-                      position: "absolute",
-                      left: -20,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      backgroundColor: "white",
-                      boxShadow: 2,
-                      "&:hover": { backgroundColor: "grey.100" },
-                      zIndex: 2,
-                    }}
-                    onClick={() => {
-                      const container = document.getElementById(
-                        "achievements-scroll"
-                      );
-                      container.scrollBy({ left: -300, behavior: "smooth" });
+                      textAlign: "center",
+                      mb: 4,
+                      fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
+                      position: "relative",
+                      "&:after": {
+                        content: '""',
+                        position: "absolute",
+                        bottom: "-10px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: "60px",
+                        height: "3px",
+                        backgroundColor: "primary.main",
+                      },
                     }}
                   >
-                    <span className="material-icons">chevron_left</span>
-                  </IconButton>
+                    Latest Achievements
+                  </Typography>
 
-                  <Box
-                    id="achievements-scroll"
-                    sx={{
-                      display: "flex",
-                      overflowX: "auto",
-                      gap: 3,
-                      pb: 2,
-                      scrollBehavior: "smooth",
-                      "&::-webkit-scrollbar": { display: "none" },
-                      msOverflowStyle: "none",
-                      scrollbarWidth: "none",
-                    }}
-                  >
-                    {achievements.map((achievement, index) => (
-                      <Card
-                        key={index}
-                        sx={{
-                          minWidth: 300,
-                          maxWidth: 300,
-                          height: "300px",
-                          flex: "0 0 auto",
-                          display: "flex",
-                          flexDirection: "column",
-                          transition: "transform 0.2s",
-                          "&:hover": {
-                            transform: achievement.isViewMore
-                              ? "translateY(-5px)"
-                              : "translateY(-5px)",
-                            boxShadow: 3,
-                          },
-                          ...(achievement.isViewMore && {
-                            backgroundColor: "primary.main",
-                            color: "white",
+                  <Box sx={{ position: "relative" }}>
+                    <IconButton
+                      sx={{
+                        position: "absolute",
+                        left: -20,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        backgroundColor: "white",
+                        boxShadow: 2,
+                        "&:hover": { backgroundColor: "grey.100" },
+                        zIndex: 2,
+                      }}
+                      onClick={() => {
+                        const container = document.getElementById(
+                          "achievements-scroll"
+                        );
+                        container.scrollBy({ left: -300, behavior: "smooth" });
+                      }}
+                    >
+                      <span className="material-icons">chevron_left</span>
+                    </IconButton>
+
+                    <Box
+                      id="achievements-scroll"
+                      sx={{
+                        display: "flex",
+                        overflowX: "auto",
+                        gap: 3,
+                        pb: 2,
+                        scrollBehavior: "smooth",
+                        "&::-webkit-scrollbar": { display: "none" },
+                        msOverflowStyle: "none",
+                        scrollbarWidth: "none",
+                      }}
+                    >
+                      {achievements.map((achievement, index) => (
+                        <Card
+                          key={index}
+                          sx={{
+                            minWidth: 300,
+                            maxWidth: 300,
+                            height: "300px",
+                            flex: "0 0 auto",
                             display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            cursor: "pointer",
-                            transition: "all 0.3s ease",
+                            flexDirection: "column",
+                            transition: "transform 0.2s",
                             "&:hover": {
-                              backgroundColor: "primary.dark",
-                              transform: "translateY(-5px)",
+                              transform: achievement.isViewMore
+                                ? "translateY(-5px)"
+                                : "translateY(-5px)",
                               boxShadow: 3,
                             },
-                          }),
-                        }}
-                      >
-                        {achievement.isViewMore ? (
-                          <CardContent
-                            sx={{
-                              textAlign: "center",
+                            ...(achievement.isViewMore && {
+                              backgroundColor: "primary.main",
+                              color: "white",
                               display: "flex",
-                              flexDirection: "column",
                               alignItems: "center",
                               justifyContent: "center",
-                              height: "100%",
-                              padding: "24px",
-                            }}
-                          >
-                            <Box
+                              cursor: "pointer",
+                              transition: "all 0.3s ease",
+                              "&:hover": {
+                                backgroundColor: "primary.dark",
+                                transform: "translateY(-5px)",
+                                boxShadow: 3,
+                              },
+                            }),
+                          }}
+                        >
+                          {achievement.isViewMore ? (
+                            <CardContent
                               sx={{
-                                backgroundColor: "rgba(255,255,255,0.2)",
-                                borderRadius: "50%",
-                                width: 80,
-                                height: 80,
+                                textAlign: "center",
                                 display: "flex",
+                                flexDirection: "column",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                mb: 2,
-                                transition: "all 0.3s ease",
-                              }}
-                            >
-                              <span
-                                className="material-icons"
-                                style={{ fontSize: "40px" }}
-                              >
-                                {achievement.icon}
-                              </span>
-                            </Box>
-                            <Typography
-                              variant="h6"
-                              component="div"
-                              sx={{ mt: 2, fontWeight: "bold" }}
-                            >
-                              {achievement.title}
-                            </Typography>
-                            <Typography
-                              variant="body1"
-                              sx={{ mt: 1, opacity: 0.9 }}
-                            >
-                              Click to explore more achievements
-                            </Typography>
-                          </CardContent>
-                        ) : (
-                          <CardContent
-                            sx={{
-                              flexGrow: 1,
-                              padding: "24px",
-                              height: "100%",
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                mb: 2,
+                                height: "100%",
+                                padding: "24px",
                               }}
                             >
                               <Box
                                 sx={{
-                                  backgroundColor: "primary.main",
+                                  backgroundColor: "rgba(255,255,255,0.2)",
                                   borderRadius: "50%",
-                                  p: 1,
-                                  mr: 2,
+                                  width: 80,
+                                  height: 80,
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "center",
+                                  mb: 2,
+                                  transition: "all 0.3s ease",
                                 }}
                               >
                                 <span
                                   className="material-icons"
-                                  style={{ color: "white" }}
+                                  style={{ fontSize: "40px" }}
                                 >
                                   {achievement.icon}
                                 </span>
                               </Box>
-                              <Typography variant="h6" component="div">
+                              <Typography
+                                variant="h6"
+                                component="div"
+                                sx={{ mt: 2, fontWeight: "bold" }}
+                              >
                                 {achievement.title}
                               </Typography>
-                            </Box>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              gutterBottom
-                            >
-                              {achievement.date}
-                            </Typography>
-                            <Typography
-                              variant="body1"
+                              <Typography
+                                variant="body1"
+                                sx={{ mt: 1, opacity: 0.9 }}
+                              >
+                                Click to explore more achievements
+                              </Typography>
+                            </CardContent>
+                          ) : (
+                            <CardContent
                               sx={{
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                display: "-webkit-box",
-                                WebkitLineClamp: 4,
-                                WebkitBoxOrient: "vertical",
+                                flexGrow: 1,
+                                padding: "24px",
+                                height: "100%",
+                                display: "flex",
+                                flexDirection: "column",
                               }}
                             >
-                              {achievement.description}
-                            </Typography>
-                          </CardContent>
-                        )}
-                      </Card>
-                    ))}
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  mb: 2,
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    backgroundColor: "primary.main",
+                                    borderRadius: "50%",
+                                    p: 1,
+                                    mr: 2,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  <span
+                                    className="material-icons"
+                                    style={{ color: "white" }}
+                                  >
+                                    {achievement.icon}
+                                  </span>
+                                </Box>
+                                <Typography variant="h6" component="div">
+                                  {achievement.title}
+                                </Typography>
+                              </Box>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                gutterBottom
+                              >
+                                {achievement.date}
+                              </Typography>
+                              <Typography
+                                variant="body1"
+                                sx={{
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  display: "-webkit-box",
+                                  WebkitLineClamp: 4,
+                                  WebkitBoxOrient: "vertical",
+                                }}
+                              >
+                                {achievement.description}
+                              </Typography>
+                            </CardContent>
+                          )}
+                        </Card>
+                      ))}
+                    </Box>
+
+                    <IconButton
+                      sx={{
+                        position: "absolute",
+                        right: -20,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        backgroundColor: "white",
+                        boxShadow: 2,
+                        "&:hover": { backgroundColor: "grey.100" },
+                        zIndex: 2,
+                      }}
+                      onClick={() => {
+                        const container = document.getElementById(
+                          "achievements-scroll"
+                        );
+                        container.scrollBy({ left: 300, behavior: "smooth" });
+                      }}
+                    >
+                      <span className="material-icons">chevron_right</span>
+                    </IconButton>
                   </Box>
+                </Container>
+              </Box>
 
-                  <IconButton
-                    sx={{
-                      position: "absolute",
-                      right: -20,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      backgroundColor: "white",
-                      boxShadow: 2,
-                      "&:hover": { backgroundColor: "grey.100" },
-                      zIndex: 2,
-                    }}
-                    onClick={() => {
-                      const container = document.getElementById(
-                        "achievements-scroll"
-                      );
-                      container.scrollBy({ left: 300, behavior: "smooth" });
-                    }}
-                  >
-                    <span className="material-icons">chevron_right</span>
-                  </IconButton>
-                </Box>
-              </Container>
-            </Box>
-
-            {/* About Us Section */}
-            <Box sx={{ py: 6, bgcolor: "grey.100" }}>
-              <Container maxWidth="lg">
-                <Typography
+              {/* About Us Section */}
+              <Box sx={{ py: 6, bgcolor: "grey.100" }}>
+                <Container maxWidth="lg">
+                  {/*<Typography
                   variant="h4"
                   gutterBottom
                   sx={{
@@ -1732,399 +1765,399 @@
                   }}
                 >
                   About Us
-                </Typography>
-
-                <Grid
-                  container
-                  spacing={{ xs: 2, sm: 3, md: 4 }}
-                  sx={{
-                    minHeight: {
-                      xs: "400px", // Minimum height for extra small screens
-                      sm: "500px", // Minimum height for small screens
-                      md: "600px", // Minimum height for medium and larger screens
-                    },
-                    height: "100%", // Ensure it takes full height of its container
-                  }}
-                >
-                  {/* School History */}
-                  <Grid item xs={12} md={12}>
-                    <Card
-                      sx={{
-                        // height: "100%",
-                        // height: { xs: 10, sm: 3, md: 4 },
-                        display: "flex",
-                        flexDirection: "column",
-                        p: { xs: 2, sm: 2, md: 3 },
-                        // m: { xs: 2, sm: 2, md: 3 },
-
-                        fontSize: {
-                          xs: "0.875rem", // Extra small screens
-                          sm: "1rem", // Small screens
-                          md: "1.125rem", // Medium and larger screens
-                        },
-                      }}
-                    >
-                      <Typography variant="h5" gutterBottom color="primary">
-                        Our Motive
-                      </Typography>
-                      <Typography variant="body1" paragraph>
-                        We Established in 2020, with a strong motive to
-                        empowering individuals and Businesses with seamles
-                        financial solutions as a trusted financial Organization.
-                        We Offers a wind range of Loan Products, Investiments
-                        opportunities, and wealth Management service to meet
-                        financial needs
-                      </Typography>
-                    </Card>
-                  </Grid>
-
-                  {/* Google Map */}
-                  <Grid item xs={12} md={12}>
-                    <Card
-                      sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          flex: 1,
-                          minHeight: "300px",
-                          width: "100%",
-                        }}
-                      >
-                        <iframe
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60710.79354192987!2d79.51014090191924!3d18.005488225693174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a334f75c05023ed%3A0x2352eaaf6fe897ea!2sHanamkonda%2C%20Telangana!5e0!3m2!1sen!2sin!4v1741608615942!5m2!1sen!2sin"
-                          width="100%"
-                          height="100%"
-                          style={{ border: 0 }}
-                          allowFullScreen=""
-                          loading="lazy"
-                        ></iframe>
-                      </Box>
-                      <Box sx={{ p: 3 }}>
-                        <Typography variant="h6" gutterBottom>
-                          Our Location
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          ZPHS Kunur, Near Ranganayaka swamy temple, Kunur
-                          Village, Zaffargadh mandal, Jangaon District,
-                          Telengana State india Country
-                        </Typography>
-                      </Box>
-                    </Card>
-                  </Grid>
-                </Grid>
-              </Container>
-            </Box>
-
-            {/* Footer */}
-            <Box
-              component="footer"
-              id="contact-section"
-              sx={{ bgcolor: "primary.main", color: "white", py: 6, mt: 4 }}
-            >
-              <Container maxWidth="lg">
-                <Grid container spacing={4}>
-                  <Grid item xs={12} md={4}>
-                    <Typography
-                      variant="h6"
-                      gutterBottom
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        color: "#FFD700",
-                        fontWeight: "bold",
-                        marginBottom: 3,
-                      }}
-                    >
-                      <span className="material-icons">contact_support</span>
-                      Contact Us
-                    </Typography>
-
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 2,
-                      }}
-                    >
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
-                        <span
-                          className="material-icons"
-                          style={{ fontSize: "20px" }}
-                        >
-                          location_on
-                        </span>
-                        <Typography variant="body2">
-                          ZPHS Kunur
-                          <br />
-                          Kunur Village
-                        </Typography>
-                      </Box>
-
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
-                        <span
-                          className="material-icons"
-                          style={{ fontSize: "20px" }}
-                        >
-                          phone
-                        </span>
-                        <Typography
-                          variant="body2"
-                          component="a"
-                          href="tel:+911234567890"
-                          sx={{
-                            color: "white",
-                            textDecoration: "none",
-                            "&:hover": { textDecoration: "underline" },
-                          }}
-                        >
-                          +91 8985804256
-                        </Typography>
-                      </Box>
-
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
-                        <span
-                          className="material-icons"
-                          style={{ fontSize: "20px" }}
-                        >
-                          email
-                        </span>
-                        <Typography
-                          variant="body2"
-                          component="a"
-                          href="mailto:zphskunur1973@gmail.com"
-                          sx={{
-                            color: "white",
-                            textDecoration: "none",
-                            "&:hover": { textDecoration: "underline" },
-                          }}
-                        >
-                          zphskunur1973@gmail.com
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
-                        <span
-                          className="material-icons"
-                          style={{ fontSize: "20px" }}
-                        >
-                          email
-                        </span>
-                        <Typography
-                          variant="body2"
-                          component="a"
-                          href="mailto:zphskunur.goldenjubilee@gmail.com"
-                          sx={{
-                            color: "white",
-                            textDecoration: "none",
-                            "&:hover": { textDecoration: "underline" },
-                          }}
-                        >
-                          zphskunur.goldenjubilee@gmail.com
-                        </Typography>
-                      </Box>
-
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
-                        <span
-                          className="material-icons"
-                          style={{ fontSize: "20px" }}
-                        >
-                          schedule
-                        </span>
-                        <Typography variant="body2">
-                          Monday - Saturday
-                          <br />
-                          9:00 AM - 5:00 PM
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Grid>
+                </Typography>*/}
 
                   <Grid
-                    item
-                    xs={12}
-                    md={4}
+                    container
+                    spacing={{ xs: 2, sm: 3, md: 4 }}
                     sx={{
-                      display: {
-                        xs: "none", // Hidden on extra-small screens
-                        md: "block", // Visible on small screens and up
-                        sm: "none", // Visible on small screens and up
+                      minHeight: {
+                        xs: "400px", // Minimum height for extra small screens
+                        sm: "500px", // Minimum height for small screens
+                        md: "600px", // Minimum height for medium and larger screens
                       },
+                      height: "100%", // Ensure it takes full height of its container
                     }}
                   >
-                    <Typography
-                      variant="h6"
-                      gutterBottom
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        color: "#98FB98",
-                        fontWeight: "bold",
-                        marginBottom: 3,
-                      }}
-                    >
-                      <span className="material-icons">link</span>
-                      Quick Links
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 1,
-                      }}
-                    >
-                      {[
-                        "Admissions",
-                        "Academic Calendar",
-                        "Facilities",
-                        "Staff Directory",
-                      ].map((link, linkindex) => (
-                        <Typography
-                          key={linkindex}
-                          variant="body2"
+                    {/* School History */}
+                    <Grid item xs={12} md={12}>
+                      <Card
+                        sx={{
+                          // height: "100%",
+                          // height: { xs: 10, sm: 3, md: 4 },
+                          display: "flex",
+                          flexDirection: "column",
+                          p: { xs: 2, sm: 2, md: 3 },
+                          // m: { xs: 2, sm: 2, md: 3 },
+
+                          fontSize: {
+                            xs: "0.875rem", // Extra small screens
+                            sm: "1rem", // Small screens
+                            md: "1.125rem", // Medium and larger screens
+                          },
+                        }}
+                      >
+                        <Typography variant="h5" gutterBottom color="primary">
+                          Our Motive
+                        </Typography>
+                        <Typography variant="body1" paragraph>
+                          We Established in 2020, with a strong motive to
+                          empowering individuals and Businesses with seamles
+                          financial solutions as a trusted financial
+                          Organization. We Offers a wind range of Loan Products,
+                          Investiments opportunities, and wealth Management
+                          service to meet financial needs
+                        </Typography>
+                      </Card>
+                    </Grid>
+
+                    {/* Google Map */}
+                    <Grid item xs={12} md={12}>
+                      <Card
+                        sx={{
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Box
                           sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            cursor: "pointer",
-                            transition: "all 0.3s ease",
-                            "&:hover": {
-                              paddingLeft: "10px",
-                              color: "#98FB98",
-                            },
+                            flex: 1,
+                            minHeight: "300px",
+                            width: "100%",
                           }}
+                        >
+                          <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60710.79354192987!2d79.51014090191924!3d18.005488225693174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a334f75c05023ed%3A0x2352eaaf6fe897ea!2sHanamkonda%2C%20Telangana!5e0!3m2!1sen!2sin!4v1741608615942!5m2!1sen!2sin"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            allowFullScreen=""
+                            loading="lazy"
+                          ></iframe>
+                        </Box>
+                        <Box sx={{ p: 3 }}>
+                          <Typography variant="h6" gutterBottom>
+                            Our Location
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            ZPHS Kunur, Near Ranganayaka swamy temple, Kunur
+                            Village, Zaffargadh mandal, Jangaon District,
+                            Telengana State india Country
+                          </Typography>
+                        </Box>
+                      </Card>
+                    </Grid>
+                  </Grid>
+                </Container>
+              </Box>
+
+              {/* Footer */}
+              <Box
+                component="footer"
+                id="contact-section"
+                sx={{ bgcolor: "primary.main", color: "white", py: 6, mt: 4 }}
+              >
+                <Container maxWidth="lg">
+                  <Grid container spacing={4}>
+                    <Grid item xs={12} md={4}>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          color: "#FFD700",
+                          fontWeight: "bold",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span className="material-icons">contact_support</span>
+                        Contact Us
+                      </Typography>
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 2,
+                        }}
+                      >
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
                         >
                           <span
                             className="material-icons"
-                            style={{ fontSize: "8px" }}
+                            style={{ fontSize: "20px" }}
                           >
-                            circle
+                            location_on
                           </span>
-                          {link}
-                        </Typography>
-                      ))}
-                    </Box>
-                  </Grid>
+                          <Typography variant="body2">
+                            ZPHS Kunur
+                            <br />
+                            Kunur Village
+                          </Typography>
+                        </Box>
 
-                  <Grid item xs={12} md={4}>
-                    <Typography
-                      variant="h6"
-                      gutterBottom
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        color: "#FF69B4",
-                        fontWeight: "bold",
-                        marginBottom: 3,
-                      }}
-                    >
-                      <span className="material-icons">share</span>
-                      Follow Us
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: 2,
-                        mb: 2,
-                        flexWrap: "wrap",
-                      }}
-                    >
-                      {[
-                        {
-                          icon: "facebook",
-                          name: "Facebook",
-                          link: "https://facebook.com",
-                        },
-                        {
-                          icon: "spatial_tracking",
-                          name: "X (Twitter)",
-                          link: "https://twitter.com",
-                        },
-                        {
-                          icon: "photo_camera",
-                          name: "Instagram",
-                          link: "https://instagram.com",
-                        },
-                        {
-                          icon: "play_circle",
-                          name: "YouTube",
-                          link: "https://youtube.com",
-                        },
-                        {
-                          icon: "work",
-                          name: "LinkedIn",
-                          link: "https://linkedin.com",
-                        },
-                      ].map((social, socialindex) => (
-                        <Button
-                          key={socialindex}
-                          href={social.link}
-                          target="_blank"
-                          startIcon={
-                            <span className="material-icons">
-                              {social.icon}
-                            </span>
-                          }
-                          sx={{
-                            color: "white",
-                            border: "2px solid white",
-                            borderRadius: "20px",
-                            px: 2,
-                            py: 0,
-                            "&:hover": {
-                              backgroundColor: "white",
-                              color: "primary.main",
-                            },
-                          }}
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
                         >
-                          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                            {social.name}
-                          </Box>
-                        </Button>
-                      ))}
-                    </Box>
-                    <Typography variant="body2" sx={{ mt: 2 }}>
-                      Stay connected with us on social media for the latest
-                      updates and news.
-                    </Typography>
-                  </Grid>
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            phone
+                          </span>
+                          <Typography
+                            variant="body2"
+                            component="a"
+                            href="tel:+911234567890"
+                            sx={{
+                              color: "white",
+                              textDecoration: "none",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                          >
+                            +91 8985804256
+                          </Typography>
+                        </Box>
 
-                  <Grid item xs={12}>
-                    <Box
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            email
+                          </span>
+                          <Typography
+                            variant="body2"
+                            component="a"
+                            href="mailto:zphskunur1973@gmail.com"
+                            sx={{
+                              color: "white",
+                              textDecoration: "none",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                          >
+                            zphskunur1973@gmail.com
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            email
+                          </span>
+                          <Typography
+                            variant="body2"
+                            component="a"
+                            href="mailto:zphskunur.goldenjubilee@gmail.com"
+                            sx={{
+                              color: "white",
+                              textDecoration: "none",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                          >
+                            zphskunur.goldenjubilee@gmail.com
+                          </Typography>
+                        </Box>
+
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            schedule
+                          </span>
+                          <Typography variant="body2">
+                            Monday - Saturday
+                            <br />
+                            9:00 AM - 5:00 PM
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+
+                    <Grid
+                      item
+                      xs={12}
+                      md={4}
                       sx={{
-                        borderTop: "1px solid rgba(255,255,255,0.1)",
-                        pt: 2,
-                        mt: 2,
-                        textAlign: "center",
+                        display: {
+                          xs: "none", // Hidden on extra-small screens
+                          md: "block", // Visible on small screens and up
+                          sm: "none", // Visible on small screens and up
+                        },
                       }}
                     >
-                      <Typography variant="body2">
-                        © 2025 All rights reserved.
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          color: "#98FB98",
+                          fontWeight: "bold",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span className="material-icons">link</span>
+                        Quick Links
                       </Typography>
-                    </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 1,
+                        }}
+                      >
+                        {[
+                          "Admissions",
+                          "Academic Calendar",
+                          "Facilities",
+                          "Staff Directory",
+                        ].map((link, linkindex) => (
+                          <Typography
+                            key={linkindex}
+                            variant="body2"
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              cursor: "pointer",
+                              transition: "all 0.3s ease",
+                              "&:hover": {
+                                paddingLeft: "10px",
+                                color: "#98FB98",
+                              },
+                            }}
+                          >
+                            <span
+                              className="material-icons"
+                              style={{ fontSize: "8px" }}
+                            >
+                              circle
+                            </span>
+                            {link}
+                          </Typography>
+                        ))}
+                      </Box>
+                    </Grid>
+
+                    <Grid item xs={12} md={4}>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          color: "#FF69B4",
+                          fontWeight: "bold",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span className="material-icons">share</span>
+                        Follow Us
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 2,
+                          mb: 2,
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        {[
+                          {
+                            icon: "facebook",
+                            name: "Facebook",
+                            link: "https://facebook.com",
+                          },
+                          {
+                            icon: "spatial_tracking",
+                            name: "X (Twitter)",
+                            link: "https://twitter.com",
+                          },
+                          {
+                            icon: "photo_camera",
+                            name: "Instagram",
+                            link: "https://instagram.com",
+                          },
+                          {
+                            icon: "play_circle",
+                            name: "YouTube",
+                            link: "https://youtube.com",
+                          },
+                          {
+                            icon: "work",
+                            name: "LinkedIn",
+                            link: "https://linkedin.com",
+                          },
+                        ].map((social, socialindex) => (
+                          <Button
+                            key={socialindex}
+                            href={social.link}
+                            target="_blank"
+                            startIcon={
+                              <span className="material-icons">
+                                {social.icon}
+                              </span>
+                            }
+                            sx={{
+                              color: "white",
+                              border: "2px solid white",
+                              borderRadius: "20px",
+                              px: 2,
+                              py: 0,
+                              "&:hover": {
+                                backgroundColor: "white",
+                                color: "primary.main",
+                              },
+                            }}
+                          >
+                            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                              {social.name}
+                            </Box>
+                          </Button>
+                        ))}
+                      </Box>
+                      <Typography variant="body2" sx={{ mt: 2 }}>
+                        Stay connected with us on social media for the latest
+                        updates and news.
+                      </Typography>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Box
+                        sx={{
+                          borderTop: "1px solid rgba(255,255,255,0.1)",
+                          pt: 2,
+                          mt: 2,
+                          textAlign: "center",
+                        }}
+                      >
+                        <Typography variant="body2">
+                          © 2025 All rights reserved.
+                        </Typography>
+                      </Box>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Container>
-            </Box>
-          </div>
-        );
-      };
-      const HomePage = () => {
+                </Container>
+              </Box>
+            </div>
+          );
+        };
+
         function handleClick(view) {
           setBodyarea((pre) => view);
           event.preventDefault();
