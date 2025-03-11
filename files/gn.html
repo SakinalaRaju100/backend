@@ -554,19 +554,40 @@
         {
           fullName: "Raju",
           id: "GNC01",
-          role: "Sales",
-          mobile: "9676610001",
+          role: "customer",
+          mobile: "9176610001",
           email: "sakinala.raju@gn.com",
           otp: "123456",
           loginExpiration: "",
           password: "123456789",
           address: "",
-          roleId: 0,
+
           theme: "",
           active: true,
           joinDate: "",
           branchCode: "GNB01",
+          refferedBY: "GNS00124",
           gender: "Male",
+          careOf: "",
+        },
+        {
+          fullName: "Raju2",
+          id: "GNC03",
+          role: "customer",
+          mobile: "9176610002",
+          email: "sakinala.raju@gn.com",
+          otp: "123456",
+          loginExpiration: "",
+          password: "123456789",
+          address: "",
+          gender: "Male",
+
+          theme: "",
+          active: true,
+          joinDate: "",
+          branchCode: "GNB01",
+          refferedBY: "GNS00124",
+
           careOf: "",
         },
       ];
@@ -1579,7 +1600,7 @@
                 variant="outlined"
                 disabled={activeStep === steps.length - 1}
               >
-                {activeStep === steps.length - 1 ? "Preview" : "Next"}
+                {activeStep === steps.length - 1 ? "Check & Submit" : "Next"}
               </Button>
             </Box>
             <Box
@@ -2606,78 +2627,80 @@
                 />
               </Box>
 
-              {/* New Customer and Become apartner button */}
-              <Box
-                sx={{
-                  // bgcolor: "grey.100",
-                  pt: 0,
-                  mb: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-                gap={2}
-              >
-                <Card
+              {/* Customer My Loans and apply Loans section */}
+              {true && (
+                <Box
                   sx={{
+                    // bgcolor: "grey.100",
+                    pt: 0,
+                    mb: 1,
                     display: "flex",
-                    flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center",
-                    padding: 2,
-                    margin: 1,
-                    cursor: "pointer",
-                    backgroundColor: theme.appBarColor,
-                    color: "white",
-                    // "&:hover": {
-                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    // },
                   }}
-                  onClick={() => {
-                    setBodyarea("Loans");
-                    // setCustomerSignUPDialogOpen(true);
-                  }}
+                  gap={2}
                 >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <span
-                      className="material-icons"
-                      style={{ marginRight: "8px" }}
-                    >
-                      people
-                    </span>
-                    <Typography variant="h6">My Loans</Typography>
-                  </Box>
-                </Card>
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 2,
-                    margin: 1,
-                    cursor: "pointer",
-                    backgroundColor: theme.appBarColor,
-                    color: "white",
-                    // "&:hover": {
-                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    // },
-                  }}
-                  onClick={() => {
-                    setBodyarea("ApplyLoan");
-                    // setShareInterestDialogOpen(true);
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <span
-                      className="material-icons"
-                      style={{ marginRight: "8px" }}
-                    >
-                      forward
-                    </span>
-                    <Typography variant="h6">Apply Loan</Typography>
-                  </Box>
-                </Card>
-              </Box>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("Loans");
+                      // setCustomerSignUPDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        people
+                      </span>
+                      <Typography variant="h6">My Loans</Typography>
+                    </Box>
+                  </Card>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("ApplyLoan");
+                      // setShareInterestDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        forward
+                      </span>
+                      <Typography variant="h6">Apply Loan</Typography>
+                    </Box>
+                  </Card>
+                </Box>
+              )}
 
               {/* News & Updates */}
               <Box sx={{ bgcolor: "grey.100", py: 2 }}>
@@ -3542,6 +3565,72 @@
 
         const [errors, setErrors] = useState({});
 
+        const validateField = (name, value) => {
+          const newErrors = { ...errors };
+
+          switch (name) {
+            case "id":
+              if (!value) newErrors.id = "user ID is required.";
+              else delete newErrors.id;
+              break;
+            // case "surname":
+            //   if (!value) newErrors.surname = "Surname is required.";
+            //   else delete newErrors.surname;
+            //   break;
+            case "fullName":
+              if (!value) newErrors.fullName = "Name is required.";
+              else delete newErrors.fullName;
+              break;
+            case "email":
+              if (!value) {
+                newErrors.email = "Email is required.";
+              } else if (!/\S+@\S+\.\S+/.test(value)) {
+                newErrors.email = "Email is invalid.";
+              } else {
+                delete newErrors.email;
+              }
+              break;
+            // case "phone":
+            //   if (!value) {
+            //     newErrors.phone = "Phone number is required.";
+            //   } else if (!/^\d{10}$/.test(value)) {
+            //     newErrors.phone = "Phone number must be 10 digits.";
+            //   } else {
+            //     delete newErrors.phone;
+            //   }
+            //   break;
+            // case "address":
+            //   if (!value) newErrors.address = "Address is required.";
+            //   else delete newErrors.address;
+            //   break;
+            //   case "profession":
+            //     if (!value) newErrors.profession = "Profession is required.";
+            //     else delete newErrors.profession;
+            //     break;
+            // case "father":
+            //   if (!value) newErrors.father = "Gardian name is required.";
+            //   else delete newErrors.father;
+            //   break;
+            // case "profession":
+            //   if (!value)
+            //     newErrors.profession = "profession's name is required.";
+            //   else delete newErrors.profession;
+            //   break;
+            // case "role":
+            //   if (!value) newErrors.role = "Batch Year is required.";
+            //   else if (!/^\d{4}$/.test(value)) {
+            //     newErrors.role = "Batch Year must be a 4-digit year.";
+            //   } else {
+            //     delete newErrors.role;
+            //   }
+            //   break;
+            default:
+              break;
+          }
+
+          setErrors(newErrors);
+        };
+
         const handleChange = (event) => {
           const { name, value } = event.target;
           setUser({
@@ -3552,7 +3641,7 @@
           validateField(name, value); // validate each field on change
         };
 
-        const handleSubmit = (event) => {
+        const NewCustomerhandleSubmit = (event) => {
           event.preventDefault();
           console.log("user", user);
           console.log("errors", errors);
@@ -3562,19 +3651,20 @@
               // &&
               // Object.values(user).every((val) => val !== "")
             ) {
-              customers.push({
-                role: "customer",
+              console.log("users", users);
+
+              const newCustomer = {
                 ...user,
-                roleId: 0,
+                role: "customer",
+
                 theme: "",
                 active: true,
                 joinDate: new Date(),
                 branchCode: "GNB01",
-                gender: "Male",
-                careOf: "",
-              });
+              };
+              console.log("newCustomer", newCustomer);
+              customers.push(newCustomer);
 
-              console.log("users", users);
               // axios
               //   .post(`${baseURL}/new-enroll`, user)
 
@@ -4519,7 +4609,7 @@
                 <Typography variant="body" textAlign="center" mb={2}>
                   New Customer Form
                 </Typography>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={NewCustomerhandleSubmit}>
                   {/* Full Name */}
                   <TextField
                     label="Full Name"
@@ -4603,6 +4693,28 @@
                     margin="normal"
                     error={Boolean(errors?.pincode)}
                     helperText={errors?.pincode}
+                  />
+                  {/* Password */}
+                  <TextField
+                    label="Password"
+                    name="password"
+                    value={user.password}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors?.password)}
+                    helperText={errors?.password}
+                  />
+                  {/* CPassword */}
+                  <TextField
+                    label="Confirm Password"
+                    name="cpassword"
+                    value={user.cpassword}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors?.cpassword)}
+                    helperText={errors?.cpassword}
                   />
 
                   {/* Buttons */}
