@@ -1528,7 +1528,7 @@
         const [step, setStep] = React.useState(0);
         const [activeStep, setActiveStep] = React.useState(0);
 
-        const steps = ["Basic", "Work", "Docs", "Final"];
+        const steps = ["Basic", "Work", "Docs", "Preview"];
 
         const handleBack = () => {
           setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -1564,6 +1564,7 @@
               }}
             >
               <Button
+                size="small"
                 color="inherit"
                 disabled={activeStep === 0}
                 onClick={handleBack}
@@ -1572,11 +1573,22 @@
               >
                 Back
               </Button>
-              <Button onClick={handleNext} variant="outlined">
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              <Button
+                size="small"
+                onClick={handleNext}
+                variant="outlined"
+                disabled={activeStep === steps.length - 1}
+              >
+                {activeStep === steps.length - 1 ? "Preview" : "Next"}
               </Button>
             </Box>
-            <Box>{steps[step]}</Box>
+            <Box
+              sx={{
+                mt: 1,
+              }}
+            >
+              {steps[activeStep]}
+            </Box>
           </Box>
         );
       };
