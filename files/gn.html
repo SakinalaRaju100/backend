@@ -1525,18 +1525,56 @@
         return <div> Customers table new</div>;
       };
       const ApplyLoan = () => {
-        const steps = ["Basic", "Work", "Docs", "Final"];
         const [step, setStep] = React.useState(0);
+        const [activeStep, setActiveStep] = React.useState(0);
+
+        const steps = ["Basic", "Work", "Docs", "Final"];
+
+        const handleBack = () => {
+          setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        };
+
+        const handleNext = () => {
+          // let newSkipped = skipped;
+          // if (isStepSkipped(activeStep)) {
+          //   newSkipped = new Set(newSkipped.values());
+          //   newSkipped.delete(activeStep);
+          // }
+
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+          // setSkipped(newSkipped);
+        };
         return (
           <Box sx={{ width: "100%" }}>
             <Box>
-              <Stepper activeStep={1} alternativeLabel>
+              <Stepper activeStep={activeStep} alternativeLabel>
                 {steps.map((label) => (
                   <Step key={label}>
                     <StepLabel>{label}</StepLabel>
                   </Step>
                 ))}
               </Stepper>
+            </Box>
+            <Box
+              sx={{
+                mt: 1,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Button
+                color="inherit"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                variant="outlined"
+                sx={{ mr: 1 }}
+              >
+                Back
+              </Button>
+              <Button onClick={handleNext} variant="outlined">
+                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              </Button>
             </Box>
             <Box>{steps[step]}</Box>
           </Box>
