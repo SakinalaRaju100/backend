@@ -1310,6 +1310,67 @@
 
           return (
             <div>
+              {/* New Customer and Become apartner button */}
+              <Box
+                sx={{
+                  // bgcolor: "grey.100",
+                  pt: 0,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                gap={2}
+              >
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: 2,
+                    margin: 1,
+                    cursor: "pointer",
+                    backgroundColor: theme.appBarColor,
+                    color: "white",
+                    // "&:hover": {
+                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    // },
+                  }}
+                  onClick={() => {
+                    // setCustomerSignUPDialogOpen(true);
+                  }}
+                >
+                  <Typography variant="h6">My Loans</Typography>
+                </Card>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: 2,
+                    margin: 1,
+                    cursor: "pointer",
+                    backgroundColor: theme.appBarColor,
+                    color: "white",
+                    // "&:hover": {
+                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    // },
+                  }}
+                  onClick={() => {
+                    // setShareInterestDialogOpen(true);
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <span
+                      className="material-icons"
+                      style={{ marginRight: "8px" }}
+                    >
+                      forward
+                    </span>
+                    <Typography variant="h6">Apply Loan</Typography>
+                  </Box>
+                </Card>
+              </Box>
               <Box
                 sx={{
                   position: "relative",
