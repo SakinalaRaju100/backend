@@ -161,6 +161,9 @@
         FormControl,
         InputLabel,
         Select,
+        Stepper,
+        Step,
+        StepLabel,
         FormHelperText,
         Autocomplete,
         Avatar,
@@ -1521,6 +1524,24 @@
       const Customers = () => {
         return <div> Customers table new</div>;
       };
+      const ApplyLoan = () => {
+        const steps = ["Basic", "Work", "Docs", "Final"];
+        const [step, setStep] = React.useState(0);
+        return (
+          <Box sx={{ width: "100%" }}>
+            <Box>
+              <Stepper activeStep={1} alternativeLabel>
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            </Box>
+            <Box>{steps[step]}</Box>
+          </Box>
+        );
+      };
       const Loans = () => {
         // let baseURL = "http://localhost:1954";
         // let baseURL = "https://www.zphskunur.in";
@@ -1798,7 +1819,7 @@
                       // href="https://zphs-school.vercel.app/enroll-form"
                       // href="https://sakinalaraju100.github.io/zphs-school/public/addStudentForm.html"
                     >
-                      apply New Loan
+                      apply Loan
                     </Button>
                   </Box>
 
@@ -2418,76 +2439,6 @@
 
           return (
             <div>
-              {/* New Customer and Become apartner button */}
-              <Box
-                sx={{
-                  // bgcolor: "grey.100",
-                  pt: 0,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-                gap={2}
-              >
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 2,
-                    margin: 1,
-                    cursor: "pointer",
-                    backgroundColor: theme.appBarColor,
-                    color: "white",
-                    // "&:hover": {
-                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    // },
-                  }}
-                  onClick={() => {
-                    setBodyarea("Loans");
-                    // setCustomerSignUPDialogOpen(true);
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <span
-                      className="material-icons"
-                      style={{ marginRight: "8px" }}
-                    >
-                      people
-                    </span>
-                    <Typography variant="h6">My Loans</Typography>
-                  </Box>
-                </Card>
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 2,
-                    margin: 1,
-                    cursor: "pointer",
-                    backgroundColor: theme.appBarColor,
-                    color: "white",
-                    // "&:hover": {
-                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    // },
-                  }}
-                  onClick={() => {
-                    // setShareInterestDialogOpen(true);
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <span
-                      className="material-icons"
-                      style={{ marginRight: "8px" }}
-                    >
-                      forward
-                    </span>
-                    <Typography variant="h6">Apply Loan</Typography>
-                  </Box>
-                </Card>
-              </Box>
               <Box
                 sx={{
                   position: "relative",
@@ -2603,6 +2554,79 @@
                     background: "transparent",
                   }}
                 />
+              </Box>
+
+              {/* New Customer and Become apartner button */}
+              <Box
+                sx={{
+                  // bgcolor: "grey.100",
+                  pt: 0,
+                  mb: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                gap={2}
+              >
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: 2,
+                    margin: 1,
+                    cursor: "pointer",
+                    backgroundColor: theme.appBarColor,
+                    color: "white",
+                    // "&:hover": {
+                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    // },
+                  }}
+                  onClick={() => {
+                    setBodyarea("Loans");
+                    // setCustomerSignUPDialogOpen(true);
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <span
+                      className="material-icons"
+                      style={{ marginRight: "8px" }}
+                    >
+                      people
+                    </span>
+                    <Typography variant="h6">My Loans</Typography>
+                  </Box>
+                </Card>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: 2,
+                    margin: 1,
+                    cursor: "pointer",
+                    backgroundColor: theme.appBarColor,
+                    color: "white",
+                    // "&:hover": {
+                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    // },
+                  }}
+                  onClick={() => {
+                    setBodyarea("ApplyLoan");
+                    // setShareInterestDialogOpen(true);
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <span
+                      className="material-icons"
+                      style={{ marginRight: "8px" }}
+                    >
+                      forward
+                    </span>
+                    <Typography variant="h6">Apply Loan</Typography>
+                  </Box>
+                </Card>
               </Box>
 
               {/* News & Updates */}
@@ -2911,6 +2935,72 @@
                     </IconButton>
                   </Box>
                 </Container>
+              </Box>
+
+              {/* SCroll with marquee */}
+              <Box
+                style={{
+                  fontSize: "12px",
+                  // paddingTop: "6px",
+                  // backgroundColor: "#25D366",
+                  color: "white",
+                  // "&:hover": {
+                  //   fontSize: "12px",
+                  // },
+                }}
+              >
+                <marquee behavior="scroll" direction="left">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                      mt: 2,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        bgcolor: "grey.200",
+                        p: 2,
+                        borderRadius: 1,
+                        textAlign: "center",
+                        flex: 1,
+                        mx: 1,
+                      }}
+                    >
+                      <Typography variant="h6" color={theme.appBarColor}>
+                        Partner 1
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        bgcolor: "grey.200",
+                        p: 2,
+                        borderRadius: 1,
+                        textAlign: "center",
+                        flex: 1,
+                        mx: 1,
+                      }}
+                    >
+                      <Typography variant="h6" color={theme.appBarColor}>
+                        Partner 2
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        bgcolor: "grey.200",
+                        p: 2,
+                        borderRadius: 1,
+                        textAlign: "center",
+                        flex: 1,
+                        mx: 1,
+                      }}
+                    >
+                      <Typography variant="h6" color={theme.appBarColor}>
+                        Partner 3
+                      </Typography>
+                    </Box>
+                  </Box>
+                </marquee>
               </Box>
 
               {/* New Customer and Become apartner button */}
@@ -3881,6 +3971,7 @@
               sx={{ flexGrow: 1, p: 0.5, m: 0, width: "100%" }}
             >
               <Toolbar />
+
               <Stack spacing={2}>
                 <Breadcrumbs
                   // separator={<NavigateNextIcon fontSize="small" />}
@@ -3890,7 +3981,9 @@
                   {breadcrumbs}
                 </Breadcrumbs>
               </Stack>
+              <hr />
               {bodyarea == "Loans" && <Loans />}
+              {bodyarea == "ApplyLoan" && <ApplyLoan />}
               {bodyarea == "Dashboard" && <Dashboard />}
               {bodyarea == "Customers" && <Customers />}
               {bodyarea == "Sales" && <Management />}
