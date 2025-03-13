@@ -1782,7 +1782,36 @@
                 </Box>
 
                 {/* New user Button */}
-                <Box sx={{ mb: 3, textAlign: "right" }}></Box>
+                <Box sx={{ mb: 3, textAlign: "right", gap: 2 }}>
+                  <Button
+                    onClick={() => {
+                      setRoleFilter("Active");
+                    }}
+                    variant="contained"
+                    color="primary"
+                    sx={{ mr: 1 }}
+                  >
+                    Active Loans
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setRoleFilter("Month");
+                    }}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Current Month
+                  </Button>
+                  {/* <Button
+                    onClick={() => {
+                      // setBodyarea("ApplyLoan");
+                    }}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Dis
+                  </Button>*/}
+                </Box>
 
                 {/* Filters Section */}
 
@@ -1835,7 +1864,7 @@
                         >
                           <option value="">All</option>
                           {[
-                            "Progress",
+                            "Active",
                             "Verification",
                             "Completed",
                             "Rejected",
@@ -1886,7 +1915,7 @@
                             //   setSearchFilter("");
                             // }
                           }}
-                          placeholder="Filter by name, role, gender, mobile or branch..."
+                          placeholder="Filter by Name, Loan ID, Status..."
                           style={{
                             border: "none",
                             outline: "none",
@@ -2998,7 +3027,7 @@
                                 //   setSearchFilter("");
                                 // }
                               }}
-                              placeholder="Filter by name, role, gender, mobile or branch..."
+                              placeholder="Filter by Name, Loan ID, mobile or Status..."
                               style={{
                                 border: "none",
                                 outline: "none",
@@ -4874,6 +4903,15 @@
             path: "/",
           },
 
+          {
+            text: "Reffer A Friend",
+            icon: "people",
+            role: "all",
+            path: "/",
+            clickfunc: () => {
+              alert("This feature Under Developemet");
+            },
+          },
           {
             text: "Company Reviews",
             icon: "message",
