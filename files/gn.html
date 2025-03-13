@@ -28,6 +28,8 @@
       href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
     />
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
       body {
         font-family: "Roboto", sans-serif;
@@ -178,6 +180,8 @@
         Tooltip,
         Breadcrumbs,
       } = MaterialUI;
+
+      // const { PieChart } = window["@mui/x-charts"];
 
       const branches = [
         {
@@ -1542,6 +1546,32 @@
         );
       };
 
+      const SalesReports = () => {
+        useEffect(() => {
+          const ctx = document.getElementById("myPieChart").getContext("2d");
+          new Chart(ctx, {
+            type: "pie",
+            data: {
+              labels: ["Red", "Blue", "Yellow", "Green", "Purple"],
+              datasets: [
+                {
+                  data: [12, 19, 3, 5, 2],
+                  backgroundColor: ["red", "blue", "yellow", "green", "purple"],
+                },
+              ],
+            },
+          });
+        }, []);
+
+        return (
+          <div>
+            <h2>Sales Report</h2>
+            <div style={{ width: "50%", margin: "auto" }}>
+              <canvas id="myPieChart"></canvas>
+            </div>
+          </div>
+        );
+      };
       const Customers = () => {
         return <div> Customers table new</div>;
       };
@@ -4169,8 +4199,17 @@
             path: "/",
             clickfunc: handleClickCustomersMenu,
           },
-          { text: "Sales Reports", icon: "article", role: "sales", path: "/" },
-          { text: "Sales Targets", icon: "article", role: "sales", path: "/" },
+          {
+            text: "Sales Reports",
+            icon: "article",
+            role: "sales",
+            path: "/",
+            clickfunc: () => {
+              setBodyarea("SalesReports");
+              setOpen(false);
+            },
+          },
+          // { text: "Sales Targets", icon: "article", role: "sales", path: "/" },
           {
             text: "Apply Loan",
             icon: "article",
@@ -4274,7 +4313,9 @@
             setLoginData(storedData);
             setFilteredMenuItems((pre) =>
               menuItems.filter(
-                (item) => item.role === "all" || item.role === storedData.role
+                (item) =>
+                  item.role.toLowerCase() === "all" ||
+                  item.role.toLowerCase() === storedData.role.toLowerCase()
               )
             );
           } else {
@@ -4489,6 +4530,7 @@
                 </Breadcrumbs>
               </Stack>
               <hr />
+              {bodyarea == "SalesReports" && <SalesReports />}
               {bodyarea == "Loans" && <Loans />}
               {bodyarea == "ApplyLoan" && <ApplyLoan />}
               {bodyarea == "Dashboard" && <Dashboard />}
