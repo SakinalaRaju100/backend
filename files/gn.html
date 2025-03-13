@@ -28,7 +28,10 @@
       href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
     />
 
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <style>
       body {
@@ -1547,28 +1550,666 @@
       };
 
       const SalesReports = () => {
+        const [selectedLoan, setSelectedLoan] = React.useState(null);
+
+        const [openStudentDetailsModal, setOpenStudentDetailsModal] =
+          React.useState(false);
+
+        // useEffect(() => {
+        //   const ctx = document.getElementById("myPieChart").getContext("2d");
+        //   new Chart(ctx, {
+        //     type: "pie",
+        //     data: {
+        //       labels: ["Completed", "In Progress", "Rejected", "Pending"],
+        //       datasets: [
+        //         {
+        //           label: " Value ",
+        //           data: [110, 80, 55, 63],
+        //           backgroundColor: ["green", "blue", "red", "orange"],
+        //           hoverOffset: 3,
+        //         },
+        //       ],
+        //     },
+        //   });
+        // }, []);
+
+        // useEffect(() => {
+        //   const ctx = document.getElementById("myPieChart").getContext("2d");
+        //   new Chart(ctx, {
+        //     type: "pie",
+        //     data: {
+        //       labels: ["In Progress", "Pending", "Completed", "Rejected"],
+        //       datasets: [
+        //         {
+        //           label: " Value ",
+        //           data: [110, 80, 55, 63],
+        //           backgroundColor: ["orange", "blue", "green", "red"],
+        //           hoverOffset: 3,
+        //         },
+        //       ],
+        //     },
+        //     options: {
+        //       responsive: true,
+        //       plugins: {
+        //         legend: {
+        //           position: "top",
+        //         },
+        //         tooltip: {
+        //           callbacks: {
+        //             label: function (tooltipItem) {
+        //               return tooltipItem.label + ": " + tooltipItem.raw;
+        //             },
+        //           },
+        //         },
+        //       },
+        //       cutout: "50%", // Adjust this value to change the center radius
+        //     },
+        //   });
+        // }, []);
+
         useEffect(() => {
           const ctx = document.getElementById("myPieChart").getContext("2d");
+          const total = [110, 80, 55, 63].reduce((a, b) => a + b, 0);
+
+          const centerTextPlugin = {
+            id: "centerText",
+            beforeDraw: (chart) => {
+              const { width, height, ctx } = chart;
+              ctx.save();
+              ctx.font = "bold 16px sans-serif";
+              ctx.fillStyle = "black";
+              ctx.textAlign = "center";
+              ctx.textBaseline = "middle";
+              ctx.fillText(`Total: ${total}`, width / 2, height / 1.6);
+              ctx.restore();
+            },
+          };
+
           new Chart(ctx, {
             type: "pie",
             data: {
-              labels: ["Red", "Blue", "Yellow", "Green", "Purple"],
+              labels: ["In Progress", "Pending", "Completed", "Rejected"],
               datasets: [
                 {
-                  data: [12, 19, 3, 5, 2],
-                  backgroundColor: ["red", "blue", "yellow", "green", "purple"],
+                  label: " Value ",
+                  data: [110, 80, 55, 63],
+                  backgroundColor: ["orange", "blue", "green", "red"],
+                  hoverOffset: 3,
                 },
               ],
             },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: "top",
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function (tooltipItem) {
+                      return tooltipItem.label + ": " + tooltipItem.raw;
+                    },
+                  },
+                },
+              },
+              cutout: "50%", // Creates a doughnut effect
+            },
+            plugins: [centerTextPlugin],
           });
         }, []);
+
+        // useEffect(() => {
+        //   const ctx = document.getElementById("myPieChart").getContext("2d");
+        //   new Chart(ctx, {
+        //     type: "pie",
+        //     data: {
+        //       labels: ["In Progress", "Pending", "Completed", "Rejected"],
+        //       // labels: ["Completed", "In Progress", "Rejected", "Pending"],
+        //       datasets: [
+        //         {
+        //           label: " Value ",
+        //           data: [110, 80, 55, 63],
+        //           backgroundColor: ["green", "blue", "red", "orange"],
+        //           hoverOffset: 3,
+        //         },
+        //       ],
+        //     },
+        //     options: {
+        //       responsive: true,
+        //       plugins: {
+        //         legend: {
+        //           position: "top",
+        //         },
+        //         tooltip: {
+        //           callbacks: {
+        //             label: function (tooltipItem) {
+        //               return tooltipItem.label + ": " + tooltipItem.raw;
+        //             },
+        //           },
+        //         },
+        //         // Custom plugin to display text in the center
+        //         datalabels: {
+        //           display: true,
+        //           align: "center",
+        //           anchor: "center",
+        //           formatter: () => "Total: 200", // Display total count
+        //           font: {
+        //             size: "20", // Adjust font size as needed
+        //             weight: "bold",
+        //           },
+        //         },
+        //       },
+        //       cutout: "50%", // Adjust this value to change the center radius
+        //     },
+        //     plugins: [ChartDataLabels], // Ensure you include the ChartDataLabels plugin
+        //   });
+        // }, []);
+
+        const [searchFilter, setSearchFilter] = React.useState("");
+
+        const [roleFilter, setRoleFilter] = React.useState("");
+
+        const getFilteredlist = () => {
+          return allLoans.filter((user) => {
+            return (
+              user?.status.toLowerCase().includes(roleFilter.toLowerCase()) &&
+              user?.fullName.toLowerCase().includes(searchFilter.toLowerCase())
+            );
+          });
+        };
+
+        const clearStudentFilters = () => {
+          setSearchFilter("");
+          setRoleFilter("");
+        };
 
         return (
           <div>
             <h2>Sales Report</h2>
-            <div style={{ width: "50%", margin: "auto" }}>
+            <div style={{ width: "80%", margin: "auto" }}>
               <canvas id="myPieChart"></canvas>
             </div>
+
+            <div className="form-container">
+              <Box sx={{ p: 0, m: 0, width: "100%" }} className="box">
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    // mb: 3,
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    gutterBottom
+                    sx={{ fontWeight: "bold", fontSize: "1.25rem" }} // Reduced font size
+                  >
+                    Loans
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    // mb: 3,
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    gutterBottom
+                    sx={{ fontWeight: "bold", fontSize: "1rem" }} // Reduced font size
+                  >
+                    filtered :{" "}
+                    {getFilteredlist().reduce((acc, el) => acc + 1, 0)} /{" "}
+                    {allLoans.length}
+                  </Typography>
+                  {/*<Button
+                    onClick={() => {
+                      // alert("Contact administrator");
+                      // setShowList(false);
+                      setBodyarea("ApplyLoan");
+                      // setNewUserModal(true);
+                    }}
+                    variant="contained"
+                    color="primary"
+                    // href="https://zphs-school.vercel.app/enroll-form"
+                    // href="https://sakinalaraju100.github.io/zphs-school/public/addStudentForm.html"
+                  >
+                    apply Loan
+                  </Button>*/}
+                </Box>
+
+                {/* New user Button */}
+                <Box sx={{ mb: 3, textAlign: "right" }}></Box>
+
+                {/* Filters Section */}
+
+                <Box sx={{ mb: 3 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 2,
+                      flexWrap: "wrap",
+                      mb: 2,
+                    }}
+                  >
+                    <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
+                      <Typography
+                        variant="subtitle2"
+                        gutterBottom
+                        sx={{ fontSize: "0.875rem" }}
+                      ></Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          bgcolor: "grey.100",
+                          borderRadius: 1,
+                          px: 2,
+                        }}
+                      >
+                        <span
+                          className="material-icons"
+                          sx={{ color: "grey.500" }}
+                        >
+                          school
+                        </span>
+                        <select
+                          value={roleFilter}
+                          onChange={(e) => {
+                            // console.log("roleFilter", e.target.value);
+                            setRoleFilter(e.target.value);
+                            setSearchFilter("");
+                            getFilteredlist();
+                          }}
+                          style={{
+                            border: "none",
+                            outline: "none",
+                            padding: "8px",
+                            backgroundColor: "transparent",
+                            width: "100%",
+                          }}
+                        >
+                          <option value="">All</option>
+                          {[
+                            "Progress",
+                            "Verification",
+                            "Completed",
+                            "Rejected",
+                            "Month",
+                            "Day",
+                            "Week",
+                            "Year",
+                          ].map((role, ri) => (
+                            <option key={ri + role} value={role}>
+                              {role}
+                            </option>
+                          ))}
+                        </select>
+                      </Box>
+                    </Box>
+                    <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
+                      <Typography
+                        variant="subtitle2"
+                        gutterBottom
+                        sx={{ fontSize: "0.875rem" }}
+                      ></Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          bgcolor: "grey.100",
+                          borderRadius: 1,
+                          px: 2,
+                        }}
+                      >
+                        <span
+                          className="material-icons"
+                          sx={{ color: "grey.500" }}
+                        >
+                          search
+                        </span>
+                        <input
+                          type="text"
+                          // value={searchFilter}
+                          // onChange={(e) => setSearchFilter(e.target.value)}
+                          value={searchFilter}
+                          onChange={(e) => {
+                            setSearchFilter(e.target.value);
+                            getFilteredlist();
+                            // if (e.target.value.length > 2) {
+                            //   // setSearchFilter(e.target.value);
+                            // } else {
+                            //   setSearchFilter("");
+                            // }
+                          }}
+                          placeholder="Filter by name, role, gender, mobile or branch..."
+                          style={{
+                            border: "none",
+                            outline: "none",
+                            padding: "8px",
+                            backgroundColor: "transparent",
+                            width: "100%",
+                          }}
+                        />
+                        {searchFilter && (
+                          <IconButton
+                            onClick={() => {
+                              setSearchFilter("");
+                            }}
+                            sx={{ ml: 1 }}
+                          >
+                            <span
+                              className="material-icons"
+                              style={{ color: "grey.500" }}
+                            >
+                              clear
+                            </span>
+                          </IconButton>
+                        )}
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Box sx={{ width: "100%", overflowX: "auto" }}>
+                  <TableContainer sx={{ minWidth: "250px" }}>
+                    <Table sx={{}}>
+                      <TableHead>
+                        <TableRow sx={{ bgcolor: "primary.main" }}>
+                          <TableCell
+                            sx={{
+                              color: "white",
+                              fontWeight: "bold",
+                              backgroundColor: "primary.main",
+                              position: "sticky",
+                              left: 0,
+                              zIndex: 1,
+                            }}
+                          >
+                            LoanID
+                          </TableCell>
+
+                          <TableCell
+                            sx={{ color: "white", fontWeight: "bold" }}
+                          >
+                            Full Name
+                          </TableCell>
+
+                          <TableCell
+                            sx={{ color: "white", fontWeight: "bold" }}
+                          >
+                            status
+                          </TableCell>
+
+                          <TableCell
+                            sx={{ color: "white", fontWeight: "bold" }}
+                          >
+                            mobile
+                          </TableCell>
+
+                          {/*}
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Sales Member
+                            </TableCell>*/}
+
+                          <TableCell
+                            sx={{ color: "white", fontWeight: "bold" }}
+                          >
+                            notes
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {/* {allLoans.map((loan, ind) => (*/}
+                        {getFilteredlist().map((loan, ind) => (
+                          <TableRow
+                            key={ind}
+                            onClick={() => {
+                              setSelectedLoan(loan);
+                              setOpenStudentDetailsModal(true);
+                              // setChecked(loan?.enrolled);
+                              // setFamilyMembers(loan?.familyMembers);
+                            }}
+                            sx={{
+                              "&:nth-of-type(odd)": { bgcolor: "grey.50" },
+                              "&:hover": { bgcolor: "grey.100" },
+                            }}
+                          >
+                            <TableCell
+                              sx={{
+                                color: "white",
+                                fontWeight: "bold",
+                                position: "sticky",
+                                left: 0,
+                                backgroundColor: loan?.enrolled
+                                  ? "lightblue"
+                                  : "lightgreen",
+                                zIndex: 1,
+                              }}
+                            >
+                              {loan?.loanId ?? "-"}
+                            </TableCell>
+                            <TableCell>{loan?.fullName ?? "-"}</TableCell>
+                            {/* <TableCell>{loan?.father}</TableCell> */}
+                            <TableCell>{loan?.status ?? "-"}</TableCell>
+                            <TableCell>{loan?.mobile ?? "-"}</TableCell>
+                            <TableCell>{loan?.notes ?? "-"}</TableCell>
+                            {/*} <TableCell>{loan?.email ?? "-"}</TableCell>
+                              <TableCell>{loan?.address ?? "-"}</TableCell>*/}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Box>
+
+                <Box sx={{ mt: 3, textAlign: "center" }}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ fontSize: "0.875rem" }}
+                    onClick={() => {
+                      // setShowList(false);
+                    }}
+                  >
+                    For any updates, please contact the administration.
+                  </Typography>
+                </Box>
+              </Box>
+            </div>
+            {/* Modal for user Details*/}
+            {selectedLoan && (
+              <Dialog
+                open={openStudentDetailsModal}
+                onClose={() => setOpenStudentDetailsModal(false)}
+                fullWidth
+                maxWidth="sm"
+                sx={{
+                  width: "100%",
+                  fontSize: "6px",
+                  "& .MuiDialogContent-root": {
+                    padding: "16px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center", // Vertical centering
+                  },
+                  "& .MuiDialogTitle-root": {
+                    backgroundColor: "#1976d2",
+                    color: "white",
+                  },
+                }}
+              >
+                <Box sx={{ p: 3 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      mb: 2,
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        flex: 1,
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      Loan Details
+                    </Typography>
+                    <IconButton
+                      onClick={() => {
+                        // fetchListDate();
+                        setOpenStudentDetailsModal(false);
+                      }}
+                    >
+                      <span className="material-icons">close</span>
+                    </IconButton>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      textAlign: "center",
+                      gap: 2,
+                      fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                    }}
+                  >
+                    {/* Display user's photo in a circle */}
+                    {/*<Box
+                        component="img"
+                        // src={
+                        //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
+                        // }
+                        src={"./studentEmoji.png"}
+                        alt={selectedLoan?.name}
+                        sx={{
+                          width: { xs: 60, sm: 100 },
+                          height: { xs: 60, sm: 100 },
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                        }}
+                      />*/}
+
+                    {/* Display user details */}
+
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        width: "100%",
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      <strong>User Code:</strong> {selectedLoan?.loanId ?? "-"}
+                    </Typography>
+
+                    <Typography
+                      variant="body1"
+                      xs={12}
+                      sx={{
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      <strong>Full Name:</strong>{" "}
+                      {selectedLoan?.fullName ?? "-"}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        width: "100%",
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      <strong>Status:</strong> {selectedLoan?.status ?? "-"}
+                    </Typography>
+
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      <strong> Branch code:</strong>{" "}
+                      {selectedLoan?.branchCode ?? "-"}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>Father:</strong> {selectedLoan?.careOf}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>Branch:</strong> {selectedLoan?.branchCode}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>RefferedBY:</strong> {selectedLoan?.refferedBY}
+                    </Typography>
+
+                    <Typography variant="body1">
+                      <strong>Email:</strong> {selectedLoan.email}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      <strong>Mobile:</strong> {selectedLoan?.mobile ?? "-"}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      <strong>Address:</strong> {selectedLoan?.address ?? "-"}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      <strong>Pincode:</strong> {selectedLoan?.pincode ?? "-"}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        width: "100%",
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      <strong>loanDetails:</strong>{" "}
+                      {JSON.stringify(selectedLoan?.loanDetails) ?? "-"}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        width: "100%",
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      <strong>payDetails:</strong>{" "}
+                      {JSON.stringify(selectedLoan?.payDetails) ?? "-"}
+                    </Typography>
+
+                    {/* <Box>
+                  <Button variant="outlined">Edit</Button>
+                </Box> */}
+                  </Box>
+                </Box>
+              </Dialog>
+            )}
           </div>
         );
       };
@@ -3897,8 +4538,8 @@
         const [shareInterestDialogOpen, setShareInterestDialogOpen] =
           useState(false);
         const [interestForm, setInterestForm] = useState(false);
-        // const [bodyarea, setBodyarea] = useState("Sales");
-        const [bodyarea, setBodyarea] = useState("Dashboard");
+        const [bodyarea, setBodyarea] = useState("SalesReports");
+        // const [bodyarea, setBodyarea] = useState("Dashboard");
         const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
         const [loginUser, setLoginUser] = useState("");
