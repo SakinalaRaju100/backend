@@ -4849,16 +4849,25 @@
           {
             text: "Dashboard",
             icon: "home",
+            list: ["all"],
             role: "all",
             path: "/dashboard",
             clickfunc: handleClickDashboardMenu,
           },
           // { text: "My Page", icon: "article", role: "all,sales ", path: "/my-page" },
-          { text: "admins", icon: "people", role: "admin", path: "/" },
+          {
+            text: "admins",
+            icon: "people",
+            list: ["admins"],
+            role: "admin",
+            path: "/",
+          },
           {
             text: "Sales Members",
             icon: "people",
             role: "admin",
+            list: ["admin"],
+
             path: "/",
             clickfunc: handleClickSalesMenu,
           },
@@ -4866,6 +4875,8 @@
             text: "Customers",
             icon: "people",
             role: "admin",
+            list: ["admin", "sales"],
+
             path: "/",
             clickfunc: handleClickCustomersMenu,
           },
@@ -4873,6 +4884,8 @@
             text: "Sales Reports",
             icon: "article",
             role: "sales",
+            list: ["sales", "manager"],
+
             path: "/",
             clickfunc: () => {
               setBodyarea("SalesReports");
@@ -4884,6 +4897,8 @@
             text: "Apply Loan",
             icon: "article",
             role: "customer",
+            list: ["customer"],
+
             path: "/",
             clickfunc: () => {
               setBodyarea("ApplyLoan");
@@ -4894,19 +4909,23 @@
             text: "Customer loans",
             icon: "article",
             role: "customer",
+            list: ["customer"],
+
             path: "/",
           },
-          {
-            text: "Customer Refferences",
-            icon: "video_library",
-            role: "customer",
-            path: "/",
-          },
+          // {
+          //   text: "Customer Refferences",
+          //   icon: "video_library",
+          //   role: "customer",
+          //   path: "/",
+          // },
 
           {
             text: "Reffer A Friend",
             icon: "people",
             role: "all",
+            list: ["all"],
+
             path: "/",
             clickfunc: () => {
               alert("This feature Under Developemet");
@@ -4915,6 +4934,7 @@
           {
             text: "Company Reviews",
             icon: "message",
+            list: ["all"],
 
             role: "all",
             badge: 4,
@@ -4924,6 +4944,8 @@
             text: "About Us",
             icon: "message",
             role: "all",
+            list: ["all"],
+
             path: "/about",
             clickfunc: handleClickDashboardMenu,
           },
@@ -4931,6 +4953,8 @@
             text: "Contact Us",
             icon: "people",
             role: "all",
+            list: ["all"],
+
             path: "/contact",
             clickfunc: handleClickDashboardMenu,
           },
@@ -4938,21 +4962,27 @@
             text: "Terms & Conditions",
             icon: "video_library",
             role: "all",
+            list: ["all"],
+
             path: "/terms",
             clickfunc: handleClickDashboardMenu,
           },
 
-          {
-            text: "Profile",
-            icon: "people",
-            role: "all",
-            path: "/profile",
-            clickfunc: handleDialogToggle,
-          },
+          // {
+          //   text: "Profile",
+          //   icon: "people",
+          //   role: "all",
+          //   list: ["all"],
+
+          //   path: "/profile",
+          //   clickfunc: handleDialogToggle,
+          // },
           {
             text: "Settings",
             icon: "settings",
             role: "all",
+            list: ["all"],
+
             path: "/settings",
 
             clickfunc: handleSettingsToggle,
@@ -4961,6 +4991,8 @@
             text: "New Customer",
             icon: "logout",
             role: "all",
+            list: ["all"],
+
             path: "/",
             clickfunc: () => setCustomerSignUPDialogOpen(true),
           },
@@ -4970,6 +5002,8 @@
             icon: "logout",
             role: "all",
             path: "/",
+            list: ["all"],
+
             clickfunc: () => {
               // alert("in Progress to fill form");
               setShareInterestDialogOpen(true);
@@ -4993,8 +5027,10 @@
             setFilteredMenuItems((pre) =>
               menuItems.filter(
                 (item) =>
-                  item.role.toLowerCase() === "all" ||
-                  item.role.toLowerCase() === storedData.role.toLowerCase()
+                  // item.role.toLowerCase() === "all" ||
+                  // item.role.toLowerCase() === storedData.role.toLowerCase()
+                  item.list.includes("all") ||
+                  item.list.includes(storedData.role.toLowerCase())
               )
             );
           } else {
@@ -5147,49 +5183,42 @@
               <Toolbar />
               <Box sx={{ overflow: "auto" }}>
                 <List>
-                  {filteredMenuItems
-                    // {menuItems
-                    // .filter((item) => {
-                    //   return item.role === ("all" || loginData?.role);
-                    // })
-                    .map((item, index) => (
-                      <ListItem
-                        button
-                        key={item.text}
-                        onClick={() =>
-                          item.clickfunc ? item.clickfunc() : null
-                        }
-                      >
-                        <ListItemIcon>
-                          <span
-                            className="material-icons"
-                            // style={{ color: "#3f51b5" }}
-                            style={{ color: theme.drawerColor }}
-                          >
-                            {item.icon}
-                          </span>
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={item.text}
+                  {filteredMenuItems.map((item, index) => (
+                    <ListItem
+                      button
+                      key={item.text}
+                      onClick={() => (item.clickfunc ? item.clickfunc() : null)}
+                    >
+                      <ListItemIcon>
+                        <span
+                          className="material-icons"
+                          // style={{ color: "#3f51b5" }}
+                          style={{ color: theme.drawerColor }}
+                        >
+                          {item.icon}
+                        </span>
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={item.text}
+                        sx={{
+                          fontSize: item.fontSize || "inherit",
+                          color: theme.drawerColor,
+                        }}
+                      />
+                      {item.badge && (
+                        <Box
                           sx={{
-                            fontSize: item.fontSize || "inherit",
-                            color: theme.drawerColor,
+                            backgroundColor: "yellow",
+                            borderRadius: "50%",
+                            padding: "2px 6px",
+                            marginLeft: "auto",
                           }}
-                        />
-                        {item.badge && (
-                          <Box
-                            sx={{
-                              backgroundColor: "yellow",
-                              borderRadius: "50%",
-                              padding: "2px 6px",
-                              marginLeft: "auto",
-                            }}
-                          >
-                            {item.badge}
-                          </Box>
-                        )}
-                      </ListItem>
-                    ))}
+                        >
+                          {item.badge}
+                        </Box>
+                      )}
+                    </ListItem>
+                  ))}
                 </List>
               </Box>
             </Drawer>
