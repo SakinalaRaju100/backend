@@ -205,20 +205,23 @@
           { name: "Uppal", distance: 130 },
         ]);
         const [userData, setUserData] = useState(null);
+        const [allData, setAllData] = useState([]);
 
         const fetchA = async () => {
           try {
             const response = await axios.post(baseURL + "/api/taxi/get-all");
             console.log("Data saved successfully:", response.data);
+            setAllData(response.data);
           } catch (error) {
+            setAllData([]);
             console.error("Error saving data:", error);
           }
         };
 
         useEffect(() => {
-          fetchA();
           const storedData = localStorage.getItem("userObj");
           if (storedData) {
+            fetchA();
             setUserData(JSON.parse(storedData));
             const a = document.getElementById("map");
             a.style.display = "block";
