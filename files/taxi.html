@@ -214,7 +214,7 @@
             const userData = JSON.parse(storedData);
             try {
               const response = await axios.post(baseURL + "/api/taxi/get-all");
-              console.log("Data saved successfully:", response.data);
+              // console.log("Data saved successfully:", response.data);
               setAllData(response.data.data);
               // mapFunc();
               mapFunc(response.data.data);
@@ -242,7 +242,7 @@
           if (storedData) {
             const userData = JSON.parse(storedData);
             locationArr = userData?.currentCoordinates;
-            console.log("mapCenter", userData?.currentCoordinates);
+            // console.log("mapCenter", userData?.currentCoordinates);
           }
 
           // var marker = L.marker([17.692118, 79.142845])
@@ -251,7 +251,7 @@
             .bindPopup(`Current Location`);
           // .openPopup();
 
-          console.log("allDatea", allData);
+          // console.log("allDatea", allData);
 
           // Add all markers from the allData array
 
@@ -337,7 +337,7 @@
               navigator.geolocation.getCurrentPosition(
                 async (position) => {
                   const { latitude, longitude } = position.coords;
-                  console.log("Current Coordinates:", latitude, longitude);
+                  // console.log("Current Coordinates:", latitude, longitude);
                   setCurrentCoordinates([latitude, longitude]);
                   resolve([latitude, longitude]);
                 },
@@ -362,7 +362,7 @@
             if (storedData) {
               const userData = JSON.parse(storedData);
 
-              console.log("send Data1", userData);
+              // console.log("send Data1", userData);
 
               if (userData?.role == "taxi") {
                 const response = await axios.post(
@@ -374,7 +374,7 @@
                     to: userData?.dropLocation,
                   }
                 );
-                console.log("Data saved successfully:", response.data);
+                // console.log("Data saved successfully:", response.data);
               } else {
                 const response = await axios.post(
                   baseURL + "/api/taxi/add-passenger", // Updated API endpoint
@@ -385,7 +385,7 @@
                     to: userData?.dropLocation,
                   }
                 );
-                console.log("Data saved successfully:", response.data);
+                // console.log("Data saved successfully:", response.data);
               }
             }
           } catch (error) {
@@ -487,10 +487,10 @@
                                 mobile: userData?.mobile,
                               }
                             );
-                            console.log(
-                              "Data removed successfully:",
-                              response.data
-                            );
+                            // console.log(
+                            //   "Data removed successfully:",
+                            //   response.data
+                            // );
                             setUserData(null);
                             localStorage.removeItem("userObj");
                             toggleMap();
@@ -627,14 +627,14 @@
                     ) {
                       getCoordinates();
 
-                      console.log(
-                        "name, mobile",
-                        name,
-                        mobile,
-                        pickupLocation,
-                        dropLocation,
-                        currentCoordinates
-                      );
+                      // console.log(
+                      //   "name, mobile",
+                      //   name,
+                      //   mobile,
+                      //   pickupLocation,
+                      //   dropLocation,
+                      //   currentCoordinates
+                      // );
 
                       try {
                         const response = await axios.post(
@@ -647,7 +647,7 @@
                             location: currentCoordinates,
                           }
                         );
-                        console.log("Data saved successfully:", response.data);
+                        // console.log("Data saved successfully:", response.data);
                       } catch (error) {
                         console.error("Error saving data:", error);
                       }
@@ -859,15 +859,15 @@
                       //   );
                       // }
 
-                      console.log(
-                        "name, mobile",
-                        name,
-                        mobile,
-                        pickupLocation,
-                        dropLocation,
-                        currentCoordinates
-                        // a
-                      );
+                      // console.log(
+                      //   "name, mobile",
+                      //   name,
+                      //   mobile,
+                      //   pickupLocation,
+                      //   dropLocation,
+                      //   currentCoordinates
+                      //   // a
+                      // );
 
                       try {
                         const response = await axios.post(
