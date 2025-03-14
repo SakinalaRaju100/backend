@@ -92,7 +92,7 @@ router.post("/add-taxi", async (req, res) => {
     vehicleNumber = "NA",
     role = "taxi",
   } = req.body;
-  if (!mobile || !from || !to) {
+  if (!mobile || !from || !to || location.length == 0) {
     return res.status(201).send("data missing"); // Respond with the saved taxi data
   }
 
@@ -122,7 +122,7 @@ router.post("/add-taxi", async (req, res) => {
 
     res.status(201).send({ success: true, message: "Operation successful" }); // Respond with the saved taxi data
   } catch (error) {
-    console.error("Error adding taxi:", error);
+    console.error("Error:", error);
     res
       .status(500)
       .send({ success: false, message: "Operation failed", error }); // Handle errors
@@ -137,16 +137,13 @@ router.post("/add-passenger", async (req, res) => {
   const {
     location = [],
     name = "NA",
-    // seats = 1,
     from,
     to,
     mobile,
-    // vehicleNumber = "NA",
-
     members = 1,
     role = "passenger",
   } = req.body;
-  if (!mobile || !from || !to) {
+  if (!mobile || !from || !to || location.length == 0) {
     return res.status(201).send("data missing"); // Respond with the saved taxi data
   }
 
@@ -178,7 +175,7 @@ router.post("/add-passenger", async (req, res) => {
 
     res.status(201).send({ success: true, message: "Operation successful" }); // Respond with the saved taxi data
   } catch (error) {
-    console.error("Error adding taxi:", error);
+    console.error("Error:", error);
     res
       .status(500)
       .send({ success: false, message: "Operation failed", error }); // Handle errors
