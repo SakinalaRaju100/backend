@@ -361,9 +361,10 @@
                       </Typography>
                       <IconButton
                         style={{
-                          color: "green",
-                          border: "2px solid gray",
+                          color: "orange",
+                          border: "2px solid green",
                           borderRadius: "5px",
+                          marginRight: "3px",
                         }}
                         onClick={() => {
                           // alert("manual refresh");
@@ -383,13 +384,19 @@
                           borderRadius: "5px",
                         }}
                         onClick={() => {
-                          setUserData(null);
-                          localStorage.removeItem("userObj");
-                          toggleMap();
+                          if (
+                            window.confirm("Are you sure you want to proceed?")
+                          ) {
+                            // confirm(); // Call the confirm function if user clicks "Yes"
+                            setUserData(null);
+                            localStorage.removeItem("userObj");
+                            toggleMap();
+                          } else {
+                          }
                         }}
                         aria-label="close"
                       >
-                        <span className="material-icons">close</span> Delete
+                        <span className="material-icons">close</span>
                       </IconButton>
                     </div>
                     <Typography variant="h6" style={{ color: "blue" }}>
