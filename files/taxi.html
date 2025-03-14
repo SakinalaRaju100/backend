@@ -154,12 +154,12 @@
           {
             name: "Raghu",
             mobile: "123",
-            time: "time",
+            role: "taxi",
             from: "A",
             to: "B",
             location: [17.4410451, 78.6660831],
             locationName: "ghatkesar",
-            available: 2,
+            seats: 2,
           },
           {
             name: "Raghu2",
@@ -169,7 +169,7 @@
             to: "B2",
             location: [17.4729087, 78.8153675],
             locationName: "Bhuvanagiri",
-            available: 1,
+            seats: 1,
           },
           {
             name: "Raghu3",
@@ -179,7 +179,7 @@
             to: "B3",
             location: [17.9742239, 79.483573],
             locationName: "Kazipet",
-            available: 2,
+            seats: 2,
           },
         ]);
         const [currentCoordinates, setCurrentCoordinates] = useState([]);
@@ -211,25 +211,14 @@
           try {
             const response = await axios.post(baseURL + "/api/taxi/get-all");
             console.log("Data saved successfully:", response.data);
-            setAllData(response.data);
+            setAllData(response.data.data);
           } catch (error) {
             setAllData([]);
             console.error("Error saving data:", error);
           }
         };
 
-        useEffect(() => {
-          const storedData = localStorage.getItem("userObj");
-          if (storedData) {
-            fetchA();
-            setUserData(JSON.parse(storedData));
-            const a = document.getElementById("map");
-            a.style.display = "block";
-          } else {
-            const a = document.getElementById("map");
-            a.style.display = "none";
-          }
-
+        const mapFunc = () => {
           // Initialize the Leaflet map
           const map = L.map("map").setView([17.692118, 79.142845], 9);
 
@@ -244,7 +233,10 @@
             .bindPopup(`Current Location`)
             .openPopup();
 
+          console.log("allDatea", allData);
+
           // Add all markers from the allVehicles array
+
           allVehicles.forEach((marker) => {
             L.marker(marker.location, {
               icon: L.icon({
@@ -256,13 +248,46 @@
             })
               .addTo(map)
               .bindPopup(
-                `${marker.name} - ${marker.mobile},  seats: ${marker.available}`
+                `${marker.name} - ${marker.mobile},  seats: ${marker.seats}`
               );
             // .openPopup();
           });
-          getCoordinates();
 
-          // document.getElementById("map").style.display = "none"; // Hide the map
+          // allData.forEach((marker) => {
+          //   L.marker(marker.location, {
+          //     icon: L.icon({
+          //       iconUrl: "./taxi.png",
+          //       // iconUrl: "/redCarTopViewIcon.png",
+          //       iconSize: [70, 70],
+          //     }),
+          //     maxZoom: 5, // Added maxZoom property to markers
+          //   })
+          //     .addTo(map)
+          //     .bindPopup(
+          //       // `${marker.name} - ${marker.mobile},  seats: ${marker.seats}`
+          //       `${marker.name} - ${marker.mobile}`
+          //     );
+          //   // .openPopup();
+          // });
+        };
+
+        useEffect(() => {
+          const fetchData = async () => {
+            await getCoordinates(); // Ensure coordinates are fetched first
+            const storedData = localStorage.getItem("userObj");
+            if (storedData) {
+              await fetchA(); // Fetch vehicle data
+              setUserData(JSON.parse(storedData));
+              const a = document.getElementById("map");
+              a.style.display = "block"; // Show map
+              mapFunc(); // Initialize map
+            } else {
+              const a = document.getElementById("map");
+              a.style.display = "none"; // Hide map
+            }
+          };
+
+          fetchData(); // Call the async function
         }, []);
 
         const toggleMap = () => {
@@ -328,6 +353,18 @@
 
         return (
           <div>
+            {/* Display allData */}
+            <div>
+              <h3>All Vehicles Data</h3>
+              <ul>
+                {allData.map((vehicle, index) => (
+                  <li key={index}>
+                    {vehicle.name} - {vehicle.mobile}, from: {vehicle.from}, to:{" "}
+                    {vehicle.to}, seats: {vehicle.seats}
+                  </li>
+                ))}
+              </ul>
+            </div>
             {!userData && (
               <div
                 style={{
