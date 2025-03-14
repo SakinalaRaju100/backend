@@ -86,6 +86,47 @@ const connectDB = () => {
   });
 };
 
+router.post("/all", async (req, res) => {
+  if (!db || db.readyState !== 1) {
+    // Check if db is not connected
+    await connectDB(); // Ensure the database connection is established
+  }
+
+  try {
+    const passinggersData = await Passengers.find({
+      active: true,
+      updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
+    }).lean();
+
+    const taxiData = await Taxies.find({
+      active: true,
+      updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
+    }).lean();
+
+    res.status(200).send({
+      success: true,
+      data: [
+        ...passinggersData.map((el) => {
+          return {
+            ...el,
+            createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
+            updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
+          };
+        }),
+        ...taxiData.map((el) => {
+          return {
+            ...el,
+            createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
+            updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
+          };
+        }),
+      ],
+    });
+  } catch (err) {
+    console.log("err", err);
+    res.status(500).send({ success: true, data: [] });
+  }
+});
 router.post("/get-passengers", async (req, res) => {
   if (!db || db.readyState !== 1) {
     // Check if db is not connected
