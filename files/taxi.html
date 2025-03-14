@@ -150,7 +150,7 @@
 
       const TaxiPage = () => {
         const baseURL = "https://www.todaydigitalworld.com";
-        const [allVehicles, setAllVehicles] = useState([
+        const [allData, setAllData] = useState([
           {
             name: "Raghu",
             mobile: "123",
@@ -164,7 +164,7 @@
           {
             name: "Raghu2",
             mobile: "1232",
-            time: "time2",
+            role: "passenger",
             from: "A2",
             to: "B2",
             location: [17.4729087, 78.8153675],
@@ -174,7 +174,7 @@
           {
             name: "Raghu3",
             mobile: "1233",
-            time: "time3",
+            role: "taxi",
             from: "A3",
             to: "B3",
             location: [17.9742239, 79.483573],
@@ -205,7 +205,7 @@
           { name: "Uppal", distance: 130 },
         ]);
         const [userData, setUserData] = useState(null);
-        const [allData, setAllData] = useState([]);
+        // const [allData, setAllData] = useState([]);
 
         const fetchA = async () => {
           try {
@@ -235,12 +235,13 @@
 
           console.log("allDatea", allData);
 
-          // Add all markers from the allVehicles array
+          // Add all markers from the allData array
 
-          allVehicles.forEach((marker) => {
+          allData.forEach((marker) => {
             L.marker(marker.location, {
               icon: L.icon({
-                iconUrl: "./taxi.png",
+                // iconUrl: "./taxi.png",
+                iconUrl: marker.role == "taxi" ? "./taxi.png" : "./human.png",
                 // iconUrl: "/redCarTopViewIcon.png",
                 iconSize: [70, 70],
               }),
