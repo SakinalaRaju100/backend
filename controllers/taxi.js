@@ -292,5 +292,58 @@ router.post("/add-taxi", async (req, res) => {
       .send({ success: false, message: "Operation failed", error }); // Handle errors
   }
 });
+router.post("/remove", async (req, res) => {
+  if (!db || db.readyState !== 1) {
+    // Check if db is not connected
+    await connectDB(); // Ensure the database connection is established
+  }
+
+  const { mobile, role = "taxi", active = false } = req.body;
+  if (!mobile) {
+    return res.status(201).send("data missing"); // Respond with the saved taxi data
+  }
+
+  try {
+    const saveObj = {
+      location,
+      mobile,
+      active,
+    };
+    if (role == "taxi") {
+      const result = await Taxies.updateOne(
+        {
+          mobile,
+        }, // Filter to find the document
+        {
+          $set: {
+            ...saveObj,
+          },
+        }, // Update this field
+        { upsert: true } // If not found, create a new document
+      );
+
+      res.status(201).send({ success: true, message: "Operation successful" }); // Respond with the saved taxi data
+    } else {
+      const result = await Passengers.updateOne(
+        {
+          mobile,
+        }, // Filter to find the document
+        {
+          $set: {
+            ...saveObj,
+          },
+        }, // Update this field
+        { upsert: true } // If not found, create a new document
+      );
+
+      res.status(201).send({ success: true, message: "Operation successful" }); // Respond with the saved taxi data
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res
+      .status(500)
+      .send({ success: false, message: "Operation failed", error }); // Handle errors
+  }
+});
 
 module.exports = router;
