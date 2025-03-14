@@ -413,11 +413,9 @@
                           marginRight: "3px",
                         }}
                         onClick={() => {
-                          // alert("manual refresh");
-                          window.location.reload();
-                          // setUserData(null);
-                          // localStorage.removeItem("userObj");
-                          // toggleMap();
+                          // window.location.reload();
+                          fetchAllData();
+                          alert("Page manually refreshed");
                         }}
                         aria-label="close"
                       >
