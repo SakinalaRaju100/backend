@@ -95,12 +95,12 @@ router.post("/get-all", async (req, res) => {
   try {
     const passinggersData = await Passengers.find({
       active: true,
-      //   updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
+      updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
     }).lean();
 
     const taxiData = await Taxies.find({
       active: true,
-      //   updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
+      updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
     }).lean();
 
     const mappedData = [
