@@ -1,9 +1,24 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
+const moment = require("moment");
 
 const taxiSchema = new mongoose.Schema(
   {
+    // creastedAt: {
+    //   //   type: Date,
+    //   default: "moment()",
+    // },
+    // createdAt: "moment()",
+    // a: "moment()",
+    // dateTime: {
+    //   type: Date,
+    //   default: Date.now, // Set to current date and time
+    // },
+    // updatedAt: {
+    //   type: Date,
+    //   default: Date.now(),
+    // },
     // name: { type: String, required: true },
     // email: { type: String, required: true, unique: true },
     // password: { type: String, required: true },
@@ -15,9 +30,22 @@ const Taxies = mongoose.model("Taxies", taxiSchema, "Taxies");
 
 const passengerSchema = new mongoose.Schema(
   {
+    // createdAt: {
+    //   type: String,
+    //   default: moment().format("YYYY-MM-DDTHH:mm:ss:00"),
+    // },
     // name: { type: String, required: true },
     // email: { type: String, required: true, unique: true },
     // password: { type: String, required: true },
+    // createdAt: {
+    //   type: String,
+    //   default: moment().format("YYYY-MM-DDTHH:mm:ss:00"),
+    // },
+    // updatedAt: {
+    //   type: String,
+    //   default: () =>
+    //     new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
+    // },
   },
   { strict: false, timestamps: true }
 );
@@ -58,25 +86,60 @@ const connectDB = () => {
   });
 };
 
-router.post("/get-taxies", async (req, res) => {
-  if (!db || db.readyState !== 1) {
-    // Check if db is not connected
-    await connectDB(); // Ensure the database connection is established
-  }
-
-  const data = await Taxies.find();
-  res.send(data);
-});
 router.post("/get-passengers", async (req, res) => {
   if (!db || db.readyState !== 1) {
     // Check if db is not connected
     await connectDB(); // Ensure the database connection is established
   }
 
-  const data = await Passengers.find();
-  res.send(data);
+  try {
+    const data = await Passengers.find({
+      active: true,
+      updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
+    }).lean();
+    res.status(200).send({
+      success: true,
+      data: data.map((el) => {
+        return {
+          ...el,
+          createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
+          updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
+        };
+      }),
+    });
+  } catch (err) {
+    console.log("err", err);
+    res.status(500).send({ success: true, data: [] });
+  }
 });
-router.post("/add-taxi", async (req, res) => {
+router.post("/get-taxies", async (req, res) => {
+  if (!db || db.readyState !== 1) {
+    // Check if db is not connected
+    await connectDB(); // Ensure the database connection is established
+  }
+
+  try {
+    const data = await Taxies.find({
+      active: true,
+      updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
+    }).lean();
+    res.status(200).send({
+      success: true,
+      data: data.map((el) => {
+        return {
+          ...el,
+          createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
+          updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
+        };
+      }),
+    });
+  } catch (err) {
+    console.log("err", err);
+    res.status(500).send({ success: true, data: [] });
+  }
+});
+
+router.post("/add-passenger", async (req, res) => {
   if (!db || db.readyState !== 1) {
     // Check if db is not connected
     await connectDB(); // Ensure the database connection is established
@@ -85,12 +148,12 @@ router.post("/add-taxi", async (req, res) => {
   const {
     location = [],
     name = "NA",
-    seats = 1,
     from,
     to,
     mobile,
-    vehicleNumber = "NA",
-    role = "taxi",
+    members = 1,
+    role = "passenger",
+    active = true,
   } = req.body;
   if (!mobile || !from || !to || location.length == 0) {
     return res.status(201).send("data missing"); // Respond with the saved taxi data
@@ -100,15 +163,15 @@ router.post("/add-taxi", async (req, res) => {
     const saveObj = {
       location,
       name,
-      seats,
       from,
       to,
       mobile,
-      vehicleNumber,
+      members,
       role,
+      active,
     };
 
-    const result = await Taxies.updateOne(
+    const result = await Passengers.updateOne(
       {
         mobile,
       }, // Filter to find the document
@@ -128,7 +191,7 @@ router.post("/add-taxi", async (req, res) => {
       .send({ success: false, message: "Operation failed", error }); // Handle errors
   }
 });
-router.post("/add-passenger", async (req, res) => {
+router.post("/add-taxi", async (req, res) => {
   if (!db || db.readyState !== 1) {
     // Check if db is not connected
     await connectDB(); // Ensure the database connection is established
@@ -137,11 +200,14 @@ router.post("/add-passenger", async (req, res) => {
   const {
     location = [],
     name = "NA",
+    seats = 1,
     from,
     to,
     mobile,
-    members = 1,
-    role = "passenger",
+    vehicleNumber = "NA",
+    role = "taxi",
+
+    active = true,
   } = req.body;
   if (!mobile || !from || !to || location.length == 0) {
     return res.status(201).send("data missing"); // Respond with the saved taxi data
@@ -151,17 +217,16 @@ router.post("/add-passenger", async (req, res) => {
     const saveObj = {
       location,
       name,
-      //   seats,
+      seats,
       from,
       to,
       mobile,
-      //   vehicleNumber,
-
-      members,
+      vehicleNumber,
       role,
+      active,
     };
 
-    const result = await Passengers.updateOne(
+    const result = await Taxies.updateOne(
       {
         mobile,
       }, // Filter to find the document

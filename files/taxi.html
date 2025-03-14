@@ -19,6 +19,9 @@
     <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <!-- Add Leaflet CSS -->
     <link
       rel="stylesheet"
@@ -146,6 +149,7 @@
       } = MaterialUI;
 
       const StudentForm = () => {
+        const baseURL = "https://www.todaydigitalworld.com";
         const [allVehicles, setAllVehicles] = useState([
           {
             name: "Raghu",
@@ -483,6 +487,7 @@
                   Cancel
                 </Button>
                 <Button
+                  variant="contained"
                   onClick={async () => {
                     const mobilePattern = /^[0-9]{10}$/;
                     setSubmitted(true);
@@ -494,28 +499,6 @@
                       dropLocation
                     ) {
                       getCoordinates();
-                      // let a = [];
-                      // if (navigator.geolocation) {
-                      //   await navigator.geolocation.getCurrentPosition(
-                      //     async (position) => {
-                      //       const { latitude, longitude } = position.coords;
-                      //       a = [latitude, longitude];
-                      //       await setCurrentCoordinates([latitude, longitude]);
-                      //       console.log(
-                      //         "Current Coordinatesq2:",
-                      //         latitude,
-                      //         longitude
-                      //       );
-                      //     },
-                      //     (error) => {
-                      //       console.error("Error getting location:", error);
-                      //     }
-                      //   );
-                      // } else {
-                      //   console.error(
-                      //     "Geolocation is not supported by this browser."
-                      //   );
-                      // }
 
                       console.log(
                         "name, mobile",
@@ -524,8 +507,23 @@
                         pickupLocation,
                         dropLocation,
                         currentCoordinates
-                        // a
                       );
+
+                      try {
+                        const response = await axios.post(
+                          baseURL + "/api/taxi/add-passenger",
+                          {
+                            name,
+                            mobile,
+                            from: pickupLocation,
+                            to: dropLocation,
+                            location: currentCoordinates,
+                          }
+                        );
+                        console.log("Data saved successfully:", response.data);
+                      } catch (error) {
+                        console.error("Error saving data:", error);
+                      }
 
                       // Set values in local storage
                       localStorage.setItem(
@@ -536,7 +534,6 @@
                           pickupLocation,
                           dropLocation,
                           currentCoordinates,
-                          // a,
                         })
                       );
                       setUserData({
@@ -545,7 +542,6 @@
                         pickupLocation,
                         dropLocation,
                         currentCoordinates,
-                        // a,
                       });
                       toggleMap();
                       setDialogPopup1(false);
@@ -698,6 +694,7 @@
                   Cancel
                 </Button>
                 <Button
+                  variant="contained"
                   onClick={async () => {
                     const mobilePattern = /^[0-9]{10}$/;
                     setSubmitted(true);
@@ -741,6 +738,22 @@
                         currentCoordinates
                         // a
                       );
+
+                      try {
+                        const response = await axios.post(
+                          baseURL + "/api/taxi/add-taxi",
+                          {
+                            name,
+                            mobile,
+                            from: pickupLocation,
+                            to: dropLocation,
+                            location: currentCoordinates,
+                          }
+                        );
+                        console.log("Data saved successfully:", response.data);
+                      } catch (error) {
+                        console.error("Error saving data:", error);
+                      }
 
                       // Set values in local storage
                       localStorage.setItem(
