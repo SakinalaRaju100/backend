@@ -629,6 +629,7 @@
                       });
                       toggleMap();
                       setDialogPopup1(false);
+                      window.location.reload();
                     } else {
                       console.log("Some fields are missing");
                     }
@@ -863,6 +864,7 @@
                       });
                       toggleMap();
                       setDialogPopup2(false);
+                      window.location.reload();
                     } else {
                       console.log("Some fields are missing");
                     }
@@ -874,20 +876,22 @@
               </DialogActions>
             </Dialog>
             {/* Display allData */}
-            <div>
-              <Accordion key={1}>
-                <AccordionSummary>
-                  <Typography>All Data List</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {allData.map((vehicle, index) => (
-                    <li key={index}>
-                      {vehicle.name} - {vehicle.role} - {vehicle.mobile}
-                    </li>
-                  ))}
-                </AccordionDetails>
-              </Accordion>
-            </div>
+            {userData && (
+              <div>
+                <Accordion key={1}>
+                  <AccordionSummary>
+                    <Typography>All Data List</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    {allData.map((vehicle, index) => (
+                      <li key={index}>
+                        {vehicle.name} - {vehicle.role} - {vehicle.mobile}
+                      </li>
+                    ))}
+                  </AccordionDetails>
+                </Accordion>
+              </div>
+            )}
           </div>
         );
       };
