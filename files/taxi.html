@@ -240,11 +240,11 @@
           const a = document.getElementById("map");
           a.style.display = "block"; // Show map
           // Initialize the Leaflet map
-          const map = L.map("map").setView(locationArr, 10);
+          const map = L.map("map").setView(locationArr, 14);
 
           // Add OpenStreetMap tile layer
           L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 20,
+            maxZoom: 17,
             attribution: "© OpenStreetMap",
           }).addTo(map);
 
