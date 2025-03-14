@@ -152,34 +152,76 @@
         const baseURL = "https://www.todaydigitalworld.com";
         const [allData, setAllData] = useState([
           {
-            name: "Raghu",
-            mobile: "123",
-            role: "taxi",
-            from: "A",
-            to: "B",
-            location: [17.4410451, 78.6660831],
-            locationName: "ghatkesar",
-            seats: 2,
-          },
-          {
-            name: "Raghu2",
-            mobile: "1232",
+            _id: "67d41fe25a7161d9b8915090",
+            mobile: "7846873453",
+            __v: 0,
+            active: true,
+            createdAt: "2025-03-14T12:24:01",
+            from: "Raghunathpally",
+            location: [17.483966, 78.4968609],
+            members: 1,
+            name: "Parusharamulu",
             role: "passenger",
-            from: "A2",
-            to: "B2",
-            location: [17.4729087, 78.8153675],
-            locationName: "Bhuvanagiri",
-            seats: 1,
+            to: "Bhongiri",
+            updatedAt: "2025-03-14T12:24:01",
           },
           {
-            name: "Raghu3",
-            mobile: "1233",
+            _id: "67d4204f5a7161d9b891509f",
+            mobile: "2442342345",
+            __v: 0,
+            active: true,
+            createdAt: "2025-03-14T12:25:51",
+            from: "Jangaon",
+            location: [17.3735936, 78.3843328],
+            members: 1,
+            name: "prabhas",
+            role: "passenger",
+            to: "Bhongiri",
+            updatedAt: "2025-03-14T12:25:51",
+          },
+          {
+            _id: "67d4456b7fa081016611afdb",
+            mobile: "9676639383",
+            __v: 0,
+            active: true,
+            createdAt: "2025-03-14T15:04:09",
+            from: "keiy23e6",
+            location: [17.37231, 78.23],
+            members: 1,
+            name: "passenger1",
+            role: "passenger",
+            to: "uyf",
+            updatedAt: "2025-03-14T15:04:09",
+          },
+          {
+            _id: "67d41cac5a7161d9b891502e",
+            mobile: "9836934",
+            __v: 0,
+            active: true,
+            createdAt: "2025-03-14T12:10:20",
+            from: "keiyw2w",
+            location: [17, 79],
+            name: "Teja",
             role: "taxi",
-            from: "A3",
-            to: "B3",
-            location: [17.9742239, 79.483573],
-            locationName: "Kazipet",
-            seats: 2,
+            seats: 1,
+            to: "uyf",
+            updatedAt: "2025-03-14T12:32:19",
+            vehicleNumber: "NA",
+          },
+          {
+            _id: "67d445aa7fa081016611afe5",
+            mobile: "983693497",
+            __v: 0,
+            active: true,
+            createdAt: "2025-03-14T15:05:14",
+            from: "keiyw2w",
+            location: [17.5, 77],
+            name: "T. Vasu",
+            role: "taxi",
+            seats: 1,
+            to: "uyf",
+            updatedAt: "2025-03-14T15:05:14",
+            vehicleNumber: "NA",
           },
         ]);
         const [currentCoordinates, setCurrentCoordinates] = useState([]);
@@ -212,6 +254,7 @@
             const response = await axios.post(baseURL + "/api/taxi/get-all");
             console.log("Data saved successfully:", response.data);
             setAllData(response.data.data);
+            mapFunc();
           } catch (error) {
             setAllData([]);
             console.error("Error saving data:", error);
@@ -277,11 +320,11 @@
             await getCoordinates(); // Ensure coordinates are fetched first
             const storedData = localStorage.getItem("userObj");
             if (storedData) {
-              await fetchA(); // Fetch vehicle data
               setUserData(JSON.parse(storedData));
               const a = document.getElementById("map");
               a.style.display = "block"; // Show map
-              mapFunc(); // Initialize map
+              await fetchA(); // Fetch vehicle data
+              // mapFunc(); // Initialize map
             } else {
               const a = document.getElementById("map");
               a.style.display = "none"; // Hide map
@@ -356,12 +399,12 @@
           <div>
             {/* Display allData */}
             <div>
+              {console.log("allData", allData)}
               <h3>All Vehicles Data</h3>
               <ul>
                 {allData.map((vehicle, index) => (
                   <li key={index}>
-                    {vehicle.name} - {vehicle.mobile}, from: {vehicle.from}, to:{" "}
-                    {vehicle.to}, seats: {vehicle.seats}
+                    {vehicle.name} - {vehicle.role}
                   </li>
                 ))}
               </ul>
