@@ -148,7 +148,7 @@
         FormHelperText,
       } = MaterialUI;
 
-      const StudentForm = () => {
+      const TaxiPage = () => {
         const baseURL = "https://www.todaydigitalworld.com";
         const [allVehicles, setAllVehicles] = useState([
           {
@@ -198,7 +198,7 @@
           { name: "Ghanpur", distance: 30 },
           { name: "Raghunathpally", distance: 45 },
           { name: "Jangaon", distance: 60 },
-          { name: "aleir", distance: 75 },
+          { name: "Aleir", distance: 75 },
           { name: "Bhongiri", distance: 95 },
           { name: "Bibinagar", distance: 105 },
           { name: "Ghatkesar", distance: 115 },
@@ -284,9 +284,9 @@
             }
 
             if (permissionStatus.state === "prompt") {
-              alert(
-                "This feature requires location access. Please allow it when prompted."
-              );
+              // alert(
+              //   "This feature requires location access. Please allow it when prompted."
+              // );
             }
             // navigator.geolocation.getCurrentPosition();
 
@@ -816,7 +816,7 @@
       };
 
       // Render the form to the DOM
-      ReactDOM.render(<StudentForm />, document.getElementById("root"));
+      ReactDOM.render(<TaxiPage />, document.getElementById("root"));
     </script>
     <!-- Add Leaflet and Leaflet Routing Machine scripts -->
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
