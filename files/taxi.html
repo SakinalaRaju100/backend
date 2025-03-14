@@ -366,6 +366,23 @@
                           borderRadius: "5px",
                         }}
                         onClick={() => {
+                          // alert("manual refresh");
+                          window.location.reload();
+                          // setUserData(null);
+                          // localStorage.removeItem("userObj");
+                          // toggleMap();
+                        }}
+                        aria-label="close"
+                      >
+                        <span className="material-icons">refresh</span>
+                      </IconButton>
+                      <IconButton
+                        style={{
+                          color: "green",
+                          border: "2px solid gray",
+                          borderRadius: "5px",
+                        }}
+                        onClick={() => {
                           setUserData(null);
                           localStorage.removeItem("userObj");
                           toggleMap();
