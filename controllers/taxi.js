@@ -299,13 +299,12 @@ router.post("/remove", async (req, res) => {
   }
 
   const { mobile, role = "taxi", active = false } = req.body;
-  if (!mobile) {
+  if (!mobile || !role) {
     return res.status(201).send("data missing"); // Respond with the saved taxi data
   }
 
   try {
     const saveObj = {
-      location,
       mobile,
       active,
     };

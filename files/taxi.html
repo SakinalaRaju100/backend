@@ -360,6 +360,7 @@
 
         return (
           <div>
+            {console.log("userData", userData)}
             {!userData && (
               <div
                 style={{
@@ -615,6 +616,7 @@
                           pickupLocation,
                           dropLocation,
                           currentCoordinates,
+                          role: "passenger",
                         })
                       );
                       setUserData({
@@ -623,6 +625,7 @@
                         pickupLocation,
                         dropLocation,
                         currentCoordinates,
+                        role: "passenger",
                       });
                       toggleMap();
                       setDialogPopup1(false);
@@ -845,6 +848,7 @@
                           pickupLocation,
                           dropLocation,
                           currentCoordinates,
+                          role: "taxi",
                           // a,
                         })
                       );
@@ -854,6 +858,7 @@
                         pickupLocation,
                         dropLocation,
                         currentCoordinates,
+                        role: "taxi",
                         // a,
                       });
                       toggleMap();
