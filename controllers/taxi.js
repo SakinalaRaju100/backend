@@ -86,7 +86,7 @@ const connectDB = () => {
   });
 };
 
-router.post("/all", async (req, res) => {
+router.post("/get-all", async (req, res) => {
   if (!db || db.readyState !== 1) {
     // Check if db is not connected
     await connectDB(); // Ensure the database connection is established
@@ -103,24 +103,29 @@ router.post("/all", async (req, res) => {
       updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
     }).lean();
 
+    const mappedData = [
+      ...passinggersData.map((el) => {
+        return {
+          ...el,
+          createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
+          updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
+        };
+      }),
+      ...taxiData.map((el) => {
+        return {
+          ...el,
+          createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
+          updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
+        };
+      }),
+    ];
+
     res.status(200).send({
       success: true,
-      data: [
-        ...passinggersData.map((el) => {
-          return {
-            ...el,
-            createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
-            updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
-          };
-        }),
-        ...taxiData.map((el) => {
-          return {
-            ...el,
-            createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
-            updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
-          };
-        }),
-      ],
+      taxiesLength: taxiData.length,
+      PassengersLength: passinggersData.length,
+      totalLenth: mappedData.length,
+      data: mappedData,
     });
   } catch (err) {
     console.log("err", err);

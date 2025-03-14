@@ -206,7 +206,17 @@
         ]);
         const [userData, setUserData] = useState(null);
 
+        const fetchA = async () => {
+          try {
+            const response = await axios.post(baseURL + "/api/taxi/get-all");
+            console.log("Data saved successfully:", response.data);
+          } catch (error) {
+            console.error("Error saving data:", error);
+          }
+        };
+
         useEffect(() => {
+          fetchA();
           const storedData = localStorage.getItem("userObj");
           if (storedData) {
             setUserData(JSON.parse(storedData));
