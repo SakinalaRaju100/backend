@@ -87,6 +87,7 @@ const connectDB = () => {
 };
 
 router.post("/get-all", async (req, res) => {
+  const { mobile, role } = req.body;
   if (!db || db.readyState !== 1) {
     // Check if db is not connected
     await connectDB(); // Ensure the database connection is established
@@ -94,11 +95,13 @@ router.post("/get-all", async (req, res) => {
 
   try {
     const passinggersData = await Passengers.find({
+      mobile: { $ne: mobile },
       active: true,
       updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
     }).lean();
 
     const taxiData = await Taxies.find({
+      mobile: { $ne: mobile },
       active: true,
       updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
     }).lean();
