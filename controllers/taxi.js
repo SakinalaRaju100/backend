@@ -232,7 +232,43 @@ router.post("/add-passenger", async (req, res) => {
       { upsert: true } // If not found, create a new document
     );
 
-    res.status(201).send({ success: true, message: "Operation successful" }); // Respond with the saved taxi data
+    const passinggersData = await Passengers.find({
+      mobile: { $ne: mobile },
+      active: true,
+      updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
+    }).lean();
+
+    const taxiData = await Taxies.find({
+      mobile: { $ne: mobile },
+      active: true,
+      updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
+    }).lean();
+
+    const mappedData = [
+      ...passinggersData.map((el) => {
+        return {
+          ...el,
+          createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
+          updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
+        };
+      }),
+      ...taxiData.map((el) => {
+        return {
+          ...el,
+          createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
+          updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
+        };
+      }),
+    ];
+
+    res.status(200).send({
+      success: true,
+      message: "Operation successful",
+      taxiesLength: taxiData.length,
+      PassengersLength: passinggersData.length,
+      totalLenth: mappedData.length,
+      data: mappedData,
+    }); // Respond with the saved taxi data
   } catch (error) {
     console.error("Error:", error);
     res
@@ -287,7 +323,43 @@ router.post("/add-taxi", async (req, res) => {
       { upsert: true } // If not found, create a new document
     );
 
-    res.status(201).send({ success: true, message: "Operation successful" }); // Respond with the saved taxi data
+    const passinggersData = await Passengers.find({
+      mobile: { $ne: mobile },
+      active: true,
+      updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
+    }).lean();
+
+    const taxiData = await Taxies.find({
+      mobile: { $ne: mobile },
+      active: true,
+      updatedAt: { $gte: moment().subtract(1, "hours").toDate() }, // Filter for updatedAt within the last hour
+    }).lean();
+
+    const mappedData = [
+      ...passinggersData.map((el) => {
+        return {
+          ...el,
+          createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
+          updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
+        };
+      }),
+      ...taxiData.map((el) => {
+        return {
+          ...el,
+          createdAt: moment(el.createdAt).format("YYYY-MM-DDTHH:mm:ss"),
+          updatedAt: moment(el.updatedAt).format("YYYY-MM-DDTHH:mm:ss"),
+        };
+      }),
+    ];
+
+    res.status(200).send({
+      success: true,
+      message: "Operation successful",
+      taxiesLength: taxiData.length,
+      PassengersLength: passinggersData.length,
+      totalLenth: mappedData.length,
+      data: mappedData,
+    });
   } catch (error) {
     console.error("Error:", error);
     res
