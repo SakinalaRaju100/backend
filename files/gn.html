@@ -4122,6 +4122,80 @@
                   </Card>
                 </Box>
               )}
+              {/* Customer My Loans and apply Loans section */}
+              {loginData?.role.toLowerCase() == "sales" && (
+                <Box
+                  sx={{
+                    // bgcolor: "grey.100",
+                    pt: 0,
+                    mb: 1,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                  gap={2}
+                >
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("SalesReports");
+                      // setCustomerSignUPDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        people
+                      </span>
+                      <Typography variant="h6">Sales Reports</Typography>
+                    </Box>
+                  </Card>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("SalesBoard");
+                      // setShareInterestDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        forward
+                      </span>
+                      <Typography variant="h6">Sales Board</Typography>
+                    </Box>
+                  </Card>
+                </Box>
+              )}
 
               {/* News & Updates */}
               <Box sx={{ bgcolor: "grey.100", py: 2 }}>
