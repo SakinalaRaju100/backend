@@ -2637,6 +2637,62 @@
           </Box>
         );
       };
+
+      const leaderboardData = [
+        { name: "Aarav Sharma", amount: "₹ 5,13,787", rank: 1 },
+        { name: "Isha Patel", amount: "₹ 4,67,884", rank: 2 },
+        { name: "Rohan Mehta", amount: "₹ 4,63,129", rank: 3 },
+        { name: "Neha Reddy", amount: "₹ 3,27,655", rank: 4 },
+        { name: "Karan Singh", amount: "₹ 3,11,993", rank: 5 },
+      ];
+
+      const getBackgroundColor = (rank) => {
+        if (rank === 1) return "#005f73";
+        if (rank === 2) return "#94d2bd";
+        return "#ee9b00";
+      };
+
+      const Leaderboard = () => {
+        return (
+          <Box sx={{ maxWidth: 400, margin: "auto", mt: 1 }}>
+            {leaderboardData.map((player) => (
+              <Card
+                key={player.rank}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  margin: "10px 0",
+                  padding: "10px",
+                  backgroundColor: getBackgroundColor(player.rank),
+                  color: player.rank <= 2 ? "#fff" : "#000",
+                }}
+              >
+                <Box display="flex" alignItems="center">
+                  {player.rank <= 2 && (
+                    <Avatar sx={{ bgcolor: "#fff", color: "gold", mr: 1 }}>
+                      <span
+                        className="material-icons"
+                        sx={{ color: "grey.500" }}
+                      >
+                        school
+                      </span>
+                    </Avatar>
+                  )}
+                  <Box>
+                    <Typography variant="h6">{player.name}</Typography>
+                    <Typography variant="body2">{player.amount}</Typography>
+                  </Box>
+                </Box>
+                <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+                  {player.rank}
+                </Typography>
+              </Card>
+            ))}
+          </Box>
+        );
+      };
+
       const HomePage = () => {
         const Loans = () => {
           // let baseURL = "http://localhost:1954";
@@ -4567,7 +4623,8 @@
         const [shareInterestDialogOpen, setShareInterestDialogOpen] =
           useState(false);
         const [interestForm, setInterestForm] = useState(false);
-        const [bodyarea, setBodyarea] = useState("SalesReports");
+        // const [bodyarea, setBodyarea] = useState("SalesReports");
+        const [bodyarea, setBodyarea] = useState("SalesBoard");
         // const [bodyarea, setBodyarea] = useState("Dashboard");
         const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
@@ -4872,14 +4929,18 @@
             clickfunc: handleClickSalesMenu,
           },
           {
-            text: "Customers",
+            text: "Sales board",
             icon: "people",
             role: "admin",
-            list: ["admin", "sales"],
+            list: ["admin", "manager", "sales"],
 
             path: "/",
-            clickfunc: handleClickCustomersMenu,
+            clickfunc: () => {
+              setBodyarea("SalesBoard");
+              setOpen(false);
+            },
           },
+
           {
             text: "Sales Reports",
             icon: "article",
@@ -4892,6 +4953,17 @@
               setOpen(false);
             },
           },
+
+          {
+            text: "Customers",
+            icon: "people",
+            role: "admin",
+            list: ["admin", "sales"],
+
+            path: "/",
+            clickfunc: handleClickCustomersMenu,
+          },
+
           // { text: "Sales Targets", icon: "article", role: "sales", path: "/" },
           {
             text: "Apply Loan",
@@ -5239,6 +5311,7 @@
               </Stack>
               <hr />
               {bodyarea == "SalesReports" && <SalesReports />}
+              {bodyarea == "SalesBoard" && <Leaderboard />}
               {bodyarea == "Loans" && <Loans />}
               {bodyarea == "ApplyLoan" && <ApplyLoan />}
               {bodyarea == "Dashboard" && <Dashboard />}
