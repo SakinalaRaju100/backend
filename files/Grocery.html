@@ -303,7 +303,12 @@
                       Show Cart
                     </Button>
                   </Box>
-                  <Typography sx={{ m: 1 }}>Products..</Typography>
+                  <Typography sx={{ m: 1 }}>
+                    Products..{" "}
+                    <small style={{ fontSize: "8px" }}>
+                      ( Here we need to add some more filters )
+                    </small>
+                  </Typography>
 
                   <Grid container spacing={3}>
                     {products.filter(
@@ -360,7 +365,7 @@
                                 gutterBottom
                                 sx={{
                                   fontWeight: "bold",
-                                  fontSize: { xs: "10px", sm: "12px" },
+                                  fontSize: { xs: "15px", sm: "18px" },
                                 }} // Responsive font size
                               >
                                 {product.name}
@@ -368,14 +373,14 @@
                               <Typography
                                 variant="body2"
                                 gutterBottom
-                                sx={{ fontSize: { xs: "8px", sm: "10px" } }} // Responsive font size
+                                sx={{ fontSize: { xs: "12px", sm: "15px" } }} // Responsive font size
                               >
                                 {product.brand}, {product.description}
                               </Typography>
                               <Typography
                                 variant="body2"
                                 gutterBottom
-                                sx={{ fontSize: { xs: "8px", sm: "10px" } }} // Responsive font size
+                                sx={{ fontSize: { xs: "10px", sm: "12px" } }} // Responsive font size
                               >
                                 Variants:
                               </Typography>
@@ -433,7 +438,8 @@
                                     </Box>
                                     <Box sx={{ fontSize: "9px" }}>
                                       <mark>
-                                        Not : <del> {variant.generalPrice}</del>
+                                        Actual Price :{" "}
+                                        <del> {variant.generalPrice}</del>
                                       </mark>
                                     </Box>
                                   </Box>
@@ -462,8 +468,13 @@
                                   <Box
                                     sx={{
                                       mt: 1,
+                                      pl: 2,
+                                      // p: 1,
                                       display: "flex",
+                                      justifyContent: "center",
                                       alignItems: "center",
+                                      gap: 1,
+                                      // border: "1px gray solid",
                                     }}
                                   >
                                     <IconButton
