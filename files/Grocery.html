@@ -92,12 +92,13 @@
         const [products, serProducts] = useState([
           {
             productId: "01",
-            name: "Cocking Oil",
+            category: ["cooking", "kitchen", "oil"],
+            name: "Sunflower Oil",
             image:
               "https://rukminim2.flixcart.com/image/850/1000/xif0q/edible-oil/q/z/0/-original-imagqf52ywgfy2nc.jpeg?q=20&crop=false",
 
-            brand: "Sun rise refined",
-            description: "Best Refined cocking oil",
+            brand: "Freedom refined",
+            description: "Best Refined cooking oil",
             rating: 5,
             note: "",
             varients: [
@@ -134,112 +135,113 @@
                 image:
                   "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
                 // price: "",
-                ourPrice: 350,
-                generalPrice: 500,
+                ourPrice: 750,
+                generalPrice: 1000,
                 available: 0,
               },
             ],
           },
-          // {
-          //   productId: "02",
-          //   name: "Rice",
-          //   image: "https://example.com/rice.jpg",
-          //   brand: "Golden Harvest",
-          //   description: "Premium quality basmati rice",
-          //   rating: 4.5,
-          //   note: "",
-          //   varients: [
-          //     {
-          //       name: "1kg",
-          //       image: "https://example.com/rice-1kg.jpg",
-          //       ourPrice: 60,
-          //       generalPrice: 80,
-          //       available: 10,
-          //     },
-          //     {
-          //       name: "5kg",
-          //       image: "https://example.com/rice-5kg.jpg",
-          //       ourPrice: 280,
-          //       generalPrice: 400,
-          //       available: 5,
-          //     },
-          //   ],
-          // },
-          // {
-          //   productId: "03",
-          //   name: "Sugar",
-          //   image: "https://example.com/sugar.jpg",
-          //   brand: "Sweet Life",
-          //   description: "Refined white sugar",
-          //   rating: 4.0,
-          //   note: "",
-          //   varients: [
-          //     {
-          //       name: "1kg",
-          //       image: "https://example.com/sugar-1kg.jpg",
-          //       ourPrice: 50,
-          //       generalPrice: 70,
-          //       available: 15,
-          //     },
-          //     {
-          //       name: "5kg",
-          //       image: "https://example.com/sugar-5kg.jpg",
-          //       ourPrice: 220,
-          //       generalPrice: 300,
-          //       available: 8,
-          //     },
-          //   ],
-          // },
-          // {
-          //   productId: "04",
-          //   name: "Flour",
-          //   image: "https://example.com/flour.jpg",
-          //   brand: "Baker's Best",
-          //   description: "All-purpose flour for baking",
-          //   rating: 4.8,
-          //   note: "",
-          //   varients: [
-          //     {
-          //       name: "1kg",
-          //       image: "https://example.com/flour-1kg.jpg",
-          //       ourPrice: 40,
-          //       generalPrice: 60,
-          //       available: 20,
-          //     },
-          //     {
-          //       name: "5kg",
-          //       image: "https://example.com/flour-5kg.jpg",
-          //       ourPrice: 180,
-          //       generalPrice: 250,
-          //       available: 12,
-          //     },
-          //   ],
-          // },
-          // {
-          //   productId: "05",
-          //   name: "Cooking Salt",
-          //   image: "https://example.com/salt.jpg",
-          //   brand: "Pure Salt",
-          //   description: "Natural sea salt",
-          //   rating: 4.2,
-          //   note: "",
-          //   varients: [
-          //     {
-          //       name: "1kg",
-          //       image: "https://example.com/salt-1kg.jpg",
-          //       ourPrice: 30,
-          //       generalPrice: 50,
-          //       available: 25,
-          //     },
-          //     {
-          //       name: "5kg",
-          //       image: "https://example.com/salt-5kg.jpg",
-          //       ourPrice: 120,
-          //       generalPrice: 180,
-          //       available: 10,
-          //     },
-          //   ],
-          // },
+          {
+            productId: "oil02",
+            category: ["cooking", "kitchen", "oil"],
+            name: "Sunflower Oil",
+            image:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIPe3oX0mbuqgtANBCpBVk6xvlhBOdV6BtXA&s",
+
+            brand: "Gold Drop",
+            description: "Best Refined cooking oil",
+            rating: 5,
+            note: "",
+            varients: [
+              {
+                name: "1 kg",
+                image:
+                  "https://www.bigbasket.com/media/uploads/p/xxl/40129434_3-freedom-oil-sunflower.jpg",
+                // price: "",
+                ourPrice: 80,
+                generalPrice: 110,
+                available: 3,
+              },
+
+              {
+                name: "2 kg",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 150,
+                generalPrice: 200,
+                available: 0,
+              },
+              {
+                name: "5 kg",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 350,
+                generalPrice: 500,
+                available: 0,
+              },
+              {
+                name: "10 kg",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 750,
+                generalPrice: 1000,
+                available: 0,
+              },
+            ],
+          },
+          {
+            productId: "COil03",
+            category: ["cooking", "kitchen", "oil"],
+            name: "Cooking Oil",
+            image: "https://i.ytimg.com/vi/F-FeY25daAQ/maxresdefault.jpg",
+
+            brand: "Saffola Gold",
+            description: "Best Refined cooking oil",
+            rating: 5,
+            note: "",
+            varients: [
+              {
+                name: "1 kg",
+                image:
+                  "https://www.bigbasket.com/media/uploads/p/xxl/40129434_3-freedom-oil-sunflower.jpg",
+                // price: "",
+                ourPrice: 80,
+                generalPrice: 110,
+                available: 3,
+              },
+
+              {
+                name: "2 kg",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 150,
+                generalPrice: 200,
+                available: 0,
+              },
+              {
+                name: "5 kg",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 350,
+                generalPrice: 500,
+                available: 0,
+              },
+              {
+                name: "10 kg",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 750,
+                generalPrice: 1000,
+                available: 0,
+              },
+            ],
+          },
         ]);
         const [cart, setCart] = useState([]);
         const [activeTab, setActiveTab] = useState(0); // State to manage active tab
@@ -310,7 +312,24 @@
                     </small>
                   </Typography>
 
-                  <Grid container spacing={3}>
+                  <hr />
+                  <center>
+                    <strong>
+                      <u>Cooking Oils</u>
+                    </strong>
+                  </center>
+
+                  <Box
+                    // container
+                    // spacing={3}
+                    sx={{
+                      gap: 1,
+                      flexGrow: 1,
+                      overflowX: "auto",
+                      whiteSpace: "nowrap",
+                      width: "100%",
+                    }}
+                  >
                     {products.filter(
                       (product) =>
                         product.name
@@ -331,7 +350,19 @@
                             .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
                       )
                       .map((product, doctorIndex) => (
-                        <Grid item xs={12} sm={6} md={4} key={doctorIndex}>
+                        <Grid
+                          item
+                          xs={10}
+                          sm={6}
+                          md={4}
+                          key={doctorIndex}
+                          sx={{
+                            width: "80%",
+                            m: 1,
+                            // p: 1,
+                            display: "inline-block",
+                          }}
+                        >
                           <Card
                             sx={{
                               display: "flex",
@@ -368,33 +399,21 @@
                                   fontSize: { xs: "15px", sm: "18px" },
                                 }} // Responsive font size
                               >
-                                {product.name}
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                gutterBottom
-                                sx={{ fontSize: { xs: "12px", sm: "15px" } }} // Responsive font size
-                              >
-                                {product.brand}, {product.description}
+                                {product.brand} {product.name}
                               </Typography>
                               <Typography
                                 variant="body2"
                                 gutterBottom
                                 sx={{ fontSize: { xs: "10px", sm: "12px" } }} // Responsive font size
                               >
-                                Variants:
+                                {product.description}
                               </Typography>
+
                               <Box
                                 sx={{
-                                  // // display: "flex",
-
-                                  // flexDirection: "row",
                                   gap: 1,
-                                  // flexWrap: "nowrap", // Prevent wrapping to keep all in a single row
-                                  // overflowX: "auto", // Enable horizontal scrolling
                                   flexGrow: 1,
                                   overflowX: "auto",
-                                  // flexWrap: "nowrap",
                                   whiteSpace: "nowrap",
                                   width: "100%",
                                 }}
@@ -406,10 +425,6 @@
                                       m: 1,
                                       p: 1,
                                       display: "inline-block",
-                                      // width: "100px", // Added default width
-                                      // height: "100px",
-                                      // width: "100%", // Changed to 100% to ensure it takes full width of the parent
-                                      // maxWidth: "600px", // Set maxWidth to maintain the desired width
 
                                       fontSize: "8px",
                                       // p: 1, // Increased padding for better spacing
@@ -438,7 +453,7 @@
                                     </Box>
                                     <Box sx={{ fontSize: "9px" }}>
                                       <mark>
-                                        Actual Price :{" "}
+                                        Others Price :{" "}
                                         <del> {variant.generalPrice}</del>
                                       </mark>
                                     </Box>
@@ -458,7 +473,7 @@
                               >
                                 <Grid
                                   item
-                                  xs={5}
+                                  xs={4}
                                   sx={
                                     {
                                       // border: "1px gray solid",
@@ -467,13 +482,13 @@
                                 >
                                   <Box
                                     sx={{
-                                      mt: 1,
-                                      pl: 2,
+                                      mt: 0.5,
+                                      pl: 1,
                                       // p: 1,
                                       display: "flex",
                                       justifyContent: "center",
                                       alignItems: "center",
-                                      gap: 1,
+                                      // gap: 1,
                                       // border: "1px gray solid",
                                     }}
                                   >
@@ -492,9 +507,9 @@
                                       </span>
                                     </IconButton>
                                     <Typography
-                                      sx={{ mx: 1, fontSize: "28px" }}
+                                      sx={{ mx: 1, fontSize: "18px" }}
                                     >
-                                      3
+                                      2
                                     </Typography>
                                     <IconButton
                                       onClick={() => {}}
@@ -514,17 +529,19 @@
                                 </Grid>
                                 <Grid
                                   item
-                                  xs={7}
-                                  sx={
-                                    {
-                                      // border: "1px gray solid",
-                                    }
-                                  }
+                                  xs={8}
+                                  sx={{
+                                    // border: "1px gray solid",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                  }}
                                 >
                                   <Button
+                                    // fullWidth
                                     variant="contained"
-                                    size="large"
-                                    // size="medium"
+                                    // size="small"
+                                    size="medium"
                                     // sx={{ fontSize: "10px" }}
                                     onClick={() => {
                                       setCart((pre) => [...pre, product]);
@@ -541,7 +558,8 @@
                           </Card>
                         </Grid>
                       ))}
-                  </Grid>
+                  </Box>
+                  <hr />
                 </div>
               </div>
             )}
