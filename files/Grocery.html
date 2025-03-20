@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grocery</title>
+
+    <!-- Add Material Icons stylesheet -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- <link rel="icon" type="image/x-icon" href="/favicon.ico" /> -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- React and Material-UI CDN links -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
+    <!-- Add Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    />
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        /* padding: 20px; */
+        /* background-color: #f5f5f5; */
+        background-color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+      const { SwipeableViews } = window.ReactSwipeableViews || {}; // Accessing SwipeableViews from the global window object
+
+      const {
+        AppBar,
+        Box,
+        Button,
+        Card,
+        CardContent,
+        CardMedia,
+        Container,
+        Grid,
+        IconButton,
+        Menu,
+        MenuItem,
+        Paper,
+        Toolbar,
+        Typography,
+        useTheme,
+        ThemeProvider,
+        createTheme,
+        MobileStepper,
+        Dialog,
+        DialogTitle,
+        DialogContent,
+        DialogActions,
+        Table,
+        TableBody,
+        TableCell,
+        TableHead,
+        TableRow,
+        Chip,
+        Tabs,
+        Tab,
+        TextField,
+        TableContainer,
+        FormControl,
+        InputLabel,
+        Select,
+        FormHelperText,
+        Autocomplete,
+        Avatar,
+      } = MaterialUI;
+
+      const HomePage = () => {
+        // const { SwipeableViews } = window.ReactSwipeableViews || {}; // Accessing SwipeableViews from the global window object
+
+        const [products, serProducts] = useState([
+          {
+            productId: "01",
+            name: "Cocking Oil",
+            image:
+              "https://rukminim2.flixcart.com/image/850/1000/xif0q/edible-oil/q/z/0/-original-imagqf52ywgfy2nc.jpeg?q=20&crop=false",
+
+            brand: "Sun rise refined",
+            description: "Best Refined cocking oil",
+            rating: 5,
+            note: "",
+            varients: [
+              {
+                name: "1 kg",
+                image:
+                  "https://www.bigbasket.com/media/uploads/p/xxl/40129434_3-freedom-oil-sunflower.jpg",
+                // price: "",
+                ourPrice: 80,
+                generalPrice: 110,
+                available: 3,
+              },
+
+              {
+                name: "2 kg",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 150,
+                generalPrice: 200,
+                available: 0,
+              },
+              {
+                name: "5 kg",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 350,
+                generalPrice: 500,
+                available: 0,
+              },
+              {
+                name: "10 kg",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 350,
+                generalPrice: 500,
+                available: 0,
+              },
+            ],
+          },
+          // {
+          //   productId: "02",
+          //   name: "Rice",
+          //   image: "https://example.com/rice.jpg",
+          //   brand: "Golden Harvest",
+          //   description: "Premium quality basmati rice",
+          //   rating: 4.5,
+          //   note: "",
+          //   varients: [
+          //     {
+          //       name: "1kg",
+          //       image: "https://example.com/rice-1kg.jpg",
+          //       ourPrice: 60,
+          //       generalPrice: 80,
+          //       available: 10,
+          //     },
+          //     {
+          //       name: "5kg",
+          //       image: "https://example.com/rice-5kg.jpg",
+          //       ourPrice: 280,
+          //       generalPrice: 400,
+          //       available: 5,
+          //     },
+          //   ],
+          // },
+          // {
+          //   productId: "03",
+          //   name: "Sugar",
+          //   image: "https://example.com/sugar.jpg",
+          //   brand: "Sweet Life",
+          //   description: "Refined white sugar",
+          //   rating: 4.0,
+          //   note: "",
+          //   varients: [
+          //     {
+          //       name: "1kg",
+          //       image: "https://example.com/sugar-1kg.jpg",
+          //       ourPrice: 50,
+          //       generalPrice: 70,
+          //       available: 15,
+          //     },
+          //     {
+          //       name: "5kg",
+          //       image: "https://example.com/sugar-5kg.jpg",
+          //       ourPrice: 220,
+          //       generalPrice: 300,
+          //       available: 8,
+          //     },
+          //   ],
+          // },
+          // {
+          //   productId: "04",
+          //   name: "Flour",
+          //   image: "https://example.com/flour.jpg",
+          //   brand: "Baker's Best",
+          //   description: "All-purpose flour for baking",
+          //   rating: 4.8,
+          //   note: "",
+          //   varients: [
+          //     {
+          //       name: "1kg",
+          //       image: "https://example.com/flour-1kg.jpg",
+          //       ourPrice: 40,
+          //       generalPrice: 60,
+          //       available: 20,
+          //     },
+          //     {
+          //       name: "5kg",
+          //       image: "https://example.com/flour-5kg.jpg",
+          //       ourPrice: 180,
+          //       generalPrice: 250,
+          //       available: 12,
+          //     },
+          //   ],
+          // },
+          // {
+          //   productId: "05",
+          //   name: "Cooking Salt",
+          //   image: "https://example.com/salt.jpg",
+          //   brand: "Pure Salt",
+          //   description: "Natural sea salt",
+          //   rating: 4.2,
+          //   note: "",
+          //   varients: [
+          //     {
+          //       name: "1kg",
+          //       image: "https://example.com/salt-1kg.jpg",
+          //       ourPrice: 30,
+          //       generalPrice: 50,
+          //       available: 25,
+          //     },
+          //     {
+          //       name: "5kg",
+          //       image: "https://example.com/salt-5kg.jpg",
+          //       ourPrice: 120,
+          //       generalPrice: 180,
+          //       available: 10,
+          //     },
+          //   ],
+          // },
+        ]);
+        const [cart, setCart] = useState([]);
+        const [activeTab, setActiveTab] = useState(0); // State to manage active tab
+        const [searchTerm, setSearchTerm] = useState(""); // State to manage search term
+        const [openDialog, setOpenDialog] = useState(false); // State to manage dialog visibility
+        const [openProductDialog, setOpenProductDialog] = useState(false); // State to manage product dialog visibility
+        const [selectedProducts, setSelectedProducts] = useState([]); // State to store selected products
+        const [openServiceDialog, setOpenServiceDialog] = useState(false); // State to manage service dialog visibility
+        const [name, setName] = useState(""); // State to manage name
+        const [mobile, setMobile] = useState(""); // State to manage mobile
+        const [address, setAddress] = useState(""); // State to manage address
+        const [role, setRole] = useState(""); // State to manage role
+        const [selectedProduct, setSelectedProduct] = useState(""); // State to manage selected product
+        const [quantity, setQuantity] = useState(""); // State to manage quantity
+
+        return (
+          <div>
+            <Tabs
+              value={activeTab}
+              onChange={(event, newValue) => setActiveTab(newValue)}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+            >
+              <Tab label="Buy" />
+              <Tab label="History" />
+            </Tabs>
+
+            {activeTab === 0 && ( // Render Book tab content
+              <div>
+                <div>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      m: 2,
+                    }}
+                  >
+                    <TextField
+                      sx={{ mr: 1 }}
+                      label="Search Products.."
+                      variant="outlined"
+                      fullWidth
+                      onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
+                    />
+
+                    <Button
+                      variant="contained"
+                      size="small"
+                      startIcon={
+                        <span className="material-icons">shopping_cart</span>
+                      }
+                      onClick={() => {
+                        if (cart.length == 0) {
+                          alert("Your Cart is Empty, Please add Products..");
+                        } else {
+                          setOpenDialog(true); // Open the dialog
+                        }
+                      }}
+                    >
+                      Show Cart
+                    </Button>
+                  </Box>
+                  <Typography sx={{ m: 1 }}>Products..</Typography>
+
+                  <Grid container spacing={3}>
+                    {products.filter(
+                      (product) =>
+                        product.name
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
+                    ).length === 0 && ( // Check if filteredDoctors is empty
+                      <Grid item xs={12}>
+                        <Typography variant="h6" align="center">
+                          No products
+                        </Typography>
+                      </Grid>
+                    )}
+                    {products
+                      .filter(
+                        (product) =>
+                          product.name
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
+                      )
+                      .map((product, doctorIndex) => (
+                        <Grid item xs={12} sm={6} md={4} key={doctorIndex}>
+                          <Card
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              transition: "all 0.3s ease",
+                              // "&:hover": {
+                              //   transform: "translateY(-8px)",
+                              //   boxShadow: 6,
+                              // },
+                              maxWidth: "100%", // Ensure card does not exceed container width
+                              borderRadius: "8px", // Add border radius for a softer look
+                              overflow: "hidden", // Prevent overflow of content
+                            }}
+                          >
+                            <CardMedia
+                              component="img"
+                              image={product.image}
+                              alt={product.name}
+                              sx={{
+                                objectFit: "cover",
+                                height: {
+                                  xs: "150px",
+                                  sm: "200px",
+                                  md: "250px",
+                                },
+                              }} // Responsive height
+                            ></CardMedia>
+                            <CardContent sx={{ flexGrow: 1, p: 1 }}>
+                              <Typography
+                                variant="h6"
+                                gutterBottom
+                                sx={{
+                                  fontWeight: "bold",
+                                  fontSize: { xs: "10px", sm: "12px" },
+                                }} // Responsive font size
+                              >
+                                {product.name}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                gutterBottom
+                                sx={{ fontSize: { xs: "8px", sm: "10px" } }} // Responsive font size
+                              >
+                                {product.brand}, {product.description}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                gutterBottom
+                                sx={{ fontSize: { xs: "8px", sm: "10px" } }} // Responsive font size
+                              >
+                                Variants:
+                              </Typography>
+                              <Box
+                                sx={{
+                                  // // display: "flex",
+
+                                  // flexDirection: "row",
+                                  gap: 1,
+                                  // flexWrap: "nowrap", // Prevent wrapping to keep all in a single row
+                                  // overflowX: "auto", // Enable horizontal scrolling
+                                  flexGrow: 1,
+                                  overflowX: "auto",
+                                  // flexWrap: "nowrap",
+                                  whiteSpace: "nowrap",
+                                  width: "100%",
+                                }}
+                              >
+                                {product.varients.map((variant, index) => (
+                                  <Box
+                                    key={index}
+                                    sx={{
+                                      m: 1,
+                                      p: 1,
+                                      display: "inline-block",
+                                      // width: "100px", // Added default width
+                                      // height: "100px",
+                                      // width: "100%", // Changed to 100% to ensure it takes full width of the parent
+                                      // maxWidth: "600px", // Set maxWidth to maintain the desired width
+
+                                      fontSize: "8px",
+                                      // p: 1, // Increased padding for better spacing
+                                      // m: 0,
+                                      border: "1px solid #ccc", // Added border
+                                      borderRadius: "4px", // Rounded corners
+                                      backgroundColor: "#f9f9f9", // Light background color
+                                      transition: "background-color 0.3s", // Smooth transition for hover effect
+                                      "&:hover": {
+                                        backgroundColor: "#e0e0e0", // Change background on hover
+                                        cursor: "pointer", // Change cursor to pointer
+                                      },
+                                    }}
+                                    // variant="outlined"
+                                    onClick={() => {
+                                      alert(
+                                        `Selected variant: ${variant.name}`
+                                      );
+                                    }}
+                                  >
+                                    <Box sx={{ fontSize: "15px" }}>
+                                      {variant.name}
+                                    </Box>
+                                    <Box sx={{ fontSize: "12px" }}>
+                                      Our Price : {variant.ourPrice}{" "}
+                                    </Box>
+                                    <Box sx={{ fontSize: "9px" }}>
+                                      <mark>
+                                        Not : <del> {variant.generalPrice}</del>
+                                      </mark>
+                                    </Box>
+                                  </Box>
+                                ))}
+                              </Box>
+
+                              <Grid
+                                container
+                                spacing={1}
+                                sx={{
+                                  mt: 1,
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                <Grid
+                                  item
+                                  xs={5}
+                                  sx={
+                                    {
+                                      // border: "1px gray solid",
+                                    }
+                                  }
+                                >
+                                  <Box
+                                    sx={{
+                                      mt: 1,
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <IconButton
+                                      onClick={() => {}}
+                                      sx={{
+                                        color: "red", // Change icon color to red
+                                        backgroundColor: "#f0f0f0", // Light background on hover
+
+                                        borderRadius: "50%", // Make the button circular
+                                        padding: "3px", // Add some padding
+                                      }}
+                                    >
+                                      <span className="material-icons">
+                                        remove
+                                      </span>
+                                    </IconButton>
+                                    <Typography sx={{ mx: 1 }}>3</Typography>
+                                    <IconButton
+                                      onClick={() => {}}
+                                      sx={{
+                                        color: "green", // Change icon color to red
+                                        backgroundColor: "#f0f0f0", // Light background on hover
+
+                                        borderRadius: "50%", // Make the button circular
+                                        padding: "3px", // Add some padding
+                                      }}
+                                    >
+                                      <span className="material-icons">
+                                        add
+                                      </span>
+                                    </IconButton>
+                                  </Box>
+                                </Grid>
+                                <Grid
+                                  item
+                                  xs={7}
+                                  sx={
+                                    {
+                                      // border: "1px gray solid",
+                                    }
+                                  }
+                                >
+                                  <Button
+                                    variant="contained"
+                                    size="large"
+                                    // size="medium"
+                                    // sx={{ fontSize: "10px" }}
+                                    onClick={() => {
+                                      setCart((pre) => [...pre, product]);
+                                      alert(
+                                        "Product added to cart successfully"
+                                      );
+                                    }}
+                                  >
+                                    Add to Cart
+                                  </Button>
+                                </Grid>
+                              </Grid>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                  </Grid>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 1 && ( // Render History tab content
+              <div>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="h6" align="center">
+                    Service History
+                  </Typography>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={() => {
+                      setOpenServiceDialog(true); // Open the service dialog
+                    }}
+                    sx={{ m: 2 }} // Add some margin at the bottom
+                  >
+                    Add New
+                  </Button>
+                </Box>
+                <Grid container spacing={1}>
+                  {[
+                    {
+                      orderedDate: "2023-10-01",
+                      numberOfProducts: 2,
+                      price: "$200",
+                      serviceType: "Delivery",
+                      products: [
+                        {
+                          name: "Street Light",
+                          description: "50W capacity",
+                          quantity: 1,
+                        },
+                        {
+                          name: "CC Camera",
+                          description: "full 4 set",
+                          quantity: 1,
+                        },
+                      ],
+                    },
+                    {
+                      orderedDate: "2023-10-02",
+                      numberOfProducts: 1,
+                      price: "$150",
+                      serviceType: "Installation",
+                      products: [
+                        {
+                          name: "Street Light",
+                          description: "50W capacity",
+                          quantity: 1,
+                        },
+                        {
+                          name: "CC Camera",
+                          description: "full 4 set",
+                          quantity: 1,
+                        },
+                      ],
+                    },
+                    {
+                      orderedDate: "2023-10-03",
+                      numberOfProducts: 3,
+                      price: "$300",
+                      serviceType: "Repair",
+                      products: [
+                        {
+                          name: "Street Light",
+                          description: "50W capacity",
+                          quantity: 1,
+                        },
+                        {
+                          name: "CC Camera",
+                          description: "full 4 set",
+                          quantity: 1,
+                        },
+                      ],
+                    },
+                  ].map((service, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                      <Card sx={{ padding: 2, margin: 1 }}>
+                        <Typography variant="h6">
+                          Ordered Date: {service.orderedDate}
+                        </Typography>
+                        <Typography variant="body1">
+                          Number of Products: {service.numberOfProducts}
+                        </Typography>
+                        <Typography variant="body2">
+                          Price: {service.price}
+                        </Typography>
+                        <Typography variant="body2">
+                          Service Type: {service.serviceType}
+                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            mt: 2,
+                          }}
+                        >
+                          <Button
+                            variant="contained"
+                            size="small"
+                            onClick={() => {
+                              setSelectedProducts(service.products); // Set selected products
+                              setOpenProductDialog(true); // Open the product dialog
+                            }}
+                          >
+                            View Items
+                          </Button>
+                        </Box>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </div>
+            )}
+
+            <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+              <DialogTitle>Your Cart Items</DialogTitle>
+              <DialogContent>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Description</TableCell>
+
+                      <TableCell>Quantity</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {cart.map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell>{item.description}</TableCell>
+
+                        <TableCell>
+                          <TextField
+                            type="number"
+                            defaultValue={1}
+                            inputProps={{ min: 1 }}
+                            onChange={(e) => {
+                              const newQuantity = e.target.value;
+                              setCart((prevCart) => {
+                                const updatedCart = [...prevCart];
+                                updatedCart[index] = {
+                                  ...updatedCart[index],
+                                  quantity: newQuantity,
+                                }; // Update quantity
+                                return updatedCart;
+                              });
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            variant="contained"
+                            onClick={() => {
+                              setCart((prevCart) =>
+                                prevCart.filter((_, i) => i !== index)
+                              ); // Remove item from cart
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </DialogContent>
+              <DialogActions>
+                <Button variant="outlined" onClick={() => setOpenDialog(false)}>
+                  Close
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    // alert(JSON.stringify(cart)); // Implement buy functionality
+                    alert("Products ordered successfully"); // Implement buy functionality
+                    setOpenDialog(false);
+                  }}
+                >
+                  Buy
+                </Button>
+              </DialogActions>
+            </Dialog>
+
+            <Dialog
+              open={openProductDialog}
+              onClose={() => setOpenProductDialog(false)}
+            >
+              <DialogTitle>Product Details</DialogTitle>
+              <DialogContent>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Description</TableCell>
+                      <TableCell>Quantity</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {selectedProducts.map((product, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{product.name}</TableCell>
+                        <TableCell>{product.description}</TableCell>
+                        <TableCell>{product.quantity}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  variant="outlined"
+                  onClick={() => setOpenProductDialog(false)}
+                >
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+
+            <Dialog
+              open={openServiceDialog}
+              onClose={() => setOpenServiceDialog(false)}
+            >
+              <DialogTitle>Add New Service</DialogTitle>
+              <DialogContent>
+                <TextField
+                  label="Name"
+                  fullWidth
+                  margin="normal"
+                  onChange={(e) => setName(e.target.value)} // State to manage name
+                />
+                <TextField
+                  label="Mobile"
+                  fullWidth
+                  margin="normal"
+                  onChange={(e) => setMobile(e.target.value)} // State to manage mobile
+                />
+                <TextField
+                  label="Address"
+                  fullWidth
+                  margin="normal"
+                  onChange={(e) => setAddress(e.target.value)} // State to manage address
+                />
+                <TextField
+                  label="Role"
+                  fullWidth
+                  margin="normal"
+                  onChange={(e) => setRole(e.target.value)} // State to manage role
+                />
+
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Description</TableCell>
+
+                      <TableCell>Quantity</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {products.map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell>{item.description}</TableCell>
+
+                        <TableCell>
+                          <TextField
+                            type="number"
+                            defaultValue={1}
+                            inputProps={{ min: 1 }}
+                            onChange={(e) => {
+                              const newQuantity = e.target.value;
+                              setCart((prevCart) => {
+                                const updatedCart = [...prevCart];
+                                updatedCart[index] = {
+                                  ...updatedCart[index],
+                                  quantity: newQuantity,
+                                }; // Update quantity
+                                return updatedCart;
+                              });
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            variant="contained"
+                            onClick={() => {
+                              setCart((prevCart) =>
+                                prevCart.filter((_, i) => i !== index)
+                              ); // Remove item from cart
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setOpenServiceDialog(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    // Handle submit logic here
+                    alert("Service added successfully!"); // Placeholder for submit action
+                    setOpenServiceDialog(false);
+                  }}
+                >
+                  Submit
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+        );
+      };
+
+      // Render the form to the DOM
+      ReactDOM.render(<HomePage />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

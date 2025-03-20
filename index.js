@@ -40,6 +40,9 @@ app.get("/kunur", (req, res) => {
 app.get("/taxi", (req, res) => {
   res.sendFile(__dirname + "/files/taxi.html");
 });
+app.get("/g", (req, res) => {
+  res.sendFile(__dirname + "/files/Grocery.html");
+});
 app.get("/goldnoon", (req, res) => {
   res.sendFile(__dirname + "/files/gn.html");
 });
