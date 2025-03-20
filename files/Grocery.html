@@ -36,6 +36,16 @@
         /* background-color: #f5f5f5; */
         background-color: #fff;
       }
+      .arrow {
+        cursor: pointer;
+        font-size: 24px; /* Adjust size as needed */
+        margin: 0 10px; /* Space between text and arrows */
+        transition: transform 0.3s ease; /* Animation effect */
+      }
+
+      .arrow:hover {
+        transform: scale(1.2); /* Scale up on hover */
+      }
     </style>
   </head>
   <body>
@@ -242,6 +252,58 @@
               },
             ],
           },
+
+          {
+            productId: "mgsoap01",
+            category: ["bodycare", "soap"],
+            name: "Soap",
+            image:
+              "https://www.bombaybazaar.co.nz/cdn/shop/files/3012_grande.jpg?v=1717483721",
+
+            brand: "Santoor",
+            description: "Best soap",
+            rating: 5,
+            note: "",
+            varients: [
+              {
+                name: "100 Grams",
+                image:
+                  "https://www.bigbasket.com/media/uploads/p/xxl/40129434_3-freedom-oil-sunflower.jpg",
+                // price: "",
+                ourPrice: 80,
+                generalPrice: 110,
+                available: 3,
+              },
+
+              {
+                name: "250 Grams",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 150,
+                generalPrice: 200,
+                available: 0,
+              },
+              {
+                name: "300 Grams",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 350,
+                generalPrice: 500,
+                available: 0,
+              },
+              {
+                name: "350 Grams",
+                image:
+                  "https://dukaan.b-cdn.net/700x700/webp/media/cc669b3b-7140-4dfd-8a19-78953e19696f.png",
+                // price: "",
+                ourPrice: 750,
+                generalPrice: 1000,
+                available: 0,
+              },
+            ],
+          },
         ]);
         const [cart, setCart] = useState([]);
         const [activeTab, setActiveTab] = useState(0); // State to manage active tab
@@ -314,9 +376,22 @@
 
                   <hr />
                   <center>
+                    <span className="arrow left" onClick={() => {}}>
+                      &#9664;
+                    </span>
+
                     <strong>
-                      <u>Cooking Oils</u>
+                      <u>Cooking Oils Section</u>
                     </strong>
+
+                    <span
+                      className="arrow right"
+                      onClick={() => {
+                        /* Add right arrow click functionality */
+                      }}
+                    >
+                      &#9654;
+                    </span>
                   </center>
 
                   <Box
@@ -348,6 +423,274 @@
                           product.name
                             .toLowerCase()
                             .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
+                      )
+                      .filter(
+                        (product) => product.category.includes("oil") // Filter products based on search term
+                      )
+                      .map((product, doctorIndex) => (
+                        <Grid
+                          item
+                          xs={10}
+                          sm={6}
+                          md={4}
+                          key={doctorIndex}
+                          sx={{
+                            width: "80%",
+                            m: 1,
+                            // p: 1,
+                            display: "inline-block",
+                          }}
+                        >
+                          <Card
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              transition: "all 0.3s ease",
+                              // "&:hover": {
+                              //   transform: "translateY(-8px)",
+                              //   boxShadow: 6,
+                              // },
+                              maxWidth: "100%", // Ensure card does not exceed container width
+                              borderRadius: "8px", // Add border radius for a softer look
+                              overflow: "hidden", // Prevent overflow of content
+                            }}
+                          >
+                            <CardMedia
+                              component="img"
+                              image={product.image}
+                              alt={product.name}
+                              sx={{
+                                objectFit: "cover",
+                                height: {
+                                  xs: "150px",
+                                  sm: "200px",
+                                  md: "250px",
+                                },
+                              }} // Responsive height
+                            ></CardMedia>
+                            <CardContent sx={{ flexGrow: 1, p: 1 }}>
+                              <Typography
+                                variant="h6"
+                                gutterBottom
+                                sx={{
+                                  fontWeight: "bold",
+                                  fontSize: { xs: "15px", sm: "18px" },
+                                }} // Responsive font size
+                              >
+                                {product.brand} {product.name}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                gutterBottom
+                                sx={{ fontSize: { xs: "10px", sm: "12px" } }} // Responsive font size
+                              >
+                                {product.description}
+                              </Typography>
+
+                              <Box
+                                sx={{
+                                  gap: 1,
+                                  flexGrow: 1,
+                                  overflowX: "auto",
+                                  whiteSpace: "nowrap",
+                                  width: "100%",
+                                }}
+                              >
+                                {product.varients.map((variant, index) => (
+                                  <Box
+                                    key={index}
+                                    sx={{
+                                      m: 1,
+                                      p: 1,
+                                      display: "inline-block",
+
+                                      fontSize: "8px",
+                                      // p: 1, // Increased padding for better spacing
+                                      // m: 0,
+                                      border: "1px solid #ccc", // Added border
+                                      borderRadius: "4px", // Rounded corners
+                                      backgroundColor: "#f9f9f9", // Light background color
+                                      transition: "background-color 0.3s", // Smooth transition for hover effect
+                                      "&:hover": {
+                                        backgroundColor: "#e0e0e0", // Change background on hover
+                                        cursor: "pointer", // Change cursor to pointer
+                                      },
+                                    }}
+                                    // variant="outlined"
+                                    onClick={() => {
+                                      alert(
+                                        `Selected variant: ${variant.name}`
+                                      );
+                                    }}
+                                  >
+                                    <Box sx={{ fontSize: "15px" }}>
+                                      {variant.name}
+                                    </Box>
+                                    <Box sx={{ fontSize: "12px" }}>
+                                      Our Price : {variant.ourPrice}{" "}
+                                    </Box>
+                                    <Box sx={{ fontSize: "9px" }}>
+                                      <mark>
+                                        Others Price :{" "}
+                                        <del> {variant.generalPrice}</del>
+                                      </mark>
+                                    </Box>
+                                  </Box>
+                                ))}
+                              </Box>
+
+                              <Grid
+                                container
+                                spacing={1}
+                                sx={{
+                                  mt: 1,
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                <Grid
+                                  item
+                                  xs={4}
+                                  sx={
+                                    {
+                                      // border: "1px gray solid",
+                                    }
+                                  }
+                                >
+                                  <Box
+                                    sx={{
+                                      mt: 0.5,
+                                      pl: 1,
+                                      // p: 1,
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      // gap: 1,
+                                      // border: "1px gray solid",
+                                    }}
+                                  >
+                                    <IconButton
+                                      onClick={() => {}}
+                                      sx={{
+                                        color: "red", // Change icon color to red
+                                        backgroundColor: "#f0f0f0", // Light background on hover
+
+                                        borderRadius: "50%", // Make the button circular
+                                        padding: "3px", // Add some padding
+                                      }}
+                                    >
+                                      <span className="material-icons">
+                                        remove
+                                      </span>
+                                    </IconButton>
+                                    <Typography
+                                      sx={{ mx: 1, fontSize: "18px" }}
+                                    >
+                                      2
+                                    </Typography>
+                                    <IconButton
+                                      onClick={() => {}}
+                                      sx={{
+                                        color: "green", // Change icon color to red
+                                        backgroundColor: "#f0f0f0", // Light background on hover
+
+                                        borderRadius: "50%", // Make the button circular
+                                        padding: "3px", // Add some padding
+                                      }}
+                                    >
+                                      <span className="material-icons">
+                                        add
+                                      </span>
+                                    </IconButton>
+                                  </Box>
+                                </Grid>
+                                <Grid
+                                  item
+                                  xs={8}
+                                  sx={{
+                                    // border: "1px gray solid",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Button
+                                    // fullWidth
+                                    variant="contained"
+                                    // size="small"
+                                    size="medium"
+                                    // sx={{ fontSize: "10px" }}
+                                    onClick={() => {
+                                      setCart((pre) => [...pre, product]);
+                                      alert(
+                                        "Product added to cart successfully"
+                                      );
+                                    }}
+                                  >
+                                    Add to Cart
+                                  </Button>
+                                </Grid>
+                              </Grid>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                  </Box>
+
+                  <hr />
+
+                  <center>
+                    <span className="arrow left" onClick={() => {}}>
+                      &#9664;
+                    </span>
+
+                    <strong>
+                      <u>Soaps Section</u>
+                    </strong>
+
+                    <span
+                      className="arrow right"
+                      onClick={() => {
+                        /* Add right arrow click functionality */
+                      }}
+                    >
+                      &#9654;
+                    </span>
+                  </center>
+
+                  <Box
+                    // container
+                    // spacing={3}
+                    sx={{
+                      gap: 1,
+                      flexGrow: 1,
+                      overflowX: "auto",
+                      whiteSpace: "nowrap",
+                      width: "100%",
+                    }}
+                  >
+                    {products.filter(
+                      (product) =>
+                        product.name
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
+                    ).length === 0 && ( // Check if filteredDoctors is empty
+                      <Grid item xs={12}>
+                        <Typography variant="h6" align="center">
+                          No products
+                        </Typography>
+                      </Grid>
+                    )}
+                    {products
+                      .filter(
+                        (product) =>
+                          product.name
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
+                      )
+                      .filter(
+                        (product) => product.category.includes("soap") // Filter products based on search term
                       )
                       .map((product, doctorIndex) => (
                         <Grid
