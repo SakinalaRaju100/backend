@@ -1069,6 +1069,194 @@
                         </Grid>
                       ))}
                   </Grid>
+
+                  <hr />
+
+                  <center>
+                    <span className="arrow left" onClick={() => {}}>
+                      &#9664;
+                    </span>
+
+                    <strong>
+                      <u>Kitchen Section</u>
+                    </strong>
+
+                    <span
+                      className="arrow right"
+                      onClick={() => {
+                        /* Add right arrow click functionality */
+                      }}
+                    >
+                      &#9654;
+                    </span>
+                  </center>
+
+                  <Grid
+                    container
+                    spacing={2}
+                    sx={{
+                      flexWrap: "nowrap",
+                      overflowX: "auto",
+                      display: "flex",
+                    }}
+                  >
+                    {filteredProducts().length === 0 && ( // Check if filteredDoctors is empty
+                      <Grid item xs={12}>
+                        <Typography variant="h6" align="center">
+                          No products
+                        </Typography>
+                      </Grid>
+                    )}
+                    {filteredProducts()
+                      .filter(
+                        (product) => product.category.includes("kitchen") // Filter products based on search term
+                      )
+                      .map((product, doctorIndex) => (
+                        <Grid
+                          item
+                          xs={7}
+                          md={4}
+                          lg={3}
+                          key={doctorIndex}
+                          sx={
+                            {
+                              // m: 1,
+                            }
+                          }
+                        >
+                          <Card
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              transition: "all 0.3s ease",
+                              // "&:hover": {
+                              //   transform: "translateY(-8px)",
+                              //   boxShadow: 6,
+                              // },
+                              maxWidth: "100%", // Ensure card does not exceed container width
+                              borderRadius: "8px", // Add border radius for a softer look
+                              overflow: "hidden", // Prevent overflow of content
+                            }}
+                          >
+                            <CardMedia
+                              component="img"
+                              image={product.image}
+                              alt={product.name}
+                              sx={{
+                                objectFit: "cover",
+                                height: {
+                                  xs: "150px",
+                                  sm: "200px",
+                                  md: "250px",
+                                },
+                              }} // Responsive height
+                            ></CardMedia>
+                            <CardContent sx={{ flexGrow: 1, p: 1 }}>
+                              <Typography
+                                variant="h6"
+                                gutterBottom
+                                sx={{
+                                  fontWeight: "bold",
+                                  fontSize: { xs: "12px" },
+                                }} // Responsive font size
+                              >
+                                {product.brand} {product.name}
+                              </Typography>
+                              {/*} <Typography
+                                variant="body2"
+                                gutterBottom
+                                sx={{ fontSize: { xs: "10px",  } }} // Responsive font size
+                              >
+                                {product.description} ({product.varients.length}
+                                )
+                              </Typography>*/}
+
+                              <Box
+                                sx={{
+                                  gap: 1,
+                                  flexGrow: 1,
+                                  overflowX: "auto",
+                                  whiteSpace: "nowrap",
+                                  width: "100%",
+                                }}
+                              >
+                                {product.varients.map((variant, index) => (
+                                  <Box
+                                    key={index}
+                                    sx={{
+                                      m: 0.5,
+                                      p: 0.5,
+                                      display: "inline-block",
+
+                                      fontSize: "8px",
+
+                                      border: "1px solid #ccc", // Added border
+                                      borderRadius: "4px", // Rounded corners
+                                      backgroundColor: "#f9f9f9", // Light background color
+                                      transition: "background-color 0.3s", // Smooth transition for hover effect
+                                      "&:hover": {
+                                        backgroundColor: "#e0e0e0", // Change background on hover
+                                        cursor: "pointer", // Change cursor to pointer
+                                      },
+                                    }}
+                                    // variant="outlined"
+                                    onClick={() => {}}
+                                  >
+                                    <Box sx={{ fontSize: "12px" }}>
+                                      {variant.name}
+                                    </Box>
+                                    <Box sx={{ fontSize: "12px" }}>
+                                      Our Price : {variant.ourPrice}{" "}
+                                    </Box>
+                                    <Box sx={{ fontSize: "8px" }}>
+                                      <mark>
+                                        Others Price :{" "}
+                                        <del> {variant.generalPrice}</del>
+                                      </mark>
+                                    </Box>
+                                  </Box>
+                                ))}
+                              </Box>
+
+                              <Grid
+                                container
+                                spacing={1}
+                                sx={{
+                                  mt: 1,
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                <Grid
+                                  item
+                                  xs={12}
+                                  sx={{
+                                    // border: "1px gray solid",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Button
+                                    fullWidth
+                                    variant="contained"
+                                    size="small"
+                                    // sx={{ fontSize: "10px" }}
+                                    onClick={() => {
+                                      setSelectedCartItem(product); // Set the selected item details
+                                      setOpenDialog(true); // Open the confirmation dialog
+                                    }}
+                                  >
+                                    Add to Cart
+                                  </Button>
+                                </Grid>
+                              </Grid>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                  </Grid>
                   <hr />
                 </div>
               </div>
