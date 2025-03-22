@@ -623,6 +623,16 @@
         const [selectedProduct, setSelectedProduct] = useState(""); // State to manage selected product
         const [quantity, setQuantity] = useState(""); // State to manage quantity
 
+        const [selectedCartItem, setSelectedCartItem] = useState(null); // State to manage selected cart item
+
+        const filteredProducts = () => {
+          return products.filter(
+            (product) =>
+              product.name
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
+          );
+        };
         return (
           <div>
             <Tabs
@@ -698,52 +708,38 @@
                     </span>
                   </center>
 
-                  <Box
-                    // container
-                    // spacing={3}
+                  <Grid
+                    container
+                    spacing={2}
                     sx={{
-                      gap: 1,
-                      flexGrow: 1,
+                      flexWrap: "nowrap",
                       overflowX: "auto",
-                      whiteSpace: "nowrap",
-                      width: "100%",
+                      display: "flex",
                     }}
                   >
-                    {products.filter(
-                      (product) =>
-                        product.name
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
-                    ).length === 0 && ( // Check if filteredDoctors is empty
+                    {filteredProducts().length === 0 && ( // Check if filteredDoctors is empty
                       <Grid item xs={12}>
                         <Typography variant="h6" align="center">
                           No products
                         </Typography>
                       </Grid>
                     )}
-                    {products
-                      .filter(
-                        (product) =>
-                          product.name
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
-                      )
+                    {filteredProducts()
                       .filter(
                         (product) => product.category.includes("oil") // Filter products based on search term
                       )
                       .map((product, doctorIndex) => (
                         <Grid
                           item
-                          xs={10}
-                          sm={6}
+                          xs={8}
                           md={4}
+                          lg={3}
                           key={doctorIndex}
-                          sx={{
-                            width: "80%",
-                            m: 1,
-                            // p: 1,
-                            display: "inline-block",
-                          }}
+                          sx={
+                            {
+                              // m: 1,
+                            }
+                          }
                         >
                           <Card
                             sx={{
@@ -778,19 +774,19 @@
                                 gutterBottom
                                 sx={{
                                   fontWeight: "bold",
-                                  fontSize: { xs: "15px", sm: "18px" },
+                                  fontSize: { xs: "12px" },
                                 }} // Responsive font size
                               >
                                 {product.brand} {product.name}
                               </Typography>
-                              <Typography
+                              {/*} <Typography
                                 variant="body2"
                                 gutterBottom
-                                sx={{ fontSize: { xs: "10px", sm: "12px" } }} // Responsive font size
+                                sx={{ fontSize: { xs: "10px",  } }} // Responsive font size
                               >
                                 {product.description} ({product.varients.length}
                                 )
-                              </Typography>
+                              </Typography>*/}
 
                               <Box
                                 sx={{
@@ -805,13 +801,12 @@
                                   <Box
                                     key={index}
                                     sx={{
-                                      m: 1,
-                                      p: 1,
+                                      m: 0.5,
+                                      p: 0.5,
                                       display: "inline-block",
 
                                       fontSize: "8px",
-                                      // p: 1, // Increased padding for better spacing
-                                      // m: 0,
+
                                       border: "1px solid #ccc", // Added border
                                       borderRadius: "4px", // Rounded corners
                                       backgroundColor: "#f9f9f9", // Light background color
@@ -822,19 +817,15 @@
                                       },
                                     }}
                                     // variant="outlined"
-                                    onClick={() => {
-                                      alert(
-                                        `Selected variant: ${variant.name}`
-                                      );
-                                    }}
+                                    onClick={() => {}}
                                   >
-                                    <Box sx={{ fontSize: "15px" }}>
+                                    <Box sx={{ fontSize: "12px" }}>
                                       {variant.name}
                                     </Box>
                                     <Box sx={{ fontSize: "12px" }}>
                                       Our Price : {variant.ourPrice}{" "}
                                     </Box>
-                                    <Box sx={{ fontSize: "9px" }}>
+                                    <Box sx={{ fontSize: "8px" }}>
                                       <mark>
                                         Others Price :{" "}
                                         <del> {variant.generalPrice}</del>
@@ -850,69 +841,13 @@
                                 sx={{
                                   mt: 1,
                                   display: "flex",
-                                  flexDirection: "row",
+                                  flexDirection: "column",
                                   justifyContent: "center",
                                 }}
                               >
                                 <Grid
                                   item
-                                  xs={4}
-                                  sx={
-                                    {
-                                      // border: "1px gray solid",
-                                    }
-                                  }
-                                >
-                                  <Box
-                                    sx={{
-                                      mt: 0.5,
-                                      pl: 1,
-                                      // p: 1,
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      // gap: 1,
-                                      // border: "1px gray solid",
-                                    }}
-                                  >
-                                    <IconButton
-                                      onClick={() => {}}
-                                      sx={{
-                                        color: "red", // Change icon color to red
-                                        backgroundColor: "#f0f0f0", // Light background on hover
-
-                                        borderRadius: "50%", // Make the button circular
-                                        padding: "3px", // Add some padding
-                                      }}
-                                    >
-                                      <span className="material-icons">
-                                        remove
-                                      </span>
-                                    </IconButton>
-                                    <Typography
-                                      sx={{ mx: 1, fontSize: "18px" }}
-                                    >
-                                      2
-                                    </Typography>
-                                    <IconButton
-                                      onClick={() => {}}
-                                      sx={{
-                                        color: "green", // Change icon color to red
-                                        backgroundColor: "#f0f0f0", // Light background on hover
-
-                                        borderRadius: "50%", // Make the button circular
-                                        padding: "3px", // Add some padding
-                                      }}
-                                    >
-                                      <span className="material-icons">
-                                        add
-                                      </span>
-                                    </IconButton>
-                                  </Box>
-                                </Grid>
-                                <Grid
-                                  item
-                                  xs={8}
+                                  xs={12}
                                   sx={{
                                     // border: "1px gray solid",
                                     display: "flex",
@@ -921,16 +856,14 @@
                                   }}
                                 >
                                   <Button
-                                    // fullWidth
+                                    fullWidth
                                     variant="contained"
                                     // size="small"
                                     size="medium"
                                     // sx={{ fontSize: "10px" }}
                                     onClick={() => {
-                                      setCart((pre) => [...pre, product]);
-                                      alert(
-                                        "Product added to cart successfully"
-                                      );
+                                      setSelectedCartItem(product); // Set the selected item details
+                                      setOpenDialog(true); // Open the confirmation dialog
                                     }}
                                   >
                                     Add to Cart
@@ -941,7 +874,7 @@
                           </Card>
                         </Grid>
                       ))}
-                  </Box>
+                  </Grid>
 
                   <hr />
 
@@ -975,25 +908,14 @@
                       width: "100%",
                     }}
                   >
-                    {products.filter(
-                      (product) =>
-                        product.name
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
-                    ).length === 0 && ( // Check if filteredDoctors is empty
+                    {filteredProducts().length === 0 && ( // Check if filteredDoctors is empty
                       <Grid item xs={12}>
                         <Typography variant="h6" align="center">
                           No products
                         </Typography>
                       </Grid>
                     )}
-                    {products
-                      .filter(
-                        (product) =>
-                          product.name
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
-                      )
+                    {filteredProducts()
                       .filter(
                         (product) => product.category.includes("soap") // Filter products based on search term
                       )
@@ -1533,6 +1455,92 @@
                   }}
                 >
                   Submit
+                </Button>
+              </DialogActions>
+            </Dialog>
+
+            {/*cart confirmation popup*/}
+            <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+              <DialogTitle>Confirm Cart Item</DialogTitle>
+              <DialogContent>
+                {selectedCartItem && (
+                  <div>
+                    <Typography variant="h6">
+                      {selectedCartItem.name}
+                    </Typography>
+                    <Typography variant="body1">
+                      Price: {selectedCartItem.varients[0].ourPrice}
+                    </Typography>
+                    {/*<TextField
+                      type="number"
+                      defaultValue={1}
+                      inputProps={{ min: 1 }}
+                      onChange={(e) => {
+                        const newQuantity = e.target.value;
+                        setSelectedCartItem((prev) => ({
+                          ...prev,
+                          quantity: newQuantity,
+                        })); // Update quantity in selected item
+                      }}
+                    />*/}
+                    <Grid container sx={{}}>
+                      <Grid
+                        item
+                        xs={12}
+                        sx={{
+                          mt: 0.5,
+                          pl: 1,
+
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <IconButton
+                          onClick={() => {}}
+                          sx={{
+                            color: "red", // Change icon color to red
+                            backgroundColor: "#f0f0f0", // Light background on hover
+
+                            borderRadius: "50%", // Make the button circular
+                            padding: "3px", // Add some padding
+                          }}
+                        >
+                          <span className="material-icons">remove</span>
+                        </IconButton>
+                        <Typography sx={{ mx: 1, fontSize: "18px" }}>
+                          2
+                        </Typography>
+                        <IconButton
+                          onClick={() => {}}
+                          sx={{
+                            color: "green", // Change icon color to red
+                            backgroundColor: "#f0f0f0", // Light background on hover
+
+                            borderRadius: "50%", // Make the button circular
+                            padding: "3px", // Add some padding
+                          }}
+                        >
+                          <span className="material-icons">add</span>
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                  </div>
+                )}
+              </DialogContent>
+              <DialogActions>
+                <Button variant="outlined" onClick={() => setOpenDialog(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setCart((prev) => [...prev, selectedCartItem]); // Add item to cart
+                    alert("Product added to cart successfully");
+                    setOpenDialog(false);
+                  }}
+                >
+                  Confirm
                 </Button>
               </DialogActions>
             </Dialog>

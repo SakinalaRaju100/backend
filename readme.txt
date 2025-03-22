@@ -148,3 +148,49 @@ apply loan, enter pan, adhar, saleM id or null, upload docs ==>status checking>a
                 </form>
               </div>
             
+
+
+            <Grid 
+  container 
+  spacing={2} 
+  sx={{ 
+    flexWrap: "nowrap", 
+    overflowX: "auto", 
+    display: "flex" 
+  }}
+>
+  <Grid item xs="auto">
+    <Item>Item 1 kjwhdkcsn skjh</Item>
+  </Grid>
+  <Grid item >
+    <Item 
+     sx={{width:'150px'}}>Item 2</Item>
+  </Grid>
+  <Grid item xs="auto">
+    <Item>Item 3</Item>
+  </Grid>
+  <Grid item xs="auto">
+    <Item>Item 2</Item>
+  </Grid>
+  <Grid item xs="auto">
+    <Item>Item 3</Item>
+  </Grid>
+  <Grid item xs="auto">
+    <Item>Item 2</Item>
+  </Grid>
+  <Grid item xs="auto">
+    <Item>Item 3</Item>
+  </Grid>
+  <Grid item xs="auto">
+    <Item>Item 2</Item>
+  </Grid>
+  <Grid item xs="auto">
+    <Item>Item 3</Item>
+  </Grid>
+  <Grid item xs="auto">
+    <Item>Item 4</Item>
+  </Grid>
+  <Grid item xs="auto">
+    <Item>Item 5</Item>
+  </Grid>
+</Grid>
