@@ -897,15 +897,13 @@
                     </span>
                   </center>
 
-                  <Box
-                    // container
-                    // spacing={3}
+                  <Grid
+                    container
+                    spacing={2}
                     sx={{
-                      gap: 1,
-                      flexGrow: 1,
+                      flexWrap: "nowrap",
                       overflowX: "auto",
-                      whiteSpace: "nowrap",
-                      width: "100%",
+                      display: "flex",
                     }}
                   >
                     {filteredProducts().length === 0 && ( // Check if filteredDoctors is empty
@@ -922,16 +920,15 @@
                       .map((product, doctorIndex) => (
                         <Grid
                           item
-                          xs={10}
-                          sm={6}
+                          xs={8}
                           md={4}
+                          lg={3}
                           key={doctorIndex}
-                          sx={{
-                            width: "80%",
-                            m: 1,
-                            // p: 1,
-                            display: "inline-block",
-                          }}
+                          sx={
+                            {
+                              // m: 1,
+                            }
+                          }
                         >
                           <Card
                             sx={{
@@ -966,19 +963,19 @@
                                 gutterBottom
                                 sx={{
                                   fontWeight: "bold",
-                                  fontSize: { xs: "15px", sm: "18px" },
+                                  fontSize: { xs: "12px" },
                                 }} // Responsive font size
                               >
                                 {product.brand} {product.name}
                               </Typography>
-                              <Typography
+                              {/*} <Typography
                                 variant="body2"
                                 gutterBottom
-                                sx={{ fontSize: { xs: "10px", sm: "12px" } }} // Responsive font size
+                                sx={{ fontSize: { xs: "10px",  } }} // Responsive font size
                               >
                                 {product.description} ({product.varients.length}
                                 )
-                              </Typography>
+                              </Typography>*/}
 
                               <Box
                                 sx={{
@@ -993,13 +990,12 @@
                                   <Box
                                     key={index}
                                     sx={{
-                                      m: 1,
-                                      p: 1,
+                                      m: 0.5,
+                                      p: 0.5,
                                       display: "inline-block",
 
                                       fontSize: "8px",
-                                      // p: 1, // Increased padding for better spacing
-                                      // m: 0,
+
                                       border: "1px solid #ccc", // Added border
                                       borderRadius: "4px", // Rounded corners
                                       backgroundColor: "#f9f9f9", // Light background color
@@ -1010,19 +1006,15 @@
                                       },
                                     }}
                                     // variant="outlined"
-                                    onClick={() => {
-                                      alert(
-                                        `Selected variant: ${variant.name}`
-                                      );
-                                    }}
+                                    onClick={() => {}}
                                   >
-                                    <Box sx={{ fontSize: "15px" }}>
+                                    <Box sx={{ fontSize: "12px" }}>
                                       {variant.name}
                                     </Box>
                                     <Box sx={{ fontSize: "12px" }}>
                                       Our Price : {variant.ourPrice}{" "}
                                     </Box>
-                                    <Box sx={{ fontSize: "9px" }}>
+                                    <Box sx={{ fontSize: "8px" }}>
                                       <mark>
                                         Others Price :{" "}
                                         <del> {variant.generalPrice}</del>
@@ -1038,69 +1030,13 @@
                                 sx={{
                                   mt: 1,
                                   display: "flex",
-                                  flexDirection: "row",
+                                  flexDirection: "column",
                                   justifyContent: "center",
                                 }}
                               >
                                 <Grid
                                   item
-                                  xs={4}
-                                  sx={
-                                    {
-                                      // border: "1px gray solid",
-                                    }
-                                  }
-                                >
-                                  <Box
-                                    sx={{
-                                      mt: 0.5,
-                                      pl: 1,
-                                      // p: 1,
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      // gap: 1,
-                                      // border: "1px gray solid",
-                                    }}
-                                  >
-                                    <IconButton
-                                      onClick={() => {}}
-                                      sx={{
-                                        color: "red", // Change icon color to red
-                                        backgroundColor: "#f0f0f0", // Light background on hover
-
-                                        borderRadius: "50%", // Make the button circular
-                                        padding: "3px", // Add some padding
-                                      }}
-                                    >
-                                      <span className="material-icons">
-                                        remove
-                                      </span>
-                                    </IconButton>
-                                    <Typography
-                                      sx={{ mx: 1, fontSize: "18px" }}
-                                    >
-                                      2
-                                    </Typography>
-                                    <IconButton
-                                      onClick={() => {}}
-                                      sx={{
-                                        color: "green", // Change icon color to red
-                                        backgroundColor: "#f0f0f0", // Light background on hover
-
-                                        borderRadius: "50%", // Make the button circular
-                                        padding: "3px", // Add some padding
-                                      }}
-                                    >
-                                      <span className="material-icons">
-                                        add
-                                      </span>
-                                    </IconButton>
-                                  </Box>
-                                </Grid>
-                                <Grid
-                                  item
-                                  xs={8}
+                                  xs={12}
                                   sx={{
                                     // border: "1px gray solid",
                                     display: "flex",
@@ -1109,16 +1045,14 @@
                                   }}
                                 >
                                   <Button
-                                    // fullWidth
+                                    fullWidth
                                     variant="contained"
                                     // size="small"
                                     size="medium"
                                     // sx={{ fontSize: "10px" }}
                                     onClick={() => {
-                                      setCart((pre) => [...pre, product]);
-                                      alert(
-                                        "Product added to cart successfully"
-                                      );
+                                      setSelectedCartItem(product); // Set the selected item details
+                                      setOpenDialog(true); // Open the confirmation dialog
                                     }}
                                   >
                                     Add to Cart
@@ -1129,7 +1063,7 @@
                           </Card>
                         </Grid>
                       ))}
-                  </Box>
+                  </Grid>
                   <hr />
                 </div>
               </div>
