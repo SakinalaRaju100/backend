@@ -46,6 +46,10 @@
       .arrow:hover {
         transform: scale(1.2); /* Scale up on hover */
       }
+
+      /* .css-5xu0un-MuiCardContent-root {
+        padding-bottom: 0px;
+      } */
     </style>
   </head>
   <body>
@@ -103,7 +107,7 @@
           {
             productId: "01",
             category: ["cooking", "kitchen", "oil"],
-            name: "Sunflower Oil",
+            name: "Cocking Oil",
             image:
               "https://rukminim2.flixcart.com/image/850/1000/xif0q/edible-oil/q/z/0/-original-imagqf52ywgfy2nc.jpeg?q=20&crop=false",
 
@@ -624,6 +628,7 @@
         const [quantity, setQuantity] = useState(""); // State to manage quantity
 
         const [selectedCartItem, setSelectedCartItem] = useState(null); // State to manage selected cart item
+        const [selectedCategory, setSelectedCategory] = useState("all"); // State to manage selected category
 
         const filteredProducts = () => {
           return products.filter(
@@ -631,6 +636,202 @@
               product.name
                 .toLowerCase()
                 .includes(searchTerm.toLowerCase().trim()) // Filter products based on search term
+          );
+        };
+
+        const RenderProducts = (section, category = "all", width) => {
+          return (
+            <div>
+              <center>
+                <span className="arrow left" onClick={() => {}}>
+                  &#9664;
+                </span>
+
+                <strong>
+                  <u>{section}</u>
+                </strong>
+
+                <span
+                  className="arrow right"
+                  onClick={() => {
+                    /* Add right arrow click functionality */
+                  }}
+                >
+                  &#9654;
+                </span>
+              </center>
+
+              <Grid
+                container
+                spacing={2}
+                sx={{
+                  flexWrap: "nowrap",
+                  overflowX: "auto",
+                  display: "flex",
+                }}
+              >
+                {filteredProducts().length === 0 && ( // Check if filteredDoctors is empty
+                  <Grid item xs={12}>
+                    <Typography variant="h6" align="center">
+                      No products
+                    </Typography>
+                  </Grid>
+                )}
+                {filteredProducts()
+                  .filter(
+                    (product) => product.category.includes(category) // Filter products based on search term
+                  )
+                  .map((product, doctorIndex) => (
+                    <Grid
+                      item
+                      xs={width}
+                      md={4}
+                      lg={3}
+                      key={doctorIndex}
+                      sx={{
+                        m: 1,
+                      }}
+                    >
+                      <Card
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          transition: "all 0.3s ease",
+                          // "&:hover": {
+                          //   transform: "translateY(-8px)",
+                          //   boxShadow: 6,
+                          // },
+                          maxWidth: "100%", // Ensure card does not exceed container width
+                          borderRadius: "8px", // Add border radius for a softer look
+                          overflow: "hidden", // Prevent overflow of content
+                        }}
+                      >
+                        <CardMedia
+                          component="img"
+                          image={product.image}
+                          alt={product.name}
+                          sx={{
+                            objectFit: "cover",
+                            height: {
+                              xs: "150px",
+                              sm: "200px",
+                              md: "250px",
+                            },
+                          }} // Responsive height
+                        ></CardMedia>
+                        <CardContent sx={{ flexGrow: 1, p: 0.5 }}>
+                          <Box sx={{ overflowX: "auto", whiteSpace: "nowrap" }}>
+                            {" "}
+                            {/* Added Box for horizontal scrolling */}
+                            <Typography
+                              variant="h6"
+                              gutterBottom
+                              sx={{
+                                fontWeight: "bold",
+                                fontSize: { xs: "12px" },
+                                display: "inline-block", // Ensure it behaves like an inline element
+                              }}
+                            >
+                              {product.brand} {product.name}
+                            </Typography>
+                          </Box>
+                          {/*} <Typography
+                                variant="body2"
+                                gutterBottom
+                                sx={{ fontSize: { xs: "10px",  } }} // Responsive font size
+                              >
+                                {product.description} ({product.varients.length}
+                                )
+                              </Typography>*/}
+
+                          <Box
+                            sx={{
+                              gap: 1,
+                              flexGrow: 1,
+                              overflowX: "auto",
+                              whiteSpace: "nowrap",
+                              width: "100%",
+                            }}
+                          >
+                            {product.varients.map((variant, index) => (
+                              <Box
+                                key={index}
+                                sx={{
+                                  m: 0.5,
+                                  p: 0.5,
+                                  display: "inline-block",
+
+                                  fontSize: "8px",
+
+                                  border: "1px solid #ccc", // Added border
+                                  borderRadius: "4px", // Rounded corners
+                                  backgroundColor: "#f9f9f9", // Light background color
+                                  transition: "background-color 0.3s", // Smooth transition for hover effect
+                                  "&:hover": {
+                                    backgroundColor: "#e0e0e0", // Change background on hover
+                                    cursor: "pointer", // Change cursor to pointer
+                                  },
+                                }}
+                                // variant="outlined"
+                                onClick={() => {}}
+                              >
+                                <Box sx={{ fontSize: "12px" }}>
+                                  {variant.name}
+                                </Box>
+                                <Box sx={{ fontSize: "12px" }}>
+                                  Our Price : {variant.ourPrice}{" "}
+                                </Box>
+                                <Box sx={{ fontSize: "8px" }}>
+                                  <mark>
+                                    Others Price :{" "}
+                                    <del> {variant.generalPrice}</del>
+                                  </mark>
+                                </Box>
+                              </Box>
+                            ))}
+                          </Box>
+
+                          <Grid
+                            container
+                            // spacing={1}
+                            sx={{
+                              mt: 0.3,
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Grid
+                              item
+                              xs={12}
+                              sx={{
+                                // border: "1px gray solid",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Button
+                                fullWidth
+                                variant="contained"
+                                // size="small"
+                                size="small"
+                                // sx={{ fontSize: "10px" }}
+                                onClick={() => {
+                                  setSelectedCartItem(product); // Set the selected item details
+                                  setOpenDialog(true); // Open the confirmation dialog
+                                }}
+                              >
+                                Add to Cart
+                              </Button>
+                            </Grid>
+                          </Grid>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+              </Grid>
+            </div>
           );
         };
         return (
@@ -641,12 +842,6 @@
               indicatorColor="primary"
               textColor="primary"
               centered
-              sx={{
-                position: "sticky",
-                top: 0,
-                zIndex: 10,
-                backgroundColor: "white",
-              }} // Added styles for sticky behavior
             >
               <Tab label="Buy" />
               <Tab label="History" />
@@ -659,9 +854,28 @@
                     sx={{
                       display: "flex",
                       justifyContent: "space-between",
-                      m: 2,
+                      my: 1,
+                      p: 1,
+                      // sx={{
+                      position: "sticky",
+                      top: 0,
+                      zIndex: 10,
+                      backgroundColor: "white",
+                      // }} // Added styles for sticky behavior
                     }}
                   >
+                    <Select
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)} // Update selected category
+                      displayEmpty
+                      sx={{ mr: 1, minWidth: 80 }} // Add some styling
+                    >
+                      <MenuItem value="all">All</MenuItem>
+                      <MenuItem value="oil">Oils</MenuItem>
+                      <MenuItem value="soap">Soaps</MenuItem>
+                      <MenuItem value="kitchen">Kitchen</MenuItem>
+                    </Select>
+
                     <TextField
                       sx={{ mr: 1 }}
                       label="Search Products.."
@@ -673,9 +887,9 @@
                     <Button
                       variant="contained"
                       size="small"
-                      startIcon={
-                        <span className="material-icons">shopping_cart</span>
-                      }
+                      // startIcon={
+                      //   <span className="material-icons">shopping_cart</span>
+                      // }
                       onClick={() => {
                         if (cart.length == 0) {
                           alert("Your Cart is Empty, Please add Products..");
@@ -684,7 +898,7 @@
                         }
                       }}
                     >
-                      Show Cart
+                      View Cart
                     </Button>
                   </Box>
                   <Typography sx={{ m: 1 }}>
@@ -694,569 +908,14 @@
                     </small>
                   </Typography>
 
-                  <hr />
-                  <center>
-                    <span className="arrow left" onClick={() => {}}>
-                      &#9664;
-                    </span>
-
-                    <strong>
-                      <u>Cooking Oils Section</u>
-                    </strong>
-
-                    <span
-                      className="arrow right"
-                      onClick={() => {
-                        /* Add right arrow click functionality */
-                      }}
-                    >
-                      &#9654;
-                    </span>
-                  </center>
-
-                  <Grid
-                    container
-                    spacing={2}
-                    sx={{
-                      flexWrap: "nowrap",
-                      overflowX: "auto",
-                      display: "flex",
-                    }}
-                  >
-                    {filteredProducts().length === 0 && ( // Check if filteredDoctors is empty
-                      <Grid item xs={12}>
-                        <Typography variant="h6" align="center">
-                          No products
-                        </Typography>
-                      </Grid>
-                    )}
-                    {filteredProducts()
-                      .filter(
-                        (product) => product.category.includes("oil") // Filter products based on search term
-                      )
-                      .map((product, doctorIndex) => (
-                        <Grid
-                          item
-                          xs={8}
-                          md={4}
-                          lg={3}
-                          key={doctorIndex}
-                          sx={
-                            {
-                              // m: 1,
-                            }
-                          }
-                        >
-                          <Card
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              transition: "all 0.3s ease",
-                              // "&:hover": {
-                              //   transform: "translateY(-8px)",
-                              //   boxShadow: 6,
-                              // },
-                              maxWidth: "100%", // Ensure card does not exceed container width
-                              borderRadius: "8px", // Add border radius for a softer look
-                              overflow: "hidden", // Prevent overflow of content
-                            }}
-                          >
-                            <CardMedia
-                              component="img"
-                              image={product.image}
-                              alt={product.name}
-                              sx={{
-                                objectFit: "cover",
-                                height: {
-                                  xs: "150px",
-                                  sm: "200px",
-                                  md: "250px",
-                                },
-                              }} // Responsive height
-                            ></CardMedia>
-                            <CardContent sx={{ flexGrow: 1, p: 1 }}>
-                              <Typography
-                                variant="h6"
-                                gutterBottom
-                                sx={{
-                                  fontWeight: "bold",
-                                  fontSize: { xs: "12px" },
-                                }} // Responsive font size
-                              >
-                                {product.brand} {product.name}
-                              </Typography>
-                              {/*} <Typography
-                                variant="body2"
-                                gutterBottom
-                                sx={{ fontSize: { xs: "10px",  } }} // Responsive font size
-                              >
-                                {product.description} ({product.varients.length}
-                                )
-                              </Typography>*/}
-
-                              <Box
-                                sx={{
-                                  gap: 1,
-                                  flexGrow: 1,
-                                  overflowX: "auto",
-                                  whiteSpace: "nowrap",
-                                  width: "100%",
-                                }}
-                              >
-                                {product.varients.map((variant, index) => (
-                                  <Box
-                                    key={index}
-                                    sx={{
-                                      m: 0.5,
-                                      p: 0.5,
-                                      display: "inline-block",
-
-                                      fontSize: "8px",
-
-                                      border: "1px solid #ccc", // Added border
-                                      borderRadius: "4px", // Rounded corners
-                                      backgroundColor: "#f9f9f9", // Light background color
-                                      transition: "background-color 0.3s", // Smooth transition for hover effect
-                                      "&:hover": {
-                                        backgroundColor: "#e0e0e0", // Change background on hover
-                                        cursor: "pointer", // Change cursor to pointer
-                                      },
-                                    }}
-                                    // variant="outlined"
-                                    onClick={() => {}}
-                                  >
-                                    <Box sx={{ fontSize: "12px" }}>
-                                      {variant.name}
-                                    </Box>
-                                    <Box sx={{ fontSize: "12px" }}>
-                                      Our Price : {variant.ourPrice}{" "}
-                                    </Box>
-                                    <Box sx={{ fontSize: "8px" }}>
-                                      <mark>
-                                        Others Price :{" "}
-                                        <del> {variant.generalPrice}</del>
-                                      </mark>
-                                    </Box>
-                                  </Box>
-                                ))}
-                              </Box>
-
-                              <Grid
-                                container
-                                spacing={1}
-                                sx={{
-                                  mt: 1,
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <Grid
-                                  item
-                                  xs={12}
-                                  sx={{
-                                    // border: "1px gray solid",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <Button
-                                    fullWidth
-                                    variant="contained"
-                                    // size="small"
-                                    size="small"
-                                    // sx={{ fontSize: "10px" }}
-                                    onClick={() => {
-                                      setSelectedCartItem(product); // Set the selected item details
-                                      setOpenDialog(true); // Open the confirmation dialog
-                                    }}
-                                  >
-                                    Add to Cart
-                                  </Button>
-                                </Grid>
-                              </Grid>
-                            </CardContent>
-                          </Card>
-                        </Grid>
-                      ))}
-                  </Grid>
+                  {RenderProducts("Cocking Oils Section", "oil", 8)}
 
                   <hr />
-
-                  <center>
-                    <span className="arrow left" onClick={() => {}}>
-                      &#9664;
-                    </span>
-
-                    <strong>
-                      <u>Soaps Section</u>
-                    </strong>
-
-                    <span
-                      className="arrow right"
-                      onClick={() => {
-                        /* Add right arrow click functionality */
-                      }}
-                    >
-                      &#9654;
-                    </span>
-                  </center>
-
-                  <Grid
-                    container
-                    spacing={2}
-                    sx={{
-                      flexWrap: "nowrap",
-                      overflowX: "auto",
-                      display: "flex",
-                    }}
-                  >
-                    {filteredProducts().length === 0 && ( // Check if filteredDoctors is empty
-                      <Grid item xs={12}>
-                        <Typography variant="h6" align="center">
-                          No products
-                        </Typography>
-                      </Grid>
-                    )}
-                    {filteredProducts()
-                      .filter(
-                        (product) => product.category.includes("soap") // Filter products based on search term
-                      )
-                      .map((product, doctorIndex) => (
-                        <Grid
-                          item
-                          xs={6}
-                          md={4}
-                          lg={3}
-                          key={doctorIndex}
-                          sx={
-                            {
-                              // m: 1,
-                            }
-                          }
-                        >
-                          <Card
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              transition: "all 0.3s ease",
-                              // "&:hover": {
-                              //   transform: "translateY(-8px)",
-                              //   boxShadow: 6,
-                              // },
-                              maxWidth: "100%", // Ensure card does not exceed container width
-                              borderRadius: "8px", // Add border radius for a softer look
-                              overflow: "hidden", // Prevent overflow of content
-                            }}
-                          >
-                            <CardMedia
-                              component="img"
-                              image={product.image}
-                              alt={product.name}
-                              sx={{
-                                objectFit: "cover",
-                                height: {
-                                  xs: "150px",
-                                  sm: "200px",
-                                  md: "250px",
-                                },
-                              }} // Responsive height
-                            ></CardMedia>
-                            <CardContent sx={{ flexGrow: 1, p: 1 }}>
-                              <Typography
-                                variant="h6"
-                                gutterBottom
-                                sx={{
-                                  fontWeight: "bold",
-                                  fontSize: { xs: "12px" },
-                                }} // Responsive font size
-                              >
-                                {product.brand} {product.name}
-                              </Typography>
-                              {/*} <Typography
-                                variant="body2"
-                                gutterBottom
-                                sx={{ fontSize: { xs: "10px",  } }} // Responsive font size
-                              >
-                                {product.description} ({product.varients.length}
-                                )
-                              </Typography>*/}
-
-                              <Box
-                                sx={{
-                                  gap: 1,
-                                  flexGrow: 1,
-                                  overflowX: "auto",
-                                  whiteSpace: "nowrap",
-                                  width: "100%",
-                                }}
-                              >
-                                {product.varients.map((variant, index) => (
-                                  <Box
-                                    key={index}
-                                    sx={{
-                                      m: 0.5,
-                                      p: 0.5,
-                                      display: "inline-block",
-
-                                      fontSize: "8px",
-
-                                      border: "1px solid #ccc", // Added border
-                                      borderRadius: "4px", // Rounded corners
-                                      backgroundColor: "#f9f9f9", // Light background color
-                                      transition: "background-color 0.3s", // Smooth transition for hover effect
-                                      "&:hover": {
-                                        backgroundColor: "#e0e0e0", // Change background on hover
-                                        cursor: "pointer", // Change cursor to pointer
-                                      },
-                                    }}
-                                    // variant="outlined"
-                                    onClick={() => {}}
-                                  >
-                                    <Box sx={{ fontSize: "12px" }}>
-                                      {variant.name}
-                                    </Box>
-                                    <Box sx={{ fontSize: "12px" }}>
-                                      Our Price : {variant.ourPrice}{" "}
-                                    </Box>
-                                    <Box sx={{ fontSize: "8px" }}>
-                                      <mark>
-                                        Others Price :{" "}
-                                        <del> {variant.generalPrice}</del>
-                                      </mark>
-                                    </Box>
-                                  </Box>
-                                ))}
-                              </Box>
-
-                              <Grid
-                                container
-                                spacing={1}
-                                sx={{
-                                  mt: 1,
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <Grid
-                                  item
-                                  xs={12}
-                                  sx={{
-                                    // border: "1px gray solid",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <Button
-                                    fullWidth
-                                    variant="contained"
-                                    size="small"
-                                    // sx={{ fontSize: "10px" }}
-                                    onClick={() => {
-                                      setSelectedCartItem(product); // Set the selected item details
-                                      setOpenDialog(true); // Open the confirmation dialog
-                                    }}
-                                  >
-                                    Add to Cart
-                                  </Button>
-                                </Grid>
-                              </Grid>
-                            </CardContent>
-                          </Card>
-                        </Grid>
-                      ))}
-                  </Grid>
+                  {RenderProducts("Soaps Section", "soap", 6)}
 
                   <hr />
+                  {RenderProducts("Kitchen Section", "kitchen", 7)}
 
-                  <center>
-                    <span className="arrow left" onClick={() => {}}>
-                      &#9664;
-                    </span>
-
-                    <strong>
-                      <u>Kitchen Section</u>
-                    </strong>
-
-                    <span
-                      className="arrow right"
-                      onClick={() => {
-                        /* Add right arrow click functionality */
-                      }}
-                    >
-                      &#9654;
-                    </span>
-                  </center>
-
-                  <Grid
-                    container
-                    spacing={2}
-                    sx={{
-                      flexWrap: "nowrap",
-                      overflowX: "auto",
-                      display: "flex",
-                    }}
-                  >
-                    {filteredProducts().length === 0 && ( // Check if filteredDoctors is empty
-                      <Grid item xs={12}>
-                        <Typography variant="h6" align="center">
-                          No products
-                        </Typography>
-                      </Grid>
-                    )}
-                    {filteredProducts()
-                      .filter(
-                        (product) => product.category.includes("kitchen") // Filter products based on search term
-                      )
-                      .map((product, doctorIndex) => (
-                        <Grid
-                          item
-                          xs={7}
-                          md={4}
-                          lg={3}
-                          key={doctorIndex}
-                          sx={
-                            {
-                              // m: 1,
-                            }
-                          }
-                        >
-                          <Card
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              transition: "all 0.3s ease",
-                              // "&:hover": {
-                              //   transform: "translateY(-8px)",
-                              //   boxShadow: 6,
-                              // },
-                              maxWidth: "100%", // Ensure card does not exceed container width
-                              borderRadius: "8px", // Add border radius for a softer look
-                              overflow: "hidden", // Prevent overflow of content
-                            }}
-                          >
-                            <CardMedia
-                              component="img"
-                              image={product.image}
-                              alt={product.name}
-                              sx={{
-                                objectFit: "cover",
-                                height: {
-                                  xs: "150px",
-                                  sm: "200px",
-                                  md: "250px",
-                                },
-                              }} // Responsive height
-                            ></CardMedia>
-                            <CardContent sx={{ flexGrow: 1, p: 1 }}>
-                              <Typography
-                                variant="h6"
-                                gutterBottom
-                                sx={{
-                                  fontWeight: "bold",
-                                  fontSize: { xs: "12px" },
-                                }} // Responsive font size
-                              >
-                                {product.brand} {product.name}
-                              </Typography>
-                              {/*} <Typography
-                                variant="body2"
-                                gutterBottom
-                                sx={{ fontSize: { xs: "10px",  } }} // Responsive font size
-                              >
-                                {product.description} ({product.varients.length}
-                                )
-                              </Typography>*/}
-
-                              <Box
-                                sx={{
-                                  gap: 1,
-                                  flexGrow: 1,
-                                  overflowX: "auto",
-                                  whiteSpace: "nowrap",
-                                  width: "100%",
-                                }}
-                              >
-                                {product.varients.map((variant, index) => (
-                                  <Box
-                                    key={index}
-                                    sx={{
-                                      m: 0.5,
-                                      p: 0.5,
-                                      display: "inline-block",
-
-                                      fontSize: "8px",
-
-                                      border: "1px solid #ccc", // Added border
-                                      borderRadius: "4px", // Rounded corners
-                                      backgroundColor: "#f9f9f9", // Light background color
-                                      transition: "background-color 0.3s", // Smooth transition for hover effect
-                                      "&:hover": {
-                                        backgroundColor: "#e0e0e0", // Change background on hover
-                                        cursor: "pointer", // Change cursor to pointer
-                                      },
-                                    }}
-                                    // variant="outlined"
-                                    onClick={() => {}}
-                                  >
-                                    <Box sx={{ fontSize: "12px" }}>
-                                      {variant.name}
-                                    </Box>
-                                    <Box sx={{ fontSize: "12px" }}>
-                                      Our Price : {variant.ourPrice}{" "}
-                                    </Box>
-                                    <Box sx={{ fontSize: "8px" }}>
-                                      <mark>
-                                        Others Price :{" "}
-                                        <del> {variant.generalPrice}</del>
-                                      </mark>
-                                    </Box>
-                                  </Box>
-                                ))}
-                              </Box>
-
-                              <Grid
-                                container
-                                spacing={1}
-                                sx={{
-                                  mt: 1,
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <Grid
-                                  item
-                                  xs={12}
-                                  sx={{
-                                    // border: "1px gray solid",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <Button
-                                    fullWidth
-                                    variant="contained"
-                                    size="small"
-                                    // sx={{ fontSize: "10px" }}
-                                    onClick={() => {
-                                      setSelectedCartItem(product); // Set the selected item details
-                                      setOpenDialog(true); // Open the confirmation dialog
-                                    }}
-                                  >
-                                    Add to Cart
-                                  </Button>
-                                </Grid>
-                              </Grid>
-                            </CardContent>
-                          </Card>
-                        </Grid>
-                      ))}
-                  </Grid>
                   <hr />
                 </div>
               </div>
