@@ -176,6 +176,7 @@
         List,
         Link,
         Stack,
+        Slider,
         ListItem,
         ListItemIcon,
         ListItemText,
@@ -2875,19 +2876,21 @@
         const checkEligibility = (loan) => {
           // Example calculation logic for eligibility
           const eligibleAmount = loan.loanRequirement * 0.4; // 80% of the loan amount
-          const interestRate = 11; // Example interest rate
+          const interestRate = 11.75; // Example interest rate
           const durationMonths = 24; // Example duration in months
 
           setEligibilityDetails({
             amount: eligibleAmount,
             rate: interestRate,
             duration: durationMonths,
+            minLoanAmount: eligibleAmount * 0.75,
+            maxLoanAmount: eligibleAmount * 1.25,
           });
           setOpenEligibilityModal(true);
         };
 
         const allTypesOfLoans = ["Personal Loan", "Home Loan", "Business Loan"];
-        const [loanType, setLoanType] = React.useState("");
+        const [loanType, setLoanType] = React.useState(allTypesOfLoans[0]);
 
         const steps = ["Basic", "Work", "Docs", "Preview"];
         const [step, setStep] = React.useState(0);
@@ -2939,64 +2942,69 @@
                 </Select>
               </FormControl>
             </Box>
-            <Box>
-              <Stepper activeStep={activeStep} alternativeLabel>
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-            </Box>
-            <Box
-              sx={{
-                mt: 1,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <Button
-                size="small"
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                variant="outlined"
-                sx={{ mr: 1 }}
-              >
-                Back
-              </Button>
-              <Button
-                size="small"
-                onClick={handleNext}
-                variant="outlined"
-                disabled={activeStep === steps.length - 1}
-              >
-                {activeStep === steps.length - 1 ? "Check & Submit" : "Next"}
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                mt: 1,
-              }}
-            >
-              {activeStep === 0 && (
-                <Box>
-                  {/* Full Name */}
-                  <TextField
-                    size="small"
-                    label="Full Name as per Adhaar"
-                    placeholder="Enter Full Name as per Adhaar"
-                    name="fullName"
-                    value={loan.fullName}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.fullName)}
-                    helperText={errors.fullName}
-                  />
 
-                  {/* Care Of Person
+            {loanType == "Personal Loan" && (
+              <div>
+                <Box>
+                  <Stepper activeStep={activeStep} alternativeLabel>
+                    {steps.map((label) => (
+                      <Step key={label}>
+                        <StepLabel>{label}</StepLabel>
+                      </Step>
+                    ))}
+                  </Stepper>
+                </Box>
+                <Box
+                  sx={{
+                    mt: 1,
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Button
+                    size="small"
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    variant="outlined"
+                    sx={{ mr: 1 }}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    size="small"
+                    onClick={handleNext}
+                    variant="outlined"
+                    disabled={activeStep === steps.length - 1}
+                  >
+                    {activeStep === steps.length - 1
+                      ? "Check & Submit"
+                      : "Next"}
+                  </Button>
+                </Box>
+                <Box
+                  sx={{
+                    mt: 1,
+                  }}
+                >
+                  {activeStep === 0 && (
+                    <Box>
+                      {/* Full Name */}
+                      <TextField
+                        size="small"
+                        label="Full Name as per Adhaar"
+                        placeholder="Enter Full Name as per Adhaar"
+                        name="fullName"
+                        value={loan.fullName}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.fullName)}
+                        helperText={errors.fullName}
+                      />
+
+                      {/* Care Of Person
                         <TextField
                           size="small"
                           label="Care Of Person"
@@ -3009,73 +3017,73 @@
                           helperText={errors.careOf}
                         /> */}
 
-                  {/* Mobile */}
-                  <TextField
-                    size="small"
-                    label="Mobile"
-                    name="mobile"
-                    value={loan.mobile}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.mobile)}
-                    helperText={errors.mobile}
-                  />
+                      {/* Mobile */}
+                      <TextField
+                        size="small"
+                        label="Mobile"
+                        name="mobile"
+                        value={loan.mobile}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.mobile)}
+                        helperText={errors.mobile}
+                      />
 
-                  {/* Email */}
-                  <TextField
-                    size="small"
-                    label="Email"
-                    name="email"
-                    type="email"
-                    value={loan.email}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.email)}
-                    helperText={errors.email}
-                  />
-                  {/* Email */}
-                  <TextField
-                    size="small"
-                    label="House Number"
-                    name="Hno"
-                    type="text"
-                    value={loan.Hno}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.Hno)}
-                    helperText={errors.Hno}
-                  />
+                      {/* Email */}
+                      <TextField
+                        size="small"
+                        label="Email"
+                        name="email"
+                        type="email"
+                        value={loan.email}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.email)}
+                        helperText={errors.email}
+                      />
+                      {/* Email */}
+                      <TextField
+                        size="small"
+                        label="House Number"
+                        name="Hno"
+                        type="text"
+                        value={loan.Hno}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.Hno)}
+                        helperText={errors.Hno}
+                      />
 
-                  {/* Address */}
-                  <TextField
-                    size="small"
-                    label="Address"
-                    name="address"
-                    value={loan.address}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.address)}
-                    helperText={errors.address}
-                  />
+                      {/* Address */}
+                      <TextField
+                        size="small"
+                        label="Address"
+                        name="address"
+                        value={loan.address}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.address)}
+                        helperText={errors.address}
+                      />
 
-                  {/* Pincode */}
-                  <TextField
-                    size="small"
-                    label="Pincode"
-                    name="pincode"
-                    value={loan.pincode}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.pincode)}
-                    helperText={errors.pincode}
-                  />
+                      {/* Pincode */}
+                      <TextField
+                        size="small"
+                        label="Pincode"
+                        name="pincode"
+                        value={loan.pincode}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.pincode)}
+                        helperText={errors.pincode}
+                      />
 
-                  {/* Marital Status
+                      {/* Marital Status
                         <FormControl fullWidth margin="normal">
                           <InputLabel>Marital Status</InputLabel>
                           <Select
@@ -3090,7 +3098,7 @@
                           </Select>
                         </FormControl>*/}
 
-                  {/* Gender Selection
+                      {/* Gender Selection
                         <FormControl fullWidth margin="normal">
                           <InputLabel>Gender</InputLabel>
                           <Select
@@ -3104,68 +3112,68 @@
                           </Select>
                         </FormControl>*/}
 
-                  {/* Adhaar Number */}
-                  <TextField
-                    size="small"
-                    label="Adhaar Number"
-                    name="adhaarNumber"
-                    value={loan.adhaarNumber}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.adhaarNumber)}
-                    helperText={errors.adhaarNumber}
-                  />
-                  {/* PAN Number */}
-                  <TextField
-                    size="small"
-                    label="PAN Number"
-                    name="panNumber"
-                    value={loan.panNumber}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.panNumber)}
-                    helperText={errors.panNumber}
-                  />
-                  {/* YOur Monthly Income */}
-                  <TextField
-                    size="small"
-                    label="Your Monthly Income"
-                    name="yourMOnthlyIncome"
-                    value={loan.yourMOnthlyIncome}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.yourMOnthlyIncome)}
-                    helperText={errors.yourMOnthlyIncome}
-                  />
-                  {/* Monthly existing emi amount */}
-                  <TextField
-                    size="small"
-                    label="Monthly existing emi amount"
-                    name="monthlExistingEmiAmount"
-                    value={loan.monthlExistingEmiAmount}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.monthlExistingEmiAmount)}
-                    helperText={errors.monthlExistingEmiAmount}
-                  />
-                  {/* Loan Requirement */}
-                  <TextField
-                    size="small"
-                    label="Loan Requirement"
-                    name="loanRequirement"
-                    value={loan.loanRequirement}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.loanRequirement)}
-                    helperText={errors.loanRequirement}
-                  />
+                      {/* Adhaar Number */}
+                      <TextField
+                        size="small"
+                        label="Adhaar Number"
+                        name="adhaarNumber"
+                        value={loan.adhaarNumber}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.adhaarNumber)}
+                        helperText={errors.adhaarNumber}
+                      />
+                      {/* PAN Number */}
+                      <TextField
+                        size="small"
+                        label="PAN Number"
+                        name="panNumber"
+                        value={loan.panNumber}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.panNumber)}
+                        helperText={errors.panNumber}
+                      />
+                      {/* YOur Monthly Income */}
+                      <TextField
+                        size="small"
+                        label="Your Monthly Income"
+                        name="yourMOnthlyIncome"
+                        value={loan.yourMOnthlyIncome}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.yourMOnthlyIncome)}
+                        helperText={errors.yourMOnthlyIncome}
+                      />
+                      {/* Monthly existing emi amount */}
+                      <TextField
+                        size="small"
+                        label="Monthly existing emi amount"
+                        name="monthlExistingEmiAmount"
+                        value={loan.monthlExistingEmiAmount}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.monthlExistingEmiAmount)}
+                        helperText={errors.monthlExistingEmiAmount}
+                      />
+                      {/* Loan Requirement */}
+                      <TextField
+                        size="small"
+                        label="Loan Requirement"
+                        name="loanRequirement"
+                        value={loan.loanRequirement}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.loanRequirement)}
+                        helperText={errors.loanRequirement}
+                      />
 
-                  {/*<Button
+                      {/*<Button
                           size="small"
                           fullWidth
                           onClick={handleNext}
@@ -3176,235 +3184,280 @@
                             ? "Check & Submit"
                             : "Next"}
                         </Button>*/}
-                  <Button
-                    size="small"
-                    fullWidth
-                    onClick={() => checkEligibility(loan)}
-                    variant="contained"
-                    disabled={activeStep === steps.length - 1}
-                  >
-                    Check Eligibility
-                  </Button>
-                </Box>
-              )}
-              {activeStep === 1 && (
-                <Box>
-                  {/* Type of Employment */}
-                  <FormControl fullWidth margin="normal">
-                    <InputLabel>Type of Employment</InputLabel>
-                    <Select
-                      label="Type of Employment"
-                      name="typeOfEmployment"
-                      value={loan.typeOfEmployment}
-                      onChange={handleChange}
-                    >
-                      <MenuItem value="Private">Private</MenuItem>
-                      <MenuItem value="Government">Government</MenuItem>
-                      <MenuItem value="Self-Employed">Self-Employed</MenuItem>
-                      <MenuItem value="Unemployed">Unemployed</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  {/* Company Name */}
-                  <TextField
-                    size="small"
-                    label="Company Name"
-                    name="companyName"
-                    value={loan.companyName}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                  />
-
-                  {/* Years of Experience in Months */}
-                  <TextField
-                    size="small"
-                    label="Years of Experience (Months)"
-                    name="yearsOfExperience"
-                    value={loan.yearsOfExperience}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    type="number"
-                  />
-
-                  {/* Monthly in Hand Salary */}
-                  <TextField
-                    size="small"
-                    label="Monthly in Hand Salary"
-                    name="monthlySalary"
-                    value={loan.monthlySalary}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    type="number"
-                  />
-
-                  {/* Company Address */}
-                  <TextField
-                    size="small"
-                    label="Company Address"
-                    name="companyAddress"
-                    value={loan.companyAddress}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                  />
-
-                  {/* Company Pincode */}
-                  <TextField
-                    size="small"
-                    label="Company Pincode"
-                    name="companyPincode"
-                    value={loan.companyPincode}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                  />
-
-                  {/* Mode of Salary Payment */}
-                  <FormControl fullWidth margin="normal">
-                    <InputLabel>Mode of Salary Payment</InputLabel>
-                    <Select
-                      label="Mode of Salary Payment"
-                      name="modeOfSalary"
-                      value={loan.modeOfSalary}
-                      onChange={handleChange}
-                    >
-                      <MenuItem value="Bank">Bank</MenuItem>
-                      <MenuItem value="Cash">Cash</MenuItem>
-                      <MenuItem value="Cheque">Cheque</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <Button
-                    size="small"
-                    fullWidth
-                    onClick={handleNext}
-                    variant="contained"
-                    disabled={activeStep === steps.length - 1}
-                  >
-                    {activeStep === steps.length - 1
-                      ? "Check & Submit"
-                      : "Next"}
-                  </Button>
-                </Box>
-              )}
-              {activeStep === 2 && (
-                <Box>
-                  <Typography variant="h6" gutterBottom>
-                    Upload Documents
-                  </Typography>
-                  <TextField
-                    type="file"
-                    label="Upload Photo"
-                    name="photo"
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    type="file"
-                    label="Upload Aadhar"
-                    name="aadhar"
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    type="file"
-                    label="Upload Pan Card"
-                    name="pan"
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    type="file"
-                    label="Upload Payslips"
-                    name="paySlips"
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    type="file"
-                    label="Upload Bank Statements"
-                    name="bankStatements"
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    sx={{
-                      border: "1px solid #ccc", // Add a border
-                      borderRadius: "4px", // Rounded corners
-                      padding: "8px", // Padding inside the field
-                      backgroundColor: "#f9f9f9", // Light background color
-                      "&:hover": {
-                        borderColor: "#888", // Darker border on hover
-                      },
-                    }}
-                  />
-                  {loan.bankStatements && ( // Display the selected file name
-                    <Typography variant="body2" sx={{ mt: 1 }}>
-                      Selected file: {loan?.bankStatements?.name}
-                    </Typography>
+                      <Button
+                        size="small"
+                        fullWidth
+                        onClick={() => checkEligibility(loan)}
+                        variant="contained"
+                        disabled={activeStep === steps.length - 1}
+                      >
+                        Check Eligibility
+                      </Button>
+                    </Box>
                   )}
+                  {activeStep === 1 && (
+                    <Box>
+                      {/* Type of Employment */}
+                      <FormControl fullWidth margin="normal">
+                        <InputLabel>Type of Employment</InputLabel>
+                        <Select
+                          label="Type of Employment"
+                          name="typeOfEmployment"
+                          value={loan.typeOfEmployment}
+                          onChange={handleChange}
+                        >
+                          <MenuItem value="Private">Private</MenuItem>
+                          <MenuItem value="Government">Government</MenuItem>
+                          <MenuItem value="Self-Employed">
+                            Self-Employed
+                          </MenuItem>
+                          <MenuItem value="Unemployed">Unemployed</MenuItem>
+                        </Select>
+                      </FormControl>
 
-                  <Button
-                    size="small"
-                    fullWidth
-                    onClick={handleNext}
-                    variant="contained"
-                    disabled={activeStep === steps.length - 1}
-                  >
-                    {activeStep === steps.length - 1
-                      ? "Check & Submit"
-                      : "Next"}
-                  </Button>
+                      {/* Company Name */}
+                      <TextField
+                        size="small"
+                        label="Company Name"
+                        name="companyName"
+                        value={loan.companyName}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                      />
+
+                      {/* Years of Experience in Months */}
+                      <TextField
+                        size="small"
+                        label="Years of Experience (Months)"
+                        name="yearsOfExperience"
+                        value={loan.yearsOfExperience}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        type="number"
+                      />
+
+                      {/* Monthly in Hand Salary */}
+                      <TextField
+                        size="small"
+                        label="Monthly in Hand Salary"
+                        name="monthlySalary"
+                        value={loan.monthlySalary}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        type="number"
+                      />
+
+                      {/* Company Address */}
+                      <TextField
+                        size="small"
+                        label="Company Address"
+                        name="companyAddress"
+                        value={loan.companyAddress}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                      />
+
+                      {/* Company Pincode */}
+                      <TextField
+                        size="small"
+                        label="Company Pincode"
+                        name="companyPincode"
+                        value={loan.companyPincode}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                      />
+
+                      {/* Mode of Salary Payment */}
+                      <FormControl fullWidth margin="normal">
+                        <InputLabel>Mode of Salary Payment</InputLabel>
+                        <Select
+                          label="Mode of Salary Payment"
+                          name="modeOfSalary"
+                          value={loan.modeOfSalary}
+                          onChange={handleChange}
+                        >
+                          <MenuItem value="Bank">Bank</MenuItem>
+                          <MenuItem value="Cash">Cash</MenuItem>
+                          <MenuItem value="Cheque">Cheque</MenuItem>
+                        </Select>
+                      </FormControl>
+
+                      <Button
+                        size="small"
+                        fullWidth
+                        onClick={handleNext}
+                        variant="contained"
+                        disabled={activeStep === steps.length - 1}
+                      >
+                        {activeStep === steps.length - 1
+                          ? "Check & Submit"
+                          : "Next"}
+                      </Button>
+                    </Box>
+                  )}
+                  {activeStep === 2 && (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>
+                        Upload Documents
+                      </Typography>
+                      <TextField
+                        type="file"
+                        label="Upload Photo"
+                        name="photo"
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                      />
+                      <TextField
+                        type="file"
+                        label="Upload Aadhar"
+                        name="aadhar"
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                      />
+                      <TextField
+                        type="file"
+                        label="Upload Pan Card"
+                        name="pan"
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                      />
+                      <TextField
+                        type="file"
+                        label="Upload Payslips"
+                        name="paySlips"
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                      />
+                      <TextField
+                        type="file"
+                        label="Upload Bank Statements"
+                        name="bankStatements"
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        sx={{
+                          border: "1px solid #ccc", // Add a border
+                          borderRadius: "4px", // Rounded corners
+                          padding: "8px", // Padding inside the field
+                          backgroundColor: "#f9f9f9", // Light background color
+                          "&:hover": {
+                            borderColor: "#888", // Darker border on hover
+                          },
+                        }}
+                      />
+                      {loan.bankStatements && ( // Display the selected file name
+                        <Typography variant="body2" sx={{ mt: 1 }}>
+                          Selected file: {loan?.bankStatements?.name}
+                        </Typography>
+                      )}
+
+                      <Button
+                        size="small"
+                        fullWidth
+                        onClick={handleNext}
+                        variant="contained"
+                        disabled={activeStep === steps.length - 1}
+                      >
+                        {activeStep === steps.length - 1
+                          ? "Check & Submit"
+                          : "Next"}
+                      </Button>
+                    </Box>
+                  )}
+                  {activeStep === 3 && <Box>3</Box>}
                 </Box>
-              )}
-              {activeStep === 3 && <Box>3</Box>}
-            </Box>
 
-            {/* // Modal for Eligibility Details*/}
-            {openEligibilityModal && eligibilityDetails && (
-              <Dialog
-                open={openEligibilityModal}
-                onClose={() => setOpenEligibilityModal(false)}
-                fullWidth
-                maxWidth="sm"
-              >
-                <DialogTitle>Eligibility Details</DialogTitle>
-                <DialogContent>
-                  <Typography variant="body1">
-                    Eligible Loan Amount: ₹{eligibilityDetails.amount}
-                  </Typography>
-                  <Typography variant="body1">
-                    Rate of Interest: {eligibilityDetails.rate}%
-                  </Typography>
-                  <Typography variant="body1">
-                    Duration: {eligibilityDetails.duration} months
-                  </Typography>
-                </DialogContent>
-                <DialogActions>
-                  <Button
-                    onClick={() => setOpenEligibilityModal(false)}
-                    color="primary"
+                {/* // Modal for Eligibility Details*/}
+                {openEligibilityModal && eligibilityDetails && (
+                  <Dialog
+                    open={openEligibilityModal}
+                    onClose={() => setOpenEligibilityModal(false)}
+                    fullWidth
+                    maxWidth="sm"
                   >
-                    Close
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setOpenEligibilityModal(false);
-                      handleNext();
-                    }}
-                    color="primary"
-                  >
-                    Accept
-                  </Button>
-                </DialogActions>
-              </Dialog>
+                    <DialogTitle>Eligibility Details</DialogTitle>
+                    <DialogContent>
+                      <Typography variant="body1">
+                        Eligible Loan Amount: ₹{eligibilityDetails.amount}
+                      </Typography>
+
+                      <Slider
+                        value={eligibilityDetails?.amount}
+                        onChange={(e, newValue) =>
+                          setEligibilityDetails({
+                            ...eligibilityDetails,
+                            amount: newValue,
+                          })
+                        }
+                        aria-labelledby="amount-slider"
+                        min={eligibilityDetails?.minLoanAmount}
+                        max={eligibilityDetails?.maxLoanAmount}
+                        step={100}
+                        valueLabelDisplay="auto"
+                      />
+
+                      <Typography variant="body1">
+                        Rate of Interest: {eligibilityDetails.rate}%
+                      </Typography>
+
+                      <Typography variant="body1">
+                        Duration: {eligibilityDetails.duration} months
+                      </Typography>
+                      <Slider
+                        value={eligibilityDetails.duration}
+                        onChange={(e, newValue) =>
+                          setEligibilityDetails({
+                            ...eligibilityDetails,
+                            duration: newValue,
+                          })
+                        }
+                        aria-labelledby="duration-slider"
+                        min={6}
+                        max={60}
+                        step={6}
+                        valueLabelDisplay="auto"
+                      />
+                      <Typography variant="body1">
+                        Monthly EMI: ₹
+                        {Math.round(
+                          eligibilityDetails.amount /
+                            eligibilityDetails.duration
+                        )}
+                      </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        onClick={() => setOpenEligibilityModal(false)}
+                        color="primary"
+                      >
+                        Close
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        onClick={() => {
+                          setOpenEligibilityModal(false);
+                          handleNext();
+                        }}
+                        color="primary"
+                      >
+                        Accept
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                )}
+              </div>
             )}
+            {loanType == "Home Loan" && <div>Home Loan</div>}
+            {loanType == "Business Loan" && <div>Business Loan</div>}
           </Box>
         );
       };
