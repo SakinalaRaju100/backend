@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>slves</title>
+
+    <!-- Add Material Icons stylesheet -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- <link rel="icon" type="image/x-icon" href="/favicon.ico" /> -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- React and Material-UI CDN links -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Add Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    />
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        /* padding: 20px; */
+        /* background-color: #f5f5f5; */
+        background-color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const {
+        AppBar,
+        Box,
+        Button,
+        Card,
+        CardContent,
+        CardMedia,
+        Container,
+        Grid,
+        IconButton,
+        Menu,
+        MenuItem,
+        Paper,
+        Toolbar,
+        Typography,
+        useTheme,
+        ThemeProvider,
+        createTheme,
+        MobileStepper,
+        Dialog,
+        DialogTitle,
+        DialogContent,
+        DialogActions,
+        Table,
+        TableBody,
+        TableCell,
+        TableHead,
+        TableRow,
+        Chip,
+        Tabs,
+        Tab,
+        TextField,
+        TableContainer,
+        FormControl,
+        InputLabel,
+        Select,
+        FormHelperText,
+        Autocomplete,
+        Avatar,
+      } = MaterialUI;
+
+      const HomePage = () => {
+        const [file, setFile] = useState(null);
+        const [url, setUrl] = useState("");
+
+        const handleUpload = async () => {
+          if (!file) return;
+
+          // Step 1: Get upload URL from backend
+          const { data } = await axios.post(
+            "http://localhost:4500/uploadToBlob",
+            {
+              filename: file.name,
+              contentType: file.type,
+            }
+          );
+
+          console.log("data", data);
+
+          // Step 2: Upload directly to Vercel Blob
+          await axios.put(data.url, file, {
+            headers: { "Content-Type": file.type },
+          });
+
+          setUrl(data.url.split("?")[0]); // Clean URL (without signed query)
+        };
+        return (
+          <div>
+            <div>
+              <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+              <button onClick={handleUpload}>Upload</button>
+              {url && (
+                <p>
+                  ✅ Uploaded:{" "}
+                  <a href={url} target="_blank">
+                    {url}
+                  </a>
+                </p>
+              )}
+            </div>
+          </div>
+        );
+      };
+
+      // Render the form to the DOM
+      ReactDOM.render(<HomePage />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
