@@ -71,57 +71,57 @@ app.get("/slves", (req, res) => {
 // API routes
 // app.use("/dharavi/api", require("./routes/index"));
 
-const BLOB_API = "https://blob.vercel-storage.com";
-const BLOB_READ_WRITE_TOKEN =
-  "vercel_blob_rw_rVjJwbcVRINVDGxq_DfDbbDevayXXXCtPbFybk7v8XVDecA";
+// const BLOB_API = "https://blob.vercel-storage.com";
+// const BLOB_READ_WRITE_TOKEN =
+//   "vercel_blob_rw_rVjJwbcVRINVDGxq_DfDbbDevayXXXCtPbFybk7v8XVDecA";
 
-app.post("/uploadToBlob", async (req, res) => {
-  console.log("req.body", req.body);
-  try {
-    const { filename, contentType } = req.body;
+// app.post("/uploadToBlob", async (req, res) => {
+//   console.log("req.body", req.body);
+//   try {
+//     const { filename, contentType } = req.body;
 
-    // Step 1: Get upload URL from Vercel Blob
-    const { data: blobResponse } = await axios.post(
-      `${BLOB_API}/upload`,
-      {
-        filename,
-        contentType,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${BLOB_READ_WRITE_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+//     // Step 1: Get upload URL from Vercel Blob
+//     const { data: blobResponse } = await axios.post(
+//       `${BLOB_API}/upload`,
+//       {
+//         filename,
+//         contentType,
+//       },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${BLOB_READ_WRITE_TOKEN}`,
+//           "Content-Type": "application/json",
+//         },
+//       }
+//     );
 
-    console.log("blobResponse", blobResponse);
-    res.json(blobResponse); // send back URL and upload fields
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({ err, message: "Upload URL fetch failed" });
-  }
-});
+//     console.log("blobResponse", blobResponse);
+//     res.json(blobResponse); // send back URL and upload fields
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send({ err, message: "Upload URL fetch failed" });
+//   }
+// });
 
-// const { put } = require("@vercel/blob");
+// // const { put } = require("@vercel/blob");
 
-app.post("/generate-upload-url", async (req, res) => {
-  try {
-    const { filename, contentType } = req.body;
+// app.post("/generate-upload-url", async (req, res) => {
+//   try {
+//     const { filename, contentType } = req.body;
 
-    const { url } = await put(filename, {
-      access: "public",
-      token: BLOB_READ_WRITE_TOKEN,
-      contentType,
-      // body: Buffer.from(fileContent, "base64"),
-    });
+//     const { url } = await put(filename, {
+//       access: "public",
+//       token: BLOB_READ_WRITE_TOKEN,
+//       contentType,
+//       // body: Buffer.from(fileContent, "base64"),
+//     });
 
-    res.json({ uploadUrl: url });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error generating upload URL");
-  }
-});
+//     res.json({ uploadUrl: url });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Error generating upload URL");
+//   }
+// });
 
 // const upload = multer({ dest: "uploads/" }); // Temporary local storage
 
