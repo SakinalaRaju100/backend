@@ -103,7 +103,7 @@ app.post("/uploadToBlob", async (req, res) => {
   }
 });
 
-const { put } = require("@vercel/blob");
+// const { put } = require("@vercel/blob");
 
 app.post("/generate-upload-url", async (req, res) => {
   try {
@@ -125,7 +125,7 @@ app.post("/generate-upload-url", async (req, res) => {
 
 const upload = multer({ dest: "uploads/" }); // Temporary local storage
 
-router.post("/blod-upload", upload.single("file"), async (req, res) => {
+app.post("/blod-upload", upload.single("file"), async (req, res) => {
   try {
     const filePath = req.file.path;
     const fileStream = fs.createReadStream(filePath);
