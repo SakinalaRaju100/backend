@@ -123,27 +123,27 @@ app.post("/generate-upload-url", async (req, res) => {
   }
 });
 
-const upload = multer({ dest: "uploads/" }); // Temporary local storage
+// const upload = multer({ dest: "uploads/" }); // Temporary local storage
 
-app.post("/blod-upload", upload.single("file"), async (req, res) => {
-  try {
-    const filePath = req.file.path;
-    const fileStream = fs.createReadStream(filePath);
+// app.post("/blod-upload", upload.single("file"), async (req, res) => {
+//   try {
+//     const filePath = req.file.path;
+//     const fileStream = fs.createReadStream(filePath);
 
-    const blob = await put(req.file.originalname, fileStream, {
-      access: "public", // or 'private'
-      token: BLOB_READ_WRITE_TOKEN,
-    });
+//     const blob = await put(req.file.originalname, fileStream, {
+//       access: "public", // or 'private'
+//       token: BLOB_READ_WRITE_TOKEN,
+//     });
 
-    // Clean up temp file
-    fs.unlinkSync(filePath);
+//     // Clean up temp file
+//     fs.unlinkSync(filePath);
 
-    res.status(200).json({ url: blob.url });
-  } catch (err) {
-    console.error("Upload failed:", err);
-    res.status(500).json({ error: "Upload failed" });
-  }
-});
+//     res.status(200).json({ url: blob.url });
+//   } catch (err) {
+//     console.error("Upload failed:", err);
+//     res.status(500).json({ error: "Upload failed" });
+//   }
+// });
 
 // Handle 404 routes
 app.use((req, res) => {
