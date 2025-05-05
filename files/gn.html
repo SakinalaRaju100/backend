@@ -764,9 +764,9 @@
           const newErrors = { ...errors };
 
           switch (name) {
-            case "id":
-              if (!value) newErrors.id = "user ID is required.";
-              else delete newErrors.id;
+            case "userId":
+              if (!value) newErrors.userId = "user ID is required.";
+              else delete newErrors.userId;
               break;
             // case "surname":
             //   if (!value) newErrors.surname = "Surname is required.";
@@ -1218,7 +1218,7 @@
                                   zIndex: 1,
                                 }}
                               >
-                                {user?.id ?? "-"}
+                                {user?.userId ?? "-"}
                               </TableCell>
                               <TableCell>{user?.fullName ?? "-"}</TableCell>
                               {/* <TableCell>{user?.father}</TableCell> */}
@@ -1482,7 +1482,8 @@
                           fontSize: { xs: "12px", md: "15px", lg: "18px" },
                         }}
                       >
-                        <strong>User Code:</strong> {selectedStudent?.id ?? "-"}
+                        <strong>User Code:</strong>{" "}
+                        {selectedStudent?.userId ?? "-"}
                       </Typography>
 
                       <Typography
@@ -2535,7 +2536,7 @@
                                     zIndex: 1,
                                   }}
                                 >
-                                  {user?.id ?? "-"}
+                                  {user?.userId ?? "-"}
                                 </TableCell>
                                 <TableCell>{user?.fullName ?? "-"}</TableCell>
                                 {/* <TableCell>{user?.father}</TableCell>
@@ -2847,7 +2848,7 @@
                                     zIndex: 1,
                                   }}
                                 >
-                                  {user?.id ?? "-"}
+                                  {user?.userId ?? "-"}
                                 </TableCell>
                                 <TableCell>{user?.fullName ?? "-"}</TableCell>
                                 {/* <TableCell>{user?.father}</TableCell>
@@ -3555,9 +3556,9 @@
             const newErrors = { ...errors };
 
             switch (name) {
-              case "id":
-                if (!value) newErrors.id = "user ID is required.";
-                else delete newErrors.id;
+              case "userId":
+                if (!value) newErrors.userId = "user ID is required.";
+                else delete newErrors.userId;
                 break;
               // case "surname":
               //   if (!value) newErrors.surname = "Surname is required.";
@@ -4417,9 +4418,9 @@
             const newErrors = { ...errors };
 
             switch (name) {
-              case "id":
-                if (!value) newErrors.id = "user ID is required.";
-                else delete newErrors.id;
+              case "userId":
+                if (!value) newErrors.userId = "user ID is required.";
+                else delete newErrors.userId;
                 break;
               // case "surname":
               //   if (!value) newErrors.surname = "Surname is required.";
@@ -6512,9 +6513,9 @@
           const newErrors = { ...errors };
 
           switch (name) {
-            case "id":
-              if (!value) newErrors.id = "user ID is required.";
-              else delete newErrors.id;
+            case "userId":
+              if (!value) newErrors.userId = "user ID is required.";
+              else delete newErrors.userId;
               break;
             // case "surname":
             //   if (!value) newErrors.surname = "Surname is required.";
@@ -6719,7 +6720,7 @@
             })
 
             .then((res) => {
-              alert(res.data.message);
+              // alert(res.data.message);
               if (res.data.success) {
                 localStorage.setItem(
                   "gnUserObj",
@@ -7246,7 +7247,7 @@
                     Role : {loginData?.role ?? ""}
                   </Typography>
                   <Typography variant="body2">
-                    Id : {loginData?.id ?? ""}
+                    Id : {loginData?.userId ?? ""}
                   </Typography>
                   <Typography variant="body2">
                     mobile : {loginData?.mobile ?? ""}
