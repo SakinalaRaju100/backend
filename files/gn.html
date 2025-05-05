@@ -22,6 +22,8 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <!-- Add Leaflet CSS -->
     <link
       rel="stylesheet"
@@ -3518,6 +3520,9 @@
       };
 
       const HomePage = () => {
+        let baseURL = "https://zphs-school.vercel.app";
+        // let baseURL = "http://localhost:1954";
+
         const AllLoans = () => {
           // let baseURL = "http://localhost:1954";
           // let baseURL = "https://www.zphskunur.in";
@@ -6705,42 +6710,75 @@
           console.log("Login submitted");
           console.log("loginUser", loginUser, password, otp);
 
-          let loginUserObj = null;
-          loginUserObj =
-            users.find(
-              (user) =>
-                user.mobile == loginUser ||
-                user.id.toLowerCase() == loginUser.toLowerCase() ||
-                user.email.toLowerCase() == loginUser.toLowerCase()
-            ) ?? null;
-          console.log("loginUser1", loginUserObj);
-          if (!loginUserObj) {
-            loginUserObj =
-              customers.find(
-                (user) =>
-                  user.mobile == loginUser ||
-                  user.id.toLowerCase() == loginUser.toLowerCase() ||
-                  user.email.toLowerCase() == loginUser.toLowerCase()
-              ) ?? null;
-            console.log("loginUser2", loginUserObj);
-          }
-          if (loginUserObj) {
-            localStorage.setItem(
-              "gnUserObj",
-              JSON.stringify({
-                ...loginUserObj,
-              })
-            );
+          axios
+            .post(`${baseURL}/gn-login`, {
+              user: loginUser,
+              passcode: password,
+              otp: "",
+              passcodetype: "password",
+            })
 
-            setLoginData(loginUserObj);
-            handleLoginDialogToggle();
-            window.location.reload();
-            setLoginUser("");
-            setPassword("");
-            setOtp("");
-          } else {
-            alert("User not found");
-          }
+            .then((res) => {
+              alert(res.data.message);
+              if (res.data.success) {
+                localStorage.setItem(
+                  "gnUserObj",
+                  JSON.stringify({
+                    ...res.data.data,
+                  })
+                );
+
+                setLoginData(res.data.data);
+                handleLoginDialogToggle();
+                window.location.reload();
+                setLoginUser("");
+                setPassword("");
+                setOtp("");
+              } else {
+                // alert("User not found");
+              }
+            })
+            .catch((error) => {
+              alert(error.message);
+              console.log("Error occurred:", error);
+            });
+
+          // let loginUserObj = null;
+          // loginUserObj =
+          //   users.find(
+          //     (user) =>
+          //       user.mobile == loginUser ||
+          //       user.id.toLowerCase() == loginUser.toLowerCase() ||
+          //       user.email.toLowerCase() == loginUser.toLowerCase()
+          //   ) ?? null;
+          // console.log("loginUser1", loginUserObj);
+          // if (!loginUserObj) {
+          //   loginUserObj =
+          //     customers.find(
+          //       (user) =>
+          //         user.mobile == loginUser ||
+          //         user.id.toLowerCase() == loginUser.toLowerCase() ||
+          //         user.email.toLowerCase() == loginUser.toLowerCase()
+          //     ) ?? null;
+          //   console.log("loginUser2", loginUserObj);
+          // }
+          // if (loginUserObj) {
+          //   localStorage.setItem(
+          //     "gnUserObj",
+          //     JSON.stringify({
+          //       ...loginUserObj,
+          //     })
+          //   );
+
+          //   setLoginData(loginUserObj);
+          //   handleLoginDialogToggle();
+          //   window.location.reload();
+          //   setLoginUser("");
+          //   setPassword("");
+          //   setOtp("");
+          // } else {
+          //   alert("User not found");
+          // }
         };
 
         const logout = () => {
@@ -7776,6 +7814,52 @@
                       Back
                     </Button>
                     <Button
+                      onClick={() => {
+                        axios
+                          .post(`${baseURL}/add-new-gn-user`, {
+                            fullName: user.fullName,
+                            userId: "GNC" + user.phone,
+                            role: "customer",
+                            mobile: user.phone,
+                            email: user.email,
+                            otp: "123456",
+                            loginExpiration: "",
+                            password: user.cpassword,
+                            address: user.address,
+                            roleId: 0,
+                            theme: "",
+                            active: true,
+                            joinDate: "",
+                            branchCode: "GNB01",
+                            gender: user.gender,
+                            careOf: user.father,
+                          })
+
+                          .then((res) => {
+                            alert(res.data.message);
+                            if (res.data.success) {
+                              localStorage.setItem(
+                                "gnUserObj",
+                                JSON.stringify({
+                                  ...res.data.data,
+                                })
+                              );
+
+                              setLoginData(res.data.data);
+                              handleLoginDialogToggle();
+                              window.location.reload();
+                              setLoginUser("");
+                              setPassword("");
+                              setOtp("");
+                            } else {
+                              // alert("User not found");
+                            }
+                          })
+                          .catch((error) => {
+                            alert(error.message);
+                            console.log("Error occurred:", error);
+                          });
+                      }}
                       type="submit"
                       variant="contained"
                       color="primary"
