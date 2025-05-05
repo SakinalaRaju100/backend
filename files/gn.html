@@ -730,7 +730,7 @@
         },
       ];
 
-      const roles = ["admin", "cluster", "manager", "sales"];
+      const roles = ["admin", "cluster", "manager", "sales", "partner"];
 
       const Management = () => {
         // let baseURL = "http://localhost:1954";
@@ -846,35 +846,52 @@
               // &&
               // Object.values(user).every((val) => val !== "")
             ) {
-              users.push({
-                ...user,
-                roleId: 0,
-                theme: "",
-                active: true,
-                joinDate: "",
-                branchCode: "GNB01",
-                gender: "Male",
-                careOf: "",
-              });
+              // users.push({
+              //   ...user,
+              //   roleId: 0,
+              //   theme: "",
+              //   active: true,
+              //   joinDate: "",
+              //   branchCode: "GNB01",
+              //   gender: "Male",
+              //   careOf: "",
+              // });
 
-              console.log("users", users);
-              // axios
-              //   .post(`${baseURL}/new-enroll`, user)
+              // console.log("users", users);
+              axios
+                .post(`${baseURL}/add-new-gn-user`, {
+                  fullName: user.fullName,
+                  userId: "GNC" + user.phone,
+                  role: user.role,
+                  mobile: user.phone,
+                  email: user.email,
+                  otp: "123456",
+                  loginExpiration: "",
+                  password: user.password,
+                  address: user.address,
+                  roleId: 0,
+                  theme: "",
+                  active: true,
+                  joinDate: "",
+                  branchCode: user?.branch,
+                  gender: user.gender,
+                  careOf: user.father,
+                })
 
-              //   .then((res) => {
-              //     alert(res.data.message);
-              //     if (res.data.message != "Same details enrolled") {
-              //       setShowList(true);
-              //       fetchListDate();
-              //     }
-              //   })
-              //   .catch((error) => {
-              //     // setShowList(true);
-              //     // setShowList(false);
-              //     // alert("catch", error);
-              //     alert(error.message);
-              //     console.log("Error occurred:", error);
-              //   });
+                .then((res) => {
+                  // alert(res.data.message);
+                  if (res.data.message != "Same details enrolled") {
+                    setShowList(true);
+                    fetchListDate();
+                  }
+                })
+                .catch((error) => {
+                  // setShowList(true);
+                  // setShowList(false);
+                  // alert("catch", error);
+                  alert(error.message);
+                  console.log("Error occurred:", error);
+                });
 
               setShowList(true);
             } else {
@@ -889,7 +906,7 @@
         useEffect(() => {
           setLoading(true);
           try {
-            fetch(`${baseURL}/all-enrolls`, {
+            fetch(`${baseURL}/get-gn-users`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -899,7 +916,7 @@
             })
               .then((response) => response.json()) // Parse the JSON
               .then((data) => {
-                setListData(data);
+                setListData(data.data);
                 setLoading(false);
               })
               .catch((error) => {
@@ -914,7 +931,7 @@
         }, []);
         const fetchListDate = () => {
           try {
-            fetch(`${baseURL}/all-enrolls`, {
+            fetch(`${baseURL}/get-gn-users`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -924,9 +941,13 @@
             })
               .then((response) => response.json()) // Parse the JSON
               .then((data) => {
-                setListData(data);
+                setListData(data.data);
+                setLoading(false);
               })
-              .catch((error) => console.error("Error loading JSON:", error));
+              .catch((error) => {
+                console.error("Error loading JSON:", error);
+                setLoading(false);
+              });
           } catch (er) {
             console.log("er", er);
             alert("catch");
@@ -939,7 +960,7 @@
 
         const getFilteredlist = () => {
           console.log("listData", listData);
-          return users.filter((user) => {
+          return listData.filter((user) => {
             return (
               user?.role.toLowerCase().includes(roleFilter.toLowerCase()) &&
               user?.fullName.toLowerCase().includes(searchFilter.toLowerCase())
@@ -996,7 +1017,7 @@
                     >
                       filtered :{" "}
                       {getFilteredlist().reduce((acc, el) => acc + 1, 0)} /{" "}
-                      {users.length}
+                      {getFilteredlist().length}
                     </Typography>
                     <Button
                       onClick={() => {
@@ -1346,6 +1367,18 @@
                     helperText={errors.phone}
                   />
 
+                  {/* password */}
+                  <TextField
+                    label="Password"
+                    name="password"
+                    value={user.password}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.password)}
+                    helperText={errors.password}
+                  />
+
                   {/* Branch Selection */}
                   <FormControl fullWidth margin="normal">
                     <InputLabel>Branch</InputLabel>
@@ -1381,6 +1414,7 @@
                       Back
                     </Button>
                     <Button
+                      //  onClick={() => {}}
                       type="submit"
                       variant="contained"
                       color="primary"
@@ -1438,7 +1472,7 @@
                     </Typography>
                     <IconButton
                       onClick={() => {
-                        fetchListDate();
+                        // fetchListDate();
                         setOpenStudentDetailsModal(false);
                       }}
                     >
