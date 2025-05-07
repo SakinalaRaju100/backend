@@ -1587,6 +1587,861 @@
         );
       };
 
+      const Management2 = () => {
+        // let baseURL = "http://localhost:1954";
+        // let baseURL = "https://www.zphskunur.in";
+        let baseURL = "https://zphs-school.vercel.app";
+        const [checked, setChecked] = useState(false);
+        const [submitted, setSubmitted] = useState(true);
+        const [familyMembers, setFamilyMembers] = useState(0);
+        const [listData, setListData] = useState([]);
+        const [showList, setShowList] = useState(true);
+        const [loading, setLoading] = useState(false);
+        const [selectedStudent, setSelectedStudent] = React.useState(null);
+        // const [newUserModal, setNewUserModal] = React.useState(false);
+        const [openStudentDetailsModal, setOpenStudentDetailsModal] =
+          React.useState(false);
+
+        const [user, setUser] = useState({
+          fullName: "",
+          gender: "",
+          father: "",
+          email: "",
+          phone: "",
+          profession: "",
+          branch: "",
+          role: "",
+        });
+
+        const [errors, setErrors] = useState({});
+
+        const validateField = (name, value) => {
+          const newErrors = { ...errors };
+
+          switch (name) {
+            case "userId":
+              if (!value) newErrors.userId = "user ID is required.";
+              else delete newErrors.userId;
+              break;
+            // case "surname":
+            //   if (!value) newErrors.surname = "Surname is required.";
+            //   else delete newErrors.surname;
+            //   break;
+            case "fullName":
+              if (!value) newErrors.fullName = "Name is required.";
+              else delete newErrors.fullName;
+              break;
+            case "email":
+              if (!value) {
+                newErrors.email = "Email is required.";
+              } else if (!/\S+@\S+\.\S+/.test(value)) {
+                newErrors.email = "Email is invalid.";
+              } else {
+                delete newErrors.email;
+              }
+              break;
+            // case "phone":
+            //   if (!value) {
+            //     newErrors.phone = "Phone number is required.";
+            //   } else if (!/^\d{10}$/.test(value)) {
+            //     newErrors.phone = "Phone number must be 10 digits.";
+            //   } else {
+            //     delete newErrors.phone;
+            //   }
+            //   break;
+            // case "address":
+            //   if (!value) newErrors.address = "Address is required.";
+            //   else delete newErrors.address;
+            //   break;
+            //   case "profession":
+            //     if (!value) newErrors.profession = "Profession is required.";
+            //     else delete newErrors.profession;
+            //     break;
+            // case "father":
+            //   if (!value) newErrors.father = "Gardian name is required.";
+            //   else delete newErrors.father;
+            //   break;
+            // case "profession":
+            //   if (!value)
+            //     newErrors.profession = "profession's name is required.";
+            //   else delete newErrors.profession;
+            //   break;
+            // case "role":
+            //   if (!value) newErrors.role = "Batch Year is required.";
+            //   else if (!/^\d{4}$/.test(value)) {
+            //     newErrors.role = "Batch Year must be a 4-digit year.";
+            //   } else {
+            //     delete newErrors.role;
+            //   }
+            //   break;
+            default:
+              break;
+          }
+
+          setErrors(newErrors);
+        };
+
+        const handleChange = (event) => {
+          const { name, value } = event.target;
+          setUser({
+            ...user,
+            [name]: value,
+          });
+
+          validateField(name, value); // validate each field on change
+        };
+
+        const handleSubmit = (event) => {
+          event.preventDefault();
+          console.log("user", user);
+          console.log("errors", errors);
+          try {
+            if (
+              Object.keys(errors).length === 0
+              // &&
+              // Object.values(user).every((val) => val !== "")
+            ) {
+              // users.push({
+              //   ...user,
+              //   roleId: 0,
+              //   theme: "",
+              //   active: true,
+              //   joinDate: "",
+              //   branchCode: "GNB01",
+              //   gender: "Male",
+              //   careOf: "",
+              // });
+
+              // console.log("users", users);
+              axios
+                .post(`${baseURL}/add-new-gn-user`, {
+                  fullName: user.fullName,
+                  userId: "GNC" + user.phone,
+                  role: "customer",
+                  mobile: user.phone,
+                  email: user.email,
+                  otp: "123456",
+                  loginExpiration: "",
+                  password: user.password,
+                  address: user.address,
+                  roleId: 0,
+                  theme: "",
+                  active: true,
+                  joinDate: "",
+                  branchCode: user?.branch,
+                  gender: user.gender,
+                  careOf: user.father,
+                })
+
+                .then((res) => {
+                  // alert(res.data.message);
+                  if (res.data.message != "Same details enrolled") {
+                    setShowList(true);
+                    fetchListDate();
+                  }
+                })
+                .catch((error) => {
+                  // setShowList(true);
+                  // setShowList(false);
+                  // alert("catch", error);
+                  alert(error.message);
+                  console.log("Error occurred:", error);
+                });
+
+              setShowList(true);
+            } else {
+              alert("some fileds missing");
+            }
+          } catch (err) {
+            console.log("err", err);
+          }
+          // Final validation before submission
+        };
+
+        useEffect(() => {
+          setLoading(true);
+          try {
+            fetch(`${baseURL}/get-gn-users`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              credentials: "include",
+              body: JSON.stringify({ need: "customers" }),
+            })
+              .then((response) => response.json()) // Parse the JSON
+              .then((data) => {
+                setListData(data.data);
+                setLoading(false);
+              })
+              .catch((error) => {
+                console.error("Error loading JSON:", error);
+                setLoading(false);
+              });
+          } catch (er) {
+            setLoading(false);
+            console.log("er", er);
+            alert("catch");
+          }
+        }, []);
+        const fetchListDate = () => {
+          try {
+            fetch(`${baseURL}/get-gn-users`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              credentials: "include",
+              body: JSON.stringify({ need: "customers" }),
+            })
+              .then((response) => response.json()) // Parse the JSON
+              .then((data) => {
+                setListData(data.data);
+                setLoading(false);
+              })
+              .catch((error) => {
+                console.error("Error loading JSON:", error);
+                setLoading(false);
+              });
+          } catch (er) {
+            console.log("er", er);
+            alert("catch");
+          }
+        };
+
+        const [searchFilter, setSearchFilter] = React.useState("");
+
+        const [roleFilter, setRoleFilter] = React.useState("");
+
+        const getFilteredlist = () => {
+          console.log("listData", listData);
+          return listData.filter((user) => {
+            return (
+              user?.role.toLowerCase().includes(roleFilter.toLowerCase()) &&
+              user?.fullName.toLowerCase().includes(searchFilter.toLowerCase())
+            );
+          });
+        };
+
+        const clearStudentFilters = () => {
+          setSearchFilter("");
+          setRoleFilter("");
+        };
+
+        return (
+          <div
+            style={{
+              overflowX: "scroll",
+            }}
+          >
+            {loading ? (
+              <div className="loader-container">
+                <div className="loader"></div>
+              </div>
+            ) : showList ? (
+              <div className="form-container">
+                <Box sx={{ p: 0, m: 0, width: "100%" }} className="box">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      // mb: 3,
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{ fontWeight: "bold", fontSize: "1.25rem" }} // Reduced font size
+                    >
+                      Customers
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      // mb: 3,
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{ fontWeight: "bold", fontSize: "1rem" }} // Reduced font size
+                    >
+                      filtered :{" "}
+                      {getFilteredlist().reduce((acc, el) => acc + 1, 0)} /{" "}
+                      {getFilteredlist().length}
+                    </Typography>
+                    <Button
+                      onClick={() => {
+                        // alert("Contact administrator");
+                        setShowList(false);
+                        // setNewUserModal(true);
+                      }}
+                      variant="contained"
+                      color="primary"
+                      // href="https://zphs-school.vercel.app/enroll-form"
+                      // href="https://sakinalaraju100.github.io/zphs-school/public/addStudentForm.html"
+                    >
+                      New User
+                    </Button>
+                  </Box>
+
+                  {/* New user Button */}
+                  <Box sx={{ mb: 3, textAlign: "right" }}></Box>
+
+                  {/* Filters Section */}
+
+                  <Box sx={{ mb: 3 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 2,
+                        flexWrap: "wrap",
+                        mb: 2,
+                      }}
+                    >
+                      <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
+                        <Typography
+                          variant="subtitle2"
+                          gutterBottom
+                          sx={{ fontSize: "0.875rem" }}
+                        ></Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            bgcolor: "grey.100",
+                            borderRadius: 1,
+                            px: 2,
+                          }}
+                        >
+                          <span
+                            className="material-icons"
+                            sx={{ color: "grey.500" }}
+                          >
+                            school
+                          </span>
+                          <select
+                            value={roleFilter}
+                            onChange={(e) => {
+                              // console.log("roleFilter", e.target.value);
+                              setRoleFilter(e.target.value);
+                              setSearchFilter("");
+                              getFilteredlist();
+                            }}
+                            style={{
+                              border: "none",
+                              outline: "none",
+                              padding: "8px",
+                              backgroundColor: "transparent",
+                              width: "100%",
+                            }}
+                          >
+                            <option value="">All</option>
+                            {roles.map((role, ri) => (
+                              <option key={ri + role} value={role}>
+                                {role}
+                              </option>
+                            ))}
+                          </select>
+                        </Box>
+                      </Box>
+                      <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
+                        <Typography
+                          variant="subtitle2"
+                          gutterBottom
+                          sx={{ fontSize: "0.875rem" }}
+                        ></Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            bgcolor: "grey.100",
+                            borderRadius: 1,
+                            px: 2,
+                          }}
+                        >
+                          <span
+                            className="material-icons"
+                            sx={{ color: "grey.500" }}
+                          >
+                            search
+                          </span>
+                          <input
+                            type="text"
+                            // value={searchFilter}
+                            // onChange={(e) => setSearchFilter(e.target.value)}
+                            value={searchFilter}
+                            onChange={(e) => {
+                              setSearchFilter(e.target.value);
+                              getFilteredlist();
+                              // if (e.target.value.length > 2) {
+                              //   // setSearchFilter(e.target.value);
+                              // } else {
+                              //   setSearchFilter("");
+                              // }
+                            }}
+                            placeholder="Filter by name, role, gender, mobile or branch..."
+                            style={{
+                              border: "none",
+                              outline: "none",
+                              padding: "8px",
+                              backgroundColor: "transparent",
+                              width: "100%",
+                            }}
+                          />
+                          {searchFilter && (
+                            <IconButton
+                              onClick={() => {
+                                setSearchFilter("");
+                              }}
+                              sx={{ ml: 1 }}
+                            >
+                              <span
+                                className="material-icons"
+                                style={{ color: "grey.500" }}
+                              >
+                                clear
+                              </span>
+                            </IconButton>
+                          )}
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ width: "100%", overflowX: "auto" }}>
+                    <TableContainer sx={{ minWidth: "250px" }}>
+                      <Table sx={{}}>
+                        <TableHead>
+                          <TableRow sx={{ bgcolor: "primary.main" }}>
+                            <TableCell
+                              sx={{
+                                color: "white",
+                                fontWeight: "bold",
+                                backgroundColor: "primary.main",
+                                position: "sticky",
+                                left: 0,
+                                zIndex: 1,
+                              }}
+                            >
+                              Code
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Full Name
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Role
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Branch code
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Mobile
+                            </TableCell>
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              email
+                            </TableCell>
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              address
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {getFilteredlist().map((user, ind) => (
+                            <TableRow
+                              key={ind}
+                              onClick={() => {
+                                setSelectedStudent(user);
+                                setOpenStudentDetailsModal(true);
+                                // setChecked(user?.enrolled);
+                                // setFamilyMembers(user?.familyMembers);
+                              }}
+                              sx={{
+                                "&:nth-of-type(odd)": { bgcolor: "grey.50" },
+                                "&:hover": { bgcolor: "grey.100" },
+                              }}
+                            >
+                              <TableCell
+                                sx={{
+                                  color: "white",
+                                  fontWeight: "bold",
+                                  position: "sticky",
+                                  left: 0,
+                                  backgroundColor: user?.enrolled
+                                    ? "lightblue"
+                                    : "lightgreen",
+                                  zIndex: 1,
+                                }}
+                              >
+                                {user?.userId ?? "-"}
+                              </TableCell>
+                              <TableCell>{user?.fullName ?? "-"}</TableCell>
+                              {/* <TableCell>{user?.father}</TableCell> */}
+                              <TableCell>{user?.role ?? "-"}</TableCell>
+                              <TableCell>{user?.branchCode ?? "-"}</TableCell>
+                              <TableCell>{user?.mobile ?? "-"}</TableCell>
+                              <TableCell>{user?.email ?? "-"}</TableCell>
+                              <TableCell>{user?.address ?? "-"}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Box>
+
+                  <Box sx={{ mt: 3, textAlign: "center" }}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ fontSize: "0.875rem" }}
+                      onClick={() => {
+                        setShowList(false);
+                      }}
+                    >
+                      For any updates, please contact the administration.
+                    </Typography>
+                  </Box>
+                </Box>
+              </div>
+            ) : (
+              <Box
+                sx={{
+                  maxWidth: "500px",
+                  margin: "auto",
+                  padding: "20px",
+                  backgroundColor: "#fff",
+                  borderRadius: "8px",
+                  boxShadow: 2,
+                }}
+              >
+                <Typography variant="h5" textAlign="center" mb={2}>
+                  New Customer
+                </Typography>
+                <form onSubmit={handleSubmit}>
+                  {/* Role Selection 
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel>Role</InputLabel>
+                    <Select
+                      label="Role"
+                      name="role"
+                      value={user.role}
+                      onChange={handleChange}
+                    >
+                      {roles.map((role, index) => (
+                        <MenuItem key={index} value={role}>
+                          {role}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <FormHelperText error={Boolean(errors.role)}>
+                      {errors.role}
+                    </FormHelperText>
+                  </FormControl>*/}
+
+                  {/* Full Name */}
+                  <TextField
+                    label="Full Name"
+                    name="fullName"
+                    value={user.fullName}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.fullName)}
+                    helperText={errors.fullName}
+                  />
+
+                  {/* Care Of Person */}
+                  <TextField
+                    label="Care Of Person"
+                    name="father"
+                    value={user.father}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.father)}
+                    helperText={errors.father}
+                  />
+
+                  {/* Gender Selection */}
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel>Gender</InputLabel>
+                    <Select
+                      label="Gender"
+                      name="gender"
+                      value={user.gender}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="Male">Male</MenuItem>
+                      <MenuItem value="Female">Female</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                  {/* Email */}
+                  <TextField
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={user.email}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.email)}
+                    helperText={errors.email}
+                  />
+
+                  {/* Phone */}
+                  <TextField
+                    label="Phone"
+                    name="phone"
+                    value={user.phone}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.phone)}
+                    helperText={errors.phone}
+                  />
+
+                  {/* password */}
+                  <TextField
+                    label="Password"
+                    name="password"
+                    value={user.password}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.password)}
+                    helperText={errors.password}
+                  />
+
+                  {/* Branch Selection */}
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel>Branch</InputLabel>
+                    <Select
+                      label="Branch"
+                      name="branch"
+                      value={user.branch}
+                      onChange={handleChange}
+                    >
+                      {branches.map((branch) => (
+                        <MenuItem key={branch?.code} value={branch?.code}>
+                          {branch?.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
+                  {/* Buttons */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: { xs: "column", sm: "row" },
+                      gap: 2,
+                      mt: 3,
+                    }}
+                  >
+                    <Button
+                      onClick={() => setShowList(true)}
+                      variant="outlined"
+                      color="secondary"
+                      fullWidth
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      //  onClick={() => {}}
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+                </form>
+              </Box>
+            )}
+
+            {/* Modal for user Details*/}
+            {selectedStudent && (
+              <Dialog
+                open={openStudentDetailsModal}
+                onClose={() => setOpenStudentDetailsModal(false)}
+                fullWidth
+                maxWidth="sm"
+                sx={{
+                  fontSize: "6px",
+                  "& .MuiDialogContent-root": {
+                    padding: "16px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center", // Vertical centering
+                  },
+                  "& .MuiDialogTitle-root": {
+                    backgroundColor: "#1976d2",
+                    color: "white",
+                  },
+                }}
+              >
+                <Box sx={{ p: 3 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      mb: 2,
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        flex: 1,
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      User Details
+                    </Typography>
+                    <IconButton
+                      onClick={() => {
+                        // fetchListDate();
+                        setOpenStudentDetailsModal(false);
+                      }}
+                    >
+                      <span className="material-icons">close</span>
+                    </IconButton>
+                  </Box>
+
+                  {selectedStudent && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        textAlign: "center",
+                        gap: 2,
+                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                      }}
+                    >
+                      {/* Display user's photo in a circle */}
+                      {/*<Box
+                              component="img"
+                              // src={
+                              //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
+                              // }
+                              src={"./studentEmoji.png"}
+                              alt={selectedStudent?.name}
+                              sx={{
+                                width: { xs: 60, sm: 100 },
+                                height: { xs: 60, sm: 100 },
+                                borderRadius: "50%",
+                                objectFit: "cover",
+                              }}
+                            />*/}
+
+                      {/* Display user details */}
+
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          width: "100%",
+                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                        }}
+                      >
+                        <strong>User Code:</strong>{" "}
+                        {selectedStudent?.userId ?? "-"}
+                      </Typography>
+
+                      <Typography
+                        variant="body1"
+                        xs={12}
+                        sx={{
+                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                        }}
+                      >
+                        <strong>Full Name:</strong>{" "}
+                        {selectedStudent?.fullName ?? "-"}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          width: "100%",
+                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                        }}
+                      >
+                        <strong>Role:</strong> {selectedStudent?.role ?? "-"}
+                      </Typography>
+
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                        }}
+                      >
+                        <strong> Branch code:</strong>{" "}
+                        {selectedStudent?.branchCode ?? "-"}
+                      </Typography>
+                      <Typography variant="body1">
+                        <strong>Father:</strong> {selectedStudent?.careOf}
+                      </Typography>
+
+                      <Typography variant="body1">
+                        <strong>Email:</strong> {selectedStudent.email}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                        }}
+                      >
+                        <strong>Mobile:</strong>{" "}
+                        {selectedStudent?.mobile ?? "-"}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                        }}
+                      >
+                        <strong>Address:</strong>{" "}
+                        {selectedStudent?.address ?? "-"}
+                      </Typography>
+
+                      {/* <Box>
+                        <Button variant="outlined">Edit</Button>
+                      </Box> */}
+                    </Box>
+                  )}
+                </Box>
+              </Dialog>
+            )}
+          </div>
+        );
+      };
+
       const SalesReports = () => {
         const [selectedLoan, setSelectedLoan] = React.useState(null);
 
@@ -7222,7 +8077,7 @@
             >
               <Toolbar />
 
-              <Stack spacing={2}>
+              {/*<Stack spacing={2}>
                 <Breadcrumbs
                   // separator={<NavigateNextIcon fontSize="small" />}
                   separator="›"
@@ -7231,15 +8086,17 @@
                   {breadcrumbs}
                 </Breadcrumbs>
               </Stack>
-              <hr />
+              <hr />*/}
               {bodyarea == "SalesReports" && <SalesReports />}
               {bodyarea == "SalesBoard" && <Leaderboard />}
               {bodyarea == "AllLoans" && <AllLoans />}
               {bodyarea == "Loans" && <Loans />}
               {bodyarea == "ApplyLoan" && <ApplyLoan />}
               {bodyarea == "Dashboard" && <Dashboard />}
-              {bodyarea == "AllCustomers" && <AllCustomers />}
-              {bodyarea == "Customers" && <Customers />}
+              {/*} {bodyarea == "AllCustomers" && <AllCustomers />}
+              {bodyarea == "Customers" && <Customers />}*/}
+              {bodyarea == "AllCustomers" && <Management2 />}
+              {bodyarea == "Customers" && <Management2 />}
               {bodyarea == "Sales" && <Management />}
             </Box>
             <Dialog // profile dialog
