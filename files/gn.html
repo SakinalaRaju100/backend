@@ -1904,7 +1904,7 @@
                         mb: 2,
                       }}
                     >
-                      <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
+                      {/*<Box sx={{ flexGrow: 1, minWidth: "200px" }}>
                         <Typography
                           variant="subtitle2"
                           gutterBottom
@@ -1949,7 +1949,7 @@
                             ))}
                           </select>
                         </Box>
-                      </Box>
+                      </Box>*/}
                       <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
                         <Typography
                           variant="subtitle2"
@@ -7839,8 +7839,8 @@
           {
             text: "New Customer",
             icon: "logout",
-            role: "all",
-            list: ["all"],
+            role: "customer",
+            list: ["customer"],
 
             path: "/",
             clickfunc: () => setCustomerSignUPDialogOpen(true),
