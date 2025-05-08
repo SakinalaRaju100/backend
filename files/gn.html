@@ -3280,18 +3280,48 @@
           if (file) {
             // setFileName(file.name);
 
-            if (file.type.startsWith("image/")) {
+            // if (file.type.startsWith("image/")) {
+            //   const reader = new FileReader();
+            //   reader.onloadend = () => {
+            //     setLoanFiles((prevLoanFiles) => ({
+            //       ...prevLoanFiles,
+            //       [name]: reader.result,
+            //     }));
+            //     // setPreviewUrl(reader.result);
+            //   };
+            //   reader.readAsDataURL(file);
+            // } else {
+            //   // setPreviewUrl(null); // Clear preview for non-image files
+            // }
+
+            const fileType = file.type;
+
+            // IMAGE FILE
+            if (fileType.startsWith("image/")) {
               const reader = new FileReader();
               reader.onloadend = () => {
                 setLoanFiles((prevLoanFiles) => ({
                   ...prevLoanFiles,
-                  [name]: reader.result,
+                  [name]: {
+                    type: "image",
+                    data: reader.result,
+                  },
                 }));
-                // setPreviewUrl(reader.result);
               };
               reader.readAsDataURL(file);
+            }
+            // PDF FILE
+            else if (fileType === "application/pdf") {
+              const fileURL = URL.createObjectURL(file);
+              setLoanFiles((prevLoanFiles) => ({
+                ...prevLoanFiles,
+                [name]: {
+                  type: "pdf",
+                  data: fileURL,
+                },
+              }));
             } else {
-              // setPreviewUrl(null); // Clear preview for non-image files
+              console.warn("Unsupported file type:", fileType);
             }
           }
 
@@ -3728,7 +3758,7 @@
                       </label>
 
                       <Box sx={{ mt: 2 }}>
-                        <img
+                        {/*<img
                           src={loanFiles.photo}
                           alt="Photo"
                           style={{
@@ -3737,8 +3767,28 @@
                             maxHeight: "150px",
                             borderRadius: 4,
                           }}
-                        />
+                        />*/}
+                        {loanFiles["photo"] && (
+                          <>
+                            {loanFiles["photo"].type === "image" && (
+                              <img
+                                src={loanFiles["photo"].data}
+                                alt="Photo"
+                                style={{ maxWidth: "200px", height: "auto" }}
+                              />
+                            )}
+                            {loanFiles["photo"].type === "pdf" && (
+                              <iframe
+                                src={loanFiles["photo"].data}
+                                title="Photo"
+                                width="200px"
+                                height="300px"
+                              />
+                            )}
+                          </>
+                        )}
                       </Box>
+                      {console.log("loanFiles", loanFiles)}
 
                       {loanFiles.photo && <hr />}
 
@@ -3757,7 +3807,7 @@
                       </label>
 
                       <Box sx={{ mt: 2 }}>
-                        <img
+                        {/*<img
                           src={loanFiles.Aadhar}
                           alt="Aadhar"
                           style={{
@@ -3766,57 +3816,179 @@
                             maxHeight: "150px",
                             borderRadius: 4,
                           }}
-                        />
+                        />*/}
+                        {loanFiles["Aadhar"] && (
+                          <>
+                            {loanFiles["Aadhar"]?.type === "image" && (
+                              <img
+                                src={loanFiles["Aadhar"]?.data}
+                                alt="Aadhar"
+                                style={{ maxWidth: "200px", height: "auto" }}
+                              />
+                            )}
+                            {loanFiles["Aadhar"]?.type === "pdf" && (
+                              <iframe
+                                src={loanFiles["Aadhar"].data}
+                                title="PDF Preview"
+                                width="200px"
+                                height="300px"
+                              />
+                            )}
+                          </>
+                        )}
                       </Box>
 
                       {loanFiles.Aadhar && <hr />}
 
-                      <TextField
+                      <input
+                        accept="*"
+                        name="PAN"
+                        style={{ display: "none" }}
+                        id="upload-file-PAN"
                         type="file"
-                        label="Upload Aadhar"
-                        name="aadhar"
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
+                        onChange={handleChangeFiles}
                       />
-                      <TextField
-                        type="file"
-                        label="Upload Pan Card"
-                        name="pan"
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                      />
-                      <TextField
-                        type="file"
-                        label="Upload Payslips"
+                      <label htmlFor="upload-file-PAN">
+                        <Button variant="contained" component="span">
+                          Upload PAN
+                        </Button>
+                      </label>
+
+                      <Box sx={{ mt: 2 }}>
+                        {/*<img
+                          src={loanFiles["PAN"]?.data}
+                          alt="PAN"
+                          style={{
+                            border: "1px solid gray",
+                            maxWidth: "100px",
+                            maxHeight: "150px",
+                            borderRadius: 4,
+                          }}
+                        />*/}
+
+                        {loanFiles["PAN"] && (
+                          <>
+                            {loanFiles["PAN"]?.type === "image" && (
+                              <img
+                                src={loanFiles["PAN"]?.data}
+                                alt="PAN"
+                                style={{ maxWidth: "200px", height: "auto" }}
+                              />
+                            )}
+                            {loanFiles["PAN"]?.type === "pdf" && (
+                              <iframe
+                                src={loanFiles["PAN"]?.data}
+                                title="PAN"
+                                width="200px"
+                                height="300px"
+                              />
+                            )}
+                          </>
+                        )}
+                      </Box>
+
+                      {loanFiles.PAN && <hr />}
+
+                      <input
+                        accept="*"
                         name="paySlips"
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                      />
-                      <TextField
+                        style={{ display: "none" }}
+                        id="upload-file-paySlips"
                         type="file"
-                        label="Upload Bank Statements"
-                        name="bankStatements"
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                        sx={{
-                          border: "1px solid #ccc", // Add a border
-                          borderRadius: "4px", // Rounded corners
-                          padding: "8px", // Padding inside the field
-                          backgroundColor: "#f9f9f9", // Light background color
-                          "&:hover": {
-                            borderColor: "#888", // Darker border on hover
-                          },
-                        }}
+                        onChange={handleChangeFiles}
                       />
-                      {loan.bankStatements && ( // Display the selected file name
-                        <Typography variant="body2" sx={{ mt: 1 }}>
-                          Selected file: {loan?.bankStatements?.name}
-                        </Typography>
-                      )}
+                      <label htmlFor="upload-file-paySlips">
+                        <Button variant="contained" component="span">
+                          Upload paySlips
+                        </Button>
+                      </label>
+
+                      <Box sx={{ mt: 2 }}>
+                        {/*<img
+                          src={loanFiles.paySlips}
+                          alt="paySlips"
+                          style={{
+                            border: "1px solid gray",
+                            maxWidth: "100px",
+                            maxHeight: "150px",
+                            borderRadius: 4,
+                          }}
+                        />*/}
+
+                        {loanFiles["paySlips"] && (
+                          <>
+                            {loanFiles["paySlips"].type === "image" && (
+                              <img
+                                src={loanFiles["paySlips"].data}
+                                alt="paySlips"
+                                style={{ maxWidth: "200px", height: "auto" }}
+                              />
+                            )}
+                            {loanFiles["paySlips"].type === "pdf" && (
+                              <iframe
+                                src={loanFiles["paySlips"].data}
+                                title="PDF Preview"
+                                width="200px"
+                                height="300px"
+                              />
+                            )}
+                          </>
+                        )}
+                      </Box>
+
+                      {loanFiles.paySlips && <hr />}
+
+                      <input
+                        accept="*"
+                        name="bankStatements"
+                        style={{ display: "none" }}
+                        id="upload-file-bankStatements"
+                        type="file"
+                        onChange={handleChangeFiles}
+                      />
+                      <label htmlFor="upload-file-bankStatements">
+                        <Button variant="contained" component="span">
+                          Upload bankStatements
+                        </Button>
+                      </label>
+
+                      <Box sx={{ mt: 2 }}>
+                        {/*<img
+                          src={loanFiles.bankStatements}
+                          alt="bankStatements"
+                          style={{
+                            border: "1px solid gray",
+                            maxWidth: "100px",
+                            maxHeight: "150px",
+                            borderRadius: 4,
+                          }}
+                        />}*/}
+
+                        {loanFiles["bankStatements"] && (
+                          <>
+                            {loanFiles["bankStatements"].type === "image" && (
+                              <img
+                                src={loanFiles["bankStatements"].data}
+                                alt="bankStatements"
+                                style={{
+                                  maxWidth: "200px",
+                                  maxheight: "300px",
+                                }}
+                              />
+                            )}
+                            {loanFiles["bankStatements"].type === "pdf" && (
+                              <iframe
+                                src={loanFiles["bankStatements"].data}
+                                title="PDF Preview"
+                                width="200px"
+                                height="300px"
+                              />
+                            )}
+                          </>
+                        )}
+                      </Box>
+
+                      {loanFiles.bankStatements && <hr />}
 
                       <Button
                         size="small"
