@@ -3136,6 +3136,78 @@
         );
       };
       const ApplyLoan = () => {
+        // way for single
+
+        const [file, setFile] = useState(null);
+        const [url, setUrl] = useState("");
+
+        const handleFileChange = (e) => {
+          setFile(e.target.files[0]);
+        };
+
+        const handleUpload = async () => {
+          if (!file) return;
+
+          const formData = new FormData();
+          formData.append("file", file);
+
+          try {
+            const res = await axios.post(
+              "http://localhost:3000/upload2",
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            );
+
+            if (res.data.success) {
+              setUrl(res.data.url);
+            } else {
+              alert("Upload failed");
+            }
+          } catch (error) {
+            console.error("Error uploading file:", error);
+          }
+        };
+        // way for multiple
+        const [files, setFiles] = useState([]);
+        const [uploadedFiles, setUploadedFiles] = useState([]);
+
+        const handleFileChange3 = (e) => {
+          setFiles(Array.from(e.target.files));
+        };
+
+        const handleUpload3 = async () => {
+          if (!files.length) return;
+
+          const formData = new FormData();
+          files.forEach((file) => formData.append("files", file)); // Use "files" as the field name
+
+          try {
+            const res = await axios.post(
+              "http://localhost:3000/upload3",
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            );
+
+            if (res.data.success) {
+              setUploadedFiles(res.data.files);
+            } else {
+              alert("Upload failed");
+            }
+          } catch (error) {
+            console.error("Upload error:", error);
+          }
+        };
+
+        // original
+
         const [eligibilityDetails, setEligibilityDetails] =
           React.useState(null);
         const [openEligibilityModal, setOpenEligibilityModal] =
@@ -3157,14 +3229,19 @@
           setOpenEligibilityModal(true);
         };
 
-        const allTypesOfLoans = ["Personal Loan", "Home Loan", "Business Loan"];
+        const allTypesOfLoans = [
+          "Personal Loan",
+          "Secured Loans",
+          "Unsecured Loans",
+        ];
         const [loanType, setLoanType] = React.useState(allTypesOfLoans[0]);
 
         const steps = ["Basic", "Work", "Docs", "Preview"];
         const [step, setStep] = React.useState(0);
         const [activeStep, setActiveStep] = React.useState(0);
 
-        const [loan, setLoan] = React.useState({});
+        const [loan, setLoan] = React.useState({}); //main
+        const [loanFiles, setLoanFiles] = React.useState({}); //main
         const [errors, setErrors] = React.useState({});
 
         const handleBack = () => {
@@ -3191,8 +3268,64 @@
 
           // validateField(name, value); // validate each field on change
         };
+        const handleChangeFiles = (event) => {
+          console.log("loanfiles before", loanFiles);
+          const { name, value } = event.target;
+          // setLoan({
+          //   ...loan,
+          //   [name]: value,
+          // });
+
+          const file = event.target.files[0];
+          if (file) {
+            // setFileName(file.name);
+
+            if (file.type.startsWith("image/")) {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                setLoanFiles((prevLoanFiles) => ({
+                  ...prevLoanFiles,
+                  [name]: reader.result,
+                }));
+                // setPreviewUrl(reader.result);
+              };
+              reader.readAsDataURL(file);
+            } else {
+              // setPreviewUrl(null); // Clear preview for non-image files
+            }
+          }
+
+          // validateField(name, value); // validate each field on change
+        };
         return (
           <Box sx={{ width: "100%" }}>
+            <div>
+              <input type="file" onChange={handleFileChange} />
+              <button onClick={handleUpload}>Upload</button>
+              {url && (
+                <p>
+                  Uploaded File URL: <a href={url}>{url}</a>
+                </p>
+              )}
+            </div>
+
+            <div>
+              <input type="file" multiple onChange={handleFileChange3} />
+              <button onClick={handleUpload3}>Upload Files</button>
+              <ul>
+                {uploadedFiles.map((file, index) => (
+                  <li key={index}>
+                    <a
+                      href={file.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {file.filename}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
             <Box>
               <FormControl fullWidth margin="normal">
                 <InputLabel>Select Type of Loan</InputLabel>
@@ -3200,7 +3333,11 @@
                   label="Select Type of Loan"
                   name="loanType"
                   value={loanType}
-                  onChange={(e) => setLoanType(e.target.value)}
+                  onChange={(e) => {
+                    setLoanType(e.target.value);
+                    setLoan({});
+                  }}
+                  disabled={activeStep != 0}
                 >
                   {allTypesOfLoans.map((type, index) => (
                     <MenuItem key={index} value={type}>
@@ -3441,18 +3578,18 @@
                         helperText={errors.loanRequirement}
                       />
 
-                      {/*<Button
-                          size="small"
-                          fullWidth
-                          onClick={handleNext}
-                          variant="contained"
-                          disabled={activeStep === steps.length - 1}
-                        >
-                          {activeStep === steps.length - 1
-                            ? "Check & Submit"
-                            : "Next"}
-                        </Button>*/}
                       <Button
+                        size="small"
+                        fullWidth
+                        onClick={handleNext}
+                        variant="contained"
+                        disabled={activeStep === steps.length - 1}
+                      >
+                        {activeStep === steps.length - 1
+                          ? "Check & Submit"
+                          : "Next"}
+                      </Button>
+                      {/*<Button
                         size="small"
                         fullWidth
                         onClick={() => checkEligibility(loan)}
@@ -3460,7 +3597,7 @@
                         disabled={activeStep === steps.length - 1}
                       >
                         Check Eligibility
-                      </Button>
+                      </Button>*/}
                     </Box>
                   )}
                   {activeStep === 1 && (
@@ -3573,14 +3710,67 @@
                       <Typography variant="h6" gutterBottom>
                         Upload Documents
                       </Typography>
-                      <TextField
-                        type="file"
-                        label="Upload Photo"
+
+                      <hr />
+
+                      <input
+                        accept="*"
                         name="photo"
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
+                        style={{ display: "none" }}
+                        id="upload-file-photo"
+                        type="file"
+                        onChange={handleChangeFiles}
                       />
+                      <label htmlFor="upload-file-photo">
+                        <Button variant="contained" component="span">
+                          Upload Photo
+                        </Button>
+                      </label>
+
+                      <Box sx={{ mt: 2 }}>
+                        <img
+                          src={loanFiles.photo}
+                          alt="Photo"
+                          style={{
+                            border: "1px solid gray",
+                            maxWidth: "100px",
+                            maxHeight: "150px",
+                            borderRadius: 4,
+                          }}
+                        />
+                      </Box>
+
+                      {loanFiles.photo && <hr />}
+
+                      <input
+                        accept="*"
+                        name="Aadhar"
+                        style={{ display: "none" }}
+                        id="upload-file-aadhar"
+                        type="file"
+                        onChange={handleChangeFiles}
+                      />
+                      <label htmlFor="upload-file-aadhar">
+                        <Button variant="contained" component="span">
+                          Upload Aadhar
+                        </Button>
+                      </label>
+
+                      <Box sx={{ mt: 2 }}>
+                        <img
+                          src={loanFiles.Aadhar}
+                          alt="Aadhar"
+                          style={{
+                            border: "1px solid gray",
+                            maxWidth: "100px",
+                            maxHeight: "150px",
+                            borderRadius: 4,
+                          }}
+                        />
+                      </Box>
+
+                      {loanFiles.Aadhar && <hr />}
+
                       <TextField
                         type="file"
                         label="Upload Aadhar"
@@ -3641,7 +3831,7 @@
                       </Button>
                     </Box>
                   )}
-                  {activeStep === 3 && <Box>3</Box>}
+                  {activeStep === 3 && <Box>Priview</Box>}
                 </Box>
 
                 {/* // Modal for Eligibility Details*/}
@@ -3724,8 +3914,12 @@
                 )}
               </div>
             )}
-            {loanType == "Home Loan" && <div>Home Loan</div>}
-            {loanType == "Business Loan" && <div>Business Loan</div>}
+            {loanType == "Secured Loans" && (
+              <div>Secured loans Under development</div>
+            )}
+            {loanType == "Unsecured Loans" && (
+              <div>Unsecured loans Under development</div>
+            )}
           </Box>
         );
       };
