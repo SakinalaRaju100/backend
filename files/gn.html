@@ -3269,6 +3269,7 @@
           // validateField(name, value); // validate each field on change
         };
         const handleChangeFiles = (event) => {
+          console.log("id", event.target.id);
           console.log("loanfiles before", loanFiles);
           const { name, value } = event.target;
           // setLoan({
@@ -3277,23 +3278,9 @@
           // });
 
           const file = event.target.files[0];
+
           if (file) {
             console.log("file", file);
-            // setFileName(file.name);
-
-            // if (file.type.startsWith("image/")) {
-            //   const reader = new FileReader();
-            //   reader.onloadend = () => {
-            //     setLoanFiles((prevLoanFiles) => ({
-            //       ...prevLoanFiles,
-            //       [name]: reader.result,
-            //     }));
-            //     // setPreviewUrl(reader.result);
-            //   };
-            //   reader.readAsDataURL(file);
-            // } else {
-            //   // setPreviewUrl(null); // Clear preview for non-image files
-            // }
 
             const fileType = file.type;
 
@@ -3305,7 +3292,9 @@
                   ...prevLoanFiles,
                   [name]: {
                     type: "image",
+                    fileType,
                     data: reader.result,
+                    file,
                   },
                 }));
               };
@@ -3318,9 +3307,22 @@
                 ...prevLoanFiles,
                 [name]: {
                   type: "pdf",
+                  fileType,
                   data: fileURL,
+                  file,
                 },
               }));
+
+              const blobURL = URL.createObjectURL(file);
+              console.log("blobURL", blobURL);
+
+              const elem = document.getElementById(event.target.id + "-view");
+              console.log("elem", elem);
+
+              document.getElementById(event.target.id + "-view").src = blobURL;
+
+              const elem2 = document.getElementById(event.target.id + "-view");
+              console.log("elem2", elem2);
             } else {
               console.warn("Unsupported file type:", fileType);
             }
@@ -3900,41 +3902,23 @@
                       />
                       <label htmlFor="upload-file-paySlips">
                         <Button variant="contained" component="span">
-                          Upload paySlips
+                          Upload PaySlips
                         </Button>
                       </label>
 
                       <Box sx={{ mt: 2 }}>
-                        {/*<img
-                          src={loanFiles.paySlips}
-                          alt="paySlips"
-                          style={{
-                            border: "1px solid gray",
-                            maxWidth: "100px",
-                            maxHeight: "150px",
-                            borderRadius: 4,
-                          }}
-                        />*/}
-
-                        {loanFiles["paySlips"] && (
-                          <>
-                            {loanFiles["paySlips"].type === "image" && (
-                              <img
-                                src={loanFiles["paySlips"].data}
-                                alt="paySlips"
-                                style={{ maxWidth: "200px", height: "auto" }}
-                              />
-                            )}
-                            {loanFiles["paySlips"].type === "pdf" && (
-                              <iframe
-                                src={loanFiles["paySlips"].data}
-                                title="PDF Preview"
-                                width="200px"
-                                height="300px"
-                              />
-                            )}
-                          </>
-                        )}
+                        {/*{loanFiles["paySlips"] && (
+                          <>*/}
+                        <iframe
+                          // src={loanFiles["paySlips"].data}
+                          id="upload-file-paySlips-view"
+                          // type="application/pdf"
+                          title="PDF Preview"
+                          width="200px"
+                          height="300px"
+                        />
+                        {/* </>
+                        )}*/}
                       </Box>
 
                       {loanFiles.paySlips && <hr />}
