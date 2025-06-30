@@ -732,10 +732,11 @@
 
       const roles = ["admin", "cluster", "manager", "sales", "partner"];
 
+      // let baseURL = "http://localhost:1954";
+      // let baseURL = "https://www.zphskunur.in";
+      let baseURL = "https://zphs-school.vercel.app";
+
       const Management = () => {
-        // let baseURL = "http://localhost:1954";
-        // let baseURL = "https://www.zphskunur.in";
-        let baseURL = "https://zphs-school.vercel.app";
         const [checked, setChecked] = useState(false);
         const [submitted, setSubmitted] = useState(true);
         const [familyMembers, setFamilyMembers] = useState(0);
@@ -1493,19 +1494,19 @@
                     >
                       {/* Display user's photo in a circle */}
                       {/*<Box
-                              component="img"
-                              // src={
-                              //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
-                              // }
-                              src={"./studentEmoji.png"}
-                              alt={selectedStudent?.name}
-                              sx={{
-                                width: { xs: 60, sm: 100 },
-                                height: { xs: 60, sm: 100 },
-                                borderRadius: "50%",
-                                objectFit: "cover",
-                              }}
-                            />*/}
+                                 component="img"
+                                 // src={
+                                 //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
+                                 // }
+                                 src={"./studentEmoji.png"}
+                                 alt={selectedStudent?.name}
+                                 sx={{
+                                   width: { xs: 60, sm: 100 },
+                                   height: { xs: 60, sm: 100 },
+                                   borderRadius: "50%",
+                                   objectFit: "cover",
+                                 }}
+                               />*/}
 
                       {/* Display user details */}
 
@@ -1576,8 +1577,8 @@
                       </Typography>
 
                       {/* <Box>
-                        <Button variant="outlined">Edit</Button>
-                      </Box> */}
+                           <Button variant="outlined">Edit</Button>
+                         </Box> */}
                     </Box>
                   )}
                 </Box>
@@ -1588,9 +1589,6 @@
       };
 
       const Management2 = () => {
-        // let baseURL = "http://localhost:1954";
-        // let baseURL = "https://www.zphskunur.in";
-        let baseURL = "https://zphs-school.vercel.app";
         const [checked, setChecked] = useState(false);
         const [submitted, setSubmitted] = useState(true);
         const [familyMembers, setFamilyMembers] = useState(0);
@@ -1905,51 +1903,51 @@
                       }}
                     >
                       {/*<Box sx={{ flexGrow: 1, minWidth: "200px" }}>
-                        <Typography
-                          variant="subtitle2"
-                          gutterBottom
-                          sx={{ fontSize: "0.875rem" }}
-                        ></Typography>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            bgcolor: "grey.100",
-                            borderRadius: 1,
-                            px: 2,
-                          }}
-                        >
-                          <span
-                            className="material-icons"
-                            sx={{ color: "grey.500" }}
-                          >
-                            school
-                          </span>
-                          <select
-                            value={roleFilter}
-                            onChange={(e) => {
-                              // console.log("roleFilter", e.target.value);
-                              setRoleFilter(e.target.value);
-                              setSearchFilter("");
-                              getFilteredlist();
-                            }}
-                            style={{
-                              border: "none",
-                              outline: "none",
-                              padding: "8px",
-                              backgroundColor: "transparent",
-                              width: "100%",
-                            }}
-                          >
-                            <option value="">All</option>
-                            {roles.map((role, ri) => (
-                              <option key={ri + role} value={role}>
-                                {role}
-                              </option>
-                            ))}
-                          </select>
-                        </Box>
-                      </Box>*/}
+                           <Typography
+                             variant="subtitle2"
+                             gutterBottom
+                             sx={{ fontSize: "0.875rem" }}
+                           ></Typography>
+                           <Box
+                             sx={{
+                               display: "flex",
+                               alignItems: "center",
+                               bgcolor: "grey.100",
+                               borderRadius: 1,
+                               px: 2,
+                             }}
+                           >
+                             <span
+                               className="material-icons"
+                               sx={{ color: "grey.500" }}
+                             >
+                               school
+                             </span>
+                             <select
+                               value={roleFilter}
+                               onChange={(e) => {
+                                 // console.log("roleFilter", e.target.value);
+                                 setRoleFilter(e.target.value);
+                                 setSearchFilter("");
+                                 getFilteredlist();
+                               }}
+                               style={{
+                                 border: "none",
+                                 outline: "none",
+                                 padding: "8px",
+                                 backgroundColor: "transparent",
+                                 width: "100%",
+                               }}
+                             >
+                               <option value="">All</option>
+                               {roles.map((role, ri) => (
+                                 <option key={ri + role} value={role}>
+                                   {role}
+                                 </option>
+                               ))}
+                             </select>
+                           </Box>
+                         </Box>*/}
                       <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
                         <Typography
                           variant="subtitle2"
@@ -2139,25 +2137,25 @@
                   New Customer
                 </Typography>
                 <form onSubmit={handleSubmit}>
-                  {/* Role Selection 
-                  <FormControl fullWidth margin="normal">
-                    <InputLabel>Role</InputLabel>
-                    <Select
-                      label="Role"
-                      name="role"
-                      value={user.role}
-                      onChange={handleChange}
-                    >
-                      {roles.map((role, index) => (
-                        <MenuItem key={index} value={role}>
-                          {role}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    <FormHelperText error={Boolean(errors.role)}>
-                      {errors.role}
-                    </FormHelperText>
-                  </FormControl>*/}
+                  {/* Role Selection
+                     <FormControl fullWidth margin="normal">
+                       <InputLabel>Role</InputLabel>
+                       <Select
+                         label="Role"
+                         name="role"
+                         value={user.role}
+                         onChange={handleChange}
+                       >
+                         {roles.map((role, index) => (
+                           <MenuItem key={index} value={role}>
+                             {role}
+                           </MenuItem>
+                         ))}
+                       </Select>
+                       <FormHelperText error={Boolean(errors.role)}>
+                         {errors.role}
+                       </FormHelperText>
+                     </FormControl>*/}
 
                   {/* Full Name */}
                   <TextField
@@ -2348,19 +2346,19 @@
                     >
                       {/* Display user's photo in a circle */}
                       {/*<Box
-                              component="img"
-                              // src={
-                              //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
-                              // }
-                              src={"./studentEmoji.png"}
-                              alt={selectedStudent?.name}
-                              sx={{
-                                width: { xs: 60, sm: 100 },
-                                height: { xs: 60, sm: 100 },
-                                borderRadius: "50%",
-                                objectFit: "cover",
-                              }}
-                            />*/}
+                                 component="img"
+                                 // src={
+                                 //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
+                                 // }
+                                 src={"./studentEmoji.png"}
+                                 alt={selectedStudent?.name}
+                                 sx={{
+                                   width: { xs: 60, sm: 100 },
+                                   height: { xs: 60, sm: 100 },
+                                   borderRadius: "50%",
+                                   objectFit: "cover",
+                                 }}
+                               />*/}
 
                       {/* Display user details */}
 
@@ -2431,8 +2429,8 @@
                       </Typography>
 
                       {/* <Box>
-                        <Button variant="outlined">Edit</Button>
-                      </Box> */}
+                           <Button variant="outlined">Edit</Button>
+                         </Box> */}
                     </Box>
                   )}
                 </Box>
@@ -2659,19 +2657,19 @@
                     {allLoans.length}
                   </Typography>
                   {/*<Button
-                          onClick={() => {
-                            // alert("Contact administrator");
-                            // setShowList(false);
-                            setBodyarea("ApplyLoan");
-                            // setNewUserModal(true);
-                          }}
-                          variant="contained"
-                          color="primary"
-                          // href="https://zphs-school.vercel.app/enroll-form"
-                          // href="https://sakinalaraju100.github.io/zphs-school/public/addStudentForm.html"
-                        >
-                          apply Loan
-                        </Button>*/}
+                             onClick={() => {
+                               // alert("Contact administrator");
+                               // setShowList(false);
+                               setBodyarea("ApplyLoan");
+                               // setNewUserModal(true);
+                             }}
+                             variant="contained"
+                             color="primary"
+                             // href="https://zphs-school.vercel.app/enroll-form"
+                             // href="https://sakinalaraju100.github.io/zphs-school/public/addStudentForm.html"
+                           >
+                             apply Loan
+                           </Button>*/}
                 </Box>
 
                 {/* New user Button */}
@@ -2696,14 +2694,14 @@
                     Current Month
                   </Button>
                   {/* <Button
-                          onClick={() => {
-                            // setBodyarea("ApplyLoan");
-                          }}
-                          variant="contained"
-                          color="primary"
-                        >
-                          Dis
-                        </Button>*/}
+                             onClick={() => {
+                               // setBodyarea("ApplyLoan");
+                             }}
+                             variant="contained"
+                             color="primary"
+                           >
+                             Dis
+                           </Button>*/}
                 </Box>
 
                 {/* Filters Section */}
@@ -2875,11 +2873,11 @@
 
                           {/*}
 
-                                  <TableCell
-                                    sx={{ color: "white", fontWeight: "bold" }}
-                                  >
-                                    Sales Member
-                                  </TableCell>*/}
+                                     <TableCell
+                                       sx={{ color: "white", fontWeight: "bold" }}
+                                     >
+                                       Sales Member
+                                     </TableCell>*/}
 
                           <TableCell
                             sx={{ color: "white", fontWeight: "bold" }}
@@ -2924,7 +2922,7 @@
                             <TableCell>{loan?.mobile ?? "-"}</TableCell>
                             <TableCell>{loan?.notes ?? "-"}</TableCell>
                             {/*} <TableCell>{loan?.email ?? "-"}</TableCell>
-                                    <TableCell>{loan?.address ?? "-"}</TableCell>*/}
+                                       <TableCell>{loan?.address ?? "-"}</TableCell>*/}
                           </TableRow>
                         ))}
                       </TableBody>
@@ -3012,19 +3010,19 @@
                   >
                     {/* Display user's photo in a circle */}
                     {/*<Box
-                              component="img"
-                              // src={
-                              //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
-                              // }
-                              src={"./studentEmoji.png"}
-                              alt={selectedLoan?.name}
-                              sx={{
-                                width: { xs: 60, sm: 100 },
-                                height: { xs: 60, sm: 100 },
-                                borderRadius: "50%",
-                                objectFit: "cover",
-                              }}
-                            />*/}
+                                 component="img"
+                                 // src={
+                                 //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
+                                 // }
+                                 src={"./studentEmoji.png"}
+                                 alt={selectedLoan?.name}
+                                 sx={{
+                                   width: { xs: 60, sm: 100 },
+                                   height: { xs: 60, sm: 100 },
+                                   borderRadius: "50%",
+                                   objectFit: "cover",
+                                 }}
+                               />*/}
 
                     {/* Display user details */}
 
@@ -3126,8 +3124,8 @@
                     </Typography>
 
                     {/* <Box>
-                        <Button variant="outlined">Edit</Button>
-                      </Box> */}
+                           <Button variant="outlined">Edit</Button>
+                         </Box> */}
                   </Box>
                 </Box>
               </Dialog>
@@ -3443,17 +3441,17 @@
                       />
 
                       {/* Care Of Person
-                        <TextField
-                          size="small"
-                          label="Care Of Person"
-                          name="careOf"
-                          value={loan.careOf}
-                          onChange={handleChange}
-                          fullWidth
-                          margin="normal"
-                          error={Boolean(errors.careOf)}
-                          helperText={errors.careOf}
-                        /> */}
+                           <TextField
+                             size="small"
+                             label="Care Of Person"
+                             name="careOf"
+                             value={loan.careOf}
+                             onChange={handleChange}
+                             fullWidth
+                             margin="normal"
+                             error={Boolean(errors.careOf)}
+                             helperText={errors.careOf}
+                           /> */}
 
                       {/* Mobile */}
                       <TextField
@@ -3522,33 +3520,33 @@
                       />
 
                       {/* Marital Status
-                        <FormControl fullWidth margin="normal">
-                          <InputLabel>Marital Status</InputLabel>
-                          <Select
-                            label="Marital Status"
-                            name="maritalStatus"
-                            value={loan.maritalStatus}
-                            onChange={handleChange}
-                          >
-                            <MenuItem value="Married">Married</MenuItem>
-                            <MenuItem value="Single">Single</MenuItem>
-                            <MenuItem value="Divorced">Divorced</MenuItem>
-                          </Select>
-                        </FormControl>*/}
+                           <FormControl fullWidth margin="normal">
+                             <InputLabel>Marital Status</InputLabel>
+                             <Select
+                               label="Marital Status"
+                               name="maritalStatus"
+                               value={loan.maritalStatus}
+                               onChange={handleChange}
+                             >
+                               <MenuItem value="Married">Married</MenuItem>
+                               <MenuItem value="Single">Single</MenuItem>
+                               <MenuItem value="Divorced">Divorced</MenuItem>
+                             </Select>
+                           </FormControl>*/}
 
                       {/* Gender Selection
-                        <FormControl fullWidth margin="normal">
-                          <InputLabel>Gender</InputLabel>
-                          <Select
-                            label="Gender"
-                            name="gender"
-                            value={loan.gender}
-                            onChange={handleChange}
-                          >
-                            <MenuItem value="Male">Male</MenuItem>
-                            <MenuItem value="Female">Female</MenuItem>
-                          </Select>
-                        </FormControl>*/}
+                           <FormControl fullWidth margin="normal">
+                             <InputLabel>Gender</InputLabel>
+                             <Select
+                               label="Gender"
+                               name="gender"
+                               value={loan.gender}
+                               onChange={handleChange}
+                             >
+                               <MenuItem value="Male">Male</MenuItem>
+                               <MenuItem value="Female">Female</MenuItem>
+                             </Select>
+                           </FormControl>*/}
 
                       {/* Adhaar Number */}
                       <TextField
@@ -3623,14 +3621,14 @@
                           : "Next"}
                       </Button>
                       {/*<Button
-                        size="small"
-                        fullWidth
-                        onClick={() => checkEligibility(loan)}
-                        variant="contained"
-                        disabled={activeStep === steps.length - 1}
-                      >
-                        Check Eligibility
-                      </Button>*/}
+                           size="small"
+                           fullWidth
+                           onClick={() => checkEligibility(loan)}
+                           variant="contained"
+                           disabled={activeStep === steps.length - 1}
+                         >
+                           Check Eligibility
+                         </Button>*/}
                     </Box>
                   )}
                   {activeStep === 1 && (
@@ -3762,15 +3760,15 @@
 
                       <Box sx={{ mt: 2 }}>
                         {/*<img
-                          src={loanFiles.photo}
-                          alt="Photo"
-                          style={{
-                            border: "1px solid gray",
-                            maxWidth: "100px",
-                            maxHeight: "150px",
-                            borderRadius: 4,
-                          }}
-                        />*/}
+                             src={loanFiles.photo}
+                             alt="Photo"
+                             style={{
+                               border: "1px solid gray",
+                               maxWidth: "100px",
+                               maxHeight: "150px",
+                               borderRadius: 4,
+                             }}
+                           />*/}
                         {loanFiles["photo"] && (
                           <>
                             {loanFiles["photo"].type === "image" && (
@@ -3811,15 +3809,15 @@
 
                       <Box sx={{ mt: 2 }}>
                         {/*<img
-                          src={loanFiles.Aadhar}
-                          alt="Aadhar"
-                          style={{
-                            border: "1px solid gray",
-                            maxWidth: "100px",
-                            maxHeight: "150px",
-                            borderRadius: 4,
-                          }}
-                        />*/}
+                             src={loanFiles.Aadhar}
+                             alt="Aadhar"
+                             style={{
+                               border: "1px solid gray",
+                               maxWidth: "100px",
+                               maxHeight: "150px",
+                               borderRadius: 4,
+                             }}
+                           />*/}
                         {loanFiles["Aadhar"] && (
                           <>
                             {loanFiles["Aadhar"]?.type === "image" && (
@@ -3859,15 +3857,15 @@
 
                       <Box sx={{ mt: 2 }}>
                         {/*<img
-                          src={loanFiles["PAN"]?.data}
-                          alt="PAN"
-                          style={{
-                            border: "1px solid gray",
-                            maxWidth: "100px",
-                            maxHeight: "150px",
-                            borderRadius: 4,
-                          }}
-                        />*/}
+                             src={loanFiles["PAN"]?.data}
+                             alt="PAN"
+                             style={{
+                               border: "1px solid gray",
+                               maxWidth: "100px",
+                               maxHeight: "150px",
+                               borderRadius: 4,
+                             }}
+                           />*/}
 
                         {loanFiles["PAN"] && (
                           <>
@@ -3898,7 +3896,37 @@
                         style={{ display: "none" }}
                         id="upload-file-paySlips"
                         type="file"
-                        onChange={handleChangeFiles}
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              paySlip: response.data?.url ?? "",
+                            });
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
                       />
                       <label htmlFor="upload-file-paySlips">
                         <Button variant="contained" component="span">
@@ -3908,17 +3936,20 @@
 
                       <Box sx={{ mt: 2 }}>
                         {/*{loanFiles["paySlips"] && (
-                          <>*/}
+                             <>*/}
                         <iframe
-                          // src={loanFiles["paySlips"].data}
-                          id="upload-file-paySlips-view"
+                          // src={loan?.paySlips}
+                          src={
+                            "https://rvjjwbcvrinvdgxq.public.blob.vercel-storage.com/uploads/MyResume-P9gPem3ZBn2UcYFcQlOXjJfbNiBzKM.pdf"
+                          }
+                          // id="upload-file-paySlips-view"
                           // type="application/pdf"
                           title="PDF Preview"
                           width="200px"
                           height="300px"
                         />
                         {/* </>
-                        )}*/}
+                           )}*/}
                       </Box>
 
                       {loanFiles.paySlips && <hr />}
@@ -3939,15 +3970,15 @@
 
                       <Box sx={{ mt: 2 }}>
                         {/*<img
-                          src={loanFiles.bankStatements}
-                          alt="bankStatements"
-                          style={{
-                            border: "1px solid gray",
-                            maxWidth: "100px",
-                            maxHeight: "150px",
-                            borderRadius: 4,
-                          }}
-                        />}*/}
+                             src={loanFiles.bankStatements}
+                             alt="bankStatements"
+                             style={{
+                               border: "1px solid gray",
+                               maxWidth: "100px",
+                               maxHeight: "150px",
+                               borderRadius: 4,
+                             }}
+                           />}*/}
 
                         {loanFiles["bankStatements"] && (
                           <>
@@ -4137,13 +4168,13 @@
       };
 
       const HomePage = () => {
-        let baseURL = "https://zphs-school.vercel.app";
-        // let baseURL = "http://localhost:1954";
+        // let baseURL = "https://zphs-school.vercel.app";
+        // // let baseURL = "http://localhost:1954";
 
         const AllLoans = () => {
-          // let baseURL = "http://localhost:1954";
-          // let baseURL = "https://www.zphskunur.in";
-          let baseURL = "https://zphs-school.vercel.app";
+          // // let baseURL = "http://localhost:1954";
+          // // let baseURL = "https://www.zphskunur.in";
+          // let baseURL = "https://zphs-school.vercel.app";
           const [checked, setChecked] = useState(false);
           const [submitted, setSubmitted] = useState(true);
           const [familyMembers, setFamilyMembers] = useState(0);
@@ -4409,19 +4440,19 @@
                         {listData.length}
                       </Typography>
                       {/*<Button
-                              onClick={() => {
-                                // alert("Contact administrator");
-                                // setShowList(false);
-                                setBodyarea("ApplyLoan");
-                                // setNewUserModal(true);
-                              }}
-                              variant="contained"
-                              color="primary"
-                              // href="https://zphs-school.vercel.app/enroll-form"
-                              // href="https://sakinalaraju100.github.io/zphs-school/public/addStudentForm.html"
-                            >
-                              apply Loan
-                            </Button>*/}
+                                 onClick={() => {
+                                   // alert("Contact administrator");
+                                   // setShowList(false);
+                                   setBodyarea("ApplyLoan");
+                                   // setNewUserModal(true);
+                                 }}
+                                 variant="contained"
+                                 color="primary"
+                                 // href="https://zphs-school.vercel.app/enroll-form"
+                                 // href="https://sakinalaraju100.github.io/zphs-school/public/addStudentForm.html"
+                               >
+                                 apply Loan
+                               </Button>*/}
                     </Box>
 
                     {/* New user Button */}
@@ -4596,11 +4627,11 @@
 
                               {/*}
 
-                                  <TableCell
-                                    sx={{ color: "white", fontWeight: "bold" }}
-                                  >
-                                    Sales Member
-                                  </TableCell>*/}
+                                     <TableCell
+                                       sx={{ color: "white", fontWeight: "bold" }}
+                                     >
+                                       Sales Member
+                                     </TableCell>*/}
 
                               <TableCell
                                 sx={{ color: "white", fontWeight: "bold" }}
@@ -4645,7 +4676,7 @@
                                 <TableCell>{loan?.mobile ?? "-"}</TableCell>
                                 <TableCell>{loan?.notes ?? "-"}</TableCell>
                                 {/*} <TableCell>{loan?.email ?? "-"}</TableCell>
-                                    <TableCell>{loan?.address ?? "-"}</TableCell>*/}
+                                       <TableCell>{loan?.address ?? "-"}</TableCell>*/}
                               </TableRow>
                             ))}
                           </TableBody>
@@ -4878,19 +4909,19 @@
                     >
                       {/* Display user's photo in a circle */}
                       {/*<Box
-                              component="img"
-                              // src={
-                              //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
-                              // }
-                              src={"./studentEmoji.png"}
-                              alt={selectedLoan?.name}
-                              sx={{
-                                width: { xs: 60, sm: 100 },
-                                height: { xs: 60, sm: 100 },
-                                borderRadius: "50%",
-                                objectFit: "cover",
-                              }}
-                            />*/}
+                                 component="img"
+                                 // src={
+                                 //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
+                                 // }
+                                 src={"./studentEmoji.png"}
+                                 alt={selectedLoan?.name}
+                                 sx={{
+                                   width: { xs: 60, sm: 100 },
+                                   height: { xs: 60, sm: 100 },
+                                   borderRadius: "50%",
+                                   objectFit: "cover",
+                                 }}
+                               />*/}
 
                       {/* Display user details */}
 
@@ -4993,8 +5024,8 @@
                       </Typography>
 
                       {/* <Box>
-                        <Button variant="outlined">Edit</Button>
-                      </Box> */}
+                           <Button variant="outlined">Edit</Button>
+                         </Box> */}
                     </Box>
                   </Box>
                 </Dialog>
@@ -5005,7 +5036,7 @@
         const Loans = () => {
           // let baseURL = "http://localhost:1954";
           // let baseURL = "https://www.zphskunur.in";
-          let baseURL = "https://zphs-school.vercel.app";
+          // let baseURL = "https://zphs-school.vercel.app";
           const [checked, setChecked] = useState(false);
           const [submitted, setSubmitted] = useState(true);
           const [familyMembers, setFamilyMembers] = useState(0);
@@ -5458,11 +5489,11 @@
 
                               {/*}
 
-                                  <TableCell
-                                    sx={{ color: "white", fontWeight: "bold" }}
-                                  >
-                                    Sales Member
-                                  </TableCell>*/}
+                                     <TableCell
+                                       sx={{ color: "white", fontWeight: "bold" }}
+                                     >
+                                       Sales Member
+                                     </TableCell>*/}
 
                               <TableCell
                                 sx={{ color: "white", fontWeight: "bold" }}
@@ -5507,7 +5538,7 @@
                                 <TableCell>{loan?.mobile ?? "-"}</TableCell>
                                 <TableCell>{loan?.notes ?? "-"}</TableCell>
                                 {/*} <TableCell>{loan?.email ?? "-"}</TableCell>
-                                    <TableCell>{loan?.address ?? "-"}</TableCell>*/}
+                                       <TableCell>{loan?.address ?? "-"}</TableCell>*/}
                               </TableRow>
                             ))}
                           </TableBody>
@@ -5740,19 +5771,19 @@
                     >
                       {/* Display user's photo in a circle */}
                       {/*<Box
-                              component="img"
-                              // src={
-                              //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
-                              // }
-                              src={"./studentEmoji.png"}
-                              alt={selectedLoan?.name}
-                              sx={{
-                                width: { xs: 60, sm: 100 },
-                                height: { xs: 60, sm: 100 },
-                                borderRadius: "50%",
-                                objectFit: "cover",
-                              }}
-                            />*/}
+                                 component="img"
+                                 // src={
+                                 //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
+                                 // }
+                                 src={"./studentEmoji.png"}
+                                 alt={selectedLoan?.name}
+                                 sx={{
+                                   width: { xs: 60, sm: 100 },
+                                   height: { xs: 60, sm: 100 },
+                                   borderRadius: "50%",
+                                   objectFit: "cover",
+                                 }}
+                               />*/}
 
                       {/* Display user details */}
 
@@ -5855,8 +5886,8 @@
                       </Typography>
 
                       {/* <Box>
-                        <Button variant="outlined">Edit</Button>
-                      </Box> */}
+                           <Button variant="outlined">Edit</Button>
+                         </Box> */}
                     </Box>
                   </Box>
                 </Dialog>
@@ -6664,27 +6695,27 @@
               <Box sx={{ py: 2, bgcolor: "grey.100" }}>
                 <Container maxWidth="lg">
                   {/*<Typography
-                        variant="h4"
-                        gutterBottom
-                        sx={{
-                          textAlign: "center",
-                          mb: 4,
-                          fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
-                          position: "relative",
-                          "&:after": {
-                            content: '""',
-                            position: "absolute",
-                            bottom: "-10px",
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            width: "60px",
-                            height: "3px",
-                            backgroundColor: "primary.main",
-                          },
-                        }}
-                      >
-                        About Us
-                      </Typography>*/}
+                           variant="h4"
+                           gutterBottom
+                           sx={{
+                             textAlign: "center",
+                             mb: 4,
+                             fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
+                             position: "relative",
+                             "&:after": {
+                               content: '""',
+                               position: "absolute",
+                               bottom: "-10px",
+                               left: "50%",
+                               transform: "translateX(-50%)",
+                               width: "60px",
+                               height: "3px",
+                               backgroundColor: "primary.main",
+                             },
+                           }}
+                         >
+                           About Us
+                         </Typography>*/}
 
                   <Grid
                     container
@@ -7804,15 +7835,15 @@
             >
               <Toolbar />
               {/*<Stack spacing={2}>
-                <Breadcrumbs
-                  // separator={<NavigateNextIcon fontSize="small" />}
-                  separator="›"
-                  aria-label="breadcrumb"
-                >
-                  {breadcrumbs}
-                </Breadcrumbs>
-              </Stack>
-              <hr />*/}
+                   <Breadcrumbs
+                     // separator={<NavigateNextIcon fontSize="small" />}
+                     separator="›"
+                     aria-label="breadcrumb"
+                   >
+                     {breadcrumbs}
+                   </Breadcrumbs>
+                 </Stack>
+                 <hr />*/}
               {bodyarea == "SalesReports" && <SalesReports />}
               {bodyarea == "SalesBoard" && <Leaderboard />}
               {bodyarea == "AllLoans" && <AllLoans />}
@@ -8208,8 +8239,8 @@
                   )}
 
                   {/*<Button sx={{ alignSelf: "flex-start" }} color="primary">
-                          Forgot Password?
-                        </Button>*/}
+                             Forgot Password?
+                           </Button>*/}
                 </Box>
               </DialogContent>
               <DialogActions>
@@ -8247,51 +8278,51 @@
             >
               {/*<DialogTitle>New Customer</DialogTitle>*/}
               {/*<DialogContent>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 2,
-                        }}
-                      >
-                        <TextField
-                          label="Full Name"
-                          variant="outlined"
-                          fullWidth
-                          // value={newCustomerName}
-                          // onChange={(e) => setNewCustomerName(e.target.value)}
-                        />
-                        <TextField
-                          label="Email"
-                          type="email"
-                          variant="outlined"
-                          fullWidth
-                          // value={newCustomerEmail}
-                          // onChange={(e) => setNewCustomerEmail(e.target.value)}
-                        />
-                        <TextField
-                          label="Mobile Number"
-                          type="tel"
-                          variant="outlined"
-                          fullWidth
-                          // value={newCustomerMobile}
-                          // onChange={(e) => setNewCustomerMobile(e.target.value)}
-                        />
-                      </Box>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={() => setCustomerSignUPDialogOpen(false)}>
-                        Cancel
-                      </Button>
-                      <Button
-                        variant="contained"
-                        onClick={() => {
-                          console.log("first");
-                        }} // Function to handle sign-in submission
-                      >
-                        New Login
-                      </Button>
-                    </DialogActions>*/}
+                         <Box
+                           sx={{
+                             display: "flex",
+                             flexDirection: "column",
+                             gap: 2,
+                           }}
+                         >
+                           <TextField
+                             label="Full Name"
+                             variant="outlined"
+                             fullWidth
+                             // value={newCustomerName}
+                             // onChange={(e) => setNewCustomerName(e.target.value)}
+                           />
+                           <TextField
+                             label="Email"
+                             type="email"
+                             variant="outlined"
+                             fullWidth
+                             // value={newCustomerEmail}
+                             // onChange={(e) => setNewCustomerEmail(e.target.value)}
+                           />
+                           <TextField
+                             label="Mobile Number"
+                             type="tel"
+                             variant="outlined"
+                             fullWidth
+                             // value={newCustomerMobile}
+                             // onChange={(e) => setNewCustomerMobile(e.target.value)}
+                           />
+                         </Box>
+                       </DialogContent>
+                       <DialogActions>
+                         <Button onClick={() => setCustomerSignUPDialogOpen(false)}>
+                           Cancel
+                         </Button>
+                         <Button
+                           variant="contained"
+                           onClick={() => {
+                             console.log("first");
+                           }} // Function to handle sign-in submission
+                         >
+                           New Login
+                         </Button>
+                       </DialogActions>*/}
 
               <Box
                 sx={{
