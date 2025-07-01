@@ -3743,7 +3743,7 @@
                       </Typography>
 
                       <hr />
-
+                      {/*
                       <input
                         accept="*"
                         name="photo"
@@ -3759,16 +3759,7 @@
                       </label>
 
                       <Box sx={{ mt: 2 }}>
-                        {/*<img
-                             src={loanFiles.photo}
-                             alt="Photo"
-                             style={{
-                               border: "1px solid gray",
-                               maxWidth: "100px",
-                               maxHeight: "150px",
-                               borderRadius: 4,
-                             }}
-                           />*/}
+                       
                         {loanFiles["photo"] && (
                           <>
                             {loanFiles["photo"].type === "image" && (
@@ -3808,16 +3799,7 @@
                       </label>
 
                       <Box sx={{ mt: 2 }}>
-                        {/*<img
-                             src={loanFiles.Aadhar}
-                             alt="Aadhar"
-                             style={{
-                               border: "1px solid gray",
-                               maxWidth: "100px",
-                               maxHeight: "150px",
-                               borderRadius: 4,
-                             }}
-                           />*/}
+                        
                         {loanFiles["Aadhar"] && (
                           <>
                             {loanFiles["Aadhar"]?.type === "image" && (
@@ -3856,16 +3838,7 @@
                       </label>
 
                       <Box sx={{ mt: 2 }}>
-                        {/*<img
-                             src={loanFiles["PAN"]?.data}
-                             alt="PAN"
-                             style={{
-                               border: "1px solid gray",
-                               maxWidth: "100px",
-                               maxHeight: "150px",
-                               borderRadius: 4,
-                             }}
-                           />*/}
+                       
 
                         {loanFiles["PAN"] && (
                           <>
@@ -3889,6 +3862,182 @@
                       </Box>
 
                       {loanFiles.PAN && <hr />}
+
+*/}
+
+                      <input
+                        accept="*"
+                        name="photo"
+                        style={{ display: "none" }}
+                        id="upload-file-photo"
+                        type="file"
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              photo: response.data?.url ?? "",
+                            });
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
+                      />
+                      <label htmlFor="upload-file-photo">
+                        <Button variant="contained" component="span">
+                          Upload photo
+                        </Button>
+                      </label>
+
+                      <Box sx={{ mt: 2 }}>
+                        {loan?.photo && (
+                          <img
+                            src={loan?.photo}
+                            alt="Photo"
+                            width="200px"
+                            height="300px"
+                            style={{ objectFit: "cover" }}
+                          />
+                        )}
+                      </Box>
+
+                      {loan?.photo && <hr />}
+
+                      <input
+                        accept="*"
+                        name="aadhar"
+                        style={{ display: "none" }}
+                        id="upload-file-aadhar"
+                        type="file"
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              aadhar: response.data?.url ?? "",
+                            });
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
+                      />
+                      <label htmlFor="upload-file-aadhar">
+                        <Button variant="contained" component="span">
+                          Upload aadhar
+                        </Button>
+                      </label>
+
+                      <Box sx={{ mt: 2 }}>
+                        {loan?.aadhar && (
+                          <img
+                            src={loan?.aadhar}
+                            alt="Aadhar"
+                            width="200px"
+                            height="300px"
+                            style={{ objectFit: "cover" }}
+                          />
+                        )}
+                      </Box>
+
+                      {loan?.aadhar && <hr />}
+
+                      <input
+                        accept="*"
+                        name="pan"
+                        style={{ display: "none" }}
+                        id="upload-file-pan"
+                        type="file"
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              pan: response.data?.url ?? "",
+                            });
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
+                      />
+                      <label htmlFor="upload-file-pan">
+                        <Button variant="contained" component="span">
+                          Upload PAN
+                        </Button>
+                      </label>
+
+                      <Box sx={{ mt: 2 }}>
+                        {loan?.pan && (
+                          <img
+                            src={loan?.pan}
+                            alt="PAN"
+                            width="200px"
+                            height="300px"
+                            style={{ objectFit: "cover" }}
+                          />
+                        )}
+                      </Box>
+
+                      {loan?.pan && <hr />}
 
                       <input
                         accept="*"
