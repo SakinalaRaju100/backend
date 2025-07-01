@@ -3935,21 +3935,14 @@
                       </label>
 
                       <Box sx={{ mt: 2 }}>
-                        {/*{loanFiles["paySlips"] && (
-                             <>*/}
-                        <iframe
-                          // src={loan?.paySlips}
-                          src={
-                            "https://rvjjwbcvrinvdgxq.public.blob.vercel-storage.com/uploads/MyResume-P9gPem3ZBn2UcYFcQlOXjJfbNiBzKM.pdf"
-                          }
-                          // id="upload-file-paySlips-view"
-                          // type="application/pdf"
-                          title="PDF Preview"
-                          width="200px"
-                          height="300px"
-                        />
-                        {/* </>
-                           )}*/}
+                        {loan["paySlips"] && (
+                          <iframe
+                            src={`https://docs.google.com/gview?url=https://rvjjwbcvrinvdgxq.public.blob.vercel-storage.com/uploads/2386706-JB-Hx517eenrORySHEwUpn4am68tKzOLe.pdf&embedded=true`}
+                            width="100%"
+                            height="600px"
+                            frameborder="0"
+                          ></iframe>
+                        )}
                       </Box>
 
                       {loanFiles.paySlips && <hr />}
