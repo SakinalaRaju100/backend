@@ -3935,67 +3935,74 @@
                       </label>
 
                       <Box sx={{ mt: 2 }}>
-                        <iframe
-                          src={`https://docs.google.com/gview?url=https://rvjjwbcvrinvdgxq.public.blob.vercel-storage.com/uploads/2386706-JB-Hx517eenrORySHEwUpn4am68tKzOLe.pdf&embedded=true`}
-                          width="200px"
-                          height="300px"
-                          frameborder="0"
-                        ></iframe>
+                        {loan?.paySlip && (
+                          <iframe
+                            src={`https://docs.google.com/gview?url=${loan?.paySlip}&embedded=true`}
+                            width="200px"
+                            height="300px"
+                            frameborder="0"
+                          ></iframe>
+                        )}
                       </Box>
 
-                      {loanFiles.paySlips && <hr />}
+                      {loan?.paySlip && <hr />}
 
                       <input
                         accept="*"
-                        name="bankStatements"
+                        name="bankStatement"
                         style={{ display: "none" }}
-                        id="upload-file-bankStatements"
+                        id="upload-file-bankStatement"
                         type="file"
-                        onChange={handleChangeFiles}
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              bankStatement: response.data?.url ?? "",
+                            });
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
                       />
-                      <label htmlFor="upload-file-bankStatements">
+                      <label htmlFor="upload-file-bankStatement">
                         <Button variant="contained" component="span">
-                          Upload bankStatements
+                          Upload bankStatement
                         </Button>
                       </label>
 
                       <Box sx={{ mt: 2 }}>
-                        {/*<img
-                             src={loanFiles.bankStatements}
-                             alt="bankStatements"
-                             style={{
-                               border: "1px solid gray",
-                               maxWidth: "100px",
-                               maxHeight: "150px",
-                               borderRadius: 4,
-                             }}
-                           />}*/}
-
-                        {loanFiles["bankStatements"] && (
-                          <>
-                            {loanFiles["bankStatements"].type === "image" && (
-                              <img
-                                src={loanFiles["bankStatements"].data}
-                                alt="bankStatements"
-                                style={{
-                                  maxWidth: "200px",
-                                  maxheight: "300px",
-                                }}
-                              />
-                            )}
-                            {loanFiles["bankStatements"].type === "pdf" && (
-                              <iframe
-                                src={loanFiles["bankStatements"].data}
-                                title="PDF Preview"
-                                width="200px"
-                                height="300px"
-                              />
-                            )}
-                          </>
+                        {loan?.bankStatement && (
+                          <iframe
+                            src={`https://docs.google.com/gview?url=${loan?.bankStatement}&embedded=true`}
+                            width="200px"
+                            height="300px"
+                            frameborder="0"
+                          ></iframe>
                         )}
                       </Box>
 
-                      {loanFiles.bankStatements && <hr />}
+                      {loan.bankStatement && <hr />}
 
                       <Button
                         size="small"
