@@ -3143,65 +3143,12 @@
           setFile(e.target.files[0]);
         };
 
-        const handleUpload = async () => {
-          if (!file) return;
-
-          const formData = new FormData();
-          formData.append("file", file);
-
-          try {
-            const res = await axios.post(
-              "http://localhost:3000/upload2",
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-            );
-
-            if (res.data.success) {
-              setUrl(res.data.url);
-            } else {
-              alert("Upload failed");
-            }
-          } catch (error) {
-            console.error("Error uploading file:", error);
-          }
-        };
         // way for multiple
         const [files, setFiles] = useState([]);
         const [uploadedFiles, setUploadedFiles] = useState([]);
 
         const handleFileChange3 = (e) => {
           setFiles(Array.from(e.target.files));
-        };
-
-        const handleUpload3 = async () => {
-          if (!files.length) return;
-
-          const formData = new FormData();
-          files.forEach((file) => formData.append("files", file)); // Use "files" as the field name
-
-          try {
-            const res = await axios.post(
-              "http://localhost:3000/upload3",
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-            );
-
-            if (res.data.success) {
-              setUploadedFiles(res.data.files);
-            } else {
-              alert("Upload failed");
-            }
-          } catch (error) {
-            console.error("Upload error:", error);
-          }
         };
 
         // original
@@ -3330,33 +3277,6 @@
         };
         return (
           <Box sx={{ width: "100%" }}>
-            <div>
-              <input type="file" onChange={handleFileChange} />
-              <button onClick={handleUpload}>Upload</button>
-              {url && (
-                <p>
-                  Uploaded File URL: <a href={url}>{url}</a>
-                </p>
-              )}
-            </div>
-
-            <div>
-              <input type="file" multiple onChange={handleFileChange3} />
-              <button onClick={handleUpload3}>Upload Files</button>
-              <ul>
-                {uploadedFiles.map((file, index) => (
-                  <li key={index}>
-                    <a
-                      href={file.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {file.filename}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
             <Box>
               <FormControl fullWidth margin="normal">
                 <InputLabel>Select Type of Loan</InputLabel>
@@ -4166,7 +4086,31 @@
                       </Button>
                     </Box>
                   )}
-                  {activeStep === 3 && <Box>Priview</Box>}
+                  {activeStep === 3 && (
+                    <Box>
+                      <Card>
+                        <CardContent>
+                          <Typography variant="h6">Loan Preview</Typography>
+                          <Typography>
+                            <strong>Name:</strong> {loan.name}
+                          </Typography>
+                          <Typography>
+                            <strong>Amount:</strong> ₹{loan.amount}
+                          </Typography>
+                          <Typography>
+                            <strong>Tenure:</strong> {loan.tenure} months
+                          </Typography>
+                          <Typography>
+                            <strong>Income Proof:</strong>
+                            <a href={loan.pan} target="_blank" rel="noreferrer">
+                              {" "}
+                              View pan
+                            </a>
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Box>
+                  )}
                 </Box>
 
                 {/* // Modal for Eligibility Details*/}
