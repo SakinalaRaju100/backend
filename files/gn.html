@@ -3492,6 +3492,18 @@
                         error={Boolean(errors.panNumber)}
                         helperText={errors.panNumber}
                       />
+                      {/* cbill Score */}
+                      <TextField
+                        size="small"
+                        label="cbill Score"
+                        name="cbillScore"
+                        value={loan.cbillScore}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.cbillScore)}
+                        helperText={errors.cbillScore}
+                      />
                       {/* YOur Monthly Income */}
                       <TextField
                         size="small"
@@ -4076,9 +4088,11 @@
                       <Button
                         size="small"
                         fullWidth
-                        onClick={handleNext}
+                        onClick={() => {
+                          console.log("loan", loan);
+                        }}
                         variant="contained"
-                        disabled={activeStep === steps.length - 1}
+                        // disabled={activeStep === steps.length - 1}
                       >
                         {activeStep === steps.length - 1
                           ? "Check & Submit"
@@ -4091,21 +4105,147 @@
                       <Card>
                         <CardContent>
                           <Typography variant="h6">Loan Preview</Typography>
+
                           <Typography>
-                            <strong>Name:</strong> {loan.name}
+                            <strong>fullName:</strong> {loan.fullName}
                           </Typography>
                           <Typography>
-                            <strong>Amount:</strong> ₹{loan.amount}
+                            <strong>mobile:</strong> {loan.mobile}
                           </Typography>
                           <Typography>
-                            <strong>Tenure:</strong> {loan.tenure} months
+                            <strong>email:</strong> {loan.email}
                           </Typography>
                           <Typography>
+                            <strong>Hno:</strong> {loan.Hno}
+                          </Typography>
+                          <Typography>
+                            <strong>address:</strong> {loan.address}
+                          </Typography>
+                          <Typography>
+                            <strong>pincode:</strong> {loan.pincode}
+                          </Typography>
+                          <Typography>
+                            <strong>adhaarNumber:</strong> {loan.adhaarNumber}
+                          </Typography>
+                          <Typography>
+                            <strong>panNumber:</strong> {loan.panNumber}
+                          </Typography>
+                          <Typography>
+                            <strong>cbillScore:</strong> {loan.cbillScore}
+                          </Typography>
+                          <Typography>
+                            <strong>yourMOnthlyIncome:</strong>{" "}
+                            {loan.yourMOnthlyIncome}
+                          </Typography>
+                          <Typography>
+                            <strong>monthlExistingEmiAmount:</strong>{" "}
+                            {loan.monthlExistingEmiAmount}
+                          </Typography>
+                          <Typography>
+                            <strong>loanRequirement:</strong>{" "}
+                            {loan.loanRequirement}
+                          </Typography>
+                          <Typography>
+                            <strong>typeOfEmployment:</strong>{" "}
+                            {loan.typeOfEmployment}
+                          </Typography>
+                          <Typography>
+                            <strong>companyName:</strong> {loan.companyName}{" "}
+                          </Typography>
+                          <Typography>
+                            <strong>yearsOfExperience:</strong>{" "}
+                            {loan.yearsOfExperience}
+                          </Typography>
+                          <Typography>
+                            <strong>monthlySalary:</strong> {loan.monthlySalary}{" "}
+                          </Typography>
+                          <Typography>
+                            <strong>companyAddress:</strong>{" "}
+                            {loan.companyAddress}
+                          </Typography>
+                          <Typography>
+                            <strong>companyPincode:</strong>{" "}
+                            {loan.companyPincode}
+                          </Typography>
+                          <Typography>
+                            <strong>Mode of Salary Payment:</strong>{" "}
+                            {loan.modeOfSalary}
+                          </Typography>
+
+                          {/*} <Typography>
                             <strong>Income Proof:</strong>
                             <a href={loan.pan} target="_blank" rel="noreferrer">
                               {" "}
                               View pan
                             </a>
+                          </Typography>*/}
+                          <Typography>
+                            <strong>Photo :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.photo && (
+                                <img
+                                  src={loan?.photo}
+                                  alt="PAN"
+                                  width="200px"
+                                  height="300px"
+                                  style={{ objectFit: "cover" }}
+                                />
+                              )}
+                            </Box>
+                          </Typography>
+                          <Typography>
+                            <strong>Aadhar Card:</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.aadhar && (
+                                <img
+                                  src={loan?.aadhar}
+                                  alt="PAN"
+                                  width="200px"
+                                  height="300px"
+                                  style={{ objectFit: "cover" }}
+                                />
+                              )}
+                            </Box>
+                          </Typography>
+                          <Typography>
+                            <strong>PAN card:</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.pan && (
+                                <img
+                                  src={loan?.pan}
+                                  alt="PAN"
+                                  width="200px"
+                                  height="300px"
+                                  style={{ objectFit: "cover" }}
+                                />
+                              )}
+                            </Box>
+                          </Typography>
+                          <Typography>
+                            <strong>PaySlip :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.paySlip && (
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${loan?.paySlip}&embedded=true`}
+                                  width="200px"
+                                  height="300px"
+                                  frameborder="0"
+                                ></iframe>
+                              )}
+                            </Box>
+                          </Typography>
+                          <Typography>
+                            <strong>bank Statement :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.bankStatement && (
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${loan?.bankStatement}&embedded=true`}
+                                  width="200px"
+                                  height="300px"
+                                  frameborder="0"
+                                ></iframe>
+                              )}
+                            </Box>
                           </Typography>
                         </CardContent>
                       </Card>
@@ -4201,6 +4341,10 @@
             )}
           </Box>
         );
+      };
+
+      const Branches = () => {
+        return <div>Branches</div>;
       };
 
       const leaderboardData = [
@@ -7617,6 +7761,17 @@
               setOpen(false);
             },
           },
+          {
+            text: "Branches",
+            icon: "article",
+            role: "admin",
+            list: ["admin", "manager"],
+            path: "/",
+            clickfunc: () => {
+              setBodyarea("Branches");
+              setOpen(false);
+            },
+          },
 
           {
             text: "Reffer A Friend",
@@ -7941,6 +8096,7 @@
               {/*{bodyarea == "Loans" && <Loans />}*/}
               {bodyarea == "Loans" && <AllLoans />}
               {bodyarea == "ApplyLoan" && <ApplyLoan />}
+              {bodyarea == "Branches" && <Branches />}
               {bodyarea == "Dashboard" && <Dashboard />}
 
               {bodyarea == "AllCustomers" && <Management2 />}
