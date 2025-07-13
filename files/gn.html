@@ -3204,6 +3204,25 @@
           // setSkipped(newSkipped);
         };
 
+        const handleLoanSubmit = (loan) => {
+          console.log("loan", loan);
+          axios
+            .post(`${baseURL}/add-new-gn-loan`, {
+              userobj: JSON.parse(localStorage.getItem("gnUserObj")),
+              status: "underVerification",
+              ...loan,
+            })
+
+            .then((res) => {
+              alert("Loan successfully applied");
+              window.location.reload();
+            })
+            .catch((error) => {
+              alert(error.message);
+              console.log("Error occurred:", error);
+            });
+        };
+
         const handleChange = (event) => {
           const { name, value } = event.target;
           setLoan({
@@ -3213,68 +3232,7 @@
 
           // validateField(name, value); // validate each field on change
         };
-        const handleChangeFiles = (event) => {
-          console.log("id", event.target.id);
-          console.log("loanfiles before", loanFiles);
-          const { name, value } = event.target;
-          // setLoan({
-          //   ...loan,
-          //   [name]: value,
-          // });
 
-          const file = event.target.files[0];
-
-          if (file) {
-            console.log("file", file);
-
-            const fileType = file.type;
-
-            // IMAGE FILE
-            if (fileType.startsWith("image/")) {
-              const reader = new FileReader();
-              reader.onloadend = () => {
-                setLoanFiles((prevLoanFiles) => ({
-                  ...prevLoanFiles,
-                  [name]: {
-                    type: "image",
-                    fileType,
-                    data: reader.result,
-                    file,
-                  },
-                }));
-              };
-              reader.readAsDataURL(file);
-            }
-            // PDF FILE
-            else if (fileType === "application/pdf") {
-              const fileURL = URL.createObjectURL(file);
-              setLoanFiles((prevLoanFiles) => ({
-                ...prevLoanFiles,
-                [name]: {
-                  type: "pdf",
-                  fileType,
-                  data: fileURL,
-                  file,
-                },
-              }));
-
-              const blobURL = URL.createObjectURL(file);
-              console.log("blobURL", blobURL);
-
-              const elem = document.getElementById(event.target.id + "-view");
-              console.log("elem", elem);
-
-              document.getElementById(event.target.id + "-view").src = blobURL;
-
-              const elem2 = document.getElementById(event.target.id + "-view");
-              console.log("elem2", elem2);
-            } else {
-              console.warn("Unsupported file type:", fileType);
-            }
-          }
-
-          // validateField(name, value); // validate each field on change
-        };
         return (
           <Box sx={{ width: "100%" }}>
             <Box>
@@ -3330,9 +3288,15 @@
                   </Button>
                   <Button
                     size="small"
-                    onClick={handleNext}
+                    onClick={() => {
+                      if (activeStep === steps.length - 1) {
+                        handleLoanSubmit(loan);
+                      } else {
+                        handleNext();
+                      }
+                    }}
                     variant="outlined"
-                    disabled={activeStep === steps.length - 1}
+                    // disabled={activeStep === steps.length - 1}
                   >
                     {activeStep === steps.length - 1
                       ? "Check & Submit"
@@ -3546,21 +3510,10 @@
                         fullWidth
                         onClick={handleNext}
                         variant="contained"
-                        disabled={activeStep === steps.length - 1}
+                        // disabled={activeStep === steps.length - 1}
                       >
-                        {activeStep === steps.length - 1
-                          ? "Check & Submit"
-                          : "Next"}
+                        Next
                       </Button>
-                      {/*<Button
-                           size="small"
-                           fullWidth
-                           onClick={() => checkEligibility(loan)}
-                           variant="contained"
-                           disabled={activeStep === steps.length - 1}
-                         >
-                           Check Eligibility
-                         </Button>*/}
                     </Box>
                   )}
                   {activeStep === 1 && (
@@ -3660,11 +3613,9 @@
                         fullWidth
                         onClick={handleNext}
                         variant="contained"
-                        disabled={activeStep === steps.length - 1}
+                        // disabled={activeStep === steps.length - 1}
                       >
-                        {activeStep === steps.length - 1
-                          ? "Check & Submit"
-                          : "Next"}
+                        Next
                       </Button>
                     </Box>
                   )}
@@ -4089,14 +4040,12 @@
                         size="small"
                         fullWidth
                         onClick={() => {
-                          console.log("loan", loan);
+                          handleNext();
                         }}
                         variant="contained"
                         // disabled={activeStep === steps.length - 1}
                       >
-                        {activeStep === steps.length - 1
-                          ? "Check & Submit"
-                          : "Next"}
+                        Next
                       </Button>
                     </Box>
                   )}
@@ -4567,6 +4516,7 @@
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
+                  goldnoontoken: localStorage.getItem("goldnoontoken"),
                 },
                 credentials: "include",
                 body: JSON.stringify({}),
@@ -4592,6 +4542,7 @@
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
+                  goldnoontoken: localStorage.getItem("goldnoontoken"),
                 },
                 credentials: "include",
                 body: JSON.stringify({}),
@@ -7608,6 +7559,12 @@
                   "gnUserObj",
                   JSON.stringify({
                     ...res.data.data,
+                  })
+                );
+                localStorage.setItem(
+                  "goldnoontoken",
+                  JSON.stringify({
+                    ...res.data.goldnoontoken,
                   })
                 );
 
