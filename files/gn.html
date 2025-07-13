@@ -3208,8 +3208,9 @@
           console.log("loan", loan);
           axios
             .post(`${baseURL}/add-new-gn-loan`, {
+              userId: JSON.parse(localStorage.getItem("gnUserObj"))?.userId,
+              loanType,
               userobj: JSON.parse(localStorage.getItem("gnUserObj")),
-              status: "underVerification",
               ...loan,
             })
 
