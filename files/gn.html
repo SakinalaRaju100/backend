@@ -7561,12 +7561,7 @@
                     ...res.data.data,
                   })
                 );
-                localStorage.setItem(
-                  "goldnoontoken",
-                  JSON.stringify({
-                    ...res.data.goldnoontoken,
-                  })
-                );
+                localStorage.setItem("goldnoontoken", res.data.goldnoontoken);
 
                 setLoginData(res.data.data);
                 handleLoginDialogToggle();
