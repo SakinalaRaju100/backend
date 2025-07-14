@@ -189,47 +189,6 @@
 
       // const { PieChart } = window["@mui/x-charts"];
 
-      const branches = [
-        {
-          name: "GN warangal",
-          code: "GNB001",
-          address: {
-            city: "Warangal",
-            state: "TS",
-            country: "india",
-            pincode: "506031",
-          },
-          location: ["12", "13"],
-          status: true,
-          joinDate: "",
-        },
-        {
-          name: "GN Hyderabad",
-          code: "GNB002",
-          address: {
-            city: "Hyderabad",
-            state: "Hyderabad",
-            country: "Hyderabad",
-            pincode: "500301",
-          },
-          location: ["12", "13"],
-          status: true,
-          joinDate: "",
-        },
-        {
-          name: "GN delhi",
-          code: "GNB003",
-          address: {
-            city: "delhi",
-            state: "delhi",
-            country: "india",
-            pincode: "110001",
-          },
-          location: ["12", "13"],
-          status: true,
-          joinDate: "",
-        },
-      ];
       const themes = {
         orange: {
           name: "orange",
@@ -769,10 +728,7 @@
               if (!value) newErrors.userId = "user ID is required.";
               else delete newErrors.userId;
               break;
-            // case "surname":
-            //   if (!value) newErrors.surname = "Surname is required.";
-            //   else delete newErrors.surname;
-            //   break;
+
             case "fullName":
               if (!value) newErrors.fullName = "Name is required.";
               else delete newErrors.fullName;
@@ -786,40 +742,7 @@
                 delete newErrors.email;
               }
               break;
-            // case "phone":
-            //   if (!value) {
-            //     newErrors.phone = "Phone number is required.";
-            //   } else if (!/^\d{10}$/.test(value)) {
-            //     newErrors.phone = "Phone number must be 10 digits.";
-            //   } else {
-            //     delete newErrors.phone;
-            //   }
-            //   break;
-            // case "address":
-            //   if (!value) newErrors.address = "Address is required.";
-            //   else delete newErrors.address;
-            //   break;
-            //   case "profession":
-            //     if (!value) newErrors.profession = "Profession is required.";
-            //     else delete newErrors.profession;
-            //     break;
-            // case "father":
-            //   if (!value) newErrors.father = "Gardian name is required.";
-            //   else delete newErrors.father;
-            //   break;
-            // case "profession":
-            //   if (!value)
-            //     newErrors.profession = "profession's name is required.";
-            //   else delete newErrors.profession;
-            //   break;
-            // case "role":
-            //   if (!value) newErrors.role = "Batch Year is required.";
-            //   else if (!/^\d{4}$/.test(value)) {
-            //     newErrors.role = "Batch Year must be a 4-digit year.";
-            //   } else {
-            //     delete newErrors.role;
-            //   }
-            //   break;
+
             default:
               break;
           }
@@ -847,18 +770,6 @@
               // &&
               // Object.values(user).every((val) => val !== "")
             ) {
-              // users.push({
-              //   ...user,
-              //   roleId: 0,
-              //   theme: "",
-              //   active: true,
-              //   joinDate: "",
-              //   branchCode: "GNB01",
-              //   gender: "Male",
-              //   careOf: "",
-              // });
-
-              // console.log("users", users);
               axios
                 .post(`${baseURL}/add-new-gn-user`, {
                   fullName: user.fullName,
@@ -874,7 +785,7 @@
                   theme: "",
                   active: true,
                   joinDate: "",
-                  branchCode: user?.branch,
+                  branchCode: user?.branchCode,
                   gender: user.gender,
                   careOf: user.father,
                 })
@@ -902,6 +813,27 @@
             console.log("err", err);
           }
           // Final validation before submission
+        };
+
+        const [branches, setBranches] = useState([]);
+
+        const fetchBranches = () => {
+          fetch(`${baseURL}/get-all-branches`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({}),
+          })
+            .then((response) => response.json()) // Parse the JSON
+            .then((data) => {
+              setBranches(data);
+            })
+            .catch((error) => {
+              console.error("Error loading JSON:", error);
+              setBranches([]);
+            });
         };
 
         useEffect(() => {
@@ -1024,7 +956,7 @@
                       onClick={() => {
                         // alert("Contact administrator");
                         setShowList(false);
-                        // setNewUserModal(true);
+                        fetchBranches();
                       }}
                       variant="contained"
                       color="primary"
@@ -1385,12 +1317,15 @@
                     <InputLabel>Branch</InputLabel>
                     <Select
                       label="Branch"
-                      name="branch"
-                      value={user.branch}
+                      name="branchCode"
+                      value={user.branchCode}
                       onChange={handleChange}
                     >
                       {branches.map((branch) => (
-                        <MenuItem key={branch?.code} value={branch?.code}>
+                        <MenuItem
+                          key={branch?.branchCode}
+                          value={branch?.branchCode}
+                        >
                           {branch?.name}
                         </MenuItem>
                       ))}
@@ -4294,7 +4229,442 @@
       };
 
       const Branches = () => {
-        return <div>Branches</div>;
+        const [checked, setChecked] = useState(false);
+        const [submitted, setSubmitted] = useState(true);
+        const [familyMembers, setFamilyMembers] = useState(0);
+        const [listData, setListData] = useState([]);
+        const [showList, setShowList] = useState(true);
+        const [loading, setLoading] = useState(false);
+        const [selectedStudent, setSelectedStudent] = React.useState(null);
+        // const [newUserModal, setNewUserModal] = React.useState(false);
+        const [openStudentDetailsModal, setOpenStudentDetailsModal] =
+          React.useState(false);
+        const [openNewBranchModal, setOpenNewBranchModal] =
+          React.useState(false);
+
+        const [branch, setBranch] = useState({
+          // name: "",
+          // address: "",
+          // pincode: "",
+          // location: "",
+          // status: "",
+          // image: "URL",
+        });
+
+        const [errors, setErrors] = useState({});
+
+        const validateField = (name, value) => {
+          console.log("name, value", name, value);
+          const newErrors = { ...errors };
+
+          switch (name) {
+            case "name":
+              if (!value) newErrors.userId = "Name is required.";
+              else delete newErrors.userId;
+              break;
+
+            case "address":
+              if (!value) newErrors.address = "address is required.";
+              else delete newErrors.address;
+              break;
+            case "pincode":
+              if (!value) newErrors.pincode = "pincode is required.";
+              else delete newErrors.pincode;
+              break;
+            case "location":
+              if (!value) newErrors.location = "location is required.";
+              else delete newErrors.location;
+              break;
+            case "status":
+              if (!value) newErrors.status = "status is required.";
+              else delete newErrors.status;
+              break;
+
+            default:
+              break;
+          }
+
+          console.log("newErrorslast", newErrors);
+
+          setErrors(newErrors);
+        };
+
+        const handleChange = (event) => {
+          const { name, value } = event.target;
+          setBranch({
+            ...branch,
+            [name]: value,
+          });
+
+          validateField(name, value); // validate each field on change
+        };
+
+        const handleNewBranchSubmit = (event) => {
+          event.preventDefault();
+
+          console.log("branch", branch.name);
+
+          if (
+            !branch.name ||
+            !branch.address ||
+            !branch.pincode ||
+            !branch.status ||
+            !branch.location
+          ) {
+            return alert("some fields are missing");
+          }
+          console.log("errors", errors);
+          try {
+            if (
+              Object.keys(errors).length === 0
+              // &&
+              // Object.values(user).every((val) => val !== "")
+            ) {
+              axios
+                .post(`${baseURL}/add-new-gn-branch`, {
+                  name: branch.name,
+                  address: branch.address,
+                  pincode: branch.pincode,
+                  location: branch.location,
+                  status: branch.status,
+                  image: "URL",
+                })
+
+                .then((res) => {
+                  fetchBranches();
+                })
+                .catch((error) => {
+                  alert(error.message);
+                  console.log("Error occurred:", error);
+                });
+
+              setOpenNewBranchModal(false);
+            } else {
+              alert("some fileds missing");
+            }
+          } catch (err) {
+            console.log("err", err);
+          }
+          // Final validation before submission
+        };
+
+        const fetchBranches = () => {
+          fetch(`${baseURL}/get-all-branches`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({}),
+          })
+            .then((response) => response.json()) // Parse the JSON
+            .then((data) => {
+              setListData(data);
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.error("Error loading JSON:", error);
+              setLoading(false);
+            });
+        };
+
+        useEffect(() => {
+          setLoading(true);
+          try {
+            fetchBranches();
+          } catch (er) {
+            setLoading(false);
+            console.log("er", er);
+          }
+        }, []);
+
+        return (
+          <div
+            style={{
+              overflowX: "scroll",
+            }}
+          >
+            {loading ? (
+              <div className="loader-container">
+                <div className="loader"></div>
+              </div>
+            ) : showList ? (
+              <div className="form-container">
+                <Box sx={{ p: 0, m: 0, width: "100%" }} className="box">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      // mb: 3,
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{ fontWeight: "bold", fontSize: "1.25rem" }} // Reduced font size
+                    >
+                      Branches
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "right",
+                      alignItems: "center",
+                      mb: 1,
+                    }}
+                  >
+                    <Button
+                      onClick={() => setOpenNewBranchModal(true)}
+                      variant="contained"
+                      color="primary"
+                    >
+                      New Branch
+                    </Button>
+                  </Box>
+
+                  <Box sx={{ width: "100%", overflowX: "auto" }}>
+                    <TableContainer sx={{ minWidth: "250px" }}>
+                      <Table sx={{}}>
+                        <TableHead>
+                          <TableRow sx={{ bgcolor: "primary.main" }}>
+                            <TableCell
+                              sx={{
+                                color: "white",
+                                fontWeight: "bold",
+                                backgroundColor: "primary.main",
+                                position: "sticky",
+                                left: 0,
+                                zIndex: 1,
+                              }}
+                            >
+                              Code
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Name
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              address
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              pincode
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              status
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {listData.map((user, ind) => (
+                            <TableRow
+                              key={ind}
+                              onClick={() => {
+                                setSelectedStudent(user);
+                              }}
+                              sx={{
+                                "&:nth-of-type(odd)": { bgcolor: "grey.50" },
+                                "&:hover": { bgcolor: "grey.100" },
+                              }}
+                            >
+                              <TableCell
+                                sx={{
+                                  color: "white",
+                                  fontWeight: "bold",
+                                  position: "sticky",
+                                  left: 0,
+                                  backgroundColor: user?.enrolled
+                                    ? "lightblue"
+                                    : "lightgreen",
+                                  zIndex: 1,
+                                }}
+                              >
+                                {user?.branchCode ?? "-"}
+                              </TableCell>
+                              <TableCell>{user?.name ?? "-"}</TableCell>
+
+                              <TableCell>{user?.address ?? "-"}</TableCell>
+                              <TableCell>{user?.pincode ?? "-"}</TableCell>
+                              <TableCell>{user?.status ?? "-"}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Box>
+
+                  <Box sx={{ mt: 3, textAlign: "center" }}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ fontSize: "0.875rem" }}
+                      onClick={() => {
+                        setShowList(false);
+                      }}
+                    >
+                      This feature enabled for Admins olny
+                    </Typography>
+                  </Box>
+                </Box>
+              </div>
+            ) : (
+              <Box
+                sx={{
+                  maxWidth: "500px",
+                  margin: "auto",
+                  padding: "20px",
+                  backgroundColor: "#fff",
+                  borderRadius: "8px",
+                  boxShadow: 2,
+                }}
+              ></Box>
+            )}
+
+            {/* Modal for new branch*/}
+
+            <Dialog
+              open={openNewBranchModal}
+              onClose={() => setOpenNewBranchModal(false)}
+              fullWidth
+              maxWidth="sm"
+              sx={{
+                fontSize: "6px",
+                "& .MuiDialogContent-root": {
+                  padding: "16px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center", // Vertical centering
+                },
+                "& .MuiDialogTitle-root": {
+                  backgroundColor: "#1976d2",
+                  color: "white",
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  maxWidth: "600px",
+                  margin: "auto",
+                  padding: "20px",
+                  backgroundColor: "#fff",
+                  borderRadius: "8px",
+                  boxShadow: 2,
+                }}
+              >
+                <Typography variant="h5" textAlign="center" mb={2}>
+                  New Branch
+                </Typography>
+                <form onSubmit={handleNewBranchSubmit}>
+                  {/* Branch Name */}
+                  <TextField
+                    label="Branch Name"
+                    name="name"
+                    value={branch.name}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.name)}
+                    helperText={errors.name}
+                  />
+
+                  {/* Branch Address */}
+                  <TextField
+                    label="Branch address"
+                    name="address"
+                    value={branch.address}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.address)}
+                    helperText={errors.address}
+                  />
+
+                  {/* Pincode */}
+                  <TextField
+                    label="Pincode"
+                    name="pincode"
+                    type="text"
+                    value={branch.pincode}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.pincode)}
+                    helperText={errors.pincode}
+                  />
+
+                  {/* Status Selection */}
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel>Status</InputLabel>
+                    <Select
+                      label="Status"
+                      name="status"
+                      value={branch.status}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="Male">Active</MenuItem>
+                      <MenuItem value="Female">Opening Soon</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                  {/* Location */}
+                  <TextField
+                    label="Location"
+                    name="location"
+                    placeholder="latitude,longitude"
+                    type="text"
+                    value={branch.location}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.location)}
+                    helperText={errors.location}
+                  />
+
+                  {/* Buttons */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: { xs: "column", sm: "row" },
+                      gap: 2,
+                      mt: 3,
+                    }}
+                  >
+                    <Button
+                      onClick={() => setOpenNewBranchModal(false)}
+                      variant="outlined"
+                      color="secondary"
+                      fullWidth
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      //  onClick={() => {}}
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+                </form>
+              </Box>
+            </Dialog>
+          </div>
+        );
       };
 
       const leaderboardData = [
@@ -7316,7 +7686,7 @@
           useState(false);
         const [interestForm, setInterestForm] = useState(false);
         // const [bodyarea, setBodyarea] = useState("SalesReports");
-        // const [bodyarea, setBodyarea] = useState("SalesBoard");
+        // const [bodyarea, setBodyarea] = useState("Branches");
         const [bodyarea, setBodyarea] = useState("Dashboard");
         const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
