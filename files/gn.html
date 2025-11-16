@@ -4723,13 +4723,7 @@
       };
 
       const HomePage = () => {
-        // let baseURL = "https://zphs-school.vercel.app";
-        // // let baseURL = "http://localhost:1954";
-
         const AllLoans = () => {
-          // // let baseURL = "http://localhost:1954";
-          // // let baseURL = "https://www.zphskunur.in";
-          // let baseURL = "https://zphs-school.vercel.app";
           const [checked, setChecked] = useState(false);
           const [submitted, setSubmitted] = useState(true);
           const [familyMembers, setFamilyMembers] = useState(0);
@@ -4937,7 +4931,9 @@
             console.log("listData", listData);
             return listData.filter((user) => {
               return (
-                user?.status.toLowerCase().includes(roleFilter.toLowerCase()) &&
+                String(user?.loanStatus)
+                  .toLowerCase()
+                  .includes(roleFilter.toLowerCase()) &&
                 user?.fullName
                   .toLowerCase()
                   .includes(searchFilter.toLowerCase())
@@ -5229,7 +5225,7 @@
                                 </TableCell>
                                 <TableCell>{loan?.fullName ?? "-"}</TableCell>
                                 {/* <TableCell>{loan?.father}</TableCell> */}
-                                <TableCell>{loan?.status ?? "-"}</TableCell>
+                                <TableCell>{loan?.loanStatus ?? "-"}</TableCell>
                                 <TableCell>{loan?.mobile ?? "-"}</TableCell>
                                 <TableCell>{loan?.notes ?? "-"}</TableCell>
                                 {/*} <TableCell>{loan?.email ?? "-"}</TableCell>
@@ -5510,7 +5506,8 @@
                           fontSize: { xs: "12px", md: "15px", lg: "18px" },
                         }}
                       >
-                        <strong>Status:</strong> {selectedLoan?.status ?? "-"}
+                        <strong>Status:</strong>{" "}
+                        {selectedLoan?.loanStatus ?? "-"}
                       </Typography>
 
                       <Typography
