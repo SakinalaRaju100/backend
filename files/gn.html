@@ -4721,275 +4721,278 @@
         );
       };
 
-      const AllLoans = () => {
-        const [checked, setChecked] = useState(false);
-        const [submitted, setSubmitted] = useState(true);
-        const [familyMembers, setFamilyMembers] = useState(0);
-        const [listData, setListData] = useState([]);
-        const [showList, setShowList] = useState(true);
-        const [loading, setLoading] = useState(false);
-        const [selectedLoan, setSelectedLoan] = React.useState(null);
-        // const [newUserModal, setNewUserModal] = React.useState(false);
-        const [openStudentDetailsModal, setOpenStudentDetailsModal] =
-          React.useState(false);
+      const HomePage = () => {
+        const AllLoans = () => {
+          const [checked, setChecked] = useState(false);
+          const [submitted, setSubmitted] = useState(true);
+          const [familyMembers, setFamilyMembers] = useState(0);
+          const [listData, setListData] = useState([]);
+          const [showList, setShowList] = useState(true);
+          const [loading, setLoading] = useState(false);
+          const [selectedLoan, setSelectedLoan] = React.useState(null);
+          // const [newUserModal, setNewUserModal] = React.useState(false);
+          const [openStudentDetailsModal, setOpenStudentDetailsModal] =
+            React.useState(false);
 
-        const [user, setUser] = useState({
-          fullName: "",
-          gender: "",
-          father: "",
-          email: "",
-          phone: "",
-          profession: "",
-          branch: "",
-          role: "",
-        });
-
-        const [errors, setErrors] = useState({});
-
-        const validateField = (name, value) => {
-          const newErrors = { ...errors };
-
-          switch (name) {
-            case "userId":
-              if (!value) newErrors.userId = "user ID is required.";
-              else delete newErrors.userId;
-              break;
-            // case "surname":
-            //   if (!value) newErrors.surname = "Surname is required.";
-            //   else delete newErrors.surname;
-            //   break;
-            case "fullName":
-              if (!value) newErrors.fullName = "Name is required.";
-              else delete newErrors.fullName;
-              break;
-            case "email":
-              if (!value) {
-                newErrors.email = "Email is required.";
-              } else if (!/\S+@\S+\.\S+/.test(value)) {
-                newErrors.email = "Email is invalid.";
-              } else {
-                delete newErrors.email;
-              }
-              break;
-            // case "phone":
-            //   if (!value) {
-            //     newErrors.phone = "Phone number is required.";
-            //   } else if (!/^\d{10}$/.test(value)) {
-            //     newErrors.phone = "Phone number must be 10 digits.";
-            //   } else {
-            //     delete newErrors.phone;
-            //   }
-            //   break;
-            // case "address":
-            //   if (!value) newErrors.address = "Address is required.";
-            //   else delete newErrors.address;
-            //   break;
-            //   case "profession":
-            //     if (!value) newErrors.profession = "Profession is required.";
-            //     else delete newErrors.profession;
-            //     break;
-            // case "father":
-            //   if (!value) newErrors.father = "Gardian name is required.";
-            //   else delete newErrors.father;
-            //   break;
-            // case "profession":
-            //   if (!value)
-            //     newErrors.profession = "profession's name is required.";
-            //   else delete newErrors.profession;
-            //   break;
-            // case "role":
-            //   if (!value) newErrors.role = "Batch Year is required.";
-            //   else if (!/^\d{4}$/.test(value)) {
-            //     newErrors.role = "Batch Year must be a 4-digit year.";
-            //   } else {
-            //     delete newErrors.role;
-            //   }
-            //   break;
-            default:
-              break;
-          }
-
-          setErrors(newErrors);
-        };
-
-        const handleChange = (event) => {
-          const { name, value } = event.target;
-          setUser({
-            ...user,
-            [name]: value,
+          const [user, setUser] = useState({
+            fullName: "",
+            gender: "",
+            father: "",
+            email: "",
+            phone: "",
+            profession: "",
+            branch: "",
+            role: "",
           });
 
-          validateField(name, value); // validate each field on change
-        };
+          const [errors, setErrors] = useState({});
 
-        const handleSubmit = (event) => {
-          // not using as of now
-          event.preventDefault();
-          console.log("user", user);
-          console.log("errors", errors);
-          try {
-            if (
-              Object.keys(errors).length === 0
-              // &&
-              // Object.values(user).every((val) => val !== "")
-            ) {
-              users.push({
-                ...user,
-                roleId: 0,
-                theme: "",
-                active: true,
-                joinDate: "",
-                branchCode: "GNB01",
-                gender: "Male",
-                careOf: "",
-              });
+          const validateField = (name, value) => {
+            const newErrors = { ...errors };
 
-              console.log("users", users);
-              // axios
-              //   .post(`${baseURL}/new-enroll`, user)
-
-              //   .then((res) => {
-              //     alert(res.data.message);
-              //     if (res.data.message != "Same details enrolled") {
-              //       setShowList(true);
-              //       fetchListDate();
-              //     }
-              //   })
-              //   .catch((error) => {
-              //     // setShowList(true);
-              //     // setShowList(false);
-              //     // alert("catch", error);
-              //     alert(error.message);
-              //     console.log("Error occurred:", error);
-              //   });
-
-              // setShowList(true);
-            } else {
-              alert("some fileds missing");
+            switch (name) {
+              case "userId":
+                if (!value) newErrors.userId = "user ID is required.";
+                else delete newErrors.userId;
+                break;
+              // case "surname":
+              //   if (!value) newErrors.surname = "Surname is required.";
+              //   else delete newErrors.surname;
+              //   break;
+              case "fullName":
+                if (!value) newErrors.fullName = "Name is required.";
+                else delete newErrors.fullName;
+                break;
+              case "email":
+                if (!value) {
+                  newErrors.email = "Email is required.";
+                } else if (!/\S+@\S+\.\S+/.test(value)) {
+                  newErrors.email = "Email is invalid.";
+                } else {
+                  delete newErrors.email;
+                }
+                break;
+              // case "phone":
+              //   if (!value) {
+              //     newErrors.phone = "Phone number is required.";
+              //   } else if (!/^\d{10}$/.test(value)) {
+              //     newErrors.phone = "Phone number must be 10 digits.";
+              //   } else {
+              //     delete newErrors.phone;
+              //   }
+              //   break;
+              // case "address":
+              //   if (!value) newErrors.address = "Address is required.";
+              //   else delete newErrors.address;
+              //   break;
+              //   case "profession":
+              //     if (!value) newErrors.profession = "Profession is required.";
+              //     else delete newErrors.profession;
+              //     break;
+              // case "father":
+              //   if (!value) newErrors.father = "Gardian name is required.";
+              //   else delete newErrors.father;
+              //   break;
+              // case "profession":
+              //   if (!value)
+              //     newErrors.profession = "profession's name is required.";
+              //   else delete newErrors.profession;
+              //   break;
+              // case "role":
+              //   if (!value) newErrors.role = "Batch Year is required.";
+              //   else if (!/^\d{4}$/.test(value)) {
+              //     newErrors.role = "Batch Year must be a 4-digit year.";
+              //   } else {
+              //     delete newErrors.role;
+              //   }
+              //   break;
+              default:
+                break;
             }
-          } catch (err) {
-            console.log("err", err);
-          }
-          // Final validation before submission
-        };
 
-        useEffect(() => {
-          setLoading(true);
-          try {
-            fetch(`${baseURL}/gn-loans`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                goldnoontoken: localStorage.getItem("goldnoontoken"),
-              },
-              credentials: "include",
-              body: JSON.stringify({}),
-            })
-              .then((response) => response.json()) // Parse the JSON
-              .then((data) => {
-                setListData(data?.data ?? []);
-                setLoading(false);
+            setErrors(newErrors);
+          };
+
+          const handleChange = (event) => {
+            const { name, value } = event.target;
+            setUser({
+              ...user,
+              [name]: value,
+            });
+
+            validateField(name, value); // validate each field on change
+          };
+
+          const handleSubmit = (event) => {
+            // not using as of now
+            event.preventDefault();
+            console.log("user", user);
+            console.log("errors", errors);
+            try {
+              if (
+                Object.keys(errors).length === 0
+                // &&
+                // Object.values(user).every((val) => val !== "")
+              ) {
+                users.push({
+                  ...user,
+                  roleId: 0,
+                  theme: "",
+                  active: true,
+                  joinDate: "",
+                  branchCode: "GNB01",
+                  gender: "Male",
+                  careOf: "",
+                });
+
+                console.log("users", users);
+                // axios
+                //   .post(`${baseURL}/new-enroll`, user)
+
+                //   .then((res) => {
+                //     alert(res.data.message);
+                //     if (res.data.message != "Same details enrolled") {
+                //       setShowList(true);
+                //       fetchListDate();
+                //     }
+                //   })
+                //   .catch((error) => {
+                //     // setShowList(true);
+                //     // setShowList(false);
+                //     // alert("catch", error);
+                //     alert(error.message);
+                //     console.log("Error occurred:", error);
+                //   });
+
+                // setShowList(true);
+              } else {
+                alert("some fileds missing");
+              }
+            } catch (err) {
+              console.log("err", err);
+            }
+            // Final validation before submission
+          };
+
+          useEffect(() => {
+            setLoading(true);
+            try {
+              fetch(`${baseURL}/gn-loans`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  goldnoontoken: localStorage.getItem("goldnoontoken"),
+                },
+                credentials: "include",
+                body: JSON.stringify({}),
               })
-              .catch((error) => {
-                console.error("Error loading JSON:", error);
-                setLoading(false);
-              });
-          } catch (er) {
-            setLoading(false);
-            console.log("er", er);
-            alert("catch");
-          }
-        }, []);
-        const fetchListDate = () => {
-          try {
-            fetch(`${baseURL}/gn-loans`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                goldnoontoken: localStorage.getItem("goldnoontoken"),
-              },
-              credentials: "include",
-              body: JSON.stringify({}),
-            })
-              .then((response) => response.json()) // Parse the JSON
-              .then((data) => {
-                setListData(data?.data ?? []);
+                .then((response) => response.json()) // Parse the JSON
+                .then((data) => {
+                  setListData(data?.data ?? []);
+                  setLoading(false);
+                })
+                .catch((error) => {
+                  console.error("Error loading JSON:", error);
+                  setLoading(false);
+                });
+            } catch (er) {
+              setLoading(false);
+              console.log("er", er);
+              alert("catch");
+            }
+          }, []);
+          const fetchListDate = () => {
+            try {
+              fetch(`${baseURL}/gn-loans`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  goldnoontoken: localStorage.getItem("goldnoontoken"),
+                },
+                credentials: "include",
+                body: JSON.stringify({}),
               })
-              .catch((error) => console.error("Error loading JSON:", error));
-          } catch (er) {
-            console.log("er", er);
-            alert("catch");
-          }
-        };
+                .then((response) => response.json()) // Parse the JSON
+                .then((data) => {
+                  setListData(data?.data ?? []);
+                })
+                .catch((error) => console.error("Error loading JSON:", error));
+            } catch (er) {
+              console.log("er", er);
+              alert("catch");
+            }
+          };
 
-        const [searchFilter, setSearchFilter] = React.useState("");
+          const [searchFilter, setSearchFilter] = React.useState("");
 
-        const [roleFilter, setRoleFilter] = React.useState("");
+          const [roleFilter, setRoleFilter] = React.useState("");
 
-        const getFilteredlist = () => {
-          console.log("listData", listData);
-          return listData.filter((user) => {
-            return (
-              String(user?.loanStatus)
-                .toLowerCase()
-                .includes(roleFilter.toLowerCase()) &&
-              user?.fullName.toLowerCase().includes(searchFilter.toLowerCase())
-            );
-          });
-        };
+          const getFilteredlist = () => {
+            console.log("listData", listData);
+            return listData.filter((user) => {
+              return (
+                String(user?.loanStatus)
+                  .toLowerCase()
+                  .includes(roleFilter.toLowerCase()) &&
+                user?.fullName
+                  .toLowerCase()
+                  .includes(searchFilter.toLowerCase())
+              );
+            });
+          };
 
-        const clearStudentFilters = () => {
-          setSearchFilter("");
-          setRoleFilter("");
-        };
+          const clearStudentFilters = () => {
+            setSearchFilter("");
+            setRoleFilter("");
+          };
 
-        return (
-          <div
-            style={{
-              overflowX: "scroll",
-            }}
-          >
-            {loading ? (
-              <div className="loader-container">
-                <div className="loader"></div>
-              </div>
-            ) : (
-              <div className="form-container">
-                <Box sx={{ p: 0, m: 0, width: "100%" }} className="box">
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      // mb: 3,
-                    }}
-                  >
-                    <Typography
-                      variant="h5"
-                      gutterBottom
-                      sx={{ fontWeight: "bold", fontSize: "1.25rem" }} // Reduced font size
+          return (
+            <div
+              style={{
+                overflowX: "scroll",
+              }}
+            >
+              {loading ? (
+                <div className="loader-container">
+                  <div className="loader"></div>
+                </div>
+              ) : (
+                <div className="form-container">
+                  <Box sx={{ p: 0, m: 0, width: "100%" }} className="box">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        // mb: 3,
+                      }}
                     >
-                      All Loans
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      // mb: 3,
-                    }}
-                  >
-                    <Typography
-                      variant="h5"
-                      gutterBottom
-                      sx={{ fontWeight: "bold", fontSize: "1rem" }} // Reduced font size
+                      <Typography
+                        variant="h5"
+                        gutterBottom
+                        sx={{ fontWeight: "bold", fontSize: "1.25rem" }} // Reduced font size
+                      >
+                        All Loans
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        // mb: 3,
+                      }}
                     >
-                      filtered :{" "}
-                      {getFilteredlist().reduce((acc, el) => acc + 1, 0)} /{" "}
-                      {listData.length}
-                    </Typography>
-                    {/*<Button
+                      <Typography
+                        variant="h5"
+                        gutterBottom
+                        sx={{ fontWeight: "bold", fontSize: "1rem" }} // Reduced font size
+                      >
+                        filtered :{" "}
+                        {getFilteredlist().reduce((acc, el) => acc + 1, 0)} /{" "}
+                        {listData.length}
+                      </Typography>
+                      {/*<Button
                                  onClick={() => {
                                    // alert("Contact administrator");
                                    // setShowList(false);
@@ -5003,179 +5006,179 @@
                                >
                                  apply Loan
                                </Button>*/}
-                  </Box>
+                    </Box>
 
-                  {/* New user Button */}
-                  <Box sx={{ mb: 3, textAlign: "right" }}></Box>
+                    {/* New user Button */}
+                    <Box sx={{ mb: 3, textAlign: "right" }}></Box>
 
-                  {/* Filters Section */}
+                    {/* Filters Section */}
 
-                  <Box sx={{ mb: 3 }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 2,
-                        flexWrap: "wrap",
-                        mb: 2,
-                      }}
-                    >
-                      <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
-                        <Typography
-                          variant="subtitle2"
-                          gutterBottom
-                          sx={{ fontSize: "0.875rem" }}
-                        ></Typography>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            bgcolor: "grey.100",
-                            borderRadius: 1,
-                            px: 2,
-                          }}
-                        >
-                          <span
-                            className="material-icons"
-                            sx={{ color: "grey.500" }}
-                          >
-                            school
-                          </span>
-                          <select
-                            value={roleFilter}
-                            onChange={(e) => {
-                              // console.log("roleFilter", e.target.value);
-                              setRoleFilter(e.target.value);
-                              setSearchFilter("");
-                              getFilteredlist();
-                            }}
-                            style={{
-                              border: "none",
-                              outline: "none",
-                              padding: "8px",
-                              backgroundColor: "transparent",
-                              width: "100%",
+                    <Box sx={{ mb: 3 }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: 2,
+                          flexWrap: "wrap",
+                          mb: 2,
+                        }}
+                      >
+                        <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
+                          <Typography
+                            variant="subtitle2"
+                            gutterBottom
+                            sx={{ fontSize: "0.875rem" }}
+                          ></Typography>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              bgcolor: "grey.100",
+                              borderRadius: 1,
+                              px: 2,
                             }}
                           >
-                            <option value="">All</option>
-                            {[
-                              "Progress",
-                              "Verification",
-                              "Completed",
-                              "Rejected",
-                              "Month",
-                              "Day",
-                              "Week",
-                              "Year",
-                            ].map((role, ri) => (
-                              <option key={ri + role} value={role}>
-                                {role}
-                              </option>
-                            ))}
-                          </select>
-                        </Box>
-                      </Box>
-                      <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
-                        <Typography
-                          variant="subtitle2"
-                          gutterBottom
-                          sx={{ fontSize: "0.875rem" }}
-                        ></Typography>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            bgcolor: "grey.100",
-                            borderRadius: 1,
-                            px: 2,
-                          }}
-                        >
-                          <span
-                            className="material-icons"
-                            sx={{ color: "grey.500" }}
-                          >
-                            search
-                          </span>
-                          <input
-                            type="text"
-                            // value={searchFilter}
-                            // onChange={(e) => setSearchFilter(e.target.value)}
-                            value={searchFilter}
-                            onChange={(e) => {
-                              setSearchFilter(e.target.value);
-                              getFilteredlist();
-                              // if (e.target.value.length > 2) {
-                              //   // setSearchFilter(e.target.value);
-                              // } else {
-                              //   setSearchFilter("");
-                              // }
-                            }}
-                            placeholder="Filter by Name, Loan ID, mobile or Status..."
-                            style={{
-                              border: "none",
-                              outline: "none",
-                              padding: "8px",
-                              backgroundColor: "transparent",
-                              width: "100%",
-                            }}
-                          />
-                          {searchFilter && (
-                            <IconButton
-                              onClick={() => {
-                                setSearchFilter("");
-                              }}
-                              sx={{ ml: 1 }}
+                            <span
+                              className="material-icons"
+                              sx={{ color: "grey.500" }}
                             >
-                              <span
-                                className="material-icons"
-                                style={{ color: "grey.500" }}
+                              school
+                            </span>
+                            <select
+                              value={roleFilter}
+                              onChange={(e) => {
+                                // console.log("roleFilter", e.target.value);
+                                setRoleFilter(e.target.value);
+                                setSearchFilter("");
+                                getFilteredlist();
+                              }}
+                              style={{
+                                border: "none",
+                                outline: "none",
+                                padding: "8px",
+                                backgroundColor: "transparent",
+                                width: "100%",
+                              }}
+                            >
+                              <option value="">All</option>
+                              {[
+                                "Progress",
+                                "Verification",
+                                "Completed",
+                                "Rejected",
+                                "Month",
+                                "Day",
+                                "Week",
+                                "Year",
+                              ].map((role, ri) => (
+                                <option key={ri + role} value={role}>
+                                  {role}
+                                </option>
+                              ))}
+                            </select>
+                          </Box>
+                        </Box>
+                        <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
+                          <Typography
+                            variant="subtitle2"
+                            gutterBottom
+                            sx={{ fontSize: "0.875rem" }}
+                          ></Typography>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              bgcolor: "grey.100",
+                              borderRadius: 1,
+                              px: 2,
+                            }}
+                          >
+                            <span
+                              className="material-icons"
+                              sx={{ color: "grey.500" }}
+                            >
+                              search
+                            </span>
+                            <input
+                              type="text"
+                              // value={searchFilter}
+                              // onChange={(e) => setSearchFilter(e.target.value)}
+                              value={searchFilter}
+                              onChange={(e) => {
+                                setSearchFilter(e.target.value);
+                                getFilteredlist();
+                                // if (e.target.value.length > 2) {
+                                //   // setSearchFilter(e.target.value);
+                                // } else {
+                                //   setSearchFilter("");
+                                // }
+                              }}
+                              placeholder="Filter by Name, Loan ID, mobile or Status..."
+                              style={{
+                                border: "none",
+                                outline: "none",
+                                padding: "8px",
+                                backgroundColor: "transparent",
+                                width: "100%",
+                              }}
+                            />
+                            {searchFilter && (
+                              <IconButton
+                                onClick={() => {
+                                  setSearchFilter("");
+                                }}
+                                sx={{ ml: 1 }}
                               >
-                                clear
-                              </span>
-                            </IconButton>
-                          )}
+                                <span
+                                  className="material-icons"
+                                  style={{ color: "grey.500" }}
+                                >
+                                  clear
+                                </span>
+                              </IconButton>
+                            )}
+                          </Box>
                         </Box>
                       </Box>
                     </Box>
-                  </Box>
 
-                  <Box sx={{ width: "100%", overflowX: "auto" }}>
-                    <TableContainer sx={{ minWidth: "250px" }}>
-                      <Table sx={{}}>
-                        <TableHead>
-                          <TableRow sx={{ bgcolor: "primary.main" }}>
-                            <TableCell
-                              sx={{
-                                color: "white",
-                                fontWeight: "bold",
-                                backgroundColor: "primary.main",
-                                position: "sticky",
-                                left: 0,
-                                zIndex: 1,
-                              }}
-                            >
-                              LoanID
-                            </TableCell>
+                    <Box sx={{ width: "100%", overflowX: "auto" }}>
+                      <TableContainer sx={{ minWidth: "250px" }}>
+                        <Table sx={{}}>
+                          <TableHead>
+                            <TableRow sx={{ bgcolor: "primary.main" }}>
+                              <TableCell
+                                sx={{
+                                  color: "white",
+                                  fontWeight: "bold",
+                                  backgroundColor: "primary.main",
+                                  position: "sticky",
+                                  left: 0,
+                                  zIndex: 1,
+                                }}
+                              >
+                                LoanID
+                              </TableCell>
 
-                            <TableCell
-                              sx={{ color: "white", fontWeight: "bold" }}
-                            >
-                              Full Name
-                            </TableCell>
+                              <TableCell
+                                sx={{ color: "white", fontWeight: "bold" }}
+                              >
+                                Full Name
+                              </TableCell>
 
-                            <TableCell
-                              sx={{ color: "white", fontWeight: "bold" }}
-                            >
-                              status
-                            </TableCell>
+                              <TableCell
+                                sx={{ color: "white", fontWeight: "bold" }}
+                              >
+                                status
+                              </TableCell>
 
-                            <TableCell
-                              sx={{ color: "white", fontWeight: "bold" }}
-                            >
-                              mobile
-                            </TableCell>
+                              <TableCell
+                                sx={{ color: "white", fontWeight: "bold" }}
+                              >
+                                mobile
+                              </TableCell>
 
-                            {/*}
+                              {/*}
 
                                      <TableCell
                                        sx={{ color: "white", fontWeight: "bold" }}
@@ -5183,1084 +5186,1087 @@
                                        Sales Member
                                      </TableCell>*/}
 
-                            <TableCell
-                              sx={{ color: "white", fontWeight: "bold" }}
-                            >
-                              notes
-                            </TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {/* {allLoans.map((loan, ind) => (*/}
-                          {getFilteredlist().map((loan, ind) => (
-                            <TableRow
-                              key={ind}
-                              onClick={() => {
-                                setSelectedLoan(loan);
-                                setOpenStudentDetailsModal(true);
-                                // setChecked(loan?.enrolled);
-                                // setFamilyMembers(loan?.familyMembers);
-                              }}
-                              sx={{
-                                "&:nth-of-type(odd)": { bgcolor: "grey.50" },
-                                "&:hover": { bgcolor: "grey.100" },
-                              }}
-                            >
                               <TableCell
+                                sx={{ color: "white", fontWeight: "bold" }}
+                              >
+                                notes
+                              </TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {/* {allLoans.map((loan, ind) => (*/}
+                            {getFilteredlist().map((loan, ind) => (
+                              <TableRow
+                                key={ind}
+                                onClick={() => {
+                                  setSelectedLoan(loan);
+                                  setOpenStudentDetailsModal(true);
+                                  // setChecked(loan?.enrolled);
+                                  // setFamilyMembers(loan?.familyMembers);
+                                }}
                                 sx={{
-                                  color: "white",
-                                  fontWeight: "bold",
-                                  position: "sticky",
-                                  left: 0,
-                                  backgroundColor: loan?.enrolled
-                                    ? "lightblue"
-                                    : "lightgreen",
-                                  zIndex: 1,
+                                  "&:nth-of-type(odd)": { bgcolor: "grey.50" },
+                                  "&:hover": { bgcolor: "grey.100" },
                                 }}
                               >
-                                {loan?.loanId ?? "-"}
-                              </TableCell>
-                              <TableCell>{loan?.fullName ?? "-"}</TableCell>
-                              {/* <TableCell>{loan?.father}</TableCell> */}
-                              <TableCell>{loan?.loanStatus ?? "-"}</TableCell>
-                              <TableCell>{loan?.mobile ?? "-"}</TableCell>
-                              <TableCell>{loan?.notes ?? "-"}</TableCell>
-                              {/*} <TableCell>{loan?.email ?? "-"}</TableCell>
+                                <TableCell
+                                  sx={{
+                                    color: "white",
+                                    fontWeight: "bold",
+                                    position: "sticky",
+                                    left: 0,
+                                    backgroundColor: loan?.enrolled
+                                      ? "lightblue"
+                                      : "lightgreen",
+                                    zIndex: 1,
+                                  }}
+                                >
+                                  {loan?.loanId ?? "-"}
+                                </TableCell>
+                                <TableCell>{loan?.fullName ?? "-"}</TableCell>
+                                {/* <TableCell>{loan?.father}</TableCell> */}
+                                <TableCell>{loan?.loanStatus ?? "-"}</TableCell>
+                                <TableCell>{loan?.mobile ?? "-"}</TableCell>
+                                <TableCell>{loan?.notes ?? "-"}</TableCell>
+                                {/*} <TableCell>{loan?.email ?? "-"}</TableCell>
                                        <TableCell>{loan?.address ?? "-"}</TableCell>*/}
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Box>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Box>
 
-                  <Box sx={{ mt: 3, textAlign: "center" }}>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ fontSize: "0.875rem" }}
-                      onClick={() => {
-                        // setShowList(false);
+                    <Box sx={{ mt: 3, textAlign: "center" }}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ fontSize: "0.875rem" }}
+                        onClick={() => {
+                          // setShowList(false);
+                        }}
+                      >
+                        For any updates, please contact the administration.
+                      </Typography>
+                    </Box>
+                  </Box>
+                </div>
+              )}
+
+              {/* modal for loan Details */}
+
+              {selectedLoan && (
+                <Dialog
+                  open={openStudentDetailsModal}
+                  onClose={() => setOpenStudentDetailsModal(false)}
+                  fullWidth
+                  maxWidth="sm"
+                  sx={{
+                    width: "100%",
+                    fontSize: "6px",
+                    "& .MuiDialogContent-root": {
+                      padding: "16px",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center", // Vertical centering
+                    },
+                    "& .MuiDialogTitle-root": {
+                      backgroundColor: "#1976d2",
+                      color: "white",
+                    },
+                  }}
+                >
+                  <Box sx={{ maxWidth: 400, margin: "auto", mt: 1, p: 3 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mb: 2,
                       }}
                     >
-                      For any updates, please contact the administration.
-                    </Typography>
-                  </Box>
-                </Box>
-              </div>
-            )}
-
-            {/* modal for loan Details */}
-
-            {selectedLoan && (
-              <Dialog
-                open={openStudentDetailsModal}
-                onClose={() => setOpenStudentDetailsModal(false)}
-                fullWidth
-                maxWidth="sm"
-                sx={{
-                  width: "100%",
-                  fontSize: "6px",
-                  "& .MuiDialogContent-root": {
-                    padding: "16px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center", // Vertical centering
-                  },
-                  "& .MuiDialogTitle-root": {
-                    backgroundColor: "#1976d2",
-                    color: "white",
-                  },
-                }}
-              >
-                <Box sx={{ maxWidth: 400, margin: "auto", mt: 1, p: 3 }}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      mb: 2,
-                    }}
-                  >
-                    <Typography
-                      variant="h5"
-                      gutterBottom
+                      <Typography
+                        variant="h5"
+                        gutterBottom
+                        sx={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          flex: 1,
+                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
+                        }}
+                      >
+                        Loan Details
+                      </Typography>
+                      <IconButton
+                        onClick={() => {
+                          fetchListDate();
+                          setOpenStudentDetailsModal(false);
+                        }}
+                      >
+                        <span className="material-icons">close</span>
+                      </IconButton>
+                    </Box>
+                    <Box
                       sx={{
-                        fontWeight: "bold",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
                         textAlign: "center",
-                        flex: 1,
+                        gap: 2,
                         fontSize: { xs: "12px", md: "15px", lg: "18px" },
                       }}
                     >
-                      Loan Details
-                    </Typography>
-                    <IconButton
-                      onClick={() => {
-                        fetchListDate();
-                        setOpenStudentDetailsModal(false);
-                      }}
-                    >
-                      <span className="material-icons">close</span>
-                    </IconButton>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      textAlign: "center",
-                      gap: 2,
-                      fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                    }}
-                  >
-                    <Typography>
-                      <strong>fullName:</strong> {selectedLoan.fullName}
-                    </Typography>
-                    <Typography>
-                      <strong>mobile:</strong> {selectedLoan.mobile}
-                    </Typography>
-                    <Typography>
-                      <strong>email:</strong> {selectedLoan.email}
-                    </Typography>
-                    <Typography>
-                      <strong>Hno:</strong> {selectedLoan.Hno}
-                    </Typography>
-                    <Typography>
-                      <strong>address:</strong> {selectedLoan.address}
-                    </Typography>
-                    <Typography>
-                      <strong>pincode:</strong> {selectedLoan.pincode}
-                    </Typography>
-                    <Typography>
-                      <strong>adhaarNumber:</strong> {selectedLoan.adhaarNumber}
-                    </Typography>
-                    <Typography>
-                      <strong>panNumber:</strong> {selectedLoan.panNumber}
-                    </Typography>
-                    <Typography>
-                      <strong>cbillScore:</strong> {selectedLoan.cbillScore}
-                    </Typography>
-                    <Typography>
-                      <strong>yourMOnthlyIncome:</strong>{" "}
-                      {selectedLoan.yourMOnthlyIncome}
-                    </Typography>
-                    <Typography>
-                      <strong>monthlExistingEmiAmount:</strong>{" "}
-                      {selectedLoan.monthlExistingEmiAmount}
-                    </Typography>
-                    <Typography>
-                      <strong>loanRequirement:</strong>{" "}
-                      {selectedLoan.loanRequirement}
-                    </Typography>
-                    <Typography>
-                      <strong>typeOfEmployment:</strong>{" "}
-                      {selectedLoan.typeOfEmployment}
-                    </Typography>
-                    <Typography>
-                      <strong>companyName:</strong> {selectedLoan.companyName}{" "}
-                    </Typography>
-                    <Typography>
-                      <strong>yearsOfExperience:</strong>{" "}
-                      {selectedLoan.yearsOfExperience}
-                    </Typography>
-                    <Typography>
-                      <strong>monthlySalary:</strong>{" "}
-                      {selectedLoan.monthlySalary}{" "}
-                    </Typography>
-                    <Typography>
-                      <strong>companyAddress:</strong>{" "}
-                      {selectedLoan.companyAddress}
-                    </Typography>
-                    <Typography>
-                      <strong>companyPincode:</strong>{" "}
-                      {selectedLoan.companyPincode}
-                    </Typography>
-                    <Typography>
-                      <strong>Mode of Salary Payment:</strong>{" "}
-                      {selectedLoan.modeOfSalary}
-                    </Typography>
+                      <Typography>
+                        <strong>fullName:</strong> {selectedLoan.fullName}
+                      </Typography>
+                      <Typography>
+                        <strong>mobile:</strong> {selectedLoan.mobile}
+                      </Typography>
+                      <Typography>
+                        <strong>email:</strong> {selectedLoan.email}
+                      </Typography>
+                      <Typography>
+                        <strong>Hno:</strong> {selectedLoan.Hno}
+                      </Typography>
+                      <Typography>
+                        <strong>address:</strong> {selectedLoan.address}
+                      </Typography>
+                      <Typography>
+                        <strong>pincode:</strong> {selectedLoan.pincode}
+                      </Typography>
+                      <Typography>
+                        <strong>adhaarNumber:</strong>{" "}
+                        {selectedLoan.adhaarNumber}
+                      </Typography>
+                      <Typography>
+                        <strong>panNumber:</strong> {selectedLoan.panNumber}
+                      </Typography>
+                      <Typography>
+                        <strong>cbillScore:</strong> {selectedLoan.cbillScore}
+                      </Typography>
+                      <Typography>
+                        <strong>yourMOnthlyIncome:</strong>{" "}
+                        {selectedLoan.yourMOnthlyIncome}
+                      </Typography>
+                      <Typography>
+                        <strong>monthlExistingEmiAmount:</strong>{" "}
+                        {selectedLoan.monthlExistingEmiAmount}
+                      </Typography>
+                      <Typography>
+                        <strong>loanRequirement:</strong>{" "}
+                        {selectedLoan.loanRequirement}
+                      </Typography>
+                      <Typography>
+                        <strong>typeOfEmployment:</strong>{" "}
+                        {selectedLoan.typeOfEmployment}
+                      </Typography>
+                      <Typography>
+                        <strong>companyName:</strong> {selectedLoan.companyName}{" "}
+                      </Typography>
+                      <Typography>
+                        <strong>yearsOfExperience:</strong>{" "}
+                        {selectedLoan.yearsOfExperience}
+                      </Typography>
+                      <Typography>
+                        <strong>monthlySalary:</strong>{" "}
+                        {selectedLoan.monthlySalary}{" "}
+                      </Typography>
+                      <Typography>
+                        <strong>companyAddress:</strong>{" "}
+                        {selectedLoan.companyAddress}
+                      </Typography>
+                      <Typography>
+                        <strong>companyPincode:</strong>{" "}
+                        {selectedLoan.companyPincode}
+                      </Typography>
+                      <Typography>
+                        <strong>Mode of Salary Payment:</strong>{" "}
+                        {selectedLoan.modeOfSalary}
+                      </Typography>
 
-                    {/*} <Typography>
+                      {/*} <Typography>
                             <strong>Income Proof:</strong>
                             <a href={selectedLoan.pan} target="_blank" rel="noreferrer">
                               {" "}
                               View pan
                             </a>
                           </Typography>*/}
-                    <Typography>
-                      <strong>Photo :</strong>
-                      <Box sx={{ mt: 2 }}>
-                        {selectedLoan?.photo && (
-                          <img
-                            src={selectedLoan?.photo}
-                            alt="PAN"
-                            width="200px"
-                            height="300px"
-                            style={{ objectFit: "cover" }}
-                          />
-                        )}
-                      </Box>
-                    </Typography>
-                    <Typography>
-                      <strong>Aadhar Card:</strong>
-                      <Box sx={{ mt: 2 }}>
-                        {selectedLoan?.aadhar && (
-                          <img
-                            src={selectedLoan?.aadhar}
-                            alt="PAN"
-                            width="200px"
-                            height="300px"
-                            style={{ objectFit: "cover" }}
-                          />
-                        )}
-                      </Box>
-                    </Typography>
-                    <Typography>
-                      <strong>PAN card:</strong>
-                      <Box sx={{ mt: 2 }}>
-                        {selectedLoan?.pan && (
-                          <img
-                            src={selectedLoan?.pan}
-                            alt="PAN"
-                            width="200px"
-                            height="300px"
-                            style={{ objectFit: "cover" }}
-                          />
-                        )}
-                      </Box>
-                    </Typography>
-                    <Typography>
-                      <strong>PaySlip :</strong>
-                      <Box sx={{ mt: 2 }}>
-                        {selectedLoan?.paySlip && (
-                          <iframe
-                            src={`https://docs.google.com/gview?url=${selectedLoan?.paySlip}&embedded=true`}
-                            width="200px"
-                            height="300px"
-                            frameborder="0"
-                          ></iframe>
-                        )}
-                      </Box>
-                    </Typography>
-                    <Typography>
-                      <strong>bank Statement :</strong>
-                      <Box sx={{ mt: 2 }}>
-                        {selectedLoan?.bankStatement && (
-                          <iframe
-                            src={`https://docs.google.com/gview?url=${selectedLoan?.bankStatement}&embedded=true`}
-                            width="200px"
-                            height="300px"
-                            frameborder="0"
-                          ></iframe>
-                        )}
-                      </Box>
-                    </Typography>
+                      <Typography>
+                        <strong>Photo :</strong>
+                        <Box sx={{ mt: 2 }}>
+                          {selectedLoan?.photo && (
+                            <img
+                              src={selectedLoan?.photo}
+                              alt="PAN"
+                              width="200px"
+                              height="300px"
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </Box>
+                      </Typography>
+                      <Typography>
+                        <strong>Aadhar Card:</strong>
+                        <Box sx={{ mt: 2 }}>
+                          {selectedLoan?.aadhar && (
+                            <img
+                              src={selectedLoan?.aadhar}
+                              alt="PAN"
+                              width="200px"
+                              height="300px"
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </Box>
+                      </Typography>
+                      <Typography>
+                        <strong>PAN card:</strong>
+                        <Box sx={{ mt: 2 }}>
+                          {selectedLoan?.pan && (
+                            <img
+                              src={selectedLoan?.pan}
+                              alt="PAN"
+                              width="200px"
+                              height="300px"
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </Box>
+                      </Typography>
+                      <Typography>
+                        <strong>PaySlip :</strong>
+                        <Box sx={{ mt: 2 }}>
+                          {selectedLoan?.paySlip && (
+                            <iframe
+                              src={`https://docs.google.com/gview?url=${selectedLoan?.paySlip}&embedded=true`}
+                              width="200px"
+                              height="300px"
+                              frameborder="0"
+                            ></iframe>
+                          )}
+                        </Box>
+                      </Typography>
+                      <Typography>
+                        <strong>bank Statement :</strong>
+                        <Box sx={{ mt: 2 }}>
+                          {selectedLoan?.bankStatement && (
+                            <iframe
+                              src={`https://docs.google.com/gview?url=${selectedLoan?.bankStatement}&embedded=true`}
+                              width="200px"
+                              height="300px"
+                              frameborder="0"
+                            ></iframe>
+                          )}
+                        </Box>
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Dialog>
-            )}
-          </div>
-        );
-      };
+                </Dialog>
+              )}
+            </div>
+          );
+        };
 
-      const Dashboard = () => {
-        // Carousel images
-        const carouselImages = [
-          {
-            label: "Welcome Goldnoon Fintech",
+        const Dashboard = () => {
+          // Carousel images
+          const carouselImages = [
+            {
+              label: "Welcome Goldnoon Fintech",
 
-            imgPath:
-              "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-            description: "We deal your financial solutions..",
-          },
-          {
-            label: "One Stop For financial needs",
-            imgPath:
-              "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            // "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-            // "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Ffinancial-planning&psig=AOvVaw2IDSKpFUbkqP0mSy_JToVt&ust=1742367192011000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNCVwOSFk4wDFQAAAAAdAAAAABAE",
-            description: "Excellence in Learning",
-          },
-          {
-            label: "Empowering with Goldnoon",
+              imgPath:
+                "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+              description: "We deal your financial solutions..",
+            },
+            {
+              label: "One Stop For financial needs",
+              imgPath:
+                "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              // "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxpaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+              // "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Ffinancial-planning&psig=AOvVaw2IDSKpFUbkqP0mSy_JToVt&ust=1742367192011000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNCVwOSFk4wDFQAAAAAdAAAAABAE",
+              description: "Excellence in Learning",
+            },
+            {
+              label: "Empowering with Goldnoon",
 
-            imgPath:
-              "https://plus.unsplash.com/premium_photo-1661716853327-a16e87a6dff1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            // "https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-            description: "State-of-the-art Infrastructure",
-          },
-        ];
+              imgPath:
+                "https://plus.unsplash.com/premium_photo-1661716853327-a16e87a6dff1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              // "https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+              description: "State-of-the-art Infrastructure",
+            },
+          ];
 
-        const [activeStep, setActiveStep] = React.useState(0);
-        const maxSteps = carouselImages.length;
+          const [activeStep, setActiveStep] = React.useState(0);
+          const maxSteps = carouselImages.length;
 
-        React.useEffect(() => {
-          const timer = setInterval(() => {
-            setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
-          }, 5000);
+          React.useEffect(() => {
+            const timer = setInterval(() => {
+              setActiveStep(
+                (prevActiveStep) => (prevActiveStep + 1) % maxSteps
+              );
+            }, 5000);
 
-          return () => clearInterval(timer);
-        }, [maxSteps]);
+            return () => clearInterval(timer);
+          }, [maxSteps]);
 
-        return (
-          <div>
-            <Box
-              sx={{
-                position: "relative",
-                height: { xs: "40vh", sm: "50vh", md: "75vh" },
-              }}
-            >
-              <Paper
-                square
-                elevation={0}
+          return (
+            <div>
+              <Box
                 sx={{
-                  height: "100%",
                   position: "relative",
-                  backgroundColor: "grey.800",
-                  color: "#fff",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundImage: `url(${carouselImages[activeStep].imgPath})`,
-                  transition: "background-image 0.5s ease-in-out",
+                  height: { xs: "40vh", sm: "50vh", md: "75vh" },
                 }}
               >
-                <Box
+                <Paper
+                  square
+                  elevation={0}
+                  sx={{
+                    height: "100%",
+                    position: "relative",
+                    backgroundColor: "grey.800",
+                    color: "#fff",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundImage: `url(${carouselImages[activeStep].imgPath})`,
+                    transition: "background-image 0.5s ease-in-out",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      bottom: 0,
+                      right: 0,
+                      left: 0,
+                      backgroundColor: "rgba(0,0,0,.5)",
+                    }}
+                  />
+                  <Container
+                    maxWidth="md"
+                    sx={{
+                      position: "relative",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
+                      px: { xs: 2, sm: 3, md: 4 },
+                    }}
+                  >
+                    <Typography
+                      variant="body"
+                      component="h3"
+                      gutterBottom
+                      sx={{
+                        fontSize: { xs: "1.75rem", sm: "3rem", md: "3.75rem" },
+                      }}
+                    >
+                      {carouselImages[activeStep].label}
+                    </Typography>
+                    {activeStep == 0 && (
+                      <Typography
+                        variant="h5"
+                        paragraph
+                        sx={{
+                          fontSize: {
+                            xs: "1.2rem",
+                            sm: "1.5rem",
+                            md: "1.5rem",
+                          },
+
+                          color: theme.appBarColor,
+                        }}
+                      >
+                        {carouselImages[activeStep].description}
+                      </Typography>
+                    )}
+                    {activeStep == 1 && (
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => {
+                          setCustomerSignUPDialogOpen(true);
+                        }}
+                        sx={{
+                          color: theme.appBarColor,
+                          // bgcolor: theme.appBarColor,
+                        }}
+                      >
+                        New Customer
+                      </Button>
+                    )}
+                    {activeStep == 2 && (
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => {
+                          setShareInterestDialogOpen(true);
+                        }}
+                        sx={{
+                          color: theme.appBarColor,
+                          // bgcolor: theme.appBarColor,
+                        }}
+                      >
+                        Become a Partner
+                      </Button>
+                    )}
+                  </Container>
+                </Paper>
+                <MobileStepper
+                  steps={maxSteps}
+                  position="static"
+                  activeStep={activeStep}
                   sx={{
                     position: "absolute",
-                    top: 0,
-                    bottom: 0,
-                    right: 0,
-                    left: 0,
-                    backgroundColor: "rgba(0,0,0,.5)",
+                    bottom: 0, // You can adjust the bottom distance as needed
+                    left: "50%", // Centers horizontally
+                    transform: "translateX(-50%)", // Ensures the element is centered by shifting it back by 50%
+                    width: "auto", // Use auto or a fixed width if needed
+                    background: "transparent",
                   }}
                 />
-                <Container
-                  maxWidth="md"
+              </Box>
+
+              {/* Customer My Loans and apply Loans section */}
+              {loginData?.role == "customer" && (
+                <Box
                   sx={{
-                    position: "relative",
-                    height: "100%",
+                    // bgcolor: "grey.100",
+                    pt: 0,
+                    mb: 1,
                     display: "flex",
-                    flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center",
-                    textAlign: "center",
-                    px: { xs: 2, sm: 3, md: 4 },
+                  }}
+                  gap={2}
+                >
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("AllLoans");
+                      // setCustomerSignUPDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        people
+                      </span>
+                      <Typography variant="h6">My Loans</Typography>
+                    </Box>
+                  </Card>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("ApplyLoan");
+                      // setShareInterestDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        forward
+                      </span>
+                      <Typography variant="h6">Apply Loan</Typography>
+                    </Box>
+                  </Card>
+                </Box>
+              )}
+              {/* Customer My Loans and apply Loans section */}
+              {loginData?.role.toLowerCase() == "sales" && (
+                <Box
+                  sx={{
+                    // bgcolor: "grey.100",
+                    pt: 0,
+                    mb: 1,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                  gap={2}
+                >
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("SalesReports");
+                      // setCustomerSignUPDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        people
+                      </span>
+                      <Typography variant="h6">Sales Reports</Typography>
+                    </Box>
+                  </Card>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("SalesBoard");
+                      // setShareInterestDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        forward
+                      </span>
+                      <Typography variant="h6">Sales Board</Typography>
+                    </Box>
+                  </Card>
+                </Box>
+              )}
+              {/* Customer My Loans and apply Loans section */}
+              {loginData?.role.toLowerCase() == "admin" && (
+                <Box
+                  sx={{
+                    // bgcolor: "grey.100",
+                    pt: 0,
+                    mb: 1,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                  gap={2}
+                >
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("AllCustomers");
+                      // setCustomerSignUPDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        people
+                      </span>
+                      <Typography variant="h6">All Customers</Typography>
+                    </Box>
+                  </Card>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("AllLoans");
+                      // setShareInterestDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        forward
+                      </span>
+                      <Typography variant="h6">All Loans</Typography>
+                    </Box>
+                  </Card>
+                </Box>
+              )}
+
+              {/* News & Updates */}
+              <Box sx={{ bgcolor: "grey.100", py: 2 }}>
+                <Container maxWidth="lg">
+                  <Typography
+                    variant="body"
+                    gutterBottom
+                    sx={{
+                      textAlign: "center",
+                      mb: 4,
+                      position: "relative",
+                      // "&:after": {
+                      //   content: '""',
+                      //   position: "absolute",
+                      //   bottom: "-10px",
+                      //   left: "50%",
+                      //   transform: "translateX(-50%)",
+                      //   width: "60px",
+                      //   height: "3px",
+                      //   backgroundColor: "primary.main",
+                      // },
+                    }}
+                  >
+                    Key Benifits with Goldnoon
+                  </Typography>
+                  <div>
+                    <div className="notification success">
+                      <span className="icon">✔</span>
+                      Customized Loan Offers..
+                    </div>
+
+                    <div className="notification error">
+                      <span className="icon">✔</span> Online & mobile access..
+                      {/*<span className="icon">✘ ⚠ℹ</span> Minimal Documents*/}
+                    </div>
+
+                    <div className="notification warning">
+                      <span className="icon">✔</span> Quick Disbursement..
+                    </div>
+
+                    <div className="notification general">
+                      <span className="icon">✔</span> Minimal Documents..
+                    </div>
+                  </div>
+                </Container>
+              </Box>
+
+              {/* Achievements Section */}
+
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  overflowX: "auto",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                }}
+              >
+                <Container
+                  // maxWidth="lg"
+                  // maxWidth={false}
+
+                  sx={{
+                    display: "inline-block",
+                    // minWidth: "200px",
+                    // maxWidth: {
+                    //   xs: "320px", // Full width on extra-small screens
+                    //   sm: "450px", // 450px on small screens
+                    //   md: "768px", // 600px on medium screens
+                    //   lg: "1024px", // 800px on large screens
+                    // },
+                    my: 2,
+
+                    position: "relative",
+                    "& .MuiContainer-root": {
+                      overflowX: "auto",
+                      scrollBehavior: "smooth",
+                      "&::-webkit-scrollbar": {
+                        display: "none",
+                      },
+                      msOverflowStyle: "none",
+                      scrollbarWidth: "none",
+                    },
                   }}
                 >
                   <Typography
-                    variant="body"
-                    component="h3"
+                    variant="h4"
                     gutterBottom
                     sx={{
-                      fontSize: { xs: "1.75rem", sm: "3rem", md: "3.75rem" },
+                      textAlign: "center",
+                      mb: 4,
+                      fontSize: { xs: "1.25rem", sm: "2rem", md: "2.25rem" },
+                      position: "relative",
+                      "&:after": {
+                        content: '""',
+                        position: "absolute",
+                        bottom: "-10px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: "60px",
+                        height: "3px",
+                        backgroundColor: theme.appBarColor,
+                      },
                     }}
                   >
-                    {carouselImages[activeStep].label}
+                    Our Founders & Achievements
                   </Typography>
-                  {activeStep == 0 && (
-                    <Typography
-                      variant="h5"
-                      paragraph
-                      sx={{
-                        fontSize: {
-                          xs: "1.2rem",
-                          sm: "1.5rem",
-                          md: "1.5rem",
-                        },
 
-                        color: theme.appBarColor,
+                  <Box sx={{ position: "relative" }}>
+                    <IconButton
+                      sx={{
+                        position: "absolute",
+                        left: -20,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        backgroundColor: "white",
+                        boxShadow: 2,
+                        "&:hover": { backgroundColor: "grey.100" },
+                        zIndex: 2,
                       }}
-                    >
-                      {carouselImages[activeStep].description}
-                    </Typography>
-                  )}
-                  {activeStep == 1 && (
-                    <Button
-                      size="small"
-                      variant="outlined"
                       onClick={() => {
-                        setCustomerSignUPDialogOpen(true);
+                        const container = document.getElementById(
+                          "achievements-scroll"
+                        );
+                        container.scrollBy({ left: -300, behavior: "smooth" });
                       }}
+                    >
+                      <span className="material-icons">chevron_left</span>
+                    </IconButton>
+
+                    <Box
+                      id="achievements-scroll"
                       sx={{
-                        color: theme.appBarColor,
-                        // bgcolor: theme.appBarColor,
+                        display: "flex",
+                        overflowX: "auto",
+                        gap: 3,
+                        pb: 2,
+                        scrollBehavior: "smooth",
+                        "&::-webkit-scrollbar": { display: "none" },
+                        msOverflowStyle: "none",
+                        scrollbarWidth: "none",
                       }}
                     >
-                      New Customer
-                    </Button>
-                  )}
-                  {activeStep == 2 && (
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      onClick={() => {
-                        setShareInterestDialogOpen(true);
-                      }}
-                      sx={{
-                        color: theme.appBarColor,
-                        // bgcolor: theme.appBarColor,
-                      }}
-                    >
-                      Become a Partner
-                    </Button>
-                  )}
-                </Container>
-              </Paper>
-              <MobileStepper
-                steps={maxSteps}
-                position="static"
-                activeStep={activeStep}
-                sx={{
-                  position: "absolute",
-                  bottom: 0, // You can adjust the bottom distance as needed
-                  left: "50%", // Centers horizontally
-                  transform: "translateX(-50%)", // Ensures the element is centered by shifting it back by 50%
-                  width: "auto", // Use auto or a fixed width if needed
-                  background: "transparent",
-                }}
-              />
-            </Box>
-
-            {/* Customer My Loans and apply Loans section */}
-            {loginData?.role == "customer" && (
-              <Box
-                sx={{
-                  // bgcolor: "grey.100",
-                  pt: 0,
-                  mb: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-                gap={2}
-              >
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 2,
-                    margin: 1,
-                    cursor: "pointer",
-                    backgroundColor: theme.appBarColor,
-                    color: "white",
-                    // "&:hover": {
-                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    // },
-                  }}
-                  onClick={() => {
-                    setBodyarea("AllLoans");
-                    // setCustomerSignUPDialogOpen(true);
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <span
-                      className="material-icons"
-                      style={{ marginRight: "8px" }}
-                    >
-                      people
-                    </span>
-                    <Typography variant="h6">My Loans</Typography>
-                  </Box>
-                </Card>
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 2,
-                    margin: 1,
-                    cursor: "pointer",
-                    backgroundColor: theme.appBarColor,
-                    color: "white",
-                    // "&:hover": {
-                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    // },
-                  }}
-                  onClick={() => {
-                    setBodyarea("ApplyLoan");
-                    // setShareInterestDialogOpen(true);
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <span
-                      className="material-icons"
-                      style={{ marginRight: "8px" }}
-                    >
-                      forward
-                    </span>
-                    <Typography variant="h6">Apply Loan</Typography>
-                  </Box>
-                </Card>
-              </Box>
-            )}
-            {/* Customer My Loans and apply Loans section */}
-            {loginData?.role.toLowerCase() == "sales" && (
-              <Box
-                sx={{
-                  // bgcolor: "grey.100",
-                  pt: 0,
-                  mb: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-                gap={2}
-              >
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 2,
-                    margin: 1,
-                    cursor: "pointer",
-                    backgroundColor: theme.appBarColor,
-                    color: "white",
-                    // "&:hover": {
-                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    // },
-                  }}
-                  onClick={() => {
-                    setBodyarea("SalesReports");
-                    // setCustomerSignUPDialogOpen(true);
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <span
-                      className="material-icons"
-                      style={{ marginRight: "8px" }}
-                    >
-                      people
-                    </span>
-                    <Typography variant="h6">Sales Reports</Typography>
-                  </Box>
-                </Card>
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 2,
-                    margin: 1,
-                    cursor: "pointer",
-                    backgroundColor: theme.appBarColor,
-                    color: "white",
-                    // "&:hover": {
-                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    // },
-                  }}
-                  onClick={() => {
-                    setBodyarea("SalesBoard");
-                    // setShareInterestDialogOpen(true);
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <span
-                      className="material-icons"
-                      style={{ marginRight: "8px" }}
-                    >
-                      forward
-                    </span>
-                    <Typography variant="h6">Sales Board</Typography>
-                  </Box>
-                </Card>
-              </Box>
-            )}
-            {/* Customer My Loans and apply Loans section */}
-            {loginData?.role.toLowerCase() == "admin" && (
-              <Box
-                sx={{
-                  // bgcolor: "grey.100",
-                  pt: 0,
-                  mb: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-                gap={2}
-              >
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 2,
-                    margin: 1,
-                    cursor: "pointer",
-                    backgroundColor: theme.appBarColor,
-                    color: "white",
-                    // "&:hover": {
-                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    // },
-                  }}
-                  onClick={() => {
-                    setBodyarea("AllCustomers");
-                    // setCustomerSignUPDialogOpen(true);
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <span
-                      className="material-icons"
-                      style={{ marginRight: "8px" }}
-                    >
-                      people
-                    </span>
-                    <Typography variant="h6">All Customers</Typography>
-                  </Box>
-                </Card>
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 2,
-                    margin: 1,
-                    cursor: "pointer",
-                    backgroundColor: theme.appBarColor,
-                    color: "white",
-                    // "&:hover": {
-                    //   backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    // },
-                  }}
-                  onClick={() => {
-                    setBodyarea("AllLoans");
-                    // setShareInterestDialogOpen(true);
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <span
-                      className="material-icons"
-                      style={{ marginRight: "8px" }}
-                    >
-                      forward
-                    </span>
-                    <Typography variant="h6">All Loans</Typography>
-                  </Box>
-                </Card>
-              </Box>
-            )}
-
-            {/* News & Updates */}
-            <Box sx={{ bgcolor: "grey.100", py: 2 }}>
-              <Container maxWidth="lg">
-                <Typography
-                  variant="body"
-                  gutterBottom
-                  sx={{
-                    textAlign: "center",
-                    mb: 4,
-                    position: "relative",
-                    // "&:after": {
-                    //   content: '""',
-                    //   position: "absolute",
-                    //   bottom: "-10px",
-                    //   left: "50%",
-                    //   transform: "translateX(-50%)",
-                    //   width: "60px",
-                    //   height: "3px",
-                    //   backgroundColor: "primary.main",
-                    // },
-                  }}
-                >
-                  Key Benifits with Goldnoon
-                </Typography>
-                <div>
-                  <div className="notification success">
-                    <span className="icon">✔</span>
-                    Customized Loan Offers..
-                  </div>
-
-                  <div className="notification error">
-                    <span className="icon">✔</span> Online & mobile access..
-                    {/*<span className="icon">✘ ⚠ℹ</span> Minimal Documents*/}
-                  </div>
-
-                  <div className="notification warning">
-                    <span className="icon">✔</span> Quick Disbursement..
-                  </div>
-
-                  <div className="notification general">
-                    <span className="icon">✔</span> Minimal Documents..
-                  </div>
-                </div>
-              </Container>
-            </Box>
-
-            {/* Achievements Section */}
-
-            <Box
-              sx={{
-                flexGrow: 1,
-                overflowX: "auto",
-                whiteSpace: "nowrap",
-                width: "100%",
-              }}
-            >
-              <Container
-                // maxWidth="lg"
-                // maxWidth={false}
-
-                sx={{
-                  display: "inline-block",
-                  // minWidth: "200px",
-                  // maxWidth: {
-                  //   xs: "320px", // Full width on extra-small screens
-                  //   sm: "450px", // 450px on small screens
-                  //   md: "768px", // 600px on medium screens
-                  //   lg: "1024px", // 800px on large screens
-                  // },
-                  my: 2,
-
-                  position: "relative",
-                  "& .MuiContainer-root": {
-                    overflowX: "auto",
-                    scrollBehavior: "smooth",
-                    "&::-webkit-scrollbar": {
-                      display: "none",
-                    },
-                    msOverflowStyle: "none",
-                    scrollbarWidth: "none",
-                  },
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  gutterBottom
-                  sx={{
-                    textAlign: "center",
-                    mb: 4,
-                    fontSize: { xs: "1.25rem", sm: "2rem", md: "2.25rem" },
-                    position: "relative",
-                    "&:after": {
-                      content: '""',
-                      position: "absolute",
-                      bottom: "-10px",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      width: "60px",
-                      height: "3px",
-                      backgroundColor: theme.appBarColor,
-                    },
-                  }}
-                >
-                  Our Founders & Achievements
-                </Typography>
-
-                <Box sx={{ position: "relative" }}>
-                  <IconButton
-                    sx={{
-                      position: "absolute",
-                      left: -20,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      backgroundColor: "white",
-                      boxShadow: 2,
-                      "&:hover": { backgroundColor: "grey.100" },
-                      zIndex: 2,
-                    }}
-                    onClick={() => {
-                      const container = document.getElementById(
-                        "achievements-scroll"
-                      );
-                      container.scrollBy({ left: -300, behavior: "smooth" });
-                    }}
-                  >
-                    <span className="material-icons">chevron_left</span>
-                  </IconButton>
-
-                  <Box
-                    id="achievements-scroll"
-                    sx={{
-                      display: "flex",
-                      overflowX: "auto",
-                      gap: 3,
-                      pb: 2,
-                      scrollBehavior: "smooth",
-                      "&::-webkit-scrollbar": { display: "none" },
-                      msOverflowStyle: "none",
-                      scrollbarWidth: "none",
-                    }}
-                  >
-                    {achievements.map((achievement, index) => (
-                      <Card
-                        key={index}
-                        sx={{
-                          minWidth: 300,
-                          maxWidth: 300,
-                          height: "200px",
-                          flex: "0 0 auto",
-                          display: "flex",
-                          flexDirection: "column",
-                          transition: "transform 0.2s",
-                          "&:hover": {
-                            transform: achievement.isViewMore
-                              ? "translateY(-5px)"
-                              : "translateY(-5px)",
-                            boxShadow: 3,
-                          },
-                          ...(achievement.isViewMore && {
-                            backgroundColor: "primary.main",
-                            color: "white",
+                      {achievements.map((achievement, index) => (
+                        <Card
+                          key={index}
+                          sx={{
+                            minWidth: 300,
+                            maxWidth: 300,
+                            height: "200px",
+                            flex: "0 0 auto",
                             display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            cursor: "pointer",
-                            transition: "all 0.3s ease",
+                            flexDirection: "column",
+                            transition: "transform 0.2s",
                             "&:hover": {
-                              backgroundColor: "primary.dark",
-                              transform: "translateY(-5px)",
+                              transform: achievement.isViewMore
+                                ? "translateY(-5px)"
+                                : "translateY(-5px)",
                               boxShadow: 3,
                             },
-                          }),
-                        }}
-                      >
-                        {achievement.isViewMore ? (
-                          <CardContent
-                            sx={{
-                              textAlign: "center",
+                            ...(achievement.isViewMore && {
+                              backgroundColor: "primary.main",
+                              color: "white",
                               display: "flex",
-                              flexDirection: "column",
                               alignItems: "center",
                               justifyContent: "center",
-                              height: "100%",
-                              padding: "24px",
-                            }}
-                          >
-                            <Box
+                              cursor: "pointer",
+                              transition: "all 0.3s ease",
+                              "&:hover": {
+                                backgroundColor: "primary.dark",
+                                transform: "translateY(-5px)",
+                                boxShadow: 3,
+                              },
+                            }),
+                          }}
+                        >
+                          {achievement.isViewMore ? (
+                            <CardContent
                               sx={{
-                                backgroundColor: "rgba(255,255,255,0.2)",
-                                borderRadius: "50%",
-                                width: 80,
-                                height: 80,
+                                textAlign: "center",
                                 display: "flex",
+                                flexDirection: "column",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                mb: 2,
-                                transition: "all 0.3s ease",
-                              }}
-                            >
-                              <span
-                                className="material-icons"
-                                style={{ fontSize: "40px" }}
-                              >
-                                {achievement.icon}
-                              </span>
-                            </Box>
-                            <Typography
-                              variant="h6"
-                              component="div"
-                              sx={{ mt: 2, fontWeight: "bold" }}
-                            >
-                              {achievement.title}
-                            </Typography>
-                            <Typography
-                              variant="body1"
-                              sx={{ mt: 1, opacity: 0.9 }}
-                            >
-                              Click to explore more achievements
-                            </Typography>
-                          </CardContent>
-                        ) : (
-                          <CardContent
-                            sx={{
-                              flexGrow: 1,
-                              padding: "24px",
-                              height: "100%",
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                mb: 2,
+                                height: "100%",
+                                padding: "24px",
                               }}
                             >
                               <Box
                                 sx={{
-                                  backgroundColor: "primary.main",
+                                  backgroundColor: "rgba(255,255,255,0.2)",
                                   borderRadius: "50%",
-                                  p: 1,
-                                  mr: 2,
+                                  width: 80,
+                                  height: 80,
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "center",
+                                  mb: 2,
+                                  transition: "all 0.3s ease",
                                 }}
                               >
                                 <span
                                   className="material-icons"
-                                  style={{ color: "white" }}
+                                  style={{ fontSize: "40px" }}
                                 >
                                   {achievement.icon}
                                 </span>
                               </Box>
-                              <Typography variant="h6" component="div">
+                              <Typography
+                                variant="h6"
+                                component="div"
+                                sx={{ mt: 2, fontWeight: "bold" }}
+                              >
                                 {achievement.title}
                               </Typography>
-                            </Box>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              gutterBottom
-                            >
-                              {achievement.date}
-                            </Typography>
-                            <Typography
-                              variant="body1"
+                              <Typography
+                                variant="body1"
+                                sx={{ mt: 1, opacity: 0.9 }}
+                              >
+                                Click to explore more achievements
+                              </Typography>
+                            </CardContent>
+                          ) : (
+                            <CardContent
                               sx={{
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                display: "-webkit-box",
-                                WebkitLineClamp: 4,
-                                WebkitBoxOrient: "vertical",
+                                flexGrow: 1,
+                                padding: "24px",
+                                height: "100%",
+                                display: "flex",
+                                flexDirection: "column",
                               }}
                             >
-                              {achievement.description}
-                            </Typography>
-                          </CardContent>
-                        )}
-                      </Card>
-                    ))}
-                  </Box>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  mb: 2,
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    backgroundColor: "primary.main",
+                                    borderRadius: "50%",
+                                    p: 1,
+                                    mr: 2,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  <span
+                                    className="material-icons"
+                                    style={{ color: "white" }}
+                                  >
+                                    {achievement.icon}
+                                  </span>
+                                </Box>
+                                <Typography variant="h6" component="div">
+                                  {achievement.title}
+                                </Typography>
+                              </Box>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                gutterBottom
+                              >
+                                {achievement.date}
+                              </Typography>
+                              <Typography
+                                variant="body1"
+                                sx={{
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  display: "-webkit-box",
+                                  WebkitLineClamp: 4,
+                                  WebkitBoxOrient: "vertical",
+                                }}
+                              >
+                                {achievement.description}
+                              </Typography>
+                            </CardContent>
+                          )}
+                        </Card>
+                      ))}
+                    </Box>
 
-                  <IconButton
+                    <IconButton
+                      sx={{
+                        position: "absolute",
+                        right: -20,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        backgroundColor: "white",
+                        boxShadow: 2,
+                        "&:hover": { backgroundColor: "grey.100" },
+                        zIndex: 2,
+                      }}
+                      onClick={() => {
+                        const container = document.getElementById(
+                          "achievements-scroll"
+                        );
+                        container.scrollBy({ left: 300, behavior: "smooth" });
+                      }}
+                    >
+                      <span className="material-icons">chevron_right</span>
+                    </IconButton>
+                  </Box>
+                </Container>
+              </Box>
+
+              {/* SCroll with marquee */}
+              <Box
+                style={{
+                  fontSize: "12px",
+                  // paddingTop: "6px",
+                  // backgroundColor: "#25D366",
+                  color: "white",
+                  // "&:hover": {
+                  //   fontSize: "12px",
+                  // },
+                }}
+              >
+                <marquee behavior="scroll" direction="left">
+                  <Box
                     sx={{
-                      position: "absolute",
-                      right: -20,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      backgroundColor: "white",
-                      boxShadow: 2,
-                      "&:hover": { backgroundColor: "grey.100" },
-                      zIndex: 2,
-                    }}
-                    onClick={() => {
-                      const container = document.getElementById(
-                        "achievements-scroll"
-                      );
-                      container.scrollBy({ left: 300, behavior: "smooth" });
+                      display: "flex",
+                      justifyContent: "space-around",
+                      mt: 2,
                     }}
                   >
-                    <span className="material-icons">chevron_right</span>
-                  </IconButton>
-                </Box>
-              </Container>
-            </Box>
+                    <Box
+                      sx={{
+                        bgcolor: "grey.200",
+                        p: 2,
+                        borderRadius: 1,
+                        textAlign: "center",
+                        flex: 1,
+                        mx: 1,
+                      }}
+                    >
+                      <Typography variant="h6" color={theme.appBarColor}>
+                        Partner 1
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        bgcolor: "grey.200",
+                        p: 2,
+                        borderRadius: 1,
+                        textAlign: "center",
+                        flex: 1,
+                        mx: 1,
+                      }}
+                    >
+                      <Typography variant="h6" color={theme.appBarColor}>
+                        Partner 2
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        bgcolor: "grey.200",
+                        p: 2,
+                        borderRadius: 1,
+                        textAlign: "center",
+                        flex: 1,
+                        mx: 1,
+                      }}
+                    >
+                      <Typography variant="h6" color={theme.appBarColor}>
+                        Partner 3
+                      </Typography>
+                    </Box>
+                  </Box>
+                </marquee>
+              </Box>
 
-            {/* SCroll with marquee */}
-            <Box
-              style={{
-                fontSize: "12px",
-                // paddingTop: "6px",
-                // backgroundColor: "#25D366",
-                color: "white",
-                // "&:hover": {
-                //   fontSize: "12px",
-                // },
-              }}
-            >
-              <marquee behavior="scroll" direction="left">
-                <Box
+              {/* New Customer and Become apartner button */}
+              <Box
+                sx={{
+                  bgcolor: "grey.100",
+                  pt: 2,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                gap={2}
+              >
+                <Button
+                  size="small"
+                  variant="outlined"
                   sx={{
-                    display: "flex",
-                    justifyContent: "space-around",
-                    mt: 2,
+                    color: theme.appBarColor,
+                    // bgcolor: theme.appBarColor,
+                  }}
+                  onClick={() => {
+                    setCustomerSignUPDialogOpen(true);
                   }}
                 >
-                  <Box
-                    sx={{
-                      bgcolor: "grey.200",
-                      p: 2,
-                      borderRadius: 1,
-                      textAlign: "center",
-                      flex: 1,
-                      mx: 1,
-                    }}
-                  >
-                    <Typography variant="h6" color={theme.appBarColor}>
-                      Partner 1
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      bgcolor: "grey.200",
-                      p: 2,
-                      borderRadius: 1,
-                      textAlign: "center",
-                      flex: 1,
-                      mx: 1,
-                    }}
-                  >
-                    <Typography variant="h6" color={theme.appBarColor}>
-                      Partner 2
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      bgcolor: "grey.200",
-                      p: 2,
-                      borderRadius: 1,
-                      textAlign: "center",
-                      flex: 1,
-                      mx: 1,
-                    }}
-                  >
-                    <Typography variant="h6" color={theme.appBarColor}>
-                      Partner 3
-                    </Typography>
-                  </Box>
-                </Box>
-              </marquee>
-            </Box>
+                  New Customer
+                </Button>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    color: theme.appBarColor,
+                    // bgcolor: theme.appBarColor,
+                  }}
+                  onClick={() => {
+                    setShareInterestDialogOpen(true);
+                  }}
+                >
+                  Become a Partner
+                </Button>
+              </Box>
 
-            {/* New Customer and Become apartner button */}
-            <Box
-              sx={{
-                bgcolor: "grey.100",
-                pt: 2,
-                display: "flex",
-                justifyContent: "center",
-              }}
-              gap={2}
-            >
-              <Button
-                size="small"
-                variant="outlined"
-                sx={{
-                  color: theme.appBarColor,
-                  // bgcolor: theme.appBarColor,
-                }}
-                onClick={() => {
-                  setCustomerSignUPDialogOpen(true);
-                }}
-              >
-                New Customer
-              </Button>
-              <Button
-                size="small"
-                variant="outlined"
-                sx={{
-                  color: theme.appBarColor,
-                  // bgcolor: theme.appBarColor,
-                }}
-                onClick={() => {
-                  setShareInterestDialogOpen(true);
-                }}
-              >
-                Become a Partner
-              </Button>
-            </Box>
-
-            {/* About Us Section */}
-            <Box sx={{ py: 2, bgcolor: "grey.100" }}>
-              <Container maxWidth="lg">
-                {/*<Typography
+              {/* About Us Section */}
+              <Box sx={{ py: 2, bgcolor: "grey.100" }}>
+                <Container maxWidth="lg">
+                  {/*<Typography
                            variant="h4"
                            gutterBottom
                            sx={{
@@ -6283,375 +6289,374 @@
                            About Us
                          </Typography>*/}
 
-                <Grid
-                  container
-                  spacing={{ xs: 2, sm: 3, md: 4 }}
-                  sx={{
-                    minHeight: {
-                      xs: "400px", // Minimum height for extra small screens
-                      sm: "500px", // Minimum height for small screens
-                      md: "600px", // Minimum height for medium and larger screens
-                    },
-                    height: "100%", // Ensure it takes full height of its container
-                  }}
-                >
-                  {/* School History */}
-                  <Grid item xs={12} md={12}>
-                    <Card
-                      sx={{
-                        // height: "100%",
-                        // height: { xs: 10, sm: 3, md: 4 },
-                        display: "flex",
-                        flexDirection: "column",
-                        p: { xs: 2, sm: 2, md: 3 },
-                        // m: { xs: 2, sm: 2, md: 3 },
-
-                        fontSize: {
-                          xs: "0.875rem", // Extra small screens
-                          sm: "1rem", // Small screens
-                          md: "1.125rem", // Medium and larger screens
-                        },
-                      }}
-                    >
-                      <Typography variant="h5" gutterBottom color="primary">
-                        Our Motive
-                      </Typography>
-                      <Typography variant="body1" paragraph>
-                        We Established in 2020, with a strong motive to
-                        empowering individuals and Businesses with seamles
-                        financial solutions as a trusted financial Organization.
-                        We Offers a wind range of Loan Products, Investiments
-                        opportunities, and wealth Management service to meet
-                        financial needs
-                      </Typography>
-                    </Card>
-                  </Grid>
-
-                  {/* Google Map */}
-                  <Grid item xs={12} md={12}>
-                    <Card
-                      sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          flex: 1,
-                          minHeight: "300px",
-                          width: "100%",
-                        }}
-                      >
-                        <iframe
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60710.79354192987!2d79.51014090191924!3d18.005488225693174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a334f75c05023ed%3A0x2352eaaf6fe897ea!2sHanamkonda%2C%20Telangana!5e0!3m2!1sen!2sin!4v1741608615942!5m2!1sen!2sin"
-                          width="100%"
-                          height="100%"
-                          style={{ border: 0 }}
-                          allowFullScreen=""
-                          loading="lazy"
-                        ></iframe>
-                      </Box>
-                      <Box sx={{ p: 3 }}>
-                        <Typography variant="h6" gutterBottom>
-                          Our Location
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Main Branch Located in Hanamkonda, Warangal. Sub
-                          branches where placed in Multiple cities.
-                        </Typography>
-                      </Box>
-                    </Card>
-                  </Grid>
-                </Grid>
-              </Container>
-            </Box>
-
-            {/* Footer */}
-            <Box
-              component="footer"
-              id="contact-section"
-              sx={{ bgcolor: "primary.main", color: "white", py: 6, mt: 4 }}
-            >
-              <Container maxWidth="lg">
-                <Grid container spacing={4}>
-                  <Grid item xs={12} md={4}>
-                    <Typography
-                      variant="h6"
-                      gutterBottom
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        color: "#FFD700",
-                        fontWeight: "bold",
-                        marginBottom: 3,
-                      }}
-                    >
-                      <span className="material-icons">contact_support</span>
-                      Contact Us
-                    </Typography>
-
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 2,
-                      }}
-                    >
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
-                        <span
-                          className="material-icons"
-                          style={{ fontSize: "20px" }}
-                        >
-                          location_on
-                        </span>
-                        <Typography variant="body2">
-                          Company
-                          <br />
-                          Goldnoon Fintech
-                        </Typography>
-                      </Box>
-
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
-                        <span
-                          className="material-icons"
-                          style={{ fontSize: "20px" }}
-                        >
-                          phone
-                        </span>
-                        <Typography
-                          variant="body2"
-                          component="a"
-                          href="tel:+91 9676639383"
-                          sx={{
-                            color: "white",
-                            textDecoration: "none",
-                            "&:hover": { textDecoration: "underline" },
-                          }}
-                        >
-                          +91 9676639383
-                        </Typography>
-                      </Box>
-
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
-                        <span
-                          className="material-icons"
-                          style={{ fontSize: "20px" }}
-                        >
-                          email
-                        </span>
-                        <Typography
-                          variant="body2"
-                          component="a"
-                          href="mailto:goldnoon@gmail.com"
-                          sx={{
-                            color: "white",
-                            textDecoration: "none",
-                            "&:hover": { textDecoration: "underline" },
-                          }}
-                        >
-                          goldnoon@gmail.com
-                        </Typography>
-                      </Box>
-
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
-                        <span
-                          className="material-icons"
-                          style={{ fontSize: "20px" }}
-                        >
-                          schedule
-                        </span>
-                        <Typography variant="body2">
-                          Monday - Saturday
-                          <br />
-                          10:00 AM - 6:00 PM
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Grid>
-
                   <Grid
-                    item
-                    xs={12}
-                    md={4}
+                    container
+                    spacing={{ xs: 2, sm: 3, md: 4 }}
                     sx={{
-                      display: {
-                        xs: "none", // Hidden on extra-small screens
-                        md: "block", // Visible on small screens and up
-                        sm: "none", // Visible on small screens and up
+                      minHeight: {
+                        xs: "400px", // Minimum height for extra small screens
+                        sm: "500px", // Minimum height for small screens
+                        md: "600px", // Minimum height for medium and larger screens
                       },
+                      height: "100%", // Ensure it takes full height of its container
                     }}
                   >
-                    <Typography
-                      variant="h6"
-                      gutterBottom
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        color: "#98FB98",
-                        fontWeight: "bold",
-                        marginBottom: 3,
-                      }}
-                    >
-                      <span className="material-icons">link</span>
-                      Quick Links
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 1,
-                      }}
-                    >
-                      {[
-                        "Admissions",
-                        "Academic Calendar",
-                        "Facilities",
-                        "Staff Directory",
-                      ].map((link, linkindex) => (
-                        <Typography
-                          key={linkindex}
-                          variant="body2"
+                    {/* School History */}
+                    <Grid item xs={12} md={12}>
+                      <Card
+                        sx={{
+                          // height: "100%",
+                          // height: { xs: 10, sm: 3, md: 4 },
+                          display: "flex",
+                          flexDirection: "column",
+                          p: { xs: 2, sm: 2, md: 3 },
+                          // m: { xs: 2, sm: 2, md: 3 },
+
+                          fontSize: {
+                            xs: "0.875rem", // Extra small screens
+                            sm: "1rem", // Small screens
+                            md: "1.125rem", // Medium and larger screens
+                          },
+                        }}
+                      >
+                        <Typography variant="h5" gutterBottom color="primary">
+                          Our Motive
+                        </Typography>
+                        <Typography variant="body1" paragraph>
+                          We Established in 2020, with a strong motive to
+                          empowering individuals and Businesses with seamles
+                          financial solutions as a trusted financial
+                          Organization. We Offers a wind range of Loan Products,
+                          Investiments opportunities, and wealth Management
+                          service to meet financial needs
+                        </Typography>
+                      </Card>
+                    </Grid>
+
+                    {/* Google Map */}
+                    <Grid item xs={12} md={12}>
+                      <Card
+                        sx={{
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Box
                           sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            cursor: "pointer",
-                            transition: "all 0.3s ease",
-                            "&:hover": {
-                              paddingLeft: "10px",
-                              color: "#98FB98",
-                            },
+                            flex: 1,
+                            minHeight: "300px",
+                            width: "100%",
                           }}
+                        >
+                          <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60710.79354192987!2d79.51014090191924!3d18.005488225693174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a334f75c05023ed%3A0x2352eaaf6fe897ea!2sHanamkonda%2C%20Telangana!5e0!3m2!1sen!2sin!4v1741608615942!5m2!1sen!2sin"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            allowFullScreen=""
+                            loading="lazy"
+                          ></iframe>
+                        </Box>
+                        <Box sx={{ p: 3 }}>
+                          <Typography variant="h6" gutterBottom>
+                            Our Location
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Main Branch Located in Hanamkonda, Warangal. Sub
+                            branches where placed in Multiple cities.
+                          </Typography>
+                        </Box>
+                      </Card>
+                    </Grid>
+                  </Grid>
+                </Container>
+              </Box>
+
+              {/* Footer */}
+              <Box
+                component="footer"
+                id="contact-section"
+                sx={{ bgcolor: "primary.main", color: "white", py: 6, mt: 4 }}
+              >
+                <Container maxWidth="lg">
+                  <Grid container spacing={4}>
+                    <Grid item xs={12} md={4}>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          color: "#FFD700",
+                          fontWeight: "bold",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span className="material-icons">contact_support</span>
+                        Contact Us
+                      </Typography>
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 2,
+                        }}
+                      >
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
                         >
                           <span
                             className="material-icons"
-                            style={{ fontSize: "8px" }}
+                            style={{ fontSize: "20px" }}
                           >
-                            circle
+                            location_on
                           </span>
-                          {link}
-                        </Typography>
-                      ))}
-                    </Box>
-                  </Grid>
+                          <Typography variant="body2">
+                            Company
+                            <br />
+                            Goldnoon Fintech
+                          </Typography>
+                        </Box>
 
-                  <Grid item xs={12} md={4}>
-                    <Typography
-                      variant="h6"
-                      gutterBottom
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        color: "#FF69B4",
-                        fontWeight: "bold",
-                        marginBottom: 3,
-                      }}
-                    >
-                      <span className="material-icons">share</span>
-                      Follow Us
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: 2,
-                        mb: 2,
-                        flexWrap: "wrap",
-                      }}
-                    >
-                      {[
-                        {
-                          icon: "facebook",
-                          name: "Facebook",
-                          link: "https://facebook.com",
-                        },
-                        {
-                          icon: "spatial_tracking",
-                          name: "X (Twitter)",
-                          link: "https://twitter.com",
-                        },
-                        {
-                          icon: "photo_camera",
-                          name: "Instagram",
-                          link: "https://instagram.com",
-                        },
-                        {
-                          icon: "play_circle",
-                          name: "YouTube",
-                          link: "https://youtube.com",
-                        },
-                        {
-                          icon: "work",
-                          name: "LinkedIn",
-                          link: "https://linkedin.com",
-                        },
-                      ].map((social, socialindex) => (
-                        <Button
-                          key={socialindex}
-                          href={social.link}
-                          target="_blank"
-                          startIcon={
-                            <span className="material-icons">
-                              {social.icon}
-                            </span>
-                          }
-                          sx={{
-                            color: "white",
-                            border: { xs: "", sm: "2px solid white" },
-                            borderRadius: { xs: "50%", sm: "20px" },
-                            px: 2,
-                            py: 0,
-                            "&:hover": {
-                              backgroundColor: "white",
-                              color: "primary.main",
-                            },
-                          }}
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
                         >
-                          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                            {social.name}
-                          </Box>
-                        </Button>
-                      ))}
-                    </Box>
-                    <Typography variant="body2" sx={{ mt: 2 }}>
-                      Stay connected with us on social media for the latest
-                      updates and news.
-                    </Typography>
-                  </Grid>
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            phone
+                          </span>
+                          <Typography
+                            variant="body2"
+                            component="a"
+                            href="tel:+91 9676639383"
+                            sx={{
+                              color: "white",
+                              textDecoration: "none",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                          >
+                            +91 9676639383
+                          </Typography>
+                        </Box>
 
-                  <Grid item xs={12}>
-                    <Box
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            email
+                          </span>
+                          <Typography
+                            variant="body2"
+                            component="a"
+                            href="mailto:goldnoon@gmail.com"
+                            sx={{
+                              color: "white",
+                              textDecoration: "none",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                          >
+                            goldnoon@gmail.com
+                          </Typography>
+                        </Box>
+
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <span
+                            className="material-icons"
+                            style={{ fontSize: "20px" }}
+                          >
+                            schedule
+                          </span>
+                          <Typography variant="body2">
+                            Monday - Saturday
+                            <br />
+                            10:00 AM - 6:00 PM
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+
+                    <Grid
+                      item
+                      xs={12}
+                      md={4}
                       sx={{
-                        borderTop: "1px solid rgba(255,255,255,0.1)",
-                        pt: 2,
-                        mt: 2,
-                        textAlign: "center",
+                        display: {
+                          xs: "none", // Hidden on extra-small screens
+                          md: "block", // Visible on small screens and up
+                          sm: "none", // Visible on small screens and up
+                        },
                       }}
                     >
-                      <Typography variant="body2">
-                        © 2025 All rights reserved.
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          color: "#98FB98",
+                          fontWeight: "bold",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span className="material-icons">link</span>
+                        Quick Links
                       </Typography>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Container>
-            </Box>
-          </div>
-        );
-      };
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 1,
+                        }}
+                      >
+                        {[
+                          "Admissions",
+                          "Academic Calendar",
+                          "Facilities",
+                          "Staff Directory",
+                        ].map((link, linkindex) => (
+                          <Typography
+                            key={linkindex}
+                            variant="body2"
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              cursor: "pointer",
+                              transition: "all 0.3s ease",
+                              "&:hover": {
+                                paddingLeft: "10px",
+                                color: "#98FB98",
+                              },
+                            }}
+                          >
+                            <span
+                              className="material-icons"
+                              style={{ fontSize: "8px" }}
+                            >
+                              circle
+                            </span>
+                            {link}
+                          </Typography>
+                        ))}
+                      </Box>
+                    </Grid>
 
-      const HomePage = () => {
+                    <Grid item xs={12} md={4}>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          color: "#FF69B4",
+                          fontWeight: "bold",
+                          marginBottom: 3,
+                        }}
+                      >
+                        <span className="material-icons">share</span>
+                        Follow Us
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 2,
+                          mb: 2,
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        {[
+                          {
+                            icon: "facebook",
+                            name: "Facebook",
+                            link: "https://facebook.com",
+                          },
+                          {
+                            icon: "spatial_tracking",
+                            name: "X (Twitter)",
+                            link: "https://twitter.com",
+                          },
+                          {
+                            icon: "photo_camera",
+                            name: "Instagram",
+                            link: "https://instagram.com",
+                          },
+                          {
+                            icon: "play_circle",
+                            name: "YouTube",
+                            link: "https://youtube.com",
+                          },
+                          {
+                            icon: "work",
+                            name: "LinkedIn",
+                            link: "https://linkedin.com",
+                          },
+                        ].map((social, socialindex) => (
+                          <Button
+                            key={socialindex}
+                            href={social.link}
+                            target="_blank"
+                            startIcon={
+                              <span className="material-icons">
+                                {social.icon}
+                              </span>
+                            }
+                            sx={{
+                              color: "white",
+                              border: { xs: "", sm: "2px solid white" },
+                              borderRadius: { xs: "50%", sm: "20px" },
+                              px: 2,
+                              py: 0,
+                              "&:hover": {
+                                backgroundColor: "white",
+                                color: "primary.main",
+                              },
+                            }}
+                          >
+                            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                              {social.name}
+                            </Box>
+                          </Button>
+                        ))}
+                      </Box>
+                      <Typography variant="body2" sx={{ mt: 2 }}>
+                        Stay connected with us on social media for the latest
+                        updates and news.
+                      </Typography>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Box
+                        sx={{
+                          borderTop: "1px solid rgba(255,255,255,0.1)",
+                          pt: 2,
+                          mt: 2,
+                          textAlign: "center",
+                        }}
+                      >
+                        <Typography variant="body2">
+                          © 2025 All rights reserved.
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Container>
+              </Box>
+            </div>
+          );
+        };
+
         function handleClick(view) {
           setBodyarea((pre) => view);
           event.preventDefault();
@@ -7191,6 +7196,7 @@
             list: ["all"],
 
             clickfunc: () => {
+              // alert("in Progress to fill form");
               setShareInterestDialogOpen(true);
             },
           },
@@ -7255,7 +7261,7 @@
                     setBodyarea("Dashboard");
                   }}
                 >
-                  GoldNoon
+                  Goldnoon
                   <span style={{ fontSize: "8px" }}>
                     {" "}
                     {loginData?.role ? `(${loginData?.role})` : ``}
