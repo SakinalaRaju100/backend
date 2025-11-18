@@ -691,9 +691,8 @@
 
       const roles = ["admin", "cluster", "manager", "sales", "partner"];
 
-      // let baseURL = "http://localhost:1954";
-      // let baseURL = "https://www.zphskunur.in";
-      let baseURL = "https://zphs-school.vercel.app";
+      let baseURL = "http://localhost:1954";
+      // let baseURL = "https://zphs-school.vercel.app";
 
       const Management = () => {
         const [checked, setChecked] = useState(false);
@@ -3111,8 +3110,8 @@
 
         const allTypesOfLoans = [
           "Personal Loan",
-          "Secured Loans",
-          "Unsecured Loans",
+          "Secured Loan",
+          "Unsecured Loan",
         ];
         const [loanType, setLoanType] = React.useState(allTypesOfLoans[0]);
 
@@ -4721,6 +4720,170 @@
           </Box>
         );
       };
+      const reviewAndUpdate = (loan = []) => {
+        const [reviewAndUpdateModal, setReviewAndUpdateModal] =
+          React.useState(false);
+        return (
+          <Dialog
+            open={reviewAndUpdateModal}
+            onClose={() => setReviewAndUpdateModal(false)}
+            fullWidth
+            maxWidth="sm"
+            sx={{
+              width: "100%",
+              fontSize: "6px",
+              "& .MuiDialogContent-root": {
+                padding: "16px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center", // Vertical centering
+              },
+              "& .MuiDialogTitle-root": {
+                backgroundColor: "#1976d2",
+                color: "white",
+              },
+            }}
+          >
+            <Box sx={{ maxWidth: 400, margin: "auto", mt: 1 }}>
+              <Typography>
+                <strong>fullName:</strong> {loan.fullName}
+              </Typography>
+              <Typography>
+                <strong>mobile:</strong> {loan.mobile}
+              </Typography>
+              <Typography>
+                <strong>email:</strong> {loan.email}
+              </Typography>
+              <Typography>
+                <strong>Hno:</strong> {loan.Hno}
+              </Typography>
+              <Typography>
+                <strong>address:</strong> {loan.address}
+              </Typography>
+              <Typography>
+                <strong>pincode:</strong> {loan.pincode}
+              </Typography>
+              <Typography>
+                <strong>adhaarNumber:</strong> {loan.adhaarNumber}
+              </Typography>
+              <Typography>
+                <strong>panNumber:</strong> {loan.panNumber}
+              </Typography>
+              <Typography>
+                <strong>cbillScore:</strong> {loan.cbillScore}
+              </Typography>
+              <Typography>
+                <strong>yourMOnthlyIncome:</strong> {loan.yourMOnthlyIncome}
+              </Typography>
+              <Typography>
+                <strong>monthlExistingEmiAmount:</strong>{" "}
+                {loan.monthlExistingEmiAmount}
+              </Typography>
+              <Typography>
+                <strong>loanRequirement:</strong> {loan.loanRequirement}
+              </Typography>
+              <Typography>
+                <strong>typeOfEmployment:</strong> {loan.typeOfEmployment}
+              </Typography>
+              <Typography>
+                <strong>companyName:</strong> {loan.companyName}{" "}
+              </Typography>
+              <Typography>
+                <strong>yearsOfExperience:</strong> {loan.yearsOfExperience}
+              </Typography>
+              <Typography>
+                <strong>monthlySalary:</strong> {loan.monthlySalary}{" "}
+              </Typography>
+              <Typography>
+                <strong>companyAddress:</strong> {loan.companyAddress}
+              </Typography>
+              <Typography>
+                <strong>companyPincode:</strong> {loan.companyPincode}
+              </Typography>
+              <Typography>
+                <strong>Mode of Salary Payment:</strong> {loan.modeOfSalary}
+              </Typography>
+
+              {/*} <Typography>
+                            <strong>Income Proof:</strong>
+                            <a href={loan.pan} target="_blank" rel="noreferrer">
+                              {" "}
+                              View pan
+                            </a>
+                          </Typography>*/}
+              <Typography>
+                <strong>Photo :</strong>
+                <Box sx={{ mt: 2 }}>
+                  {loan?.photo && (
+                    <img
+                      src={loan?.photo}
+                      alt="PAN"
+                      width="200px"
+                      height="300px"
+                      style={{ objectFit: "cover" }}
+                    />
+                  )}
+                </Box>
+              </Typography>
+              <Typography>
+                <strong>Aadhar Card:</strong>
+                <Box sx={{ mt: 2 }}>
+                  {loan?.aadhar && (
+                    <img
+                      src={loan?.aadhar}
+                      alt="PAN"
+                      width="200px"
+                      height="300px"
+                      style={{ objectFit: "cover" }}
+                    />
+                  )}
+                </Box>
+              </Typography>
+              <Typography>
+                <strong>PAN card:</strong>
+                <Box sx={{ mt: 2 }}>
+                  {loan?.pan && (
+                    <img
+                      src={loan?.pan}
+                      alt="PAN"
+                      width="200px"
+                      height="300px"
+                      style={{ objectFit: "cover" }}
+                    />
+                  )}
+                </Box>
+              </Typography>
+              <Typography>
+                <strong>PaySlip :</strong>
+                <Box sx={{ mt: 2 }}>
+                  {loan?.paySlip && (
+                    <iframe
+                      src={`https://docs.google.com/gview?url=${loan?.paySlip}&embedded=true`}
+                      width="200px"
+                      height="300px"
+                      frameborder="0"
+                    ></iframe>
+                  )}
+                </Box>
+              </Typography>
+              <Typography>
+                <strong>bank Statement :</strong>
+                <Box sx={{ mt: 2 }}>
+                  {loan?.bankStatement && (
+                    <iframe
+                      src={`https://docs.google.com/gview?url=${loan?.bankStatement}&embedded=true`}
+                      width="200px"
+                      height="300px"
+                      frameborder="0"
+                    ></iframe>
+                  )}
+                </Box>
+              </Typography>
+            </Box>
+          </Dialog>
+        );
+      };
 
       const HomePage = () => {
         const AllLoans = () => {
@@ -4825,6 +4988,7 @@
           };
 
           const handleSubmit = (event) => {
+            // not using as of now
             event.preventDefault();
             console.log("user", user);
             console.log("errors", errors);
@@ -4864,7 +5028,7 @@
                 //     console.log("Error occurred:", error);
                 //   });
 
-                setShowList(true);
+                // setShowList(true);
               } else {
                 alert("some fileds missing");
               }
@@ -4956,7 +5120,7 @@
                 <div className="loader-container">
                   <div className="loader"></div>
                 </div>
-              ) : showList ? (
+              ) : (
                 <div className="form-container">
                   <Box sx={{ p: 0, m: 0, width: "100%" }} className="box">
                     <Box
@@ -5243,870 +5407,7 @@
                         color="text.secondary"
                         sx={{ fontSize: "0.875rem" }}
                         onClick={() => {
-                          setShowList(false);
-                        }}
-                      >
-                        For any updates, please contact the administration.
-                      </Typography>
-                    </Box>
-                  </Box>
-                </div>
-              ) : (
-                <Box
-                  sx={{
-                    maxWidth: "500px",
-                    margin: "auto",
-                    padding: "20px",
-                    backgroundColor: "#fff",
-                    borderRadius: "8px",
-                    boxShadow: 2,
-                  }}
-                >
-                  <Typography variant="h5" textAlign="center" mb={2}>
-                    New User Form
-                  </Typography>
-                  <form onSubmit={handleSubmit}>
-                    {/* Role Selection */}
-                    <FormControl fullWidth margin="normal">
-                      <InputLabel>Role</InputLabel>
-                      <Select
-                        label="Role"
-                        name="role"
-                        value={user.role}
-                        onChange={handleChange}
-                      >
-                        {roles.map((role, index) => (
-                          <MenuItem key={index} value={role}>
-                            {role}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      <FormHelperText error={Boolean(errors.role)}>
-                        {errors.role}
-                      </FormHelperText>
-                    </FormControl>
-
-                    {/* Full Name */}
-                    <TextField
-                      label="Full Name"
-                      name="fullName"
-                      value={user.fullName}
-                      onChange={handleChange}
-                      fullWidth
-                      margin="normal"
-                      error={Boolean(errors.fullName)}
-                      helperText={errors.fullName}
-                    />
-
-                    {/* Care Of Person */}
-                    <TextField
-                      label="Care Of Person"
-                      name="father"
-                      value={user.father}
-                      onChange={handleChange}
-                      fullWidth
-                      margin="normal"
-                      error={Boolean(errors.father)}
-                      helperText={errors.father}
-                    />
-
-                    {/* Gender Selection */}
-                    <FormControl fullWidth margin="normal">
-                      <InputLabel>Gender</InputLabel>
-                      <Select
-                        label="Gender"
-                        name="gender"
-                        value={user.gender}
-                        onChange={handleChange}
-                      >
-                        <MenuItem value="Male">Male</MenuItem>
-                        <MenuItem value="Female">Female</MenuItem>
-                      </Select>
-                    </FormControl>
-
-                    {/* Email */}
-                    <TextField
-                      label="Email"
-                      name="email"
-                      type="email"
-                      value={user.email}
-                      onChange={handleChange}
-                      fullWidth
-                      margin="normal"
-                      error={Boolean(errors.email)}
-                      helperText={errors.email}
-                    />
-
-                    {/* Phone */}
-                    <TextField
-                      label="Phone"
-                      name="phone"
-                      value={user.phone}
-                      onChange={handleChange}
-                      fullWidth
-                      margin="normal"
-                      error={Boolean(errors.phone)}
-                      helperText={errors.phone}
-                    />
-
-                    {/* Branch Selection */}
-                    <FormControl fullWidth margin="normal">
-                      <InputLabel>Branch</InputLabel>
-                      <Select
-                        label="Branch"
-                        name="branch"
-                        value={user.branch}
-                        onChange={handleChange}
-                      >
-                        {branches.map((branch) => (
-                          <MenuItem key={branch?.code} value={branch?.code}>
-                            {branch?.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-
-                    {/* Buttons */}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: { xs: "column", sm: "row" },
-                        gap: 2,
-                        mt: 3,
-                      }}
-                    >
-                      <Button
-                        onClick={() => setShowList(true)}
-                        variant="outlined"
-                        color="secondary"
-                        fullWidth
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                      >
-                        Submit
-                      </Button>
-                    </Box>
-                  </form>
-                </Box>
-              )}
-
-              {/* Modal for user Details*/}
-              {selectedLoan && (
-                <Dialog
-                  open={openStudentDetailsModal}
-                  onClose={() => setOpenStudentDetailsModal(false)}
-                  fullWidth
-                  maxWidth="sm"
-                  sx={{
-                    width: "100%",
-                    fontSize: "6px",
-                    "& .MuiDialogContent-root": {
-                      padding: "16px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center", // Vertical centering
-                    },
-                    "& .MuiDialogTitle-root": {
-                      backgroundColor: "#1976d2",
-                      color: "white",
-                    },
-                  }}
-                >
-                  <Box sx={{ p: 3 }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        mb: 2,
-                      }}
-                    >
-                      <Typography
-                        variant="h5"
-                        gutterBottom
-                        sx={{
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          flex: 1,
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        Loan Details
-                      </Typography>
-                      <IconButton
-                        onClick={() => {
-                          fetchListDate();
-                          setOpenStudentDetailsModal(false);
-                        }}
-                      >
-                        <span className="material-icons">close</span>
-                      </IconButton>
-                    </Box>
-
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        textAlign: "center",
-                        gap: 2,
-                        fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                      }}
-                    >
-                      {/* Display user's photo in a circle */}
-                      {/*<Box
-                                 component="img"
-                                 // src={
-                                 //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
-                                 // }
-                                 src={"./studentEmoji.png"}
-                                 alt={selectedLoan?.name}
-                                 sx={{
-                                   width: { xs: 60, sm: 100 },
-                                   height: { xs: 60, sm: 100 },
-                                   borderRadius: "50%",
-                                   objectFit: "cover",
-                                 }}
-                               />*/}
-
-                      {/* Display user details */}
-
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          width: "100%",
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>User Code:</strong>{" "}
-                        {selectedLoan?.loanId ?? "-"}
-                      </Typography>
-
-                      <Typography
-                        variant="body1"
-                        xs={12}
-                        sx={{
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>Full Name:</strong>{" "}
-                        {selectedLoan?.fullName ?? "-"}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          width: "100%",
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>Status:</strong>{" "}
-                        {selectedLoan?.loanStatus ?? "-"}
-                      </Typography>
-
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong> Branch code:</strong>{" "}
-                        {selectedLoan?.branchCode ?? "-"}
-                      </Typography>
-                      <Typography variant="body1">
-                        <strong>Father:</strong> {selectedLoan?.careOf}
-                      </Typography>
-                      <Typography variant="body1">
-                        <strong>Branch:</strong> {selectedLoan?.branchCode}
-                      </Typography>
-                      <Typography variant="body1">
-                        <strong>RefferedBY:</strong> {selectedLoan?.refferedBY}
-                      </Typography>
-
-                      <Typography variant="body1">
-                        <strong>Email:</strong> {selectedLoan.email}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>Mobile:</strong> {selectedLoan?.mobile ?? "-"}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>Address:</strong> {selectedLoan?.address ?? "-"}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>Pincode:</strong> {selectedLoan?.pincode ?? "-"}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          width: "100%",
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>loanDetails:</strong>{" "}
-                        {JSON.stringify(selectedLoan?.loanDetails) ?? "-"}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          width: "100%",
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>payDetails:</strong>{" "}
-                        {JSON.stringify(selectedLoan?.payDetails) ?? "-"}
-                      </Typography>
-
-                      {/* <Box>
-                           <Button variant="outlined">Edit</Button>
-                         </Box> */}
-                    </Box>
-                  </Box>
-                </Dialog>
-              )}
-            </div>
-          );
-        };
-        const Loans = () => {
-          // let baseURL = "http://localhost:1954";
-          // let baseURL = "https://www.zphskunur.in";
-          // let baseURL = "https://zphs-school.vercel.app";
-          const [checked, setChecked] = useState(false);
-          const [submitted, setSubmitted] = useState(true);
-          const [familyMembers, setFamilyMembers] = useState(0);
-          const [listData, setListData] = useState([]);
-          const [showList, setShowList] = useState(true);
-          const [loading, setLoading] = useState(false);
-          const [selectedLoan, setSelectedLoan] = React.useState(null);
-          // const [newUserModal, setNewUserModal] = React.useState(false);
-          const [openStudentDetailsModal, setOpenStudentDetailsModal] =
-            React.useState(false);
-
-          const [user, setUser] = useState({
-            fullName: "",
-            gender: "",
-            father: "",
-            email: "",
-            phone: "",
-            profession: "",
-            branch: "",
-            role: "",
-          });
-
-          const [errors, setErrors] = useState({});
-
-          const validateField = (name, value) => {
-            const newErrors = { ...errors };
-
-            switch (name) {
-              case "userId":
-                if (!value) newErrors.userId = "user ID is required.";
-                else delete newErrors.userId;
-                break;
-              // case "surname":
-              //   if (!value) newErrors.surname = "Surname is required.";
-              //   else delete newErrors.surname;
-              //   break;
-              case "fullName":
-                if (!value) newErrors.fullName = "Name is required.";
-                else delete newErrors.fullName;
-                break;
-              case "email":
-                if (!value) {
-                  newErrors.email = "Email is required.";
-                } else if (!/\S+@\S+\.\S+/.test(value)) {
-                  newErrors.email = "Email is invalid.";
-                } else {
-                  delete newErrors.email;
-                }
-                break;
-              // case "phone":
-              //   if (!value) {
-              //     newErrors.phone = "Phone number is required.";
-              //   } else if (!/^\d{10}$/.test(value)) {
-              //     newErrors.phone = "Phone number must be 10 digits.";
-              //   } else {
-              //     delete newErrors.phone;
-              //   }
-              //   break;
-              // case "address":
-              //   if (!value) newErrors.address = "Address is required.";
-              //   else delete newErrors.address;
-              //   break;
-              //   case "profession":
-              //     if (!value) newErrors.profession = "Profession is required.";
-              //     else delete newErrors.profession;
-              //     break;
-              // case "father":
-              //   if (!value) newErrors.father = "Gardian name is required.";
-              //   else delete newErrors.father;
-              //   break;
-              // case "profession":
-              //   if (!value)
-              //     newErrors.profession = "profession's name is required.";
-              //   else delete newErrors.profession;
-              //   break;
-              // case "role":
-              //   if (!value) newErrors.role = "Batch Year is required.";
-              //   else if (!/^\d{4}$/.test(value)) {
-              //     newErrors.role = "Batch Year must be a 4-digit year.";
-              //   } else {
-              //     delete newErrors.role;
-              //   }
-              //   break;
-              default:
-                break;
-            }
-
-            setErrors(newErrors);
-          };
-
-          const handleChange = (event) => {
-            const { name, value } = event.target;
-            setUser({
-              ...user,
-              [name]: value,
-            });
-
-            validateField(name, value); // validate each field on change
-          };
-
-          const handleSubmit = (event) => {
-            event.preventDefault();
-            console.log("user", user);
-            console.log("errors", errors);
-            try {
-              if (
-                Object.keys(errors).length === 0
-                // &&
-                // Object.values(user).every((val) => val !== "")
-              ) {
-                users.push({
-                  ...user,
-                  roleId: 0,
-                  theme: "",
-                  active: true,
-                  joinDate: "",
-                  branchCode: "GNB01",
-                  gender: "Male",
-                  careOf: "",
-                });
-
-                console.log("users", users);
-                // axios
-                //   .post(`${baseURL}/new-enroll`, user)
-
-                //   .then((res) => {
-                //     alert(res.data.message);
-                //     if (res.data.message != "Same details enrolled") {
-                //       setShowList(true);
-                //       fetchListDate();
-                //     }
-                //   })
-                //   .catch((error) => {
-                //     // setShowList(true);
-                //     // setShowList(false);
-                //     // alert("catch", error);
-                //     alert(error.message);
-                //     console.log("Error occurred:", error);
-                //   });
-
-                setShowList(true);
-              } else {
-                alert("some fileds missing");
-              }
-            } catch (err) {
-              console.log("err", err);
-            }
-            // Final validation before submission
-          };
-
-          useEffect(() => {
-            setLoading(true);
-            try {
-              fetch(`${baseURL}/all-enrolls`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({}),
-              })
-                .then((response) => response.json()) // Parse the JSON
-                .then((data) => {
-                  setListData(data);
-                  setLoading(false);
-                })
-                .catch((error) => {
-                  console.error("Error loading JSON:", error);
-                  setLoading(false);
-                });
-            } catch (er) {
-              setLoading(false);
-              console.log("er", er);
-              alert("catch");
-            }
-          }, []);
-          const fetchListDate = () => {
-            try {
-              fetch(`${baseURL}/all-enrolls`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({}),
-              })
-                .then((response) => response.json()) // Parse the JSON
-                .then((data) => {
-                  setListData(data);
-                })
-                .catch((error) => console.error("Error loading JSON:", error));
-            } catch (er) {
-              console.log("er", er);
-              alert("catch");
-            }
-          };
-
-          const [searchFilter, setSearchFilter] = React.useState("");
-
-          const [roleFilter, setRoleFilter] = React.useState("");
-
-          const getFilteredlist = () => {
-            console.log("listData", listData);
-            return allLoans.filter((user) => {
-              return (
-                user?.status.toLowerCase().includes(roleFilter.toLowerCase()) &&
-                user?.fullName
-                  .toLowerCase()
-                  .includes(searchFilter.toLowerCase())
-              );
-            });
-          };
-
-          const clearStudentFilters = () => {
-            setSearchFilter("");
-            setRoleFilter("");
-          };
-
-          return (
-            <div
-              style={{
-                overflowX: "scroll",
-              }}
-            >
-              {loading ? (
-                <div className="loader-container">
-                  <div className="loader"></div>
-                </div>
-              ) : showList ? (
-                <div className="form-container">
-                  <Box sx={{ p: 0, m: 0, width: "100%" }} className="box">
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        // mb: 3,
-                      }}
-                    >
-                      <Typography
-                        variant="h5"
-                        gutterBottom
-                        sx={{ fontWeight: "bold", fontSize: "1.25rem" }} // Reduced font size
-                      >
-                        Loans
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        // mb: 3,
-                      }}
-                    >
-                      <Typography
-                        variant="h5"
-                        gutterBottom
-                        sx={{ fontWeight: "bold", fontSize: "1rem" }} // Reduced font size
-                      >
-                        filtered :{" "}
-                        {getFilteredlist().reduce((acc, el) => acc + 1, 0)} /{" "}
-                        {allLoans.length}
-                      </Typography>
-                      <Button
-                        onClick={() => {
-                          // alert("Contact administrator");
                           // setShowList(false);
-                          setBodyarea("ApplyLoan");
-                          // setNewUserModal(true);
-                        }}
-                        variant="contained"
-                        color="primary"
-                        // href="https://zphs-school.vercel.app/enroll-form"
-                        // href="https://sakinalaraju100.github.io/zphs-school/public/addStudentForm.html"
-                      >
-                        apply Loan
-                      </Button>
-                    </Box>
-
-                    {/* New user Button */}
-                    <Box sx={{ mb: 3, textAlign: "right" }}></Box>
-
-                    {/* Filters Section */}
-
-                    <Box sx={{ mb: 3 }}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          gap: 2,
-                          flexWrap: "wrap",
-                          mb: 2,
-                        }}
-                      >
-                        <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
-                          <Typography
-                            variant="subtitle2"
-                            gutterBottom
-                            sx={{ fontSize: "0.875rem" }}
-                          ></Typography>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              bgcolor: "grey.100",
-                              borderRadius: 1,
-                              px: 2,
-                            }}
-                          >
-                            <span
-                              className="material-icons"
-                              sx={{ color: "grey.500" }}
-                            >
-                              school
-                            </span>
-                            <select
-                              value={roleFilter}
-                              onChange={(e) => {
-                                // console.log("roleFilter", e.target.value);
-                                setRoleFilter(e.target.value);
-                                setSearchFilter("");
-                                getFilteredlist();
-                              }}
-                              style={{
-                                border: "none",
-                                outline: "none",
-                                padding: "8px",
-                                backgroundColor: "transparent",
-                                width: "100%",
-                              }}
-                            >
-                              <option value="">All</option>
-                              {[
-                                "Progress",
-                                "Verification",
-                                "Completed",
-                                "Rejected",
-                                "Month",
-                                "Day",
-                                "Week",
-                                "Year",
-                              ].map((role, ri) => (
-                                <option key={ri + role} value={role}>
-                                  {role}
-                                </option>
-                              ))}
-                            </select>
-                          </Box>
-                        </Box>
-                        <Box sx={{ flexGrow: 1, minWidth: "200px" }}>
-                          <Typography
-                            variant="subtitle2"
-                            gutterBottom
-                            sx={{ fontSize: "0.875rem" }}
-                          ></Typography>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              bgcolor: "grey.100",
-                              borderRadius: 1,
-                              px: 2,
-                            }}
-                          >
-                            <span
-                              className="material-icons"
-                              sx={{ color: "grey.500" }}
-                            >
-                              search
-                            </span>
-                            <input
-                              type="text"
-                              // value={searchFilter}
-                              // onChange={(e) => setSearchFilter(e.target.value)}
-                              value={searchFilter}
-                              onChange={(e) => {
-                                setSearchFilter(e.target.value);
-                                getFilteredlist();
-                                // if (e.target.value.length > 2) {
-                                //   // setSearchFilter(e.target.value);
-                                // } else {
-                                //   setSearchFilter("");
-                                // }
-                              }}
-                              placeholder="Filter by Name, Loan ID, mobile or Status..."
-                              style={{
-                                border: "none",
-                                outline: "none",
-                                padding: "8px",
-                                backgroundColor: "transparent",
-                                width: "100%",
-                              }}
-                            />
-                            {searchFilter && (
-                              <IconButton
-                                onClick={() => {
-                                  setSearchFilter("");
-                                }}
-                                sx={{ ml: 1 }}
-                              >
-                                <span
-                                  className="material-icons"
-                                  style={{ color: "grey.500" }}
-                                >
-                                  clear
-                                </span>
-                              </IconButton>
-                            )}
-                          </Box>
-                        </Box>
-                      </Box>
-                    </Box>
-
-                    <Box sx={{ width: "100%", overflowX: "auto" }}>
-                      <TableContainer sx={{ minWidth: "250px" }}>
-                        <Table sx={{}}>
-                          <TableHead>
-                            <TableRow sx={{ bgcolor: "primary.main" }}>
-                              <TableCell
-                                sx={{
-                                  color: "white",
-                                  fontWeight: "bold",
-                                  backgroundColor: "primary.main",
-                                  position: "sticky",
-                                  left: 0,
-                                  zIndex: 1,
-                                }}
-                              >
-                                LoanID
-                              </TableCell>
-
-                              <TableCell
-                                sx={{ color: "white", fontWeight: "bold" }}
-                              >
-                                Full Name
-                              </TableCell>
-
-                              <TableCell
-                                sx={{ color: "white", fontWeight: "bold" }}
-                              >
-                                status
-                              </TableCell>
-
-                              <TableCell
-                                sx={{ color: "white", fontWeight: "bold" }}
-                              >
-                                mobile
-                              </TableCell>
-
-                              {/*}
-
-                                     <TableCell
-                                       sx={{ color: "white", fontWeight: "bold" }}
-                                     >
-                                       Sales Member
-                                     </TableCell>*/}
-
-                              <TableCell
-                                sx={{ color: "white", fontWeight: "bold" }}
-                              >
-                                notes
-                              </TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {/* {allLoans.map((loan, ind) => (*/}
-                            {getFilteredlist().map((loan, ind) => (
-                              <TableRow
-                                key={ind}
-                                onClick={() => {
-                                  setSelectedLoan(loan);
-                                  setOpenStudentDetailsModal(true);
-                                  // setChecked(loan?.enrolled);
-                                  // setFamilyMembers(loan?.familyMembers);
-                                }}
-                                sx={{
-                                  "&:nth-of-type(odd)": { bgcolor: "grey.50" },
-                                  "&:hover": { bgcolor: "grey.100" },
-                                }}
-                              >
-                                <TableCell
-                                  sx={{
-                                    color: "white",
-                                    fontWeight: "bold",
-                                    position: "sticky",
-                                    left: 0,
-                                    backgroundColor: loan?.enrolled
-                                      ? "lightblue"
-                                      : "lightgreen",
-                                    zIndex: 1,
-                                  }}
-                                >
-                                  {loan?.loanId ?? "-"}
-                                </TableCell>
-                                <TableCell>{loan?.fullName ?? "-"}</TableCell>
-                                {/* <TableCell>{loan?.father}</TableCell> */}
-                                <TableCell>{loan?.status ?? "-"}</TableCell>
-                                <TableCell>{loan?.mobile ?? "-"}</TableCell>
-                                <TableCell>{loan?.notes ?? "-"}</TableCell>
-                                {/*} <TableCell>{loan?.email ?? "-"}</TableCell>
-                                       <TableCell>{loan?.address ?? "-"}</TableCell>*/}
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                    </Box>
-
-                    <Box sx={{ mt: 3, textAlign: "center" }}>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ fontSize: "0.875rem" }}
-                        onClick={() => {
-                          setShowList(false);
                         }}
                       >
                         For any updates, please contact the administration.
@@ -6114,152 +5415,10 @@
                     </Box>
                   </Box>
                 </div>
-              ) : (
-                <Box
-                  sx={{
-                    maxWidth: "500px",
-                    margin: "auto",
-                    padding: "20px",
-                    backgroundColor: "#fff",
-                    borderRadius: "8px",
-                    boxShadow: 2,
-                  }}
-                >
-                  <Typography variant="h5" textAlign="center" mb={2}>
-                    New User Form
-                  </Typography>
-                  <form onSubmit={handleSubmit}>
-                    {/* Role Selection */}
-                    <FormControl fullWidth margin="normal">
-                      <InputLabel>Role</InputLabel>
-                      <Select
-                        label="Role"
-                        name="role"
-                        value={user.role}
-                        onChange={handleChange}
-                      >
-                        {roles.map((role, index) => (
-                          <MenuItem key={index} value={role}>
-                            {role}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      <FormHelperText error={Boolean(errors.role)}>
-                        {errors.role}
-                      </FormHelperText>
-                    </FormControl>
-
-                    {/* Full Name */}
-                    <TextField
-                      label="Full Name"
-                      name="fullName"
-                      value={user.fullName}
-                      onChange={handleChange}
-                      fullWidth
-                      margin="normal"
-                      error={Boolean(errors.fullName)}
-                      helperText={errors.fullName}
-                    />
-
-                    {/* Care Of Person */}
-                    <TextField
-                      label="Care Of Person"
-                      name="father"
-                      value={user.father}
-                      onChange={handleChange}
-                      fullWidth
-                      margin="normal"
-                      error={Boolean(errors.father)}
-                      helperText={errors.father}
-                    />
-
-                    {/* Gender Selection */}
-                    <FormControl fullWidth margin="normal">
-                      <InputLabel>Gender</InputLabel>
-                      <Select
-                        label="Gender"
-                        name="gender"
-                        value={user.gender}
-                        onChange={handleChange}
-                      >
-                        <MenuItem value="Male">Male</MenuItem>
-                        <MenuItem value="Female">Female</MenuItem>
-                      </Select>
-                    </FormControl>
-
-                    {/* Email */}
-                    <TextField
-                      label="Email"
-                      name="email"
-                      type="email"
-                      value={user.email}
-                      onChange={handleChange}
-                      fullWidth
-                      margin="normal"
-                      error={Boolean(errors.email)}
-                      helperText={errors.email}
-                    />
-
-                    {/* Phone */}
-                    <TextField
-                      label="Phone"
-                      name="phone"
-                      value={user.phone}
-                      onChange={handleChange}
-                      fullWidth
-                      margin="normal"
-                      error={Boolean(errors.phone)}
-                      helperText={errors.phone}
-                    />
-
-                    {/* Branch Selection */}
-                    <FormControl fullWidth margin="normal">
-                      <InputLabel>Branch</InputLabel>
-                      <Select
-                        label="Branch"
-                        name="branch"
-                        value={user.branch}
-                        onChange={handleChange}
-                      >
-                        {branches.map((branch) => (
-                          <MenuItem key={branch?.code} value={branch?.code}>
-                            {branch?.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-
-                    {/* Buttons */}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: { xs: "column", sm: "row" },
-                        gap: 2,
-                        mt: 3,
-                      }}
-                    >
-                      <Button
-                        onClick={() => setShowList(true)}
-                        variant="outlined"
-                        color="secondary"
-                        fullWidth
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                      >
-                        Submit
-                      </Button>
-                    </Box>
-                  </form>
-                </Box>
               )}
 
-              {/* Modal for user Details*/}
+              {/* modal for loan Details */}
+
               {selectedLoan && (
                 <Dialog
                   open={openStudentDetailsModal}
@@ -6282,7 +5441,7 @@
                     },
                   }}
                 >
-                  <Box sx={{ p: 3 }}>
+                  <Box sx={{ maxWidth: 400, margin: "auto", mt: 1, p: 3 }}>
                     <Box
                       sx={{
                         display: "flex",
@@ -6312,7 +5471,6 @@
                         <span className="material-icons">close</span>
                       </IconButton>
                     </Box>
-
                     <Box
                       sx={{
                         display: "flex",
@@ -6323,125 +5481,149 @@
                         fontSize: { xs: "12px", md: "15px", lg: "18px" },
                       }}
                     >
-                      {/* Display user's photo in a circle */}
-                      {/*<Box
-                                 component="img"
-                                 // src={
-                                 //   "https://drive.google.com/thumbnail?id=1cPyIpmPL-n24bhuBv7XPzP2hXmS5E7FD&sz=w1000"
-                                 // }
-                                 src={"./studentEmoji.png"}
-                                 alt={selectedLoan?.name}
-                                 sx={{
-                                   width: { xs: 60, sm: 100 },
-                                   height: { xs: 60, sm: 100 },
-                                   borderRadius: "50%",
-                                   objectFit: "cover",
-                                 }}
-                               />*/}
-
-                      {/* Display user details */}
-
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          width: "100%",
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>User Code:</strong>{" "}
-                        {selectedLoan?.loanId ?? "-"}
+                      <Typography>
+                        <strong>fullName:</strong> {selectedLoan.fullName}
+                      </Typography>
+                      <Typography>
+                        <strong>mobile:</strong> {selectedLoan.mobile}
+                      </Typography>
+                      <Typography>
+                        <strong>email:</strong> {selectedLoan.email}
+                      </Typography>
+                      <Typography>
+                        <strong>Hno:</strong> {selectedLoan.Hno}
+                      </Typography>
+                      <Typography>
+                        <strong>address:</strong> {selectedLoan.address}
+                      </Typography>
+                      <Typography>
+                        <strong>pincode:</strong> {selectedLoan.pincode}
+                      </Typography>
+                      <Typography>
+                        <strong>adhaarNumber:</strong>{" "}
+                        {selectedLoan.adhaarNumber}
+                      </Typography>
+                      <Typography>
+                        <strong>panNumber:</strong> {selectedLoan.panNumber}
+                      </Typography>
+                      <Typography>
+                        <strong>cbillScore:</strong> {selectedLoan.cbillScore}
+                      </Typography>
+                      <Typography>
+                        <strong>yourMOnthlyIncome:</strong>{" "}
+                        {selectedLoan.yourMOnthlyIncome}
+                      </Typography>
+                      <Typography>
+                        <strong>monthlExistingEmiAmount:</strong>{" "}
+                        {selectedLoan.monthlExistingEmiAmount}
+                      </Typography>
+                      <Typography>
+                        <strong>loanRequirement:</strong>{" "}
+                        {selectedLoan.loanRequirement}
+                      </Typography>
+                      <Typography>
+                        <strong>typeOfEmployment:</strong>{" "}
+                        {selectedLoan.typeOfEmployment}
+                      </Typography>
+                      <Typography>
+                        <strong>companyName:</strong> {selectedLoan.companyName}{" "}
+                      </Typography>
+                      <Typography>
+                        <strong>yearsOfExperience:</strong>{" "}
+                        {selectedLoan.yearsOfExperience}
+                      </Typography>
+                      <Typography>
+                        <strong>monthlySalary:</strong>{" "}
+                        {selectedLoan.monthlySalary}{" "}
+                      </Typography>
+                      <Typography>
+                        <strong>companyAddress:</strong>{" "}
+                        {selectedLoan.companyAddress}
+                      </Typography>
+                      <Typography>
+                        <strong>companyPincode:</strong>{" "}
+                        {selectedLoan.companyPincode}
+                      </Typography>
+                      <Typography>
+                        <strong>Mode of Salary Payment:</strong>{" "}
+                        {selectedLoan.modeOfSalary}
                       </Typography>
 
-                      <Typography
-                        variant="body1"
-                        xs={12}
-                        sx={{
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>Full Name:</strong>{" "}
-                        {selectedLoan?.fullName ?? "-"}
+                      {/*} <Typography>
+                            <strong>Income Proof:</strong>
+                            <a href={selectedLoan.pan} target="_blank" rel="noreferrer">
+                              {" "}
+                              View pan
+                            </a>
+                          </Typography>*/}
+                      <Typography>
+                        <strong>Photo :</strong>
+                        <Box sx={{ mt: 2 }}>
+                          {selectedLoan?.photo && (
+                            <img
+                              src={selectedLoan?.photo}
+                              alt="PAN"
+                              width="200px"
+                              height="300px"
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </Box>
                       </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          width: "100%",
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>Status:</strong> {selectedLoan?.status ?? "-"}
+                      <Typography>
+                        <strong>Aadhar Card:</strong>
+                        <Box sx={{ mt: 2 }}>
+                          {selectedLoan?.aadhar && (
+                            <img
+                              src={selectedLoan?.aadhar}
+                              alt="PAN"
+                              width="200px"
+                              height="300px"
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </Box>
                       </Typography>
-
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong> Branch code:</strong>{" "}
-                        {selectedLoan?.branchCode ?? "-"}
+                      <Typography>
+                        <strong>PAN card:</strong>
+                        <Box sx={{ mt: 2 }}>
+                          {selectedLoan?.pan && (
+                            <img
+                              src={selectedLoan?.pan}
+                              alt="PAN"
+                              width="200px"
+                              height="300px"
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </Box>
                       </Typography>
-                      <Typography variant="body1">
-                        <strong>Father:</strong> {selectedLoan?.careOf}
+                      <Typography>
+                        <strong>PaySlip :</strong>
+                        <Box sx={{ mt: 2 }}>
+                          {selectedLoan?.paySlip && (
+                            <iframe
+                              src={`https://docs.google.com/gview?url=${selectedLoan?.paySlip}&embedded=true`}
+                              width="200px"
+                              height="300px"
+                              frameborder="0"
+                            ></iframe>
+                          )}
+                        </Box>
                       </Typography>
-                      <Typography variant="body1">
-                        <strong>Branch:</strong> {selectedLoan?.branchCode}
+                      <Typography>
+                        <strong>bank Statement :</strong>
+                        <Box sx={{ mt: 2 }}>
+                          {selectedLoan?.bankStatement && (
+                            <iframe
+                              src={`https://docs.google.com/gview?url=${selectedLoan?.bankStatement}&embedded=true`}
+                              width="200px"
+                              height="300px"
+                              frameborder="0"
+                            ></iframe>
+                          )}
+                        </Box>
                       </Typography>
-                      <Typography variant="body1">
-                        <strong>RefferedBY:</strong> {selectedLoan?.refferedBY}
-                      </Typography>
-
-                      <Typography variant="body1">
-                        <strong>Email:</strong> {selectedLoan.email}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>Mobile:</strong> {selectedLoan?.mobile ?? "-"}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>Address:</strong> {selectedLoan?.address ?? "-"}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>Pincode:</strong> {selectedLoan?.pincode ?? "-"}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          width: "100%",
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>loanDetails:</strong>{" "}
-                        {JSON.stringify(selectedLoan?.loanDetails) ?? "-"}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          width: "100%",
-                          fontSize: { xs: "12px", md: "15px", lg: "18px" },
-                        }}
-                      >
-                        <strong>payDetails:</strong>{" "}
-                        {JSON.stringify(selectedLoan?.payDetails) ?? "-"}
-                      </Typography>
-
-                      {/* <Box>
-                           <Button variant="outlined">Edit</Button>
-                         </Box> */}
                     </Box>
                   </Box>
                 </Dialog>
@@ -6638,7 +5820,7 @@
                       // },
                     }}
                     onClick={() => {
-                      setBodyarea("Loans");
+                      setBodyarea("AllLoans");
                       // setCustomerSignUPDialogOpen(true);
                     }}
                   >
@@ -8074,7 +7256,7 @@
             text: "All loans",
             icon: "article",
             role: "customer",
-            list: ["admin", "sales"],
+            list: ["admin", "sales", "manager"],
             path: "/",
             clickfunc: () => {
               setBodyarea("AllLoans");
@@ -8413,8 +7595,6 @@
               {bodyarea == "SalesReports" && <SalesReports />}
               {bodyarea == "SalesBoard" && <Leaderboard />}
               {bodyarea == "AllLoans" && <AllLoans />}
-              {/*{bodyarea == "Loans" && <Loans />}*/}
-              {bodyarea == "Loans" && <AllLoans />}
               {bodyarea == "ApplyLoan" && <ApplyLoan />}
               {bodyarea == "Branches" && <Branches />}
               {bodyarea == "Dashboard" && <Dashboard />}
