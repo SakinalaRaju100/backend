@@ -691,8 +691,8 @@
 
       const roles = ["admin", "cluster", "manager", "sales", "partner"];
 
-      // let baseURL = "http://localhost:1954";
-      let baseURL = "https://zphs-school.vercel.app";
+      let baseURL = "http://localhost:1954";
+      // let baseURL = "https://zphs-school.vercel.app";
 
       const Management = () => {
         const [checked, setChecked] = useState(false);
@@ -5204,15 +5204,14 @@
                               <TableCell
                                 sx={{ color: "white", fontWeight: "bold" }}
                               >
-                                notes
+                                Applied Date
                               </TableCell>
-                              {true && (
-                                <TableCell
-                                  sx={{ color: "white", fontWeight: "bold" }}
-                                >
-                                  Actions
-                                </TableCell>
-                              )}
+
+                              <TableCell
+                                sx={{ color: "white", fontWeight: "bold" }}
+                              >
+                                Actions
+                              </TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
@@ -5243,7 +5242,16 @@
                                 {/* <TableCell>{loan?.father}</TableCell> */}
                                 <TableCell>{loan?.loanStatus ?? "-"}</TableCell>
                                 <TableCell>{loan?.mobile ?? "-"}</TableCell>
-                                <TableCell>{loan?.notes ?? "-"}</TableCell>
+                                <TableCell>
+                                  {new Date(loan?.createdAt).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                      year: "numeric",
+                                      month: "long",
+                                      day: "numeric",
+                                    }
+                                  ) ?? "-"}
+                                </TableCell>
                                 <TableCell>
                                   <Stack
                                     direction="row"
@@ -5664,6 +5672,33 @@
                           <strong>{label}:</strong> {value}
                         </Typography>
                       ))}
+                      {selectedLoan?.actions && (
+                        <Typography>
+                          <strong>Actions:</strong>{" "}
+                          {selectedLoan?.actions.length} times
+                        </Typography>
+                      )}
+                      {selectedLoan?.actions &&
+                        selectedLoan?.actions.map((action, actionIndex) => {
+                          return (
+                            <Typography key={actionIndex}>
+                              <strong>Status:</strong> {action.loanStatus}
+                              <strong>Notes:</strong> {action.note}
+                              <strong>At:</strong>{" "}
+                              {new Date(action.dateTime).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                }
+                              )}
+                              <strong>By:</strong> {action.updatedBy}
+                            </Typography>
+                          );
+                        })}
 
                       {/* IMAGES + DOCUMENTS */}
                       {[
