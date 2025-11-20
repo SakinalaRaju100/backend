@@ -4946,6 +4946,21 @@
             setRoleFilter("");
           };
 
+          // 1. Add state for dialog popup and selected loan for updating. Place this near other useState hooks, such as after loan state:
+          const [openUpdateLoanDialog, setOpenUpdateLoanDialog] =
+            useState(false);
+          const [loanToUpdate, setLoanToUpdate] = useState(null);
+          const [updateStatus, setUpdateStatus] = useState("");
+          const [updateNotes, setUpdateNotes] = useState("");
+
+          // 2. Replace updateLoan (previously alert) with dialog open and state handling:
+          const updateLoan = (loan) => {
+            setLoanToUpdate(loan);
+            setUpdateStatus(loan.loanStatus || "");
+            setUpdateNotes("");
+            setOpenUpdateLoanDialog(true);
+          };
+
           return (
             <div
               style={{
@@ -5205,12 +5220,6 @@
                             {getFilteredlist().map((loan, ind) => (
                               <TableRow
                                 key={ind}
-                                onClick={() => {
-                                  setSelectedLoan(loan);
-                                  setOpenStudentDetailsModal(true);
-                                  // setChecked(loan?.enrolled);
-                                  // setFamilyMembers(loan?.familyMembers);
-                                }}
                                 sx={{
                                   "&:nth-of-type(odd)": { bgcolor: "grey.50" },
                                   "&:hover": { bgcolor: "grey.100" },
@@ -5236,11 +5245,109 @@
                                 <TableCell>{loan?.mobile ?? "-"}</TableCell>
                                 <TableCell>{loan?.notes ?? "-"}</TableCell>
                                 <TableCell>
-                                  <Button disabled>Edit</Button>
-                                  <Button>Review and Update</Button>
+                                  <Stack
+                                    direction="row"
+                                    spacing={1}
+                                    justifyContent="center"
+                                    alignItems="center"
+                                  >
+                                    <Tooltip title="View">
+                                      <span>
+                                        <Button
+                                          onClick={() => {
+                                            setSelectedLoan(loan);
+                                            setOpenStudentDetailsModal(true);
+                                            // setChecked(loan?.enrolled);
+                                            // setFamilyMembers(loan?.familyMembers);
+                                          }}
+                                          size="small"
+                                          color="primary"
+                                          // variant="outlined"
+                                          sx={{
+                                            minWidth: 0,
+                                            p: 1,
+                                            // borderRadius: 1,
+                                          }}
+                                          startIcon={
+                                            <span className="material-icons">
+                                              visibility
+                                            </span>
+                                          }
+                                        >
+                                          View
+                                        </Button>
+                                      </span>
+                                    </Tooltip>
+                                    {loan.edit && (
+                                      <Tooltip title="Edit">
+                                        <span>
+                                          <Button
+                                            size="small"
+                                            color="info"
+                                            // variant="outlined"
+                                            sx={{
+                                              minWidth: 0,
+                                              p: 1,
+                                              // borderRadius: 2,
+                                            }}
+                                            startIcon={
+                                              <span className="material-icons">
+                                                edit
+                                              </span>
+                                            }
+                                          ></Button>
+                                        </span>
+                                      </Tooltip>
+                                    )}
+                                    {loan.delete && (
+                                      <Tooltip title="Delete">
+                                        <span>
+                                          <Button
+                                            size="small"
+                                            color="error"
+                                            // variant="outlined"
+                                            sx={{
+                                              minWidth: 0,
+                                              p: 1,
+                                              // borderRadius: 2,
+                                            }}
+                                            startIcon={
+                                              <span className="material-icons">
+                                                delete
+                                              </span>
+                                            }
+                                          ></Button>
+                                        </span>
+                                      </Tooltip>
+                                    )}
+                                    {loan.update && (
+                                      <Tooltip title="Update Status">
+                                        <span>
+                                          <Button
+                                            onClick={() => {
+                                              updateLoan(loan);
+                                            }}
+                                            size="small"
+                                            color="success"
+                                            variant="outlined"
+                                            sx={{
+                                              minWidth: 0,
+                                              p: 1,
+                                              borderRadius: 2,
+                                            }}
+                                            startIcon={
+                                              <span className="material-icons">
+                                                forward
+                                              </span>
+                                            }
+                                          >
+                                            update
+                                          </Button>
+                                        </span>
+                                      </Tooltip>
+                                    )}
+                                  </Stack>
                                 </TableCell>
-                                {/*} <TableCell>{loan?.email ?? "-"}</TableCell>
-                                             <TableCell>{loan?.address ?? "-"}</TableCell>*/}
                               </TableRow>
                             ))}
                           </TableBody>
@@ -5614,6 +5721,104 @@
                   </Box>
                 </Dialog>
               )}
+              <Dialog
+                open={openUpdateLoanDialog}
+                onClose={() => setOpenUpdateLoanDialog(false)}
+                fullWidth
+                maxWidth="sm"
+              >
+                <DialogTitle
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    // bgcolor: "#1976d2",
+                    // color: "white",
+                  }}
+                >
+                  Update Loan Status
+                  <IconButton
+                    onClick={() => setOpenUpdateLoanDialog(false)}
+                    size="small"
+                  >
+                    <span className="material-icons">close</span>
+                  </IconButton>
+                </DialogTitle>
+                <DialogContent
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel>Status</InputLabel>
+                    <Select
+                      value={updateStatus}
+                      label="Status"
+                      onChange={(e) => setUpdateStatus(e.target.value)}
+                    >
+                      <MenuItem value={"pending"}>Pending</MenuItem>
+                      <MenuItem value={"verification"}>Verification</MenuItem>
+                      <MenuItem value={"Applied"}>
+                        Applied Successfully
+                      </MenuItem>
+                      <MenuItem value={"approved"}>Approved</MenuItem>
+                      <MenuItem value={"rejected"}>Rejected</MenuItem>
+                      <MenuItem value={"processing"}>Processing</MenuItem>
+                      <MenuItem value={"disbursed"}>Disbursed</MenuItem>
+                      <MenuItem value={"loanRecovering"}>
+                        loan Recovering
+                      </MenuItem>
+                      <MenuItem value={"completed"}>Completed</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    label="Notes"
+                    multiline
+                    minRows={3}
+                    value={updateNotes}
+                    onChange={(e) => setUpdateNotes(e.target.value)}
+                    fullWidth
+                    placeholder="Enter update notes here..."
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={() => setOpenUpdateLoanDialog(false)}
+                    color="inherit"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={async () => {
+                      // Call /update-loan-status with required data
+                      try {
+                        console.log("loanToUpdate", loanToUpdate);
+                        let login = loginData;
+                        if (!login) {
+                          // fallback to localStorage if needed
+                          login = JSON.parse(localStorage.getItem("gnUserObj"));
+                        }
+                        await axios.post(`${baseURL}/update-loan-status`, {
+                          loanId: loanToUpdate?.loanId,
+                          userId: login?.userId,
+                          newLoanStatus: updateStatus,
+                          notes: updateNotes,
+                        });
+                        alert("Loan status updated successfully");
+                        setOpenUpdateLoanDialog(false);
+                      } catch (err) {
+                        alert("Failed to update loan status");
+                      }
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </div>
           );
         };
@@ -6027,8 +6232,7 @@
                   </Typography>
                   <div>
                     <div className="notification success">
-                      <span className="icon">✔</span>
-                      Customized Loan Offers..
+                      <span className="icon">✔</span> Customized Loan Offers..
                     </div>
 
                     <div className="notification error">
