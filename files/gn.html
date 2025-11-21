@@ -4747,6 +4747,11 @@
 
       const HomePage = () => {
         const AllLoans = () => {
+          const [eligibilityDetails, setEligibilityDetails] = useState({
+            amount: 100000,
+            roi: 11,
+            duration: 12,
+          });
           const [checked, setChecked] = useState(false);
           const [submitted, setSubmitted] = useState(true);
           const [familyMembers, setFamilyMembers] = useState(0);
@@ -5819,9 +5824,6 @@
                     >
                       <MenuItem value={"pending"}>Pending</MenuItem>
                       <MenuItem value={"verification"}>Verification</MenuItem>
-                      <MenuItem value={"Applied"}>
-                        Applied Successfully
-                      </MenuItem>
                       <MenuItem value={"approved"}>Approved</MenuItem>
                       <MenuItem value={"rejected"}>Rejected</MenuItem>
                       <MenuItem value={"processing"}>Processing</MenuItem>
@@ -5832,6 +5834,80 @@
                       <MenuItem value={"completed"}>Completed</MenuItem>
                     </Select>
                   </FormControl>
+                  {updateStatus === "approved" && (
+                    <div>
+                      <Typography variant="body1">
+                        Eligible Loan Amount: ₹{" "}
+                        <TextField
+                          onChange={(e) => {
+                            setEligibilityDetails({
+                              ...eligibilityDetails,
+                              amount: e.target.value,
+                            });
+                          }}
+                          value={eligibilityDetails?.amount}
+                        />
+                      </Typography>
+
+                      <Slider
+                        value={eligibilityDetails?.amount}
+                        onChange={(e, newValue) =>
+                          setEligibilityDetails({
+                            ...eligibilityDetails,
+                            amount: newValue,
+                          })
+                        }
+                        aria-labelledby="amount-slider"
+                        min={eligibilityDetails?.minLoanAmount ?? 50000}
+                        max={eligibilityDetails?.maxLoanAmount ?? 5000000}
+                        step={10000}
+                        valueLabelDisplay="auto"
+                      />
+
+                      <Typography variant="body1">
+                        Rate of Interest: {eligibilityDetails.roi}%
+                      </Typography>
+                      <Slider
+                        value={eligibilityDetails?.roi}
+                        onChange={(e, newValue) =>
+                          setEligibilityDetails({
+                            ...eligibilityDetails,
+                            roi: newValue,
+                          })
+                        }
+                        aria-labelledby="amount-slider"
+                        min={7}
+                        max={24}
+                        step={0.5}
+                        valueLabelDisplay="auto"
+                      />
+
+                      <Typography variant="body1">
+                        Duration: {eligibilityDetails.duration} months
+                      </Typography>
+                      <Slider
+                        value={eligibilityDetails.duration}
+                        onChange={(e, newValue) =>
+                          setEligibilityDetails({
+                            ...eligibilityDetails,
+                            duration: newValue,
+                          })
+                        }
+                        aria-labelledby="duration-slider"
+                        min={6}
+                        max={60}
+                        step={6}
+                        valueLabelDisplay="auto"
+                      />
+                      <Typography variant="body1">
+                        Monthly EMI: ₹
+                        {Math.round(
+                          eligibilityDetails.amount /
+                            eligibilityDetails.duration
+                        )}
+                      </Typography>
+                    </div>
+                  )}
                   <TextField
                     label="Notes"
                     multiline
