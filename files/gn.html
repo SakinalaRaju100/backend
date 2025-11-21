@@ -953,7 +953,7 @@
                     </Typography>
                     <Button
                       onClick={() => {
-                        // alert("Contact administrator");
+                        alert("Contact administrator");
                         setShowList(false);
                         fetchBranches();
                       }}
@@ -1759,6 +1759,25 @@
           setSearchFilter("");
           setRoleFilter("");
         };
+        const [branches, setBranches] = useState([]);
+        const fetchBranches = () => {
+          fetch(`${baseURL}/get-all-branches`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({}),
+          })
+            .then((response) => response.json()) // Parse the JSON
+            .then((data) => {
+              setBranches(data);
+            })
+            .catch((error) => {
+              console.error("Error loading JSON:", error);
+              setBranches([]);
+            });
+        };
 
         return (
           <div
@@ -1808,8 +1827,9 @@
                     </Typography>
                     <Button
                       onClick={() => {
-                        // alert("Contact administrator");
+                        // alert("Contact administrator2");
                         setShowList(false);
+                        fetchBranches();
                         // setNewUserModal(true);
                       }}
                       variant="contained"
@@ -2176,7 +2196,10 @@
                       onChange={handleChange}
                     >
                       {branches.map((branch) => (
-                        <MenuItem key={branch?.code} value={branch?.code}>
+                        <MenuItem
+                          key={branch?.branchCode}
+                          value={branch?.branchCode}
+                        >
                           {branch?.name}
                         </MenuItem>
                       ))}
@@ -4613,8 +4636,9 @@
                       value={branch.status}
                       onChange={handleChange}
                     >
-                      <MenuItem value="Male">Active</MenuItem>
-                      <MenuItem value="Female">Opening Soon</MenuItem>
+                      <MenuItem value="Active">Active</MenuItem>
+                      <MenuItem value="OpenSoon">Opening Soon</MenuItem>
+                      <MenuItem value="Closed">Closed</MenuItem>
                     </Select>
                   </FormControl>
 
