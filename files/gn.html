@@ -30,6 +30,10 @@
       href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
     />
 
+    <!-- Add Moment.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+
     <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -4747,11 +4751,18 @@
 
       const HomePage = () => {
         const AllLoans = () => {
-          const [eligibilityDetails, setEligibilityDetails] = useState({
+
+        const [emiTableArr, setEmiTable] = useState([]);
+
+          const [approvedLoanDetails, setApprovedLoanDetails] = useState({
             amount: 100000,
-            roi: 11,
+            roi: 10,
             duration: 12,
           });
+
+          const [loanDisbursedDetails, setLoanDisbursedDetails] = useState({});
+          const [emiDetails, setEmiDetails] = useState({});
+
           const [checked, setChecked] = useState(false);
           const [submitted, setSubmitted] = useState(true);
           const [familyMembers, setFamilyMembers] = useState(0);
@@ -5827,7 +5838,7 @@
                       <MenuItem value={"approved"}>Approved</MenuItem>
                       <MenuItem value={"rejected"}>Rejected</MenuItem>
                       <MenuItem value={"processing"}>Processing</MenuItem>
-                      <MenuItem value={"disbursed"}>Disbursed</MenuItem>
+                      <MenuItem value={"disbursing"}>Disbursing</MenuItem>
                       <MenuItem value={"loanRecovering"}>
                         loan Recovering
                       </MenuItem>
@@ -5840,38 +5851,38 @@
                         Eligible Loan Amount: ₹{" "}
                         <TextField
                           onChange={(e) => {
-                            setEligibilityDetails({
-                              ...eligibilityDetails,
+                            setApprovedLoanDetails({
+                              ...approvedLoanDetails,
                               amount: e.target.value,
                             });
                           }}
-                          value={eligibilityDetails?.amount}
+                          value={approvedLoanDetails?.amount}
                         />
                       </Typography>
 
                       <Slider
-                        value={eligibilityDetails?.amount}
+                        value={approvedLoanDetails?.amount}
                         onChange={(e, newValue) =>
-                          setEligibilityDetails({
-                            ...eligibilityDetails,
+                          setApprovedLoanDetails({
+                            ...approvedLoanDetails,
                             amount: newValue,
                           })
                         }
                         aria-labelledby="amount-slider"
-                        min={eligibilityDetails?.minLoanAmount ?? 50000}
-                        max={eligibilityDetails?.maxLoanAmount ?? 5000000}
+                        min={approvedLoanDetails?.minLoanAmount ?? 50000}
+                        max={approvedLoanDetails?.maxLoanAmount ?? 5000000}
                         step={10000}
                         valueLabelDisplay="auto"
                       />
 
                       <Typography variant="body1">
-                        Rate of Interest: {eligibilityDetails.roi}%
+                        Rate of Interest: {approvedLoanDetails.roi}%
                       </Typography>
                       <Slider
-                        value={eligibilityDetails?.roi}
+                        value={approvedLoanDetails?.roi}
                         onChange={(e, newValue) =>
-                          setEligibilityDetails({
-                            ...eligibilityDetails,
+                          setApprovedLoanDetails({
+                            ...approvedLoanDetails,
                             roi: newValue,
                           })
                         }
@@ -5883,13 +5894,13 @@
                       />
 
                       <Typography variant="body1">
-                        Duration: {eligibilityDetails.duration} months
+                        Duration: {approvedLoanDetails.duration} months
                       </Typography>
                       <Slider
-                        value={eligibilityDetails.duration}
+                        value={approvedLoanDetails.duration}
                         onChange={(e, newValue) =>
-                          setEligibilityDetails({
-                            ...eligibilityDetails,
+                          setApprovedLoanDetails({
+                            ...approvedLoanDetails,
                             duration: newValue,
                           })
                         }
@@ -5902,12 +5913,128 @@
                       <Typography variant="body1">
                         Monthly EMI: ₹
                         {Math.round(
-                          eligibilityDetails.amount /
-                            eligibilityDetails.duration
+                          approvedLoanDetails.amount /
+                            approvedLoanDetails.duration
                         )}
                       </Typography>
                     </div>
                   )}
+                  {updateStatus === "disbursing" && (
+                    <div>
+                      <Typography variant="body1">
+                        Approved Loan Amount: ₹ 10000/-
+                      </Typography>
+                      <Typography variant="body1">
+                        Approved Loan Rate of Interest: 11%
+                      </Typography>
+                     
+                      <FormControl fullWidth sx={{ mt: 2 }}>
+                  <InputLabel>Select Emi Plan</InputLabel>
+                    <Select
+                      value={'monthly'}
+                      label="Select Emi Plan"
+                    >
+                      <MenuItem value={"monthly"}>Monthly</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel>Choose Emi Date</InputLabel>
+                    <Select
+                      value={emiDetails?.emiDate ?? 1}
+                      label="Choose Emi Date"
+                      onChange={(e) => setEmiDetails({...emiDetails, emiDate: e.target.value})}
+                    >
+                      <MenuItem defaultValue value={1}>1</MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                      <MenuItem value={4}>4</MenuItem>
+                      <MenuItem value={5}>5</MenuItem>
+                      <MenuItem value={6}>6</MenuItem>
+                      <MenuItem value={7}>7</MenuItem>
+                      <MenuItem value={8}>8</MenuItem>
+                      <MenuItem value={9}>9</MenuItem>
+                      <MenuItem value={10}>10</MenuItem>
+                      <MenuItem value={11}>11</MenuItem>
+                      <MenuItem value={12}>12</MenuItem>
+                      <MenuItem value={13}>13</MenuItem>
+                      <MenuItem value={14}>14</MenuItem>
+                      <MenuItem value={15}>15</MenuItem>
+                      <MenuItem value={16}>16</MenuItem>
+                      <MenuItem value={17}>17</MenuItem>
+                      <MenuItem value={18}>18</MenuItem>
+                      <MenuItem value={19}>19</MenuItem>
+                      <MenuItem value={20}>20</MenuItem>
+                      <MenuItem value={21}>21</MenuItem>
+                      <MenuItem value={22}>22</MenuItem>
+                      <MenuItem value={23}>23</MenuItem>
+                      <MenuItem value={24}>24</MenuItem>
+                      <MenuItem value={25}>25</MenuItem>
+                      <MenuItem value={26}>26</MenuItem>
+                      <MenuItem value={27}>27</MenuItem>
+                      <MenuItem value={28}>28</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                      <Typography variant="body1">
+                        Duration: {approvedLoanDetails.duration} months
+                      </Typography>
+                      <Slider
+                        value={approvedLoanDetails.duration}
+                        onChange={(e, newValue) =>
+                          setApprovedLoanDetails({
+                            ...approvedLoanDetails,
+                            duration: newValue,
+                          })
+                        }
+                        aria-labelledby="duration-slider"
+                        min={6}
+                        max={60}
+                        step={6}
+                        valueLabelDisplay="auto"
+                      />
+                      <Typography variant="body1">
+                        Monthly EMI: ₹
+                        {Math.round(
+                          approvedLoanDetails.amount /
+                            approvedLoanDetails.duration
+                        )}
+                      </Typography>
+                      <Typography>
+                        <div>
+                        {approvedLoanDetails?.duration > 0 && (
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Month</TableCell>
+                                <TableCell>EMI Amount</TableCell>
+                                <TableCell>Status</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {[...Array(Number(approvedLoanDetails?.duration))].map((emi, monthIndex) => (
+                                 <TableRow key={monthIndex}>
+                                  <TableCell style={{ fontSize: "8px" }}>
+                                    {moment().add(monthIndex + 1, "months").format(`${emiDetails?.emiDate ?? 1}-MMM-YYYY`)}
+                                  </TableCell>
+                                  <TableCell style={{ fontSize: "8px" }}>
+                                     {Math.round( approvedLoanDetails.amount / approvedLoanDetails.duration).toFixed(2)}
+                                  </TableCell>
+                                  <TableCell style={{ fontSize: "8px" }}>
+                                     {'Not Paid'}
+                                  </TableCell>
+                                  
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        )}
+                      </div>
+                      </Typography>
+
+                    </div>
+                  )}
+
                   <TextField
                     label="Notes"
                     multiline
@@ -5942,6 +6069,9 @@
                           userId: login?.userId,
                           newLoanStatus: updateStatus,
                           notes: updateNotes,
+                          approvedLoanDetails: approvedLoanDetails ?? {},
+                          loanDisbursedDetails: loanDisbursedDetails ?? {},
+                          emiDetails : emiDetails ?? {}
                         });
                         alert("Loan status updated successfully");
                         setOpenUpdateLoanDialog(false);
@@ -8693,4 +8823,4 @@
       ReactDOM.render(<HomePage />, document.getElementById("root"));
     </script>
   </body>
-</html>
+</html
