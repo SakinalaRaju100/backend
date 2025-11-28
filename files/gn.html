@@ -4265,6 +4265,10 @@
         // const [newUserModal, setNewUserModal] = React.useState(false);
         const [openStudentDetailsModal, setOpenStudentDetailsModal] =
           React.useState(false);
+        const [openBranchDetailsModal, setOpenBranchDetailsModal] =
+          React.useState(false);
+        const [selectedBranch, setSelectedBranch] =
+          React.useState(null);
         const [openNewBranchModal, setOpenNewBranchModal] =
           React.useState(false);
 
@@ -4414,7 +4418,7 @@
               <div className="loader-container">
                 <div className="loader"></div>
               </div>
-            ) : showList ? (
+            ) : showList && (
               <div className="form-container">
                 <Box sx={{ p: 0, m: 0, width: "100%" }} className="box">
                   <Box
@@ -4494,11 +4498,13 @@
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {listData.map((user, ind) => (
+                          {listData.map((branch, ind) => (
                             <TableRow
                               key={ind}
                               onClick={() => {
-                                setSelectedStudent(user);
+                                setOpenBranchDetailsModal(true);
+                                console.log('branch', branch)
+                                setSelectedBranch(branch)
                               }}
                               sx={{
                                 "&:nth-of-type(odd)": { bgcolor: "grey.50" },
@@ -4511,51 +4517,27 @@
                                   fontWeight: "bold",
                                   position: "sticky",
                                   left: 0,
-                                  backgroundColor: user?.enrolled
+                                  backgroundColor: branch?.enrolled
                                     ? "lightblue"
                                     : "lightgreen",
                                   zIndex: 1,
                                 }}
                               >
-                                {user?.branchCode ?? "-"}
+                                {branch?.branchCode ?? "-"}
                               </TableCell>
-                              <TableCell>{user?.name ?? "-"}</TableCell>
+                              <TableCell>{branch?.name ?? "-"}</TableCell>
 
-                              <TableCell>{user?.address ?? "-"}</TableCell>
-                              <TableCell>{user?.pincode ?? "-"}</TableCell>
-                              <TableCell>{user?.status ?? "-"}</TableCell>
+                              <TableCell>{branch?.address ?? "-"}</TableCell>
+                              <TableCell>{branch?.pincode ?? "-"}</TableCell>
+                              <TableCell>{branch?.status ?? "-"}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
                       </Table>
                     </TableContainer>
                   </Box>
-
-                  <Box sx={{ mt: 3, textAlign: "center" }}>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ fontSize: "0.875rem" }}
-                      onClick={() => {
-                        setShowList(false);
-                      }}
-                    >
-                      This feature enabled for Admins olny
-                    </Typography>
-                  </Box>
                 </Box>
               </div>
-            ) : (
-              <Box
-                sx={{
-                  maxWidth: "500px",
-                  margin: "auto",
-                  padding: "20px",
-                  backgroundColor: "#fff",
-                  borderRadius: "8px",
-                  boxShadow: 2,
-                }}
-              ></Box>
             )}
 
             {/* Modal for new branch*/}
@@ -4688,6 +4670,168 @@
                     </Button>
                   </Box>
                 </form>
+              </Box>
+            </Dialog>
+
+
+            {/* Modal for branch details*/}
+
+            <Dialog
+              open={openBranchDetailsModal}
+              onClose={() => {
+                setOpenBranchDetailsModal(false);
+                setSelectedBranch(branch)
+              }}
+              fullWidth
+              // maxWidth="sm"
+              sx={{
+                fontSize: "6px",
+                "& .MuiDialogContent-root": {
+                  padding: "16px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center", // Vertical centering
+                },
+                "& .MuiDialogTitle-root": {
+                  backgroundColor: "#1976d2",
+                  color: "white",
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  // maxWidth: "600px",
+                  // margin: "auto",
+                  padding: "20px",
+                  backgroundColor: "#fff",
+                  borderRadius: "8px",
+                  boxShadow: 2,
+                }}
+              >
+                <Typography variant="h5" textAlign="center" mb={2}>
+                  Branch Details
+                </Typography>
+                <Typography variant="h5" textAlign="center" mb={2}>
+                  Tagged members
+                </Typography>
+               <Box sx={{ width: "100%", overflowX: "auto" }}>
+                    <TableContainer sx={{ minWidth: "250px" }}>
+                      <Table sx={{}}>
+                        <TableHead>
+                          <TableRow sx={{ bgcolor: "primary.main" }}>
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Role
+                            </TableCell>
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Id
+                            </TableCell>
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Name
+                            </TableCell>
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Actions
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {[{role:"Manager", id:'GNM1', name:"raju"}, {role:"Sales", id:'GNS1', name:"varun"}].map((user, ind) => (
+                            <TableRow
+                              key={ind}
+                              onClick={() => {}}
+                              sx={{
+                                "&:nth-of-type(odd)": { bgcolor: "grey.50" },
+                                "&:hover": { bgcolor: "grey.100" },
+                              }}
+                            >
+                              <TableCell
+                                sx={{
+                                  color: "white",
+                                  fontWeight: "bold",
+                                  position: "sticky",
+                                  left: 0,
+                                  backgroundColor: branch?.enrolled
+                                    ? "lightblue"
+                                    : "lightgreen",
+                                  zIndex: 1,
+                                }}
+                              >
+                                {user?.role ?? "-"}
+                              </TableCell>
+                              <TableCell>{user?.id ?? "-"}</TableCell>
+                              <TableCell>{user?.name ?? "-"}</TableCell>
+                              <TableCell>{"Delete"}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Box>
+
+                <Button
+                       onClick={() => {}}
+                      // type="submit"
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      size={'small'}
+                    >
+                      Add New members
+                    </Button>
+                    {/* Status Selection */}
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel>Members</InputLabel>
+                    <Select
+                     multi
+                      label="Members"
+                      name="members"
+                      value={[]}
+                      onChange={()=>{}}
+                    >
+                      <MenuItem value="Active">Active</MenuItem>
+                      <MenuItem value="OpenSoon">Opening Soon</MenuItem>
+                      <MenuItem value="Closed">Closed</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                
+
+                  {/* Buttons */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: { xs: "column", sm: "row" },
+                      gap: 2,
+                      mt: 3,
+                    }}
+                  >
+                    <Button
+                      onClick={() => setOpenNewBranchModal(false)}
+                      variant="outlined"
+                      color="secondary"
+                      fullWidth
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      //  onClick={() => {}}
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+
               </Box>
             </Dialog>
           </div>
