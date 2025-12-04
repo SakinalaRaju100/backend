@@ -5024,8 +5024,8 @@
             duration: 12,
           });
 
-          const [loanDisbursedDetails, setLoanDisbursedDetails] = useState({});
-          const [emiDetails, setEmiDetails] = useState({});
+          const [loanDisbursedDetails, setLoanDisbursedDetails] = useState({duration: 12,});
+          const [emiDetails, setEmiDetails] = useState({emiDate:1});
 
           const [checked, setChecked] = useState(false);
           const [submitted, setSubmitted] = useState(true);
@@ -5261,6 +5261,7 @@
           const updateLoan = (loan) => {
             setLoanToUpdate(loan);
             setUpdateStatus(loan.loanStatus || "");
+            {loan.approvedLoanDetails && setApprovedLoanDetails({...approvedLoanDetails, ...loan?.approvedLoanDetails})}
             setUpdateNotes("");
             setOpenUpdateLoanDialog(true);
           };
@@ -6186,13 +6187,13 @@
                   {updateStatus === "disbursing" && (
                     <div>
                       <Typography variant="body1">
-                        Approved Loan Amount: ₹ 10000/-
+                        Approved Loan Amount: ₹ {loanToUpdate?.approvedLoanDetails?.amount}/-
                       </Typography>
                       <Typography variant="body1">
-                        Approved Loan Rate of Interest: 11%
+                        Approved Loan Rate of Interest: {loanToUpdate?.approvedLoanDetails?.roi}%
                       </Typography>
                      
-                      <FormControl fullWidth sx={{ mt: 2 }}>
+                      {/*<FormControl fullWidth sx={{ mt: 2 }}>
                   <InputLabel>Select Emi Plan</InputLabel>
                     <Select
                       value={'monthly'}
@@ -6200,7 +6201,7 @@
                     >
                       <MenuItem value={"monthly"}>Monthly</MenuItem>
                     </Select>
-                  </FormControl>
+                  </FormControl>*/}
 
                   <FormControl fullWidth sx={{ mt: 2 }}>
                     <InputLabel>Choose Emi Date</InputLabel>
@@ -6241,14 +6242,16 @@
                   </FormControl>
 
                       <Typography variant="body1">
-                        Duration: {approvedLoanDetails.duration} months
+                        Duration: {approvedLoanDetails.duration } months
                       </Typography>
                       <Slider
-                        value={approvedLoanDetails.duration}
+                        value={loanDisbursedDetails.duration}
                         onChange={(e, newValue) =>
-                          setApprovedLoanDetails({
-                            ...approvedLoanDetails,
+                          setLoanDisbursedDetails({
+                            ...loanDisbursedDetails,
                             duration: newValue,
+                            amount:loanToUpdate?.approvedLoanDetails?.amount,
+                            roi:loanToUpdate?.approvedLoanDetails?.roi
                           })
                         }
                         aria-labelledby="duration-slider"
@@ -6260,13 +6263,13 @@
                       <Typography variant="body1">
                         Monthly EMI: ₹
                         {Math.round(
-                          approvedLoanDetails.amount /
-                            approvedLoanDetails.duration
+                          loanToUpdate?.approvedLoanDetails?.amount /
+                          loanDisbursedDetails.duration
                         )}
                       </Typography>
                       <Typography>
                         <div>
-                        {approvedLoanDetails?.duration > 0 && (
+                        {loanDisbursedDetails?.duration > 0 && (
                           <Table>
                             <TableHead>
                               <TableRow>
@@ -6276,13 +6279,13 @@
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {[...Array(Number(approvedLoanDetails?.duration))].map((emi, monthIndex) => (
+                              {[...Array(Number(loanDisbursedDetails?.duration))].map((emi, monthIndex) => (
                                  <TableRow key={monthIndex}>
                                   <TableCell style={{ fontSize: "8px" }}>
                                     {moment().add(monthIndex + 1, "months").format(`${emiDetails?.emiDate ?? 1}-MMM-YYYY`)}
                                   </TableCell>
                                   <TableCell style={{ fontSize: "8px" }}>
-                                     {Math.round( approvedLoanDetails.amount / approvedLoanDetails.duration).toFixed(2)}
+                                     {Math.round( loanToUpdate?.approvedLoanDetails?.amount / loanDisbursedDetails.duration).toFixed(2)}
                                   </TableCell>
                                   <TableCell style={{ fontSize: "8px" }}>
                                      {'Not Paid'}
@@ -6333,13 +6336,19 @@
                           userId: login?.userId,
                           newLoanStatus: updateStatus,
                           notes: updateNotes,
-                          approvedLoanDetails: approvedLoanDetails ?? {},
-                          loanDisbursedDetails: loanDisbursedDetails ?? {},
-                          emiDetails : emiDetails ?? {}
+                          approvedLoanDetails: {amount: approvedLoanDetails.amount, roi: approvedLoanDetails.roi, approvedOn: moment().format()} ?? {},
+                          loanDisbursedDetails: {amount: loanToUpdate?.approvedLoanDetails?.amount ?? 0, roi: loanToUpdate?.approvedLoanDetails?.roi ?? 10, duration: loanDisbursedDetails.duration ?? 6, disbursedOn: moment().format()} ?? {},
+                          emiDetails : {...emiDetails, 
+                            emiDate: emiDetails.emiDate ?? 1,
+                            emiStartDate: moment().format(),
+                            emiStatus:"recoving",
+                            emiData: [...Array(Number(loanDisbursedDetails?.duration))].map((emi, monthIndex)=>{return{month:moment().add(monthIndex + 1, "months").format(`${emiDetails?.emiDate ?? 1}-MMM-YYYY`), emi:Math.round( loanToUpdate?.approvedLoanDetails?.amount / loanDisbursedDetails.duration).toFixed(2), status: 'not paid'}})
+                          }
                         });
                         alert("Loan status updated successfully");
                         setOpenUpdateLoanDialog(false);
                       } catch (err) {
+                        console.log('err', err)
                         alert("Failed to update loan status");
                       }
                     }}
