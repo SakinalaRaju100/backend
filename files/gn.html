@@ -4255,6 +4255,10 @@
       };
 
       const Branches = () => {
+        const [addMemberModal, setAddMemberModal] = useState(false);
+        const [nonBranchTaggedMembers, setNonBranchTaggedMembers] = useState([]);
+        const [branchMembers, setBranchMembers] = useState([]);
+        const [selectednonBranchTaggedMember, setSelectednonBranchTaggedMember] = useState(null);
         const [checked, setChecked] = useState(false);
         const [submitted, setSubmitted] = useState(true);
         const [familyMembers, setFamilyMembers] = useState(0);
@@ -4272,14 +4276,7 @@
         const [openNewBranchModal, setOpenNewBranchModal] =
           React.useState(false);
 
-        const [branch, setBranch] = useState({
-          // name: "",
-          // address: "",
-          // pincode: "",
-          // location: "",
-          // status: "",
-          // image: "URL",
-        });
+        const [branch, setBranch] = useState({});
 
         const [errors, setErrors] = useState({});
 
@@ -4397,6 +4394,93 @@
               setLoading(false);
             });
         };
+        const getNonBranchTaggedMembers = () => {
+          fetch(`${baseURL}/getNonBranchTaggedMembers`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              goldnoontoken: localStorage.getItem("goldnoontoken"),
+            },
+            credentials: "include",
+            body: JSON.stringify({}),
+          })
+            .then((response) => response.json()) // Parse the JSON
+            .then((data) => {
+              setNonBranchTaggedMembers(data);
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.error("Error loading JSON:", error);
+              setLoading(false);
+            });
+        };
+        const getBranchMembers = (branchCode) => {
+          fetch(`${baseURL}/getBranchMembers`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              goldnoontoken: localStorage.getItem("goldnoontoken"),
+            },
+            credentials: "include",
+            body: JSON.stringify({branchCode}),
+          })
+            .then((response) => response.json()) // Parse the JSON
+            .then((data) => {
+              setBranchMembers(data);
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.error("Error loading JSON:", error);
+              setLoading(false);
+            });
+        };
+        const updateMemberBranch = (userId, branchCode) => {
+          console.log('userId to Update, branchCode', userId, branchCode)
+          fetch(`${baseURL}/updateMemberBranch`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              goldnoontoken: localStorage.getItem("goldnoontoken"),
+            },
+            credentials: "include",
+            body: JSON.stringify({ userId, branchCode}),
+          })
+            .then((response) => response) // Parse the JSON
+            .then((data) => {
+              setAddMemberModal(false)
+              setOpenBranchDetailsModal(false);
+              alert('Branch tagged successfully')
+
+            })
+            .catch((error) => {
+              // console.error("Error loading JSON:", error);
+              alert('Error during tagging branch')
+
+            });
+        };
+        const untagMemberBranch = (userId) => {
+          console.log('userId to untag', userId,)
+          fetch(`${baseURL}/untagMemberBranch`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              goldnoontoken: localStorage.getItem("goldnoontoken"),
+            },
+            credentials: "include",
+            body: JSON.stringify({ userId}),
+          })
+            .then((response) => response) // Parse the JSON
+            .then((data) => {
+              setOpenBranchDetailsModal(false);
+              alert('Member Branch untagged successfully')
+
+            })
+            .catch((error) => {
+              // console.error("Error loading JSON:", error);
+              alert('Error during untagging branch')
+
+            });
+        };
 
         useEffect(() => {
           setLoading(true);
@@ -4504,7 +4588,9 @@
                               onClick={() => {
                                 setOpenBranchDetailsModal(true);
                                 console.log('branch', branch)
-                                setSelectedBranch(branch)
+                                setSelectedBranch(branch);
+                                getBranchMembers(branch?.branchCode)
+                                getNonBranchTaggedMembers()
                               }}
                               sx={{
                                 "&:nth-of-type(odd)": { bgcolor: "grey.50" },
@@ -4680,7 +4766,8 @@
               open={openBranchDetailsModal}
               onClose={() => {
                 setOpenBranchDetailsModal(false);
-                setSelectedBranch(branch)
+                setSelectedBranch(branch);
+                setAddMemberModal(false)
               }}
               fullWidth
               // maxWidth="sm"
@@ -4712,6 +4799,69 @@
                 <Typography variant="h5" textAlign="center" mb={2}>
                   Branch Details
                 </Typography>
+               
+                <Button
+                      onClick={() => {setAddMemberModal((k=>!k))}}
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      size={'small'}
+                    >
+                      Add member
+                </Button>
+
+                 {/* Member Selection */}
+                {addMemberModal &&<> <FormControl fullWidth margin="normal">
+                    <InputLabel>Members</InputLabel>
+                    <Select
+                      label="Members"
+                      name="members"
+                      value={selectednonBranchTaggedMember}
+                      onChange={(e)=>{
+                        setSelectednonBranchTaggedMember(e.target.value)
+                      }}
+                    >
+                      {nonBranchTaggedMembers.length>0 ?nonBranchTaggedMembers.map((mem, memi)=>{
+                        return <MenuItem value={mem?.userId}>{mem?.fullName} {" - "}{mem?.role}</MenuItem>
+                      }) : <span>No Untagged Members</span>}
+
+                     
+                    </Select>
+                </FormControl>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: { xs: "column", sm: "row" },
+                      gap: 2,
+                      mt: 3,
+                    }}
+                  >
+                    <Button
+                      onClick={() => setAddMemberModal(false)}
+                      variant="outlined"
+                      color="secondary"
+                      fullWidth
+                    >
+                      Close
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        if(selectednonBranchTaggedMember){
+                          updateMemberBranch(selectednonBranchTaggedMember, selectedBranch?.branchCode)
+                        }
+                        else{
+                          alert('please select refresh')
+                        }}}
+                      variant="contained"
+                      color="secondary"
+                      fullWidth
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+                </>
+              }
+
                 <Typography variant="h5" textAlign="center" mb={2}>
                   Tagged members
                 </Typography>
@@ -4743,7 +4893,7 @@
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {[{role:"Manager", id:'GNM1', name:"raju"}, {role:"Sales", id:'GNS1', name:"varun"}].map((user, ind) => (
+                          {branchMembers.length>0 ?(branchMembers.map((user, ind) => (
                             <TableRow
                               key={ind}
                               onClick={() => {}}
@@ -4766,43 +4916,15 @@
                               >
                                 {user?.role ?? "-"}
                               </TableCell>
-                              <TableCell>{user?.id ?? "-"}</TableCell>
-                              <TableCell>{user?.name ?? "-"}</TableCell>
-                              <TableCell>{"Delete"}</TableCell>
+                              <TableCell>{user?.userId ?? "-"}</TableCell>
+                              <TableCell>{user?.fullName ?? "-"}</TableCell>
+                              <TableCell><Button variant={'contained'} onClick={()=>{untagMemberBranch(user?.userId)}}>Untag</Button></TableCell>
                             </TableRow>
-                          ))}
+                          ))):<span>"No Members found"</span>}
                         </TableBody>
                       </Table>
                     </TableContainer>
                   </Box>
-
-                <Button
-                       onClick={() => {}}
-                      // type="submit"
-                      variant="contained"
-                      color="primary"
-                      fullWidth
-                      size={'small'}
-                    >
-                      Add New members
-                    </Button>
-                    {/* Status Selection */}
-                  <FormControl fullWidth margin="normal">
-                    <InputLabel>Members</InputLabel>
-                    <Select
-                     multi
-                      label="Members"
-                      name="members"
-                      value={[]}
-                      onChange={()=>{}}
-                    >
-                      <MenuItem value="Active">Active</MenuItem>
-                      <MenuItem value="OpenSoon">Opening Soon</MenuItem>
-                      <MenuItem value="Closed">Closed</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                
 
                   {/* Buttons */}
                   <Box
@@ -4814,22 +4936,17 @@
                     }}
                   >
                     <Button
-                      onClick={() => setOpenNewBranchModal(false)}
+                      onClick={() => {
+                        setOpenBranchDetailsModal(false);
+                        setAddMemberModal(false)
+                      }}
                       variant="outlined"
                       color="secondary"
                       fullWidth
                     >
                       Back
                     </Button>
-                    <Button
-                      //  onClick={() => {}}
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      fullWidth
-                    >
-                      Submit
-                    </Button>
+                    
                   </Box>
 
               </Box>
