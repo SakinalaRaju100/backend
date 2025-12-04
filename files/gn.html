@@ -825,6 +825,7 @@
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              goldnoontoken: localStorage.getItem("goldnoontoken"),
             },
             credentials: "include",
             body: JSON.stringify({}),
@@ -1769,6 +1770,7 @@
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              goldnoontoken: localStorage.getItem("goldnoontoken"),
             },
             credentials: "include",
             body: JSON.stringify({}),
@@ -4380,6 +4382,7 @@
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              goldnoontoken: localStorage.getItem("goldnoontoken"),
             },
             credentials: "include",
             body: JSON.stringify({}),
@@ -4529,13 +4532,13 @@
                       mb: 1,
                     }}
                   >
-                    <Button
+                   {JSON.parse(localStorage.getItem('gnUserObj'))?.role=='admin' && <Button
                       onClick={() => setOpenNewBranchModal(true)}
                       variant="contained"
                       color="primary"
                     >
                       New Branch
-                    </Button>
+                    </Button>}
                   </Box>
 
                   <Box sx={{ width: "100%", overflowX: "auto" }}>
