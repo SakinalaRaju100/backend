@@ -5953,6 +5953,9 @@
                     >
                       {/* Text Fields */}
                       {[
+                        ["Loan TYpe", selectedLoan.loanType],
+                        ["Loan Id", selectedLoan.loanId],
+                        ["Loan Status", selectedLoan.loanStatus],
                         ["Full Name", selectedLoan.fullName],
                         ["Mobile", selectedLoan.mobile],
                         ["Email", selectedLoan.email],
@@ -5983,29 +5986,23 @@
                           {selectedLoan?.actions.length} times
                         </Typography>
                       )}
-                      {selectedLoan?.actions &&
-                        selectedLoan?.actions.map((action, actionIndex) => {
+                     
+                       {selectedLoan?.actions &&
+                        selectedLoan?.actions.reverse().map((action, actionIndex) => {
                           return (
                             <Typography key={actionIndex}>
-                              <strong>Status:</strong> {action.loanStatus}
-                              <strong>Notes:</strong> {action.note}
-                              <strong>At:</strong>{" "}
-                              {new Date(action.dateTime).toLocaleDateString(
-                                "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                }
-                              )}
-                              <strong>By:</strong> {action.updatedBy}
+                              {actionIndex+1}{'. '}<strong>Status:</strong> {action.loanStatus} <br/>
+                              <strong>Notes:</strong> {action.note}<br/>
+                              <strong>At:</strong> 
+                              {moment(action.dateTime).format('Do MMM YYYY HH:MM a')}
+                              <br/> {"@"}
+                              <strong>By:</strong> {action.updatedBy} 
                             </Typography>
                           );
                         })}
+                      
 
-                      {/* IMAGES + DOCUMENTS */}
+                      {/*IMAGES + DOCUMENTS */}
                       {[
                         ["Photo", selectedLoan.photo],
                         ["Aadhaar Card", selectedLoan.aadhar],
@@ -6057,6 +6054,44 @@
                             </Box>
                           )
                       )}
+                      {selectedLoan?.emiDetails?.emiData && (
+                        <Typography>
+                          <strong>Emi Track:</strong>{" "}
+                          {selectedLoan?.emiDetails?.emiData.length} 
+                        </Typography>
+                      )}
+
+                      {selectedLoan?.emiDetails?.emiData.length > 0 && (
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>S.No</TableCell>
+                                <TableCell>Month</TableCell>
+                                <TableCell>EMI Amount</TableCell>
+                                <TableCell>Status</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {selectedLoan?.emiDetails?.emiData.map((emi, emiIndex) => (
+                                 <TableRow key={emiIndex}>
+                                  <TableCell style={{ fontSize: "8px" }}>
+                                    {emiIndex+1}
+                                  </TableCell>
+                                  <TableCell style={{ fontSize: "8px" }}>
+                                    {emi?.month}
+                                  </TableCell>
+                                  <TableCell style={{ fontSize: "8px" }}>
+                                     {emi?.emi}
+                                  </TableCell>
+                                  <TableCell style={{ fontSize: "8px" }}>
+                                     {emi?.status}
+                                  </TableCell>
+                                  
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        )}
                     </Box>
                   </Box>
                 </Dialog>
@@ -6100,10 +6135,9 @@
                     >
                       <MenuItem value={"pending"}>Pending</MenuItem>
                       <MenuItem value={"verification"}>Verification</MenuItem>
-                      <MenuItem value={"approved"}>Approved</MenuItem>
+                      <MenuItem value={"approved"}>Approve</MenuItem>
+                      <MenuItem value={"disbursed"}>Disburse</MenuItem>
                       <MenuItem value={"rejected"}>Rejected</MenuItem>
-                      <MenuItem value={"processing"}>Processing</MenuItem>
-                      <MenuItem value={"disbursing"}>Disbursing</MenuItem>
                       <MenuItem value={"loanRecovering"}>
                         loan Recovering
                       </MenuItem>
@@ -6184,7 +6218,7 @@
                       </Typography>
                     </div>
                   )}
-                  {updateStatus === "disbursing" && (
+                  {updateStatus === "disbursed" && (
                     <div>
                       <Typography variant="body1">
                         Approved Loan Amount: ₹ {loanToUpdate?.approvedLoanDetails?.amount}/-
@@ -6342,7 +6376,7 @@
                             emiDate: emiDetails.emiDate ?? 1,
                             emiStartDate: moment().format(),
                             emiStatus:"recoving",
-                            emiData: [...Array(Number(loanDisbursedDetails?.duration))].map((emi, monthIndex)=>{return{month:moment().add(monthIndex + 1, "months").format(`${emiDetails?.emiDate ?? 1}-MMM-YYYY`), emi:Math.round( loanToUpdate?.approvedLoanDetails?.amount / loanDisbursedDetails.duration).toFixed(2), status: 'not paid'}})
+                            emiData: [...Array(Number(loanDisbursedDetails?.duration))].map((emi, monthIndex)=>{return{month:moment().add(monthIndex + 1, "months").format(`${emiDetails?.emiDate ?? 1}-MMM-YYYY`), emi:Math.round( loanToUpdate?.approvedLoanDetails?.amount / loanDisbursedDetails.duration).toFixed(2), status: false}})
                           }
                         });
                         alert("Loan status updated successfully");
