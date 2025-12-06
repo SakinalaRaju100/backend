@@ -8190,7 +8190,7 @@
                   Goldnoon
                   <span style={{ fontSize: "8px" }}>
                     {" "}
-                    {loginData?.role ? `(${loginData?.role})` : ``}
+                    {loginData?.role ?? ''}
                   </span>
                 </Typography>
                 <Box
@@ -8236,10 +8236,10 @@
                         </IconButton>
                       </Box>
                       <div onClick={handleDialogToggle}>
-                        <Tooltip title="User Name" arrow>
+                        <Tooltip title={loginData?.fullName ?? ''} arrow>
                           <Avatar
-                            alt="User Name"
-                            src="../files/doctor.png"
+                            alt={loginData?.fullName ?? ''}
+                            src="./doctor.png"
                             sx={{ width: 40, height: 40, marginLeft: 1 }}
                           />
                         </Tooltip>
