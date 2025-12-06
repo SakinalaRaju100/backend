@@ -175,6 +175,7 @@
         Stepper,
         Step,
         StepLabel,
+        Switch,
         FormHelperText,
         Autocomplete,
         Avatar,
@@ -5226,6 +5227,36 @@
               alert("catch");
             }
           };
+          const addEMIPayment = (loanId, emiIndex, value=false) => {
+            try {
+              fetch(`${baseURL}/addEMIPayment`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  goldnoontoken: localStorage.getItem("goldnoontoken"),
+                },
+                credentials: "include",
+                body: JSON.stringify({loanId, emiIndex, value}),
+              })
+                .then((response) => response) // Parse the JSON
+                .then((data) => {
+                  if(data?.status == 201){
+
+                    alert('Successfully added Payment')
+                    fetchListDate()
+                    setOpenStudentDetailsModal(false);
+                    console.log('Successfully added Payment', data)
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error loading JSON:", error);
+                  alert("failed");
+                });
+            } catch (er) {
+              console.log("er", er);
+              alert("failed");
+            }
+          };
 
           const [searchFilter, setSearchFilter] = React.useState("");
 
@@ -6083,8 +6114,15 @@
                                   <TableCell style={{ fontSize: "8px" }}>
                                      {emi?.emi}
                                   </TableCell>
-                                  <TableCell style={{ fontSize: "8px" }}>
+                                  {/*<TableCell style={{ fontSize: "8px" }}>
                                      {emi?.status}
+                                  </TableCell>*/}
+                                  <TableCell style={{ fontSize: "8px" }}>
+                                    <Switch inputProps= {{ 'aria-label': 'Switch demo' }} checked={emi?.status} onChange={(e)=>{
+                                      if ( window.confirm("please confirm payment...?")) {
+                                        addEMIPayment(selectedLoan?.loanId, emiIndex, e.target.checked)
+                                      }
+                                      }} disabled={loginData?.role=='manager' ? false : true} color="secondary"/> {emi?.status ? 'Paid':'not Paid'}
                                   </TableCell>
                                   
                                 </TableRow>
@@ -7965,18 +8003,19 @@
             path: "/",
             clickfunc: handleClickSalesMenu,
           },
-          {
-            text: "Sales board",
-            icon: "people",
-            role: "admin",
-            list: ["admin", "manager", "sales"],
+          // {
+          //   text: "Sales board",
+          //   icon: "people",
+          //   role: "admin",
+          //   list: ["admin", "manager", "sales"],
 
-            path: "/",
-            clickfunc: () => {
-              setBodyarea("SalesBoard");
-              setOpen(false);
-            },
-          },
+          //   path: "/",
+          //   clickfunc: () => {
+          //     setBodyarea("SalesBoard");
+          //     setOpen(false);
+          //   },
+          // },
+        
 
           {
             text: "Sales Reports",
@@ -8698,7 +8737,7 @@
                         </span>
                         <Typography>Password</Typography>
                       </Box>
-                      <Box
+                     {/* <Box
                         onClick={() => setIsOtpMode(true)}
                         sx={{
                           display: "flex",
@@ -8723,7 +8762,7 @@
                             : "radio_button_unchecked"}
                         </span>
                         <Typography>OTP</Typography>
-                      </Box>
+                      </Box>*/}
                     </Box>
                   </FormControl>
 
