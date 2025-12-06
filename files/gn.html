@@ -5242,7 +5242,7 @@
                 .then((data) => {
                   if(data?.status == 201){
 
-                    alert('Successfully added Payment')
+                    // alert('Successfully added Payment')
                     fetchListDate()
                     setOpenStudentDetailsModal(false);
                     console.log('Successfully added Payment', data)
@@ -5250,7 +5250,7 @@
                 })
                 .catch((error) => {
                   console.error("Error loading JSON:", error);
-                  alert("failed");
+                  alert("failed adding payment");
                 });
             } catch (er) {
               console.log("er", er);
