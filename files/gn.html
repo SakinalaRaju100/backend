@@ -959,7 +959,6 @@
                     </Typography>
                     <Button
                       onClick={() => {
-                        alert("Contact administrator");
                         setShowList(false);
                         fetchBranches();
                       }}
@@ -3140,16 +3139,18 @@
 
         const allTypesOfLoans = [
           "Personal Loan",
-          "Secured Loan",
-          "Unsecured Loan",
+          "Business Loan",
+          "Home Loan",
+          "Vehicle Loan"
         ];
         const [loanType, setLoanType] = React.useState(allTypesOfLoans[0]);
 
-        const steps = ["Basic", "Work", "Docs", "Preview"];
+        const steps = ["Basic", "Professional", "Documents", "Preview"];
         const [step, setStep] = React.useState(0);
         const [activeStep, setActiveStep] = React.useState(0);
 
         const [loan, setLoan] = React.useState({}); //main
+        const [loanDocs, setLoanDocs] = React.useState([]); //main
         const [loanFiles, setLoanFiles] = React.useState({}); //main
         const [errors, setErrors] = React.useState({});
 
@@ -3222,7 +3223,7 @@
               </FormControl>
             </Box>
 
-            {loanType == "Personal Loan" && (
+            
               <div>
                 <Box>
                   <Stepper activeStep={activeStep} alternativeLabel>
@@ -3287,6 +3288,7 @@
                         margin="normal"
                         error={Boolean(errors.fullName)}
                         helperText={errors.fullName}
+                        type='text'
                       />
 
                       {/* Care Of Person
@@ -3313,6 +3315,7 @@
                         margin="normal"
                         error={Boolean(errors.mobile)}
                         helperText={errors.mobile}
+                        type='number'
                       />
 
                       {/* Email */}
@@ -3366,6 +3369,8 @@
                         margin="normal"
                         error={Boolean(errors.pincode)}
                         helperText={errors.pincode}
+                        type='number'
+
                       />
 
                       {/* Marital Status
@@ -3408,6 +3413,7 @@
                         margin="normal"
                         error={Boolean(errors.adhaarNumber)}
                         helperText={errors.adhaarNumber}
+                        type='number'
                       />
                       {/* PAN Number */}
                       <TextField
@@ -3432,6 +3438,7 @@
                         margin="normal"
                         error={Boolean(errors.cbillScore)}
                         helperText={errors.cbillScore}
+                        type='number'
                       />
                       {/* YOur Monthly Income */}
                       <TextField
@@ -3444,6 +3451,7 @@
                         margin="normal"
                         error={Boolean(errors.yourMOnthlyIncome)}
                         helperText={errors.yourMOnthlyIncome}
+                        type='number'
                       />
                       {/* Monthly existing emi amount */}
                       <TextField
@@ -3456,11 +3464,12 @@
                         margin="normal"
                         error={Boolean(errors.monthlExistingEmiAmount)}
                         helperText={errors.monthlExistingEmiAmount}
+                        type='number'
                       />
                       {/* Loan Requirement */}
                       <TextField
                         size="small"
-                        label="Loan Requirement"
+                        label="Loan Amount Requirement"
                         name="loanRequirement"
                         value={loan.loanRequirement}
                         onChange={handleChange}
@@ -3468,6 +3477,49 @@
                         margin="normal"
                         error={Boolean(errors.loanRequirement)}
                         helperText={errors.loanRequirement}
+                        type='number'
+                      />
+
+                      {/* Co applicant Full Name */}
+                      <TextField
+                        size="small"
+                        label="Co Appicant Full Name as per Adhaar"
+                        placeholder="Enter Co applicant Full Name"
+                        name="CoApplicantFullName"
+                        value={loan.CoApplicantFullName}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.CoApplicantFullName)}
+                        helperText={errors.CoApplicantFullName}
+                      />
+
+                      {/* Co applicant Mobile */}
+                      <TextField
+                        size="small"
+                        label="Co Applicant Mobile"
+                        name="CoApplicantMobile"
+                        value={loan.CoApplicantMobile}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.CoApplicantMobile)}
+                        helperText={errors.CoApplicantMobile}
+                        type='number'
+                      />
+
+                      {/*Co applicant Adhaar Number */}
+                      <TextField
+                        size="small"
+                        label="C oApplicant Adhaar Number"
+                        name="CoApplicantAdhaarNumber"
+                        value={loan.CoApplicantAdhaarNumber}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.CoApplicantAdhaarNumber)}
+                        helperText={errors.CoApplicantAdhaarNumber}
+                        type='number'
                       />
 
                       <Button
@@ -3556,6 +3608,7 @@
                         onChange={handleChange}
                         fullWidth
                         margin="normal"
+                        type='number'
                       />
 
                       {/* Mode of Salary Payment */}
@@ -3746,6 +3799,7 @@
                               ...loan,
                               photo: response.data?.url ?? "",
                             });
+                            setLoanDocs((old)=>{return [...old, {docName: "ApplicantPhoto", docType: "image", url: response.data?.url ?? ""}]})
                           } catch (error) {
                             console.error("Error uploading file", error);
                           }
@@ -3804,6 +3858,8 @@
                               ...loan,
                               aadhar: response.data?.url ?? "",
                             });
+                            setLoanDocs((old)=>{return [...old, {docName: "ApplicantAadharPhoto", docType: "image", url: response.data?.url ?? ""}]})
+
                           } catch (error) {
                             console.error("Error uploading file", error);
                           }
@@ -3811,7 +3867,7 @@
                       />
                       <label htmlFor="upload-file-aadhar">
                         <Button variant="contained" component="span">
-                          Upload aadhar
+                          Upload aadhar Photo
                         </Button>
                       </label>
 
@@ -3862,6 +3918,8 @@
                               ...loan,
                               pan: response.data?.url ?? "",
                             });
+                            setLoanDocs((old)=>{return [...old, {docName: "ApplicantPANPhoto", docType: "image", url: response.data?.url ?? ""}]})
+
                           } catch (error) {
                             console.error("Error uploading file", error);
                           }
@@ -3869,7 +3927,7 @@
                       />
                       <label htmlFor="upload-file-pan">
                         <Button variant="contained" component="span">
-                          Upload PAN
+                          Upload PAN Photo
                         </Button>
                       </label>
 
@@ -3888,6 +3946,68 @@
                       {loan?.pan && <hr />}
 
                       <input
+                        accept="*"
+                        name="CoAadhar"
+                        style={{ display: "none" }}
+                        id="upload-file-CoAadhar"
+                        type="file"
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              CoAadhar: response.data?.url ?? "",
+                            });
+                            setLoanDocs((old)=>{return [...old, {docName: "CoApplicantAadharPhoto", docType: "image", url: response.data?.url ?? ""}]})
+
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
+                      />
+                      <label htmlFor="upload-file-CoAadhar">
+                        <Button variant="contained" component="span">
+                          Upload Co Applicant aadhar Photo
+                        </Button>
+                      </label>
+
+                      <Box sx={{ mt: 2 }}>
+                        {loan?.CoAadhar && (
+                          <img
+                            src={loan?.CoAadhar}
+                            alt="Aadhar"
+                            width="200px"
+                            height="300px"
+                            style={{ objectFit: "cover" }}
+                          />
+                        )}
+                      </Box>
+
+                      {loan?.CoAadhar && <hr />}
+
+                      {/* personal loan docs*/}
+                      {loanType== 'Personal Loan' && <div>
+                        <input
                         accept="*"
                         name="paySlips"
                         style={{ display: "none" }}
@@ -3920,6 +4040,8 @@
                               ...loan,
                               paySlip: response.data?.url ?? "",
                             });
+                            setLoanDocs((old)=>{return [...old, {docName: "paySlip", docType: "pdf", url: response.data?.url ?? ""}]})
+
                           } catch (error) {
                             console.error("Error uploading file", error);
                           }
@@ -3927,7 +4049,7 @@
                       />
                       <label htmlFor="upload-file-paySlips">
                         <Button variant="contained" component="span">
-                          Upload PaySlip
+                          Upload PaySlip PDF
                         </Button>
                       </label>
 
@@ -3977,6 +4099,8 @@
                               ...loan,
                               bankStatement: response.data?.url ?? "",
                             });
+                            setLoanDocs((old)=>{return [...old, {docName: "bankStatement", docType: "pdf", url: response.data?.url ?? ""}]})
+
                           } catch (error) {
                             console.error("Error uploading file", error);
                           }
@@ -3984,7 +4108,7 @@
                       />
                       <label htmlFor="upload-file-bankStatement">
                         <Button variant="contained" component="span">
-                          Upload bankStatement
+                          Upload bankStatement PDF
                         </Button>
                       </label>
 
@@ -4000,6 +4124,725 @@
                       </Box>
 
                       {loan.bankStatement && <hr />}
+
+                      <input
+                        accept="*"
+                        name="offerLetter"
+                        style={{ display: "none" }}
+                        id="upload-file-offerLetter"
+                        type="file"
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              offerLetter: response.data?.url ?? "",
+                            });
+                            setLoanDocs((old)=>{return [...old, {docName: "offerLetter", docType: "pdf", url: response.data?.url ?? ""}]})
+
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
+                      />
+                      <label htmlFor="upload-file-offerLetter">
+                        <Button variant="contained" component="span">
+                          Upload Offer Letter PDF
+                        </Button>
+                      </label>
+
+                      <Box sx={{ mt: 2 }}>
+                        {loan?.offerLetter && (
+                          <iframe
+                            src={`https://docs.google.com/gview?url=${loan?.offerLetter}&embedded=true`}
+                            width="200px"
+                            height="300px"
+                            frameborder="0"
+                          ></iframe>
+                        )}
+                      </Box>
+
+                      {loan.offerLetter && <hr />}
+                        </div>}
+
+                      {/* Business loan docs*/}
+                      {loanType== 'Business Loan' && <div>
+                        <input
+                        accept="*"
+                        name="businesReg"
+                        style={{ display: "none" }}
+                        id="upload-file-businesReg"
+                        type="file"
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              businesReg: response.data?.url ?? "",
+                            });
+                            setLoanDocs((old)=>{return [...old, {docName: "businesReg", docType: "pdf", url: response.data?.url ?? ""}]})
+
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
+                        />
+                        <label htmlFor="upload-file-businesReg">
+                          <Button variant="contained" component="span">
+                            Upload Business Registration Doc PDF
+                          </Button>
+                        </label>
+
+                        <Box sx={{ mt: 2 }}>
+                          {loan?.businesReg && (
+                            <iframe
+                            src={`https://docs.google.com/gview?url=${loan?.businesReg}&embedded=true`}
+                            width="200px"
+                            height="300px"
+                            frameborder="0"
+                          ></iframe>
+                          )}
+                        </Box>
+
+                        {loan?.businesReg && <hr />}
+
+                        <input
+                        accept="*"
+                        name="businesITR"
+                        style={{ display: "none" }}
+                        id="upload-file-businesITR"
+                        type="file"
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              businesITR: response.data?.url ?? "",
+                            });
+                            setLoanDocs((old)=>{return [...old, {docName: "businesITR", docType: "pdf", url: response.data?.url ?? ""}]})
+
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
+                        />
+                        <label htmlFor="upload-file-businesITR">
+                          <Button variant="contained" component="span">
+                            Upload Business ITR Doc Pdf
+                          </Button>
+                        </label>
+
+                        <Box sx={{ mt: 2 }}>
+                          {loan?.businesITR && (
+                            <iframe
+                            src={`https://docs.google.com/gview?url=${loan?.businesITR}&embedded=true`}
+                            width="200px"
+                            height="300px"
+                            frameborder="0"
+                          ></iframe>
+                          )}
+                        </Box>
+
+                        {loan?.businesITR && <hr />}
+                      
+                        <input
+                          accept="*"
+                          name="businesOtherDoc1"
+                          style={{ display: "none" }}
+                          id="upload-file-businesOtherDoc1"
+                          type="file"
+                          // onChange={handleChangeFiles}
+                          onChange={async (e) => {
+                            const file = e.target.files[0];
+
+                            // Create a FormData instance to send the file to the backend
+                            const formData = new FormData();
+                            formData.append("file", file);
+
+                            try {
+                              // Send the file to the backend API
+                              const response = await axios.post(
+                                baseURL + "/upload",
+                                formData,
+                                {
+                                  headers: {
+                                    "Content-Type": "multipart/form-data",
+                                  },
+                                }
+                              );
+                              console.log(
+                                "File uploaded successfully",
+                                response.data
+                              );
+                              setLoan({
+                                ...loan,
+                                businesOtherDoc1: response.data?.url ?? "",
+                              });
+                            setLoanDocs((old)=>{return [...old, {docName: "businesOtherDoc1", docType: "pdf", url: response.data?.url ?? ""}]})
+
+                            } catch (error) {
+                              console.error("Error uploading file", error);
+                            }
+                          }}
+                        />
+                        <label htmlFor="upload-file-businesOtherDoc1">
+                          <Button variant="contained" component="span">
+                            Upload Other Doc 1 PDF 
+                          </Button>
+                        </label>
+
+                        <Box sx={{ mt: 2 }}>
+                          {loan?.businesOtherDoc1 && (
+                            <iframe
+                              src={`https://docs.google.com/gview?url=${loan?.businesOtherDoc1}&embedded=true`}
+                              width="200px"
+                              height="300px"
+                              frameborder="0"
+                            ></iframe>
+                          )}
+                        </Box>
+                        {loan.businesOtherDoc1 && <hr />}
+
+                        <input
+                          accept="*"
+                          name="businesOtherDoc2"
+                          style={{ display: "none" }}
+                          id="upload-file-businesOtherDoc2"
+                          type="file"
+                          // onChange={handleChangeFiles}
+                          onChange={async (e) => {
+                            const file = e.target.files[0];
+
+                            // Create a FormData instance to send the file to the backend
+                            const formData = new FormData();
+                            formData.append("file", file);
+
+                            try {
+                              // Send the file to the backend API
+                              const response = await axios.post(
+                                baseURL + "/upload",
+                                formData,
+                                {
+                                  headers: {
+                                    "Content-Type": "multipart/form-data",
+                                  },
+                                }
+                              );
+                              console.log(
+                                "File uploaded successfully",
+                                response.data
+                              );
+                              setLoan({
+                                ...loan,
+                                businesOtherDoc2: response.data?.url ?? "",
+                              });
+                            setLoanDocs((old)=>{return [...old, {docName: "businesOtherDoc2", docType: "pdf", url: response.data?.url ?? ""}]})
+
+                            } catch (error) {
+                              console.error("Error uploading file", error);
+                            }
+                          }}
+                        />
+                        <label htmlFor="upload-file-businesOtherDoc2">
+                          <Button variant="contained" component="span">
+                            Upload Other Doc 2 PDF 
+                          </Button>
+                        </label>
+
+                        <Box sx={{ mt: 2 }}>
+                          {loan?.businesOtherDoc2 && (
+                            <iframe
+                              src={`https://docs.google.com/gview?url=${loan?.businesOtherDoc2}&embedded=true`}
+                              width="200px"
+                              height="300px"
+                              frameborder="0"
+                            ></iframe>
+                          )}
+                        </Box>
+                        {loan.businesOtherDoc2 && <hr />}
+                      </div>}
+
+                      {/* Home loan docs*/}
+                      {loanType== 'Home Loan' && <div>
+
+                        <input
+                        accept="*"
+                        name="homePhoto"
+                        style={{ display: "none" }}
+                        id="upload-file-homePhoto"
+                        type="file"
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              homePhoto: response.data?.url ?? "",
+                            });
+                            setLoanDocs((old)=>{return [...old, {docName: "homePhoto", docType: "image", url: response.data?.url ?? ""}]})
+
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
+                        />
+                        <label htmlFor="upload-file-homePhoto">
+                          <Button variant="contained" component="span">
+                            Upload House Photo
+                          </Button>
+                        </label>
+
+                        <Box sx={{ mt: 2 }}>
+                          {loan?.vehiclePhoto && (
+                            <img
+                              src={loan?.homePhoto}
+                              alt="PAN"
+                              width="200px"
+                              height="300px"
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </Box>
+
+                        {loan?.homePhoto && <hr />}
+
+                        <input
+                        accept="*"
+                        name="homeRegDoc"
+                        style={{ display: "none" }}
+                        id="upload-file-homeRegDoc"
+                        type="file"
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              homeRegDoc: response.data?.url ?? "",
+                            });
+                            setLoanDocs((old)=>{return [...old, {docName: "homeRegDoc", docType: "pdf", url: response.data?.url ?? ""}]})
+
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
+                        />
+                        <label htmlFor="upload-file-homeRegDoc">
+                          <Button variant="contained" component="span">
+                            Upload House Registration Doc PDF
+                          </Button>
+                        </label>
+
+                        <Box sx={{ mt: 2 }}>
+                          {loan?.homeRegDoc && (
+                            <iframe
+                            src={`https://docs.google.com/gview?url=${loan?.homeRegDoc}&embedded=true`}
+                            width="200px"
+                            height="300px"
+                            frameborder="0"
+                          ></iframe>
+                          )}
+                        </Box>
+
+                        {loan?.homeRegDoc && <hr />}
+                      
+                        <input
+                          accept="*"
+                          name="homeOtherDoc1"
+                          style={{ display: "none" }}
+                          id="upload-file-homeOtherDoc1"
+                          type="file"
+                          // onChange={handleChangeFiles}
+                          onChange={async (e) => {
+                            const file = e.target.files[0];
+
+                            // Create a FormData instance to send the file to the backend
+                            const formData = new FormData();
+                            formData.append("file", file);
+
+                            try {
+                              // Send the file to the backend API
+                              const response = await axios.post(
+                                baseURL + "/upload",
+                                formData,
+                                {
+                                  headers: {
+                                    "Content-Type": "multipart/form-data",
+                                  },
+                                }
+                              );
+                              console.log(
+                                "File uploaded successfully",
+                                response.data
+                              );
+                              setLoan({
+                                ...loan,
+                                homeOtherDoc1: response.data?.url ?? "",
+                              });
+                            setLoanDocs((old)=>{return [...old, {docName: "homeOtherDoc1", docType: "pdf", url: response.data?.url ?? ""}]})
+
+                            } catch (error) {
+                              console.error("Error uploading file", error);
+                            }
+                          }}
+                        />
+                        <label htmlFor="upload-file-homeOtherDoc1">
+                          <Button variant="contained" component="span">
+                            Upload Other Doc 1 PDF
+                          </Button>
+                        </label>
+
+                        <Box sx={{ mt: 2 }}>
+                          {loan?.homeOtherDoc1 && (
+                            <iframe
+                              src={`https://docs.google.com/gview?url=${loan?.homeOtherDoc1}&embedded=true`}
+                              width="200px"
+                              height="300px"
+                              frameborder="0"
+                            ></iframe>
+                          )}
+                        </Box>
+                        {loan.homeOtherDoc1 && <hr />}
+
+                        <input
+                          accept="*"
+                          name="homeOtherDoc2"
+                          style={{ display: "none" }}
+                          id="upload-file-homeOtherDoc2"
+                          type="file"
+                          // onChange={handleChangeFiles}
+                          onChange={async (e) => {
+                            const file = e.target.files[0];
+
+                            // Create a FormData instance to send the file to the backend
+                            const formData = new FormData();
+                            formData.append("file", file);
+
+                            try {
+                              // Send the file to the backend API
+                              const response = await axios.post(
+                                baseURL + "/upload",
+                                formData,
+                                {
+                                  headers: {
+                                    "Content-Type": "multipart/form-data",
+                                  },
+                                }
+                              );
+                              console.log(
+                                "File uploaded successfully",
+                                response.data
+                              );
+                              setLoan({
+                                ...loan,
+                                homeOtherDoc2: response.data?.url ?? "",
+                              });
+                            setLoanDocs((old)=>{return [...old, {docName: "homeOtherDoc2", docType: "pdf", url: response.data?.url ?? ""}]})
+
+                            } catch (error) {
+                              console.error("Error uploading file", error);
+                            }
+                          }}
+                        />
+                        <label htmlFor="upload-file-homeOtherDoc2">
+                          <Button variant="contained" component="span">
+                            Upload Other Doc 2 PDF
+                          </Button>
+                        </label>
+
+                        <Box sx={{ mt: 2 }}>
+                          {loan?.homeOtherDoc2 && (
+                            <iframe
+                              src={`https://docs.google.com/gview?url=${loan?.homeOtherDoc2}&embedded=true`}
+                              width="200px"
+                              height="300px"
+                              frameborder="0"
+                            ></iframe>
+                          )}
+                        </Box>
+                        {loan.homeOtherDoc2 && <hr />}
+                      </div>}
+
+                      {/* Vehicle loan docs*/}
+                      {loanType== 'Vehicle Loan' && <div>
+                        
+                        <input
+                        accept="*"
+                        name="vehiclePhoto"
+                        style={{ display: "none" }}
+                        id="upload-file-vehiclePhoto"
+                        type="file"
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              vehiclePhoto: response.data?.url ?? "",
+                            });
+                            setLoanDocs((old)=>{return [...old, {docName: "vehiclePhoto", docType: "image", url: response.data?.url ?? ""}]})
+
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
+                        />
+                        <label htmlFor="upload-file-vehiclePhoto">
+                          <Button variant="contained" component="span">
+                            Upload Vehicle Photo
+                          </Button>
+                        </label>
+
+                        <Box sx={{ mt: 2 }}>
+                          {loan?.vehiclePhoto && (
+                            <img
+                              src={loan?.vehiclePhoto}
+                              alt="PAN"
+                              width="200px"
+                              height="300px"
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </Box>
+
+                        {loan?.vehiclePhoto && <hr />}
+
+                        <input
+                        accept="*"
+                        name="vehicleRC"
+                        style={{ display: "none" }}
+                        id="upload-file-vehicleRC"
+                        type="file"
+                        // onChange={handleChangeFiles}
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          // Create a FormData instance to send the file to the backend
+                          const formData = new FormData();
+                          formData.append("file", file);
+
+                          try {
+                            // Send the file to the backend API
+                            const response = await axios.post(
+                              baseURL + "/upload",
+                              formData,
+                              {
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                },
+                              }
+                            );
+                            console.log(
+                              "File uploaded successfully",
+                              response.data
+                            );
+                            setLoan({
+                              ...loan,
+                              vehicleRC: response.data?.url ?? "",
+                            });
+                            setLoanDocs((old)=>{return [...old, {docName: "vehicleRC", docType: "image", url: response.data?.url ?? ""}]})
+
+                          } catch (error) {
+                            console.error("Error uploading file", error);
+                          }
+                        }}
+                        />
+                        <label htmlFor="upload-file-vehicleRC">
+                          <Button variant="contained" component="span">
+                            Upload Vehicle RC Photo
+                          </Button>
+                        </label>
+
+                        <Box sx={{ mt: 2 }}>
+                          {loan?.vehicleRC && (
+                            <img
+                              src={loan?.vehicleRC}
+                              alt="PAN"
+                              width="200px"
+                              height="300px"
+                              style={{ objectFit: "cover" }}
+                            />
+                          )}
+                        </Box>
+
+                        {loan?.vehicleRC && <hr />}
+                      
+                        <input
+                          accept="*"
+                          name="vehicleInvoice"
+                          style={{ display: "none" }}
+                          id="upload-file-vehicleInvoice"
+                          type="file"
+                          // onChange={handleChangeFiles}
+                          onChange={async (e) => {
+                            const file = e.target.files[0];
+
+                            // Create a FormData instance to send the file to the backend
+                            const formData = new FormData();
+                            formData.append("file", file);
+
+                            try {
+                              // Send the file to the backend API
+                              const response = await axios.post(
+                                baseURL + "/upload",
+                                formData,
+                                {
+                                  headers: {
+                                    "Content-Type": "multipart/form-data",
+                                  },
+                                }
+                              );
+                              console.log(
+                                "File uploaded successfully",
+                                response.data
+                              );
+                              setLoan({
+                                ...loan,
+                                vehicleInvoice: response.data?.url ?? "",
+                              });
+                            setLoanDocs((old)=>{return [...old, {docName: "vehicleInvoice", docType: "pdf", url: response.data?.url ?? ""}]})
+
+                            } catch (error) {
+                              console.error("Error uploading file", error);
+                            }
+                          }}
+                        />
+                        <label htmlFor="upload-file-vehicleInvoice">
+                          <Button variant="contained" component="span">
+                            Upload vehicle Invoice PDF
+                          </Button>
+                        </label>
+
+                        <Box sx={{ mt: 2 }}>
+                          {loan?.vehicleInvoice && (
+                            <iframe
+                              src={`https://docs.google.com/gview?url=${loan?.vehicleInvoice}&embedded=true`}
+                              width="200px"
+                              height="300px"
+                              frameborder="0"
+                            ></iframe>
+                          )}
+                        </Box>
+                        {loan.vehicleInvoice && <hr />}
+                      </div>}
+                      
 
                       <Button
                         size="small"
@@ -4136,6 +4979,21 @@
                             </Box>
                           </Typography>
                           <Typography>
+                            <strong>Co Applicant Aadhar:</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.CoAadhar && (
+                                <img
+                                  src={loan?.CoAadhar}
+                                  alt="CoAadhar"
+                                  width="200px"
+                                  height="300px"
+                                  style={{ objectFit: "cover" }}
+                                />
+                              )}
+                            </Box>
+                          </Typography>
+                          { loanType =="Personal Loan" && <div>
+                            <Typography>
                             <strong>PaySlip :</strong>
                             <Box sx={{ mt: 2 }}>
                               {loan?.paySlip && (
@@ -4161,6 +5019,176 @@
                               )}
                             </Box>
                           </Typography>
+                          <Typography>
+                            <strong>Offer Letter :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.offerLetter && (
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${loan?.offerLetter}&embedded=true`}
+                                  width="200px"
+                                  height="300px"
+                                  frameborder="0"
+                                ></iframe>
+                              )}
+                            </Box>
+                          </Typography>
+                          </div>}
+                          { loanType =="Business Loan" && <div>
+                            <Typography>
+                            <strong>busines Registration :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.businesReg && (
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${loan?.businesReg}&embedded=true`}
+                                  width="200px"
+                                  height="300px"
+                                  frameborder="0"
+                                ></iframe>
+                              )}
+                            </Box>
+                            </Typography>
+                            <Typography>
+                            <strong>busines ITR :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.businesITR && (
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${loan?.businesITR}&embedded=true`}
+                                  width="200px"
+                                  height="300px"
+                                  frameborder="0"
+                                ></iframe>
+                              )}
+                            </Box>
+                            </Typography>
+                            <Typography>
+                            <strong>busines Other Doc 1 :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.businesOtherDoc1 && (
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${loan?.businesOtherDoc1}&embedded=true`}
+                                  width="200px"
+                                  height="300px"
+                                  frameborder="0"
+                                ></iframe>
+                              )}
+                            </Box>
+                            </Typography>
+                            <Typography>
+                            <strong>busines Other Doc 2 :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.businesOtherDoc2 && (
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${loan?.businesOtherDoc2}&embedded=true`}
+                                  width="200px"
+                                  height="300px"
+                                  frameborder="0"
+                                ></iframe>
+                              )}
+                            </Box>
+                            </Typography>
+                            </div>}
+                          { loanType =="Home Loan" && <div>
+
+                            <Typography>
+                            <strong>Home Photo:</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.homePhoto && (
+                                <img
+                                  src={loan?.homePhoto}
+                                  alt="homePhoto"
+                                  width="200px"
+                                  height="300px"
+                                  style={{ objectFit: "cover" }}
+                                />
+                              )}
+                            </Box>
+                          </Typography>
+
+                            <Typography>
+                            <strong>House Registration Document :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.homeRegDoc && (
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${loan?.homeRegDoc}&embedded=true`}
+                                  width="200px"
+                                  height="300px"
+                                  frameborder="0"
+                                ></iframe>
+                              )}
+                            </Box>
+                            </Typography>
+                            <Typography>
+                            <strong>House Other Doc 1 :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.homeOtherDoc1 && (
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${loan?.homeOtherDoc1}&embedded=true`}
+                                  width="200px"
+                                  height="300px"
+                                  frameborder="0"
+                                ></iframe>
+                              )}
+                            </Box>
+                            </Typography>
+                            <Typography>
+                            <strong>House Other Doc 2 :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.homeOtherDoc2 && (
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${loan?.homeOtherDoc2}&embedded=true`}
+                                  width="200px"
+                                  height="300px"
+                                  frameborder="0"
+                                ></iframe>
+                              )}
+                            </Box>
+                            </Typography>
+                            </div>}
+                          { loanType =="Vehicle Loan" && <div>
+                            <Typography>
+                            <strong>Vehicle Photo:</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.vehiclePhoto && (
+                                <img
+                                  src={loan?.vehiclePhoto}
+                                  alt="vehiclePhoto"
+                                  width="200px"
+                                  height="300px"
+                                  style={{ objectFit: "cover" }}
+                                />
+                              )}
+                            </Box>
+                          </Typography>
+                            <Typography>
+                            <strong>Vehicle RC:</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.vehicleRC && (
+                                <img
+                                  src={loan?.vehicleRC}
+                                  alt="vehicleRC"
+                                  width="200px"
+                                  height="300px"
+                                  style={{ objectFit: "cover" }}
+                                />
+                              )}
+                            </Box>
+                          </Typography>
+
+                            <Typography>
+                            <strong>Vehicle Invoice :</strong>
+                            <Box sx={{ mt: 2 }}>
+                              {loan?.vehicleInvoice && (
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${loan?.vehicleInvoice}&embedded=true`}
+                                  width="200px"
+                                  height="300px"
+                                  frameborder="0"
+                                ></iframe>
+                              )}
+                            </Box>
+                            </Typography>
+                            </div>}
+                          
                         </CardContent>
                       </Card>
                     </Box>
@@ -4246,16 +5274,282 @@
                   </Dialog>
                 )}
               </div>
-            )}
-            {loanType == "Secured Loans" && (
-              <div>Secured loans Under development</div>
-            )}
-            {loanType == "Unsecured Loans" && (
-              <div>Unsecured loans Under development</div>
-            )}
+            
           </Box>
         );
       };
+      const CallingDataFunction = () => {
+        const [CallingData, setCallingData] = useState([]);
+        const [errors, setErrors] = useState({});
+        const [openAddCallingDataModal, setOpenAddCallingDataModal] = useState(false);
+        const [newCallingData, setNewCallingData] = useState({mobile:'', fullName:"", feedback:"normal", notes:"", schedule:null});
+        const handleChange3 = (e)=>{
+          const { name, value } = e.target;
+          setNewCallingData((old)=>{
+            return {...old, [name]: e.target.value}
+          })
+        }
+       const getCallingData = () => {
+          try {
+            
+            axios.post(`${baseURL}/getCallingData`, {})
+                      .then((res) => {
+                        console.log('res', res);
+                        setCallingData(res?.data ?? [])
+                      })
+                      .catch((error) => {
+                        setCallingData( [])
+                        alert(error.message);
+                        console.log("Error occurred:", error);
+                      });
+          } catch (er) {
+            console.log("er", er);
+          }
+        };
+        useEffect(()=>{
+          getCallingData()
+        }, [])
+        return (
+          <div>
+            <Box sx={{ p: 0, m: 0, width: "100%" }} className="box">
+                  
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      mb: 2,
+                    }}
+                  >
+                  <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{ fontWeight: "bold", fontSize: "1.25rem" }} // Reduced font size
+                    >
+                      Calling Data
+                    </Typography>
+                    <Button
+                      onClick={() => {
+                        setOpenAddCallingDataModal(true)
+                      }}
+                      variant="contained"
+                      color="primary"
+                      >
+                      Add New Calling Data
+                    </Button>
+                  </Box>
+            <Box sx={{ width: "100%", overflowX: "auto" }}>
+                    <TableContainer sx={{ minWidth: "250px" }}>
+                      <Table sx={{}}>
+                        <TableHead>
+                          <TableRow sx={{ bgcolor: "primary.main" }}>
+                            <TableCell
+                            sx={{
+                                color: "white",
+                                fontWeight: "bold",
+                                backgroundColor: "primary.main",
+                                position: "sticky",
+                                left: 0,
+                                zIndex: 1,
+                              }}
+                            >
+                              S.No
+                            </TableCell>
+                            <TableCell
+                            sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Mobile
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Name
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Feedback
+                            </TableCell>
+
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Notes
+                            </TableCell>
+                            <TableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            >
+                              Actions
+                            </TableCell>
+                            
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {CallingData.length>0 && CallingData.map((row, rowInd) => (
+                            <TableRow
+                              key={rowInd}
+                              onClick={() => {}}
+                              sx={{
+                                "&:nth-of-type(odd)": { bgcolor: "grey.50" },
+                                "&:hover": { bgcolor: "grey.100" },
+                              }}
+                            >
+                              <TableCell
+                              sx={{
+                                  color: "white",
+                                  fontWeight: "bold",
+                                  position: "sticky",
+                                  left: 0,
+                                  backgroundColor: row?.feedback == 'interested'
+                                    ? "lightblue"
+                                    : "lightgreen",
+                                  zIndex: 1,
+                                }}>{rowInd +1 ?? "-"}</TableCell>
+                              <TableCell>
+                                {row?.mobile ?? "-"}
+                              </TableCell>
+                              <TableCell>{row?.fullName ?? "-"}</TableCell>
+                              <TableCell sx={{
+                                backgroundColor: row?.feedback == 'interested'
+                                    ? "lightblue"
+                                    : "lightgreen",
+                              }}>{row?.feedback ?? "-"}</TableCell>
+                              <TableCell>{row?.notes ?? "-"}</TableCell>
+                              <TableCell><Button variant='contained' onClick={()=>{
+                                setOpenAddCallingDataModal(true)
+                                setNewCallingData(row);
+                              }}>Update</Button></TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Box>
+              </Box>
+
+
+            <Dialog // New Calling Data modal
+              open={openAddCallingDataModal}
+              onClose={()=>{setOpenAddCallingDataModal(false)}}
+              fullWidth
+            >
+              <DialogTitle
+                sx={{ fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" } }}
+              >
+                Add New Calling Data
+              </DialogTitle>
+              <DialogContent>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    pt: 1,
+                  }}
+                >
+                 {/* Full Name */}
+                 <TextField
+                    label="Full Name"
+                    name="fullName"
+                    value={newCallingData?.fullName}
+                    onChange={handleChange3}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors?.fullName)}
+                    helperText={errors?.fullName}
+                  />
+
+                   {/* mobile */}
+                   <TextField
+                    label="Mobile"
+                    name="mobile"
+                    type='number'
+                    value={newCallingData?.mobile}
+                    onChange={handleChange3}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors?.mobile)}
+                    helperText={errors?.mobile}
+                  />
+                  
+                  <FormControl>
+                    <InputLabel id="language-select-label-feedback">Call Feedback</InputLabel>
+                    <Select
+                      labelId="language-select-label-feedback"
+                      // defaultValue="normal"
+                      label="Call Feedback"
+                      value={newCallingData.feedback}
+                      onChange={(e) => setNewCallingData((old)=>{return {...old, feedback: e.target.value}})}
+                    
+                    >
+                      <MenuItem value="normal">Nomal</MenuItem>
+                      <MenuItem value="interested">Interested</MenuItem>
+                      <MenuItem value="notInterested">Not Interested</MenuItem>
+                      <MenuItem value="notAvailable">Not Available</MenuItem>
+                      {/*<MenuItem value="scheduleCall">schedule call</MenuItem>*/}
+                      <MenuItem value="busy">Busy</MenuItem>
+                      <MenuItem value="angry">Angry</MenuItem>
+                      <MenuItem value="moreInterested">More Interested</MenuItem>
+                      <MenuItem value="urgentLoanRequirement">Urgent Loan requirement</MenuItem>
+                      <MenuItem value="needLowRateOfInterest">Need Low Rate Of Interest</MenuItem>
+                      <MenuItem value="needMoreDiscussion">Need more Discussion</MenuItem>
+                      <MenuItem value="needDirectMeeting">Need Direct Meeting</MenuItem>
+                    </Select>
+                  </FormControl>
+                  {/* Notes */}
+                  <TextField
+                    label="Notes"
+                    name="notes"
+                    multiline
+                    minRows={2}
+                    value={newCallingData?.notes}
+                    onChange={handleChange3}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors?.notes)}
+                    helperText={errors?.notes}
+                  />
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={()=>{
+                    setOpenAddCallingDataModal(false)
+                  }}
+                 
+                >
+                  Close
+                </Button>
+                <Button
+                  onClick={()=>{
+                    console.log('addCallingData', newCallingData);
+                    axios
+                      .post(`${baseURL}/addCallingData`, {...newCallingData, addedBy: JSON.parse(localStorage.getItem("gnUserObj"))?.userId ?? "NA"})
+                      .then((res) => {
+                        console.log('res', res);
+                        alert('successfully added calling Data')
+                        setOpenAddCallingDataModal(false)
+                        getCallingData()
+                        setNewCallingData({mobile:'', fullName:"", feedback:"normal", notes:"", schedule:null})
+                      })
+                      .catch((error) => {
+                        alert(error.message);
+                        console.log("Error occurred:", error);
+                      });
+                  }}
+                  sx={{
+                    
+                  }}
+                >
+                  Add
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+        )
+      }
 
       const Branches = () => {
         const [addMemberModal, setAddMemberModal] = useState(false);
@@ -5984,28 +7278,31 @@
                     >
                       {/* Text Fields */}
                       {[
-                        ["Loan TYpe", selectedLoan.loanType],
-                        ["Loan Id", selectedLoan.loanId],
-                        ["Loan Status", selectedLoan.loanStatus],
-                        ["Full Name", selectedLoan.fullName],
-                        ["Mobile", selectedLoan.mobile],
-                        ["Email", selectedLoan.email],
-                        ["H.No", selectedLoan.Hno],
-                        ["Address", selectedLoan.address],
-                        ["Pincode", selectedLoan.pincode],
-                        ["Aadhaar Number", selectedLoan.adhaarNumber],
-                        ["PAN Number", selectedLoan.panNumber],
-                        ["CIBIL Score", selectedLoan.cbillScore],
-                        ["Monthly Income", selectedLoan.yourMOnthlyIncome],
-                        ["Existing EMI", selectedLoan.monthlExistingEmiAmount],
-                        ["Loan Requirement", selectedLoan.loanRequirement],
-                        ["Employment Type", selectedLoan.typeOfEmployment],
-                        ["Company Name", selectedLoan.companyName],
-                        ["Experience (Years)", selectedLoan.yearsOfExperience],
-                        ["Monthly Salary", selectedLoan.monthlySalary],
-                        ["Company Address", selectedLoan.companyAddress],
-                        ["Company Pincode", selectedLoan.companyPincode],
-                        ["Salary Payment Mode", selectedLoan.modeOfSalary],
+                        ["Loan TYpe", selectedLoan?.loanType],
+                        ["Loan Id", selectedLoan?.loanId],
+                        ["Loan Status", selectedLoan?.loanStatus],
+                        ["Full Name", selectedLoan?.fullName],
+                        ["Mobile", selectedLoan?.mobile],
+                        ["Email", selectedLoan?.email],
+                        ["H.No", selectedLoan?.Hno],
+                        ["Address", selectedLoan?.address],
+                        ["Pincode", selectedLoan?.pincode],
+                        ["Aadhaar Number", selectedLoan?.adhaarNumber],
+                        ["PAN Number", selectedLoan?.panNumber],
+                        ["CIBIL Score", selectedLoan?.cbillScore],
+                        ["Monthly Income", selectedLoan?.yourMOnthlyIncome],
+                        ["Existing EMI", selectedLoan?.monthlExistingEmiAmount],
+                        ["Loan Requirement", selectedLoan?.loanRequirement],
+                        ["Employment Type", selectedLoan?.typeOfEmployment],
+                        ["Company Name", selectedLoan?.companyName],
+                        ["Experience (Years)", selectedLoan?.yearsOfExperience],
+                        ["Monthly Salary", selectedLoan?.monthlySalary],
+                        ["Company Address", selectedLoan?.companyAddress],
+                        ["Company Pincode", selectedLoan?.companyPincode],
+                        ["Salary Payment Mode", selectedLoan?.modeOfSalary],
+                        ["Co applicant Name", selectedLoan?.CoApplicantFullName],
+                        ["Co Applicant mobile ", selectedLoan?.CoApplicantMobile],
+                        ["Co Applicant AAdhar ", selectedLoan?.CoApplicantAdhaarNumber],
                       ].map(([label, value], i) => (
                         <Typography key={i}>
                           <strong>{label}:</strong> {value}
@@ -6035,9 +7332,10 @@
 
                       {/*IMAGES + DOCUMENTS */}
                       {[
-                        ["Photo", selectedLoan.photo],
-                        ["Aadhaar Card", selectedLoan.aadhar],
-                        ["PAN Card", selectedLoan.pan],
+                        ["Photo", selectedLoan?.photo],
+                        ["Aadhaar Card", selectedLoan?.aadhar],
+                        ["PAN Card", selectedLoan?.pan],
+                        ["Co Applicant Aadhaar Card", selectedLoan?.CoAadhar],
                       ].map(
                         ([label, src], i) =>
                           src && (
@@ -6063,7 +7361,7 @@
                           )
                       )}
 
-                      {/* PDF Documents */}
+                      {/* PDF Documents
                       {[
                         ["Payslip", selectedLoan.paySlip],
                         ["Bank Statement", selectedLoan.bankStatement],
@@ -6082,6 +7380,157 @@
                                   style={{ border: 0, borderRadius: "6px" }}
                                 />
                               </Box>
+                            </Box>
+                          )
+                      )}  */}
+                      {/* PDF Documents */}
+                      {selectedLoan?.loanType == 'Personal Loan' && [
+                        ["Payslip", selectedLoan?.paySlip, 'pdf'],
+                        ["OfferLetter", selectedLoan?.offerLetter, 'pdf'],
+                        ["Bank Statement", selectedLoan?.bankStatement, 'pdf'],
+                      ].map(
+                        ([label, src, type], i) =>
+                          src && (
+                            <Box key={i}>
+                              <Typography>
+                                <strong>{label}:</strong>
+                              </Typography>
+                              {type=="pdf"&&<Box sx={{ mt: 1 }}>
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${src}&embedded=true`}
+                                  width="100%"
+                                  height="300px"
+                                  style={{ border: 0, borderRadius: "6px" }}
+                                />
+                              </Box>}
+                              {type=="image"&&
+                              <Box sx={{ mt: 1, textAlign: "center" }}>
+                                <img
+                                  src={src}
+                                  alt={label}
+                                  style={{
+                                    width: "100%",
+                                    maxWidth: "250px",
+                                    height: "auto",
+                                    borderRadius: "6px",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                              </Box>
+                              }
+                            </Box>
+                          )
+                      )}
+                      {selectedLoan?.loanType == 'Business Loan' && [
+                        ["busines Registration Doc", selectedLoan?.businesReg, 'pdf'],
+                        ["busines ITR", selectedLoan?.businesITR, 'pdf'],
+                        ["Business Other Doc 1", selectedLoan?.businesOtherDoc1, 'pdf'],
+                        ["Business Other Doc 2", selectedLoan?.businesOtherDoc2, 'pdf'],
+                      ].map(
+                        ([label, src, type], i) =>
+                          src && (
+                            <Box key={i}>
+                              <Typography>
+                                <strong>{label}:</strong>
+                              </Typography>
+                              {type=="pdf"&&<Box sx={{ mt: 1 }}>
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${src}&embedded=true`}
+                                  width="100%"
+                                  height="300px"
+                                  style={{ border: 0, borderRadius: "6px" }}
+                                />
+                              </Box>}
+                              {type=="image"&&
+                              <Box sx={{ mt: 1, textAlign: "center" }}>
+                                <img
+                                  src={src}
+                                  alt={label}
+                                  style={{
+                                    width: "100%",
+                                    maxWidth: "250px",
+                                    height: "auto",
+                                    borderRadius: "6px",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                              </Box>
+                              }
+                            </Box>
+                          )
+                      )}
+                      {selectedLoan?.loanType == 'Home Loan' && [
+                        ["House Photo", selectedLoan?.homePhoto, 'image'],
+                        ["House Registration Doc", selectedLoan?.homeRegDoc, 'pdf'],
+                        ["Home Other Doc 1", selectedLoan?.homeOtherDoc1, 'pdf'],
+                        ["Home Other Doc 2", selectedLoan?.homeOtherDoc2, 'pdf'],
+                      ].map(
+                        ([label, src, type], i) =>
+                          src && (
+                            <Box key={i}>
+                              <Typography>
+                                <strong>{label}:</strong>
+                              </Typography>
+                              {type=="pdf"&&<Box sx={{ mt: 1 }}>
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${src}&embedded=true`}
+                                  width="100%"
+                                  height="300px"
+                                  style={{ border: 0, borderRadius: "6px" }}
+                                />
+                              </Box>}
+                              {type=="image"&&
+                              <Box sx={{ mt: 1, textAlign: "center" }}>
+                                <img
+                                  src={src}
+                                  alt={label}
+                                  style={{
+                                    width: "100%",
+                                    maxWidth: "250px",
+                                    height: "auto",
+                                    borderRadius: "6px",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                              </Box>
+                              }
+                            </Box>
+                          )
+                      )}
+                      {selectedLoan?.loanType == 'Vehicle Loan' && [
+                        ["Vehicle Photo", selectedLoan?.vehiclePhoto, 'image'],
+                        ["Vehicle RC", selectedLoan?.vehicleRC, 'image'],
+                        ["Vehicle Invoice", selectedLoan?.vehicleInvoice, 'pdf'],
+                      ].map(
+                        ([label, src, type], i) =>
+                          src && (
+                            <Box key={i}>
+                              <Typography>
+                                <strong>{label}:</strong>
+                              </Typography>
+                              {type=="pdf"&&<Box sx={{ mt: 1 }}>
+                                <iframe
+                                  src={`https://docs.google.com/gview?url=${src}&embedded=true`}
+                                  width="100%"
+                                  height="300px"
+                                  style={{ border: 0, borderRadius: "6px" }}
+                                />
+                              </Box>}
+                              {type=="image"&&
+                              <Box sx={{ mt: 1, textAlign: "center" }}>
+                                <img
+                                  src={src}
+                                  alt={label}
+                                  style={{
+                                    width: "100%",
+                                    maxWidth: "250px",
+                                    height: "auto",
+                                    borderRadius: "6px",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                              </Box>
+                              }
                             </Box>
                           )
                       )}
@@ -8077,6 +9526,18 @@
           },
 
           {
+            text: "Calling Data",
+            icon: "people",
+            role: "all",
+            list: ["all", "telecaller", 'admin', 'manager', 'sales'],
+
+            path: "/",
+            clickfunc: () => {
+              setBodyarea("CallingData");
+              setOpen(false);
+            },
+          },
+          {
             text: "Reffer A Friend",
             icon: "people",
             role: "all",
@@ -8403,6 +9864,7 @@
               {bodyarea == "AllCustomers" && <Management2 />}
               {bodyarea == "Customers" && <Management2 />}
               {bodyarea == "Sales" && <Management />}
+              {bodyarea == "CallingData" && <CallingDataFunction />}
             </Box>
             <Dialog // profile dialog
               open={dialogOpen}
