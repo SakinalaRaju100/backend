@@ -694,7 +694,7 @@
         },
       ];
 
-      const roles = ["admin", "cluster", "manager", "sales", "partner"];
+      const roles = ["admin", "cluster", "manager", "sales", "partner", "telecaller"];
 
       // let baseURL = "http://localhost:1954";
       let baseURL = "https://zphs-school.vercel.app";
@@ -3199,6 +3199,37 @@
           // validateField(name, value); // validate each field on change
         };
 
+        const [branches, setBranches] = useState([]);
+        const fetchBranches = () => {
+          fetch(`${baseURL}/get-all-branches`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              goldnoontoken: localStorage.getItem("goldnoontoken"),
+            },
+            credentials: "include",
+            body: JSON.stringify({needfor:"LoanApplication"}),
+          })
+            .then((response) => response.json()) // Parse the JSON
+            .then((data) => {
+              setBranches(data);
+            })
+            .catch((error) => {
+              console.error("Error loading JSON:", error);
+              setBranches([]);
+            });
+        };
+
+        useEffect(() => {
+          // setLoading(true);
+          try {
+            fetchBranches();
+          } catch (er) {
+            // setLoading(false);
+            console.log("er", er);
+          }
+        }, []);
+
         return (
           <Box sx={{ width: "100%" }}>
             <Box>
@@ -3219,6 +3250,29 @@
                       {type}
                     </MenuItem>
                   ))}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel>Select Branch</InputLabel>
+                <Select
+                  label="Select Branch"
+                  name="branchCode"
+                  value={loan?.branchCode ?? ""}
+                  // onChange={(e) => {
+                  //   setLoanType(e.target.value);
+                  //   setLoan({});
+                  // }}
+                  onChange={handleChange}
+                  disabled={activeStep != 0}
+                >
+                {branches.map((branch) => (
+                        <MenuItem
+                          key={branch?.branchCode}
+                          value={branch?.branchCode}
+                        >
+                          {branch?.name}
+                        </MenuItem>
+                      ))}
                 </Select>
               </FormControl>
             </Box>
@@ -3257,8 +3311,10 @@
                     onClick={() => {
                       if (activeStep === steps.length - 1) {
                         handleLoanSubmit(loan);
-                      } else {
+                      } else if(loan?.branchCode){
                         handleNext();
+                      }else{
+                        alert('select Loan Type & Nearest Branch')
                       }
                     }}
                     variant="outlined"
@@ -3440,45 +3496,7 @@
                         helperText={errors.cbillScore}
                         type='number'
                       />
-                      {/* YOur Monthly Income */}
-                      <TextField
-                        size="small"
-                        label="Your Monthly Income"
-                        name="yourMOnthlyIncome"
-                        value={loan.yourMOnthlyIncome}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                        error={Boolean(errors.yourMOnthlyIncome)}
-                        helperText={errors.yourMOnthlyIncome}
-                        type='number'
-                      />
-                      {/* Monthly existing emi amount */}
-                      <TextField
-                        size="small"
-                        label="Monthly existing emi amount"
-                        name="monthlExistingEmiAmount"
-                        value={loan.monthlExistingEmiAmount}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                        error={Boolean(errors.monthlExistingEmiAmount)}
-                        helperText={errors.monthlExistingEmiAmount}
-                        type='number'
-                      />
-                      {/* Loan Requirement */}
-                      <TextField
-                        size="small"
-                        label="Loan Amount Requirement"
-                        name="loanRequirement"
-                        value={loan.loanRequirement}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                        error={Boolean(errors.loanRequirement)}
-                        helperText={errors.loanRequirement}
-                        type='number'
-                      />
+                      
 
                       {/* Co applicant Full Name */}
                       <TextField
@@ -3541,7 +3559,7 @@
                         <Select
                           label="Type of Employment"
                           name="typeOfEmployment"
-                          value={loan.typeOfEmployment}
+                          value={loan?.typeOfEmployment ?? 'Private'}
                           onChange={handleChange}
                         >
                           <MenuItem value="Private">Private</MenuItem>
@@ -3549,12 +3567,13 @@
                           <MenuItem value="Self-Employed">
                             Self-Employed
                           </MenuItem>
-                          <MenuItem value="Unemployed">Unemployed</MenuItem>
                         </Select>
                       </FormControl>
 
-                      {/* Company Name */}
-                      <TextField
+                      {/* Company Details 
+
+                      {loanType == 'Personal Loan' && <div>*/}
+                        <TextField
                         size="small"
                         label="Company Name"
                         name="companyName"
@@ -3564,7 +3583,29 @@
                         margin="normal"
                       />
 
-                      {/* Years of Experience in Months */}
+                      <TextField
+                        size="small"
+                        label="Company Address"
+                        name="companyAddress"
+                        value={loan.companyAddress}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                      />
+
+                      <TextField
+                        size="small"
+                        label="Company Pincode"
+                        name="companyPincode"
+                        value={loan.companyPincode}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        type='number'
+                      />
+                      {/*</div>}
+
+                       Years of Experience in Months */}
                       <TextField
                         size="small"
                         label="Years of Experience (Months)"
@@ -3576,7 +3617,7 @@
                         type="number"
                       />
 
-                      {/* Monthly in Hand Salary */}
+                      {/* Monthly in Hand Salary
                       <TextField
                         size="small"
                         label="Monthly in Hand Salary"
@@ -3586,30 +3627,7 @@
                         fullWidth
                         margin="normal"
                         type="number"
-                      />
-
-                      {/* Company Address */}
-                      <TextField
-                        size="small"
-                        label="Company Address"
-                        name="companyAddress"
-                        value={loan.companyAddress}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                      />
-
-                      {/* Company Pincode */}
-                      <TextField
-                        size="small"
-                        label="Company Pincode"
-                        name="companyPincode"
-                        value={loan.companyPincode}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                        type='number'
-                      />
+                      /> */}
 
                       {/* Mode of Salary Payment */}
                       <FormControl fullWidth margin="normal">
@@ -3625,6 +3643,46 @@
                           <MenuItem value="Cheque">Cheque</MenuItem>
                         </Select>
                       </FormControl>
+
+                      {/* YOur Monthly Income */}
+                      <TextField
+                        size="small"
+                        label="Your Monthly total Income"
+                        name="yourMOnthlyIncome"
+                        value={loan.yourMOnthlyIncome}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.yourMOnthlyIncome)}
+                        helperText={errors.yourMOnthlyIncome}
+                        type='number'
+                      />
+                      {/* Monthly existing emi amount */}
+                      <TextField
+                        size="small"
+                        label="Monthly existing emi amount"
+                        name="monthlExistingEmiAmount"
+                        value={loan.monthlExistingEmiAmount}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.monthlExistingEmiAmount)}
+                        helperText={errors.monthlExistingEmiAmount}
+                        type='number'
+                      />
+                      {/* Loan Requirement */}
+                      <TextField
+                        size="small"
+                        label="Loan Amount Requirement"
+                        name="loanRequirement"
+                        value={loan.loanRequirement}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.loanRequirement)}
+                        helperText={errors.loanRequirement}
+                        type='number'
+                      />
 
                       <Button
                         size="small"
@@ -9528,8 +9586,8 @@
           {
             text: "Calling Data",
             icon: "people",
-            role: "all",
-            list: ["all", "telecaller", 'admin', 'manager', 'sales'],
+            role: "telecaller",
+            list: ["telecaller", 'admin', 'manager', 'sales'],
 
             path: "/",
             clickfunc: () => {
