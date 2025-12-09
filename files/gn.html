@@ -6607,7 +6607,7 @@
               alert("catch");
             }
           }, []);
-          const fetchListDate = () => {
+          const fetchLoans = () => {
             try {
               fetch(`${baseURL}/gn-loans`, {
                 method: "POST",
@@ -6644,7 +6644,7 @@
                   if(data?.status == 201){
 
                     // alert('Successfully added Payment')
-                    fetchListDate()
+                    fetchLoans()
                     setOpenStudentDetailsModal(false);
                     console.log('Successfully added Payment', data)
                   }
@@ -7065,7 +7065,7 @@
                                         </span>
                                       </Tooltip>
                                     )}
-                                    {loan.update && (
+                                    { loginData.role !='customer' && (
                                       <Tooltip title="Update Status">
                                         <span>
                                           <Button
@@ -7366,7 +7366,7 @@
 
                       <IconButton
                         onClick={() => {
-                          fetchListDate();
+                          fetchLoans();
                           setOpenStudentDetailsModal(false);
                         }}
                       >
@@ -7397,7 +7397,7 @@
                         ["Aadhaar Number", selectedLoan?.adhaarNumber],
                         ["PAN Number", selectedLoan?.panNumber],
                         ["CIBIL Score", selectedLoan?.cbillScore],
-                        ["Monthly Income", selectedLoan?.yourMOnthlyIncome],
+                        // ["Monthly Income", selectedLoan?.yourMOnthlyIncome],
                         ["Existing EMI", selectedLoan?.monthlExistingEmiAmount],
                         ["Loan Requirement", selectedLoan?.loanRequirement],
                         ["Employment Type", selectedLoan?.typeOfEmployment],
@@ -7728,7 +7728,7 @@
                       onChange={(e) => setUpdateStatus(e.target.value)}
                     >
                       <MenuItem value={"pending"}>Pending</MenuItem>
-                      <MenuItem value={"verification"}>Verification</MenuItem>
+                      <MenuItem value={"underVerification"}>underVerification</MenuItem>
                       <MenuItem value={"approved"}>Approve</MenuItem>
                       <MenuItem value={"disbursed"}>Disburse</MenuItem>
                       <MenuItem value={"rejected"}>Rejected</MenuItem>
@@ -7972,9 +7972,14 @@
                             emiStatus:"recoving",
                             emiData: [...Array(Number(loanDisbursedDetails?.duration))].map((emi, monthIndex)=>{return{month:moment().add(monthIndex + 1, "months").format(`${emiDetails?.emiDate ?? 1}-MMM-YYYY`), emi:Math.round( loanToUpdate?.approvedLoanDetails?.amount / loanDisbursedDetails.duration).toFixed(2), status: false}})
                           }
+                        }).then((res)=>{
+                          fetchLoans();
+                          alert("Loan status updated successfully");
+                          setOpenUpdateLoanDialog(false);
+                        }).catch((err)=>{
+                          console.log('err', err);
                         });
-                        alert("Loan status updated successfully");
-                        setOpenUpdateLoanDialog(false);
+                      
                       } catch (err) {
                         console.log('err', err)
                         alert("Failed to update loan status");
@@ -8164,6 +8169,89 @@
                 />
               </Box>
 
+              {/* Quick actions 
+              {[{name: 'AllLoans', bodyarea:"allLoans", roles:['sales', 'manager', 'admin', 'customer', 'cluster']},
+              {name: 'ApplyLoan', bodyarea:"applyLoan", roles:['customer', 'sales']},
+              {name: 'Branches', bodyarea:"branches", roles:['Admin', 'manager']},
+              {name: 'SalesReports', bodyarea:"SalesReports", roles:['Admin', 'manager', 'sales']},
+              {name: 'SalesBoard', bodyarea:"SalesBoard", roles:['Admin', 'manager', 'sales']},
+              {name: 'AllCustomers', bodyarea:"AllCustomers", roles:['Admin', 'manager', 'sales']}
+            ]}*/}
+
+              {/* Customer My Loans and apply Loans section */}
+              {loginData?.role == "manager" && (
+                <Box
+                  sx={{
+                    // bgcolor: "grey.100",
+                    pt: 0,
+                    mb: 1,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                  gap={2}
+                >
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("AllLoans");
+                      // setCustomerSignUPDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        people
+                      </span>
+                      <Typography variant="h6">All Loans</Typography>
+                    </Box>
+                  </Card>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("Branches");
+                      // setShareInterestDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                      article
+                      </span>
+                      <Typography variant="h6">Branches</Typography>
+                    </Box>
+                  </Card>
+                </Box>
+              )}
               {/* Customer My Loans and apply Loans section */}
               {loginData?.role == "customer" && (
                 <Box
@@ -8234,6 +8322,51 @@
                         forward
                       </span>
                       <Typography variant="h6">Apply Loan</Typography>
+                    </Box>
+                  </Card>
+                </Box>
+              )}
+
+              {/* Telecaller should have calling Data */}
+              {loginData?.role == "telecaller" && (
+                <Box
+                  sx={{
+                    // bgcolor: "grey.100",
+                    pt: 0,
+                    mb: 1,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                  gap={2}
+                >
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("CallingData");
+                      // setCustomerSignUPDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                        people
+                      </span>
+                      <Typography variant="h6">Calling Data</Typography>
                     </Box>
                   </Card>
                 </Box>
@@ -8324,7 +8457,7 @@
                   }}
                   gap={2}
                 >
-                  <Card
+                  {/*<Card
                     sx={{
                       display: "flex",
                       flexDirection: "column",
@@ -8353,7 +8486,7 @@
                       </span>
                       <Typography variant="h6">All Customers</Typography>
                     </Box>
-                  </Card>
+                  </Card>*/}
                   <Card
                     sx={{
                       display: "flex",
@@ -8382,6 +8515,36 @@
                         forward
                       </span>
                       <Typography variant="h6">All Loans</Typography>
+                    </Box>
+                  </Card>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: 2,
+                      margin: 1,
+                      cursor: "pointer",
+                      backgroundColor: theme.appBarColor,
+                      color: "white",
+                      // "&:hover": {
+                      //   backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      // },
+                    }}
+                    onClick={() => {
+                      setBodyarea("Branches");
+                      // setShareInterestDialogOpen(true);
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        className="material-icons"
+                        style={{ marginRight: "8px" }}
+                      >
+                      article
+                      </span>
+                      <Typography variant="h6">Branches</Typography>
                     </Box>
                   </Card>
                 </Box>

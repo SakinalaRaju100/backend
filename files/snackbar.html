@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snackbar with Severity</title>
+
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- React & MUI -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    />
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+      const { Button, Snackbar, Alert } = MaterialUI;
+
+      // Snackbar component with severity
+      const ShowSnackbar = ({ open, message, severity = "info", onClose }) => {
+        return (
+          <Snackbar
+            open={open}
+            onClose={onClose}
+            autoHideDuration={3000}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          >
+            <Alert
+              onClose={onClose}
+              severity={severity}
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {message}
+            </Alert>
+          </Snackbar>
+        );
+      };
+
+      // Home Page
+      const HomePage = () => {
+        const [snack, setSnack] = useState({
+          open: false,
+          message: "",
+          severity: "info",
+        });
+
+        const openSnackbar = (message, severity = "info") => {
+          setSnack({
+            open: true,
+            message,
+            severity,
+          });
+        };
+
+        return (
+          <div style={{ padding: 20 }}>
+            <Button
+              variant="contained"
+              onClick={() => openSnackbar("Information message!", "info")}
+            >
+              Info
+            </Button>
+            &nbsp;
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => openSnackbar("Success message!", "success")}
+            >
+              Success
+            </Button>
+            &nbsp;
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={() => openSnackbar("Warning message!", "warning")}
+            >
+              Warning
+            </Button>
+            &nbsp;
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => openSnackbar("Error message!", "error")}
+            >
+              Error
+            </Button>
+            <ShowSnackbar
+              open={snack.open}
+              message={snack.message}
+              severity={snack.severity}
+              onClose={() => setSnack({ ...snack, open: false })}
+            />
+          </div>
+        );
+      };
+
+      ReactDOM.render(<HomePage />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
