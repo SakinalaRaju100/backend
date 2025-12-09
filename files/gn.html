@@ -190,6 +190,7 @@
         Divider,
         Tooltip,
         Breadcrumbs,
+        Snackbar, Alert, Slide 
       } = MaterialUI;
 
       // const { PieChart } = window["@mui/x-charts"];
@@ -698,6 +699,33 @@
 
       // let baseURL = "http://localhost:1954";
       let baseURL = "https://zphs-school.vercel.app";
+
+      // Slide transition function
+      function SlideTransition(props) {
+        return <Slide {...props} direction="left" />;
+      }
+
+      // Snackbar component with severity + transition
+      const ShowSnackbar = ({ open, message, severity = "info", onClose }) => {
+        return (
+          <Snackbar
+            open={open}
+            onClose={onClose}
+            autoHideDuration={3000}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            TransitionComponent={SlideTransition}
+          >
+            <Alert
+              // onClose={onClose}
+              severity={severity}
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {message}
+            </Alert>
+          </Snackbar>
+        );
+      };
 
       const Management = () => {
         const [checked, setChecked] = useState(false);
@@ -3156,17 +3184,12 @@
 
         const handleBack = () => {
           setActiveStep((prevActiveStep) => prevActiveStep - 1);
+          openSnackbar(`Moved to: ${steps[activeStep - 1]} section`, "warning");
         };
 
         const handleNext = () => {
-          // let newSkipped = skipped;
-          // if (isStepSkipped(activeStep)) {
-          //   newSkipped = new Set(newSkipped.values());
-          //   newSkipped.delete(activeStep);
-          // }
-
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
-          // setSkipped(newSkipped);
+          openSnackbar(`Moved to: ${steps[activeStep + 1]} section`, "success");
         };
 
         const handleLoanSubmit = (loan) => {
@@ -3180,11 +3203,14 @@
             })
 
             .then((res) => {
-              alert("Loan successfully applied");
+              // alert("Loan successfully applied");
+              openSnackbar("Loan successfully applied", "info")
               window.location.reload();
             })
             .catch((error) => {
-              alert(error.message);
+              
+              // alert(error.message);
+              openSnackbar(error.message, 'error');
               console.log("Error occurred:", error);
             });
         };
@@ -3212,9 +3238,12 @@
           })
             .then((response) => response.json()) // Parse the JSON
             .then((data) => {
+              openSnackbar("please fill your details..", "info")
               setBranches(data);
             })
             .catch((error) => {
+              openSnackbar("Error in fetching branches list", "error")
+
               console.error("Error loading JSON:", error);
               setBranches([]);
             });
@@ -3230,8 +3259,28 @@
           }
         }, []);
 
+        const [snack, setSnack] = useState({
+            open: false,
+            message: "",
+            severity: "info",
+          });
+
+          const openSnackbar = (message, severity = "info") => {
+            setSnack({
+              open: true,
+              message,
+              severity,
+            });
+          };
+
         return (
           <Box sx={{ width: "100%" }}>
+            <ShowSnackbar
+                open={snack.open}
+                message={snack.message}
+                severity={snack.severity}
+                onClose={() => setSnack({ ...snack, open: false })}
+              />
             <Box>
               <FormControl fullWidth margin="normal">
                 <InputLabel>Select Type of Loan</InputLabel>
@@ -7941,6 +7990,21 @@
         };
 
         const Dashboard = () => {
+
+          const [snack, setSnack] = useState({
+            open: false,
+            message: "",
+            severity: "info",
+          });
+
+          const openSnackbar = (message, severity = "info") => {
+            setSnack({
+              open: true,
+              message,
+              severity,
+            });
+          };
+
           // Carousel images
           const carouselImages = [
             {
@@ -9116,7 +9180,10 @@
                           textAlign: "center",
                         }}
                       >
-                        <Typography variant="body2">
+                        <Typography variant="body2" onClick={()=>{
+                          openSnackbar("The Goldnoon", "info")
+                        }}>
+
                           © 2025 All rights reserved.
                         </Typography>
                       </Box>
@@ -9124,6 +9191,12 @@
                   </Grid>
                 </Container>
               </Box>
+              <ShowSnackbar
+                open={snack.open}
+                message={snack.message}
+                severity={snack.severity}
+                onClose={() => setSnack({ ...snack, open: false })}
+              />
             </div>
           );
         };
@@ -9412,6 +9485,8 @@
             .then((res) => {
               // alert(res.data.message);
               if (res.data.success) {
+                openSnackbar("Successfully Logged in", "success")
+
                 localStorage.setItem(
                   "gnUserObj",
                   JSON.stringify({
@@ -9419,7 +9494,7 @@
                   })
                 );
                 localStorage.setItem("goldnoontoken", res.data.goldnoontoken);
-
+                
                 setLoginData(res.data.data);
                 handleLoginDialogToggle();
                 window.location.reload();
@@ -9718,9 +9793,28 @@
           document.body.className = theme.name.toLowerCase();
         }, [theme]);
 
+        const [snack, setSnack] = useState({
+            open: false,
+            message: "",
+            severity: "info",
+          });
+
+          const openSnackbar = (message, severity = "info") => {
+            setSnack({
+              open: true,
+              message,
+              severity,
+            });
+          };
+
         return (
           <Box sx={{ display: "flex" }}>
-            {console.log("loginData", loginData)}
+            <ShowSnackbar
+                open={snack.open}
+                message={snack.message}
+                severity={snack.severity}
+                onClose={() => setSnack({ ...snack, open: false })}
+              />
             <AppBar
               position="fixed"
               sx={{
@@ -10555,12 +10649,15 @@
                           .then((res) => {
                             alert(res.data.message);
                             if (res.data.success) {
+                              openSnackbar("Successfully Added new user", "success")
                               localStorage.setItem(
                                 "gnUserObj",
                                 JSON.stringify({
                                   ...res.data.data,
                                 })
                               );
+                              localStorage.setItem("goldnoontoken", res.data.goldnoontoken);
+
 
                               setLoginData(res.data.data);
                               handleLoginDialogToggle();
