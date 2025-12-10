@@ -3193,7 +3193,7 @@
         };
 
         const handleLoanSubmit = (loan) => {
-          console.log("loan", loan);
+          console.log("loan", loan); // need validations here
           axios
             .post(`${baseURL}/add-new-gn-loan`, {
               userId: JSON.parse(localStorage.getItem("gnUserObj"))?.userId,
@@ -3203,14 +3203,14 @@
             })
 
             .then((res) => {
-              // alert("Loan successfully applied");
-              openSnackbar("Loan successfully applied", "info")
+              alert(res.data?.message ?? "Loan successfully applied");
+              openSnackbar(res.data?.message ?? "Loan successfully applied", "info")
               window.location.reload();
             })
             .catch((error) => {
               
-              // alert(error.message);
-              openSnackbar(error.message, 'error');
+              alert(error.message);
+              openSnackbar(error.message?? 'error during loan submit', 'error');
               console.log("Error occurred:", error);
             });
         };
@@ -3592,7 +3592,13 @@
                       <Button
                         size="small"
                         fullWidth
-                        onClick={handleNext}
+                        onClick={()=>{
+                          if(loan?.branchCode){
+                            handleNext();
+                          }else{
+                            alert('select Loan Type & Nearest Branch')
+                          }
+                        }}
                         variant="contained"
                         // disabled={activeStep === steps.length - 1}
                       >
@@ -4971,6 +4977,12 @@
                           <Typography variant="h6">Loan Preview</Typography>
 
                           <Typography>
+                            <strong>Loan Type:</strong> {loanType}
+                          </Typography>
+                          <Typography>
+                            <strong>BranchCode :</strong> {loan.branchCode}
+                          </Typography>
+                          <Typography>
                             <strong>fullName:</strong> {loan.fullName}
                           </Typography>
                           <Typography>
@@ -5298,6 +5310,25 @@
                           
                         </CardContent>
                       </Card>
+                      <Button
+                      size="small"
+                      fullWidth
+                      variant="contained"
+                      onClick={() => {
+                        if (activeStep === steps.length - 1) {
+                          handleLoanSubmit(loan);
+                        } else if(loan?.branchCode){
+                          handleNext();
+                        }else{
+                          alert('select Loan Type & Nearest Branch')
+                        }
+                      }}
+                      // disabled={activeStep === steps.length - 1}
+                      >
+                      {activeStep === steps.length - 1
+                        ? "Check & Submit"
+                        : "Next"}
+                      </Button>
                     </Box>
                   )}
                 </Box>
