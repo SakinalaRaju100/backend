@@ -297,7 +297,7 @@
           refferedBY: "GNS0142",
           approvedBy: "GNM0378",
           verified: true,
-          disbursed: false,
+          disburse: false,
           elegibilityAmount: 200000,
           rateOfInterest: 11.25,
           status: "Completed",
@@ -379,7 +379,7 @@
           refferedBY: "GNS0142",
           approvedBy: "GNM0378",
           verified: true,
-          disbursed: false,
+          disburse: false,
           elegibilityAmount: 200000,
           rateOfInterest: 11.25,
           status: "verification",
@@ -461,7 +461,7 @@
           refferedBY: "GNS0142",
           approvedBy: "GNM0378",
           verified: true,
-          disbursed: false,
+          disburse: false,
           elegibilityAmount: 200000,
           rateOfInterest: 11.25,
           status: "verification",
@@ -7397,6 +7397,7 @@
                         ["Aadhaar Number", selectedLoan?.adhaarNumber],
                         ["PAN Number", selectedLoan?.panNumber],
                         ["CIBIL Score", selectedLoan?.cbillScore],
+                        ["CIBIL Grade", selectedLoan?.cbillGrade],
                         // ["Monthly Income", selectedLoan?.yourMOnthlyIncome],
                         ["Existing EMI", selectedLoan?.monthlExistingEmiAmount],
                         ["Loan Requirement", selectedLoan?.loanRequirement],
@@ -7729,8 +7730,8 @@
                     >
                       <MenuItem value={"pending"}>Pending</MenuItem>
                       <MenuItem value={"underVerification"}>underVerification</MenuItem>
-                      <MenuItem value={"approved"}>Approve</MenuItem>
-                      <MenuItem value={"disbursed"}>Disburse</MenuItem>
+                      <MenuItem value={"approve"}>Approve</MenuItem>
+                      <MenuItem value={"disburse"}>Disburse</MenuItem>
                       <MenuItem value={"rejected"}>Rejected</MenuItem>
                       <MenuItem value={"loanRecovering"}>
                         loan Recovering
@@ -7738,7 +7739,7 @@
                       <MenuItem value={"completed"}>Completed</MenuItem>
                     </Select>
                   </FormControl>
-                  {updateStatus === "approved" && (
+                  {updateStatus === "approve" && (
                     <div>
                       <Typography variant="body1">
                         Eligible Loan Amount: ₹{" "}
@@ -7812,7 +7813,7 @@
                       </Typography>
                     </div>
                   )}
-                  {updateStatus === "disbursed" && (
+                  {updateStatus === "disburse" && (
                     <div>
                       <Typography variant="body1">
                         Approved Loan Amount: ₹ {loanToUpdate?.approvedLoanDetails?.amount}/-
@@ -7966,7 +7967,7 @@
                           notes: updateNotes,
                           approvedLoanDetails: {amount: approvedLoanDetails.amount, roi: approvedLoanDetails.roi, approvedOn: moment().format()} ?? {},
                           loanDisbursedDetails: {amount: loanToUpdate?.approvedLoanDetails?.amount ?? 0, roi: loanToUpdate?.approvedLoanDetails?.roi ?? 10, duration: loanDisbursedDetails.duration ?? 6, disbursedOn: moment().format()} ?? {},
-                          emiDetails : {...emiDetails, 
+                          emiDetails : {
                             emiDate: emiDetails.emiDate ?? 1,
                             emiStartDate: moment().format(),
                             emiStatus:"recoving",
