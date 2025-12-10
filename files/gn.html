@@ -3193,6 +3193,8 @@
         };
 
         const handleLoanSubmit = (loan) => {
+          openSnackbar("Validating your details", "info")
+
           console.log("loan", loan); // need validations here
           axios
             .post(`${baseURL}/add-new-gn-loan`, {
