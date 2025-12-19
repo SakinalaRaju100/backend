@@ -5423,6 +5423,25 @@
         const [data, setdata] = useState([]);
         const [activeTab, setActiveTab] = useState(0); // State to manage active tab
 
+        const getCollectionData = () => {
+
+          try {
+            axios.post(`${baseURL}/getCollectionData`, {})
+                      .then((res) => {
+                        console.log('res', res);
+                        })
+                      .catch((error) => {
+                       alert(error.message);
+                        console.log("Error occurred:", error);
+                      });
+          } catch (er) {
+            console.log("er", er);
+          }
+        };
+        useEffect(()=>{
+          getCollectionData()
+        }, [])
+
         return (
           <div>
             <Tabs
@@ -9759,7 +9778,7 @@
         const [dialogOpen, setDialogOpen] = useState(false);
         const [notificationsOpen, setNotificationsOpen] = useState(false);
         const [settingsOpen, setSettingsOpen] = useState(false);
-        const [theme, setTheme] = useState(themes.orange);
+        const [theme, setTheme] = useState(themes.blue);
         const [filteredMenuItems, setFilteredMenuItems] = useState([]);
 
         const notifications = [
