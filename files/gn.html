@@ -7928,15 +7928,18 @@
                       label="Status"
                       onChange={(e) => setUpdateStatus(e.target.value)}
                     >
-                      <MenuItem value={"pending"}>Pending</MenuItem>
-                      <MenuItem value={"underVerification"}>underVerification</MenuItem>
+                    <MenuItem value={"underVerification"}>underVerification</MenuItem>
+                    <MenuItem value={"rejected"}>Rejected</MenuItem>
+                    <MenuItem value={"pending"}>Pending</MenuItem>
                       <MenuItem value={"approve"}>Approve</MenuItem>
+                      <MenuItem value={"offerOfAcceptance"}>Offer Of Acceptance</MenuItem>
+                      <MenuItem value={"eAggreENachEKYC"}>E-Aggrement E-Nach E-KYC</MenuItem>
+                      <MenuItem value={"finalEvalution"}>Final Evalution</MenuItem>
                       <MenuItem value={"disburse"}>Disburse</MenuItem>
-                      <MenuItem value={"rejected"}>Rejected</MenuItem>
-                      <MenuItem value={"loanRecovering"}>
-                        loan Recovering
+                      <MenuItem value={"collection"}>
+                        Collection
                       </MenuItem>
-                      <MenuItem value={"completed"}>Completed</MenuItem>
+                      <MenuItem value={"close"}>Close</MenuItem>
                     </Select>
                   </FormControl>
                   {updateStatus === "approve" && (
