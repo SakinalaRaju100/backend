@@ -189,9 +189,46 @@
         ListItemText,
         Divider,
         Tooltip,
+        StepContent,
         Breadcrumbs,
         Snackbar, Alert, Slide 
       } = MaterialUI;
+
+      const loanSteps = [
+        {
+          value: "underVerification",
+          label: "Under Verification",
+        },
+        {
+          value: "approve",
+          label: "approve",
+        },
+        {
+          value: "offerOfAcceptance",
+          label: "Offer Of Acceptance",
+        },
+        {
+          value: "eAggreENachEKYC",
+          label: "E-Aggrement E-Nach E-KYC",
+        },
+        {
+          value: "finalEvalution",
+          label: "Final Evalution",
+        },
+        {
+          value: "disburse",
+          label: "Disburse",
+        },
+        { 
+          value: "collection",
+          label: "Collection",
+        },
+        {
+          value: "close",
+          label: "Close",
+        }
+        
+      ]
 
       // const { PieChart } = window["@mui/x-charts"];
 
@@ -272,426 +309,6 @@
           description: "Click to see all our achievements and accolades",
           icon: "add_circle",
           isViewMore: true,
-        },
-      ];
-
-      const allLoans = [
-        {
-          loanId: "GNL01297",
-          fullName: "Raju", // as per PAN or aadhar
-          careOf: "ramulu",
-          address: "kazipet hanamkonda",
-          mobile: "kyk",
-          email: "kdgkj",
-          pincode: "506122",
-          maritalStatus: "married",
-          gender: "male",
-          customerLanguage: "english",
-
-          loanRequiredAmonut: 150000,
-          activeMonthlyEmisOfCustomer: 10000,
-          applyDate: "2025-01-25T15:30:00",
-
-          userId: "GNC123",
-          branchCode: "GNB015",
-          refferedBY: "GNS0142",
-          approvedBy: "GNM0378",
-          verified: true,
-          disburse: false,
-          elegibilityAmount: 200000,
-          rateOfInterest: 11.25,
-          status: "Completed",
-          notes: "NA",
-          bankAccountNumber: "",
-          ifscCode: "",
-          work: {
-            typeOfEmployment: "private",
-            companyName: "",
-            companyAddress: "",
-            companyPincode: "",
-            monthlySalary: 50000,
-            modeOfSalary: "Bank",
-            totalExperienceInMOnths: 48,
-          },
-          docs: {
-            aadhar: "",
-            pan: "",
-            cBill: "",
-            paySlips: "",
-            bankStatements: "",
-            other: "",
-            photo: "",
-            sign: "",
-          },
-
-          loanDetails: {
-            startDate: "2025-01-25T15:30:00",
-            endDate: "",
-            amount: 100000,
-            rateOfInterest: 11.25,
-            emis: 18,
-            completed: false,
-          },
-          payDetails: [
-            {
-              month: "2025-01-10",
-              emi: "6500",
-              paid: true,
-            },
-            {
-              month: "2025-02-10",
-              emi: "6500",
-              paid: true,
-            },
-            {
-              month: "2025-03-10",
-              emi: "6500",
-              paid: false,
-            },
-            {
-              month: "2025-04-10",
-              emi: "6500",
-              paid: false,
-            },
-            {
-              month: "2025-04-10",
-              emi: "6500",
-              paid: false,
-            },
-          ],
-        },
-        {
-          loanId: "GNL01297",
-          fullName: "Raju2", // as per PAN or aadhar
-          careOf: "ramulu",
-          address: "kazipet hanamkonda",
-          pincode: "506122",
-          maritalStatus: "married",
-          gender: "male",
-          customerLanguage: "english",
-
-          loanRequiredAmonut: 150000,
-          activeMonthlyEmisOfCustomer: 10000,
-          applyDate: "2025-01-25T15:30:00",
-
-          userId: "GNC123",
-          branchCode: "GNB015",
-          refferedBY: "GNS0142",
-          approvedBy: "GNM0378",
-          verified: true,
-          disburse: false,
-          elegibilityAmount: 200000,
-          rateOfInterest: 11.25,
-          status: "verification",
-          notes: "NA",
-          bankAccountNumber: "",
-          ifscCode: "",
-          work: {
-            typeOfEmployment: "private",
-            companyName: "",
-            companyAddress: "",
-            companyPincode: "",
-            monthlySalary: 50000,
-            modeOfSalary: "Bank",
-            totalExperienceInMOnths: 48,
-          },
-          docs: {
-            aadhar: "",
-            pan: "",
-            cBill: "",
-            paySlips: "",
-            bankStatements: "",
-            other: "",
-            photo: "",
-            sign: "",
-          },
-
-          loanDetails: {
-            startDate: "2025-01-25T15:30:00",
-            endDate: "",
-            amount: 100000,
-            rateOfInterest: 11.25,
-            emis: 18,
-            completed: false,
-          },
-          payDetails: [
-            {
-              month: "2025-01-10",
-              emi: "6500",
-              paid: true,
-            },
-            {
-              month: "2025-02-10",
-              emi: "6500",
-              paid: true,
-            },
-            {
-              month: "2025-03-10",
-              emi: "6500",
-              paid: false,
-            },
-            {
-              month: "2025-04-10",
-              emi: "6500",
-              paid: false,
-            },
-            {
-              month: "2025-04-10",
-              emi: "6500",
-              paid: false,
-            },
-          ],
-        },
-        {
-          loanId: "GNL01297",
-          fullName: "Raju3", // as per PAN or aadhar
-          careOf: "ramulu",
-          address: "kazipet hanamkonda",
-          pincode: "506122",
-          maritalStatus: "married",
-          gender: "male",
-          customerLanguage: "english",
-
-          loanRequiredAmonut: 150000,
-          activeMonthlyEmisOfCustomer: 10000,
-          applyDate: "2025-01-25T15:30:00",
-
-          userId: "GNC123",
-          branchCode: "GNB015",
-          refferedBY: "GNS0142",
-          approvedBy: "GNM0378",
-          verified: true,
-          disburse: false,
-          elegibilityAmount: 200000,
-          rateOfInterest: 11.25,
-          status: "verification",
-          notes: "NA",
-          bankAccountNumber: "",
-          ifscCode: "",
-          work: {
-            typeOfEmployment: "private",
-            companyName: "",
-            companyAddress: "",
-            companyPincode: "",
-            monthlySalary: 50000,
-            modeOfSalary: "Bank",
-            totalExperienceInMOnths: 48,
-          },
-          docs: {
-            aadhar: "",
-            pan: "",
-            cBill: "",
-            paySlips: "",
-            bankStatements: "",
-            other: "",
-            photo: "",
-            sign: "",
-          },
-
-          loanDetails: {
-            startDate: "2025-01-25T15:30:00",
-            endDate: "",
-            amount: 100000,
-            rateOfInterest: 11.25,
-            emis: 18,
-            completed: false,
-          },
-          payDetails: [
-            {
-              month: "2025-01-10",
-              emi: "6500",
-              paid: true,
-            },
-            {
-              month: "2025-02-10",
-              emi: "6500",
-              paid: true,
-            },
-            {
-              month: "2025-03-10",
-              emi: "6500",
-              paid: false,
-            },
-            {
-              month: "2025-04-10",
-              emi: "6500",
-              paid: false,
-            },
-            {
-              month: "2025-04-10",
-              emi: "6500",
-              paid: false,
-            },
-          ],
-        },
-      ];
-      const customers = [
-        {
-          fullName: "Raju",
-          id: "GNC01",
-          role: "customer",
-          mobile: "9176610001",
-          email: "sakinala.rajugnc01@gnc.com",
-          otp: "123456",
-          loginExpiration: "",
-          password: "123456789",
-          address: "",
-
-          theme: "",
-          active: true,
-          joinDate: "",
-          branchCode: "GNB01",
-          refferedBY: "GNS00124",
-          gender: "Male",
-          careOf: "",
-        },
-        {
-          fullName: "Raju2",
-          id: "GNC02",
-          role: "customer",
-          mobile: "9176610002",
-          email: "sakinala.rajugnc02@gna.com",
-          otp: "123456",
-          loginExpiration: "",
-          password: "123456789",
-          address: "",
-          gender: "Male",
-
-          theme: "",
-          active: true,
-          joinDate: "",
-          branchCode: "GNB01",
-          refferedBY: "GNS00124",
-
-          careOf: "",
-        },
-      ];
-      const users = [
-        {
-          fullName: "Raju",
-          id: "GNS01",
-          role: "Sales",
-          mobile: "9676610001",
-          email: "sakinala.raju01@gns.com",
-          otp: "123456",
-          loginExpiration: "",
-          password: "123456789",
-          address: "",
-          roleId: 0,
-          theme: "",
-          active: true,
-          joinDate: "",
-          branchCode: "GNB01",
-          gender: "Male",
-          careOf: "",
-        },
-        {
-          fullName: "Ram",
-          id: "GNS02",
-          role: "Sales",
-          mobile: "9676610002",
-          email: "ram02@gns.com",
-          otp: "123456",
-          loginExpiration: "",
-          password: "123456789",
-          address: "",
-          roleId: 0,
-          theme: "",
-          active: true,
-          joinDate: "",
-          branchCode: "GNB01",
-          gender: "Male",
-          careOf: "",
-        },
-        {
-          fullName: "shyam",
-          id: "GNS03",
-          role: "sales",
-          mobile: "9676610003",
-          email: "shyam03@gns.com",
-          otp: "123456",
-          loginExpiration: "",
-          password: "123456789",
-          address: "",
-          roleId: 0,
-          theme: "",
-          active: true,
-          joinDate: "",
-          branchCode: "GNB01",
-          gender: "Male",
-          careOf: "",
-        },
-        {
-          fullName: "Arjun",
-          id: "GNA01",
-          role: "admin",
-          mobile: "9676610004",
-          email: "arjun01@gna.com",
-          otp: "123456",
-          loginExpiration: "",
-          password: "123456789",
-          address: "",
-          roleId: 0,
-          theme: "",
-          active: true,
-          joinDate: "",
-          branchCode: "GNB01",
-          gender: "Male",
-          careOf: "",
-        },
-        {
-          fullName: "Chendu",
-          id: "GNS04",
-          role: "Sales",
-          mobile: "9676610005",
-          email: "chendu04@gns.com",
-          otp: "123456",
-          loginExpiration: "",
-          password: "123456789",
-          address: "",
-          roleId: 0,
-          theme: "",
-          active: true,
-          joinDate: "",
-          branchCode: "GNB01",
-          gender: "Male",
-          careOf: "",
-        },
-        {
-          fullName: "Abhishek",
-          id: "GNA02",
-          role: "admin",
-          mobile: "9676610006",
-          email: "abhishek01@gna.com",
-          otp: "123456",
-          loginExpiration: "",
-          password: "123456789",
-          address: "",
-          roleId: 0,
-          theme: "",
-          active: true,
-          joinDate: "",
-          branchCode: "GNB01",
-          gender: "Male",
-          careOf: "",
-        },
-        {
-          fullName: "Sridhar",
-          id: "GNS05",
-          role: "Sales",
-          mobile: "9676610007",
-          email: "sakinala.raju05@gns.com",
-          otp: "123456",
-          loginExpiration: "",
-          password: "123456789",
-          address: "",
-          roleId: 0,
-          theme: "",
-          active: true,
-          joinDate: "",
-          branchCode: "GNB01",
-          gender: "Male",
-          careOf: "",
         },
       ];
 
@@ -6616,6 +6233,7 @@
 
       const HomePage = () => {
         const AllLoans = () => {
+        const [activeStep, setActiveStep] = useState(0);
 
         const [emiTableArr, setEmiTable] = useState([]);
 
@@ -7201,6 +6819,11 @@
                                           onClick={() => {
                                             setSelectedLoan(loan);
                                             setOpenStudentDetailsModal(true);
+                                            const indexOfLoanStatus = loanSteps.findIndex(
+                                              (step) =>
+                                                step.value == loan.loanStatus
+                                            );  
+                                            setActiveStep(indexOfLoanStatus !== -1 ? indexOfLoanStatus : loan.loanStatus == 'pending' ? 1 : loan.loanStatus == 'rejected' ? 1 : 0);
                                             // setChecked(loan?.enrolled);
                                             // setFamilyMembers(loan?.familyMembers);
                                           }}
@@ -7573,6 +7196,49 @@
                       </IconButton>
                     </Box>
 
+                    <hr/>
+
+                     {/* Tree */}
+                     <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1.5,
+                        fontSize: { xs: "13px", md: "15px" },
+                      }}
+                      >
+                      {selectedLoan?.loanStatus !=="pending" && selectedLoan?.loanStatus !=="rejected" && 
+                      <Stepper activeStep={activeStep} orientation="vertical">
+                        {loanSteps.map((obj, index) => (
+                          <Step key={index}>
+                            <StepLabel>{obj.label}</StepLabel>
+                          </Step>
+                        ))}
+                      </Stepper>}
+
+                        {selectedLoan?.loanStatus =="pending" &&
+                          <Stepper activeStep={activeStep} orientation="vertical">
+                          <Step key={0}>
+                            <StepLabel>{'Under verification'}</StepLabel>
+                          </Step>
+                          <Step key={1}>
+                            <StepLabel>{'Pending'}</StepLabel>
+                          </Step>
+                          </Stepper>
+                        }
+                        {selectedLoan?.loanStatus =="rejected" && 
+                          <Stepper activeStep={activeStep} orientation="vertical">
+                          <Step key={0}>
+                            <StepLabel>{'Under verification'}</StepLabel>
+                          </Step>
+                          <Step key={1}>
+                            <StepLabel>{'Rejected'}</StepLabel>
+                          </Step>
+                        </Stepper>
+                        }
+                     
+                      </Box>
+                    <hr/>
                     {/* Content */}
                     <Box
                       sx={{
@@ -7928,18 +7594,13 @@
                       label="Status"
                       onChange={(e) => setUpdateStatus(e.target.value)}
                     >
-                    <MenuItem value={"underVerification"}>underVerification</MenuItem>
-                    <MenuItem value={"rejected"}>Rejected</MenuItem>
-                    <MenuItem value={"pending"}>Pending</MenuItem>
-                      <MenuItem value={"approve"}>Approve</MenuItem>
-                      <MenuItem value={"offerOfAcceptance"}>Offer Of Acceptance</MenuItem>
-                      <MenuItem value={"eAggreENachEKYC"}>E-Aggrement E-Nach E-KYC</MenuItem>
-                      <MenuItem value={"finalEvalution"}>Final Evalution</MenuItem>
-                      <MenuItem value={"disburse"}>Disburse</MenuItem>
-                      <MenuItem value={"collection"}>
-                        Collection
-                      </MenuItem>
-                      <MenuItem value={"close"}>Close</MenuItem>
+                    {loanSteps.map((step, sindex)=>(
+                      <MenuItem key={sindex} value={step.value}>{step.label}</MenuItem>
+                    ))}
+                    
+                    <MenuItem  value={'pending'}>{'Pending'}</MenuItem>
+                    <MenuItem value={'rejected'}>{'Rejected'}</MenuItem>
+                      
                     </Select>
                   </FormControl>
                   {updateStatus === "approve" && (

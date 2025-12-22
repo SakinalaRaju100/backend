@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>slves</title>
+
+    <!-- Add Material Icons stylesheet -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- <link rel="icon" type="image/x-icon" href="/favicon.ico" /> -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- React and Material-UI CDN links -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-swipeable-views@0.14.0/dist/index.umd.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Add Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    />
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        /* padding: 20px; */
+        /* background-color: #f5f5f5; */
+        background-color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const {
+        AppBar,
+        Box,
+        Button,
+        Card,
+        CardContent,
+        CardMedia,
+        Container,
+        Grid,
+        IconButton,
+        Menu,
+        MenuItem,
+        Paper,
+        Toolbar,
+        Typography,
+        useTheme,
+        ThemeProvider,
+        createTheme,
+        MobileStepper,
+        Dialog,
+        DialogTitle,
+        DialogContent,
+        DialogActions,
+        Table,
+        TableBody,
+        TableCell,
+        TableHead,
+        TableRow,
+        Chip,
+        Tabs,
+        Tab,
+        TextField,
+        TableContainer,
+        FormControl,
+        InputLabel,
+        Select,
+        FormHelperText,
+        Autocomplete,
+        Avatar,
+        Stepper,
+        Step,
+        StepLabel,
+        StepContent,
+      } = MaterialUI;
+
+      const HomePage = () => {
+        const [activeStep, setActiveStep] = useState(0);
+        const steps = [
+          "Personal Information",
+          "Financial Information",
+          "Review",
+          "Submit",
+        ];
+
+        const LoanApplicationStepper = () => {
+          const handleNext = () => {
+            setActiveStep((prevActiveStep) =>
+              Math.min(prevActiveStep + 1, steps.length - 1)
+            );
+          };
+
+          const handleBack = () => {
+            setActiveStep((prevActiveStep) => Math.max(prevActiveStep - 1, 0));
+          };
+
+          return (
+            <div>
+              <MobileStepper
+                steps={steps.length}
+                position="static"
+                activeStep={activeStep}
+                nextButton={
+                  <Button
+                    size="small"
+                    onClick={handleNext}
+                    disabled={activeStep === steps.length - 1}
+                  >
+                    Next
+                  </Button>
+                }
+                backButton={
+                  <Button
+                    size="small"
+                    onClick={handleBack}
+                    disabled={activeStep === 0}
+                  >
+                    Back
+                  </Button>
+                }
+              />
+              <Typography variant="h6">{steps[activeStep]}</Typography>
+              {/* Add form fields for each step here */}
+              {activeStep === 0 && (
+                <TextField
+                  label="Name"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                />
+              )}
+              {activeStep === 1 && (
+                <TextField
+                  label="Income"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                />
+              )}
+              {activeStep === 2 && (
+                <Typography variant="body1">
+                  Review your information here.
+                </Typography>
+              )}
+            </div>
+          );
+        };
+
+        const LoanApplicationStepper2 = () => {
+          const handleNext = () => {
+            setActiveStep((prev) => prev + 1);
+          };
+
+          const handleBack = () => {
+            setActiveStep((prev) => prev - 1);
+          };
+
+          const handleReset = () => {
+            setActiveStep(0);
+          };
+
+          return (
+            <Box sx={{ maxWidth: 400 }}>
+              <Stepper activeStep={activeStep} orientation="vertical">
+                {steps.map((label, index) => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
+                    <StepContent>
+                      {/* Step Content */}
+                      {index === 0 && (
+                        <TextField
+                          label="Name"
+                          variant="outlined"
+                          fullWidth
+                          margin="normal"
+                        />
+                      )}
+
+                      {index === 1 && (
+                        <TextField
+                          label="Income"
+                          variant="outlined"
+                          fullWidth
+                          margin="normal"
+                        />
+                      )}
+
+                      {index === 2 && (
+                        <Typography>Review your information here.</Typography>
+                      )}
+
+                      <Box sx={{ mb: 2 }}>
+                        <div>
+                          <Button
+                            variant="contained"
+                            onClick={handleNext}
+                            sx={{ mt: 1, mr: 1 }}
+                          >
+                            {index === steps.length - 1 ? "Finish" : "Next"}
+                          </Button>
+                          <Button
+                            disabled={index === 0}
+                            onClick={handleBack}
+                            sx={{ mt: 1, mr: 1 }}
+                          >
+                            Back
+                          </Button>
+                        </div>
+                      </Box>
+                    </StepContent>
+                  </Step>
+                ))}
+              </Stepper>
+
+              {activeStep === steps.length && (
+                <Paper square elevation={0} sx={{ p: 3 }}>
+                  <Typography>All steps completed — you're finished</Typography>
+                  <Button onClick={handleReset} sx={{ mt: 1 }}>
+                    Reset
+                  </Button>
+                </Paper>
+              )}
+            </Box>
+          );
+        };
+
+        return (
+          <div>
+            <LoanApplicationStepper2 />
+            {/* Add form fields for each step here */}
+            {activeStep === 0 && (
+              <TextField
+                label="Name"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+              />
+            )}
+            {activeStep === 1 && (
+              <TextField
+                label="Income"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+              />
+            )}
+            {activeStep === 2 && (
+              <Typography variant="body1">
+                Review your information here.
+              </Typography>
+            )}
+          </div>
+        );
+      };
+
+      // Render the form to the DOM
+      ReactDOM.render(<HomePage />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
