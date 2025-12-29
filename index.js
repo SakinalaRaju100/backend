@@ -33,9 +33,10 @@ app.use("/api/taxi", require("./controllers/taxi"));
 //   res.json({ message: "Welcome to Digital world" });
 //   // res.sendFile(__dirname + "/files/taxi.html");
 // });
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/files/appointment.html");
-});
+
+// app.get("/", (req, res) => {
+//   res.sendFile(__dirname + "/files/appointment.html");
+// });
 app.get("/app", (req, res) => {
   res.sendFile(__dirname + "/files/appointment.html");
 });
