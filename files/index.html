@@ -85,6 +85,7 @@
       } = MaterialUI;
 
       const HomePage = () => {
+        const [website, setWebsite] = useState("https://todaydigitalworld.com");
         return (
           <div>
             <div>Today Digital World</div>
@@ -164,6 +165,25 @@
               onClick={() =>
                 (window.location.href =
                   "https://todaydigitalworld.com/appointment")
+              }
+              variant="contained"
+              color="primary"
+              style={{ flex: 1, margin: "10px" }} // Added margin for spacing
+            >
+              appointment
+            </Button>
+            <TextField
+              label="website"
+              name="website"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              fullWidth
+              margin="normal"
+            />
+            <Button
+              onClick={() =>
+                (window.location.href =
+                  website || "https://todaydigitalworld.com")
               }
               variant="contained"
               color="primary"
