@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2026 by anonymous (http://jsbin.com/muteduyowa/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta name="theme-color" content="#1976d2" />
+
+<title>Custom Color Dropdown</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+
+  .dropdown {
+    width: 220px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .selected {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .color-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+  }
+
+  .options {
+    display: none;
+    border-top: 1px solid #ccc;
+  }
+
+  .option {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .option:hover {
+    background: #f1f1f1;
+  }
+</style>
+</head>
+<body>
+
+<h2>Select Browser Theme Color</h2>
+
+<div class="dropdown" id="dropdown">
+  <div class="selected" id="selected">
+    <div class="color-box" style="background:#1976d2"></div>
+    <span>Blue</span>
+  </div>
+
+  <div class="options" id="options">
+    <div class="option" data-color="#1976d2"> <div class="color-box" style="background:#1976d2"></div> Blue </div>
+    <div class="option" data-color="#0f172a"> <div class="color-box" style="background:#0f172a"></div> Dark </div>
+    <div class="option" data-color="#22c55e"> <div class="color-box" style="background:#22c55e"></div> Green </div>
+    <div class="option" data-color="#ef4444"> <div class="color-box" style="background:#ef4444"></div> Red </div>
+    <div class="option" data-color="#f59e0b"> <div class="color-box" style="background:#f59e0b"></div> Orange </div>
+    <div class="option" data-color="#8b5cf6"> <div class="color-box" style="background:#8b5cf6"></div> Purple </div>
+  </div>
+</div>
+
+<script>
+  const dropdown = document.getElementById("dropdown");
+  const options = document.getElementById("options");
+  const selected = document.getElementById("selected");
+  const meta = document.querySelector("meta[name='theme-color']");
+
+  dropdown.addEventListener("click", () => {
+    options.style.display = options.style.display === "block" ? "none" : "block";
+  });
+
+  document.querySelectorAll(".option").forEach(option => {
+    option.addEventListener("click", () => {
+      const color = option.dataset.color;
+      const label = option.innerText;
+
+      selected.innerHTML = `
+        <div class="color-box" style="background:${color}"></div>
+        <span>${label}</span>
+      `;
+
+      meta.setAttribute("content", color);
+      options.style.display = "none";
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!dropdown.contains(e.target)) {
+      options.style.display = "none";
+    }
+  });
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+
+</body>
+</html>

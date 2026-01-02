@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2026 by anonymous (http://jsbin.com/pesinoneho/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Theme color -->
+  <meta name="theme-color" content="#1976d2" />
+
+  <title>Theme Color Selector</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    select {
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Select Browser Theme Color</h2>
+
+  <select onchange="changeThemeColor(this.value)">
+    <option value="#1976d2">Blue</option>
+    <option value="#0f172a">Dark</option>
+    <option value="#22c55e">Green</option>
+    <option value="#ef4444">Red</option>
+    <option value="#f59e0b">Orange</option>
+    <option value="#8b5cf6">Purple</option>
+    <option value="#000000">Black</option>
+  </select>
+
+  <script>
+    function changeThemeColor(color) {
+      document
+        .querySelector("meta[name='theme-color']")
+        .setAttribute("content", color);
+    }
+  </script>
+
+</body>
+</html>
