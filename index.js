@@ -66,7 +66,7 @@ app.get("/slves", (req, res) => {
 app.get("/theme", (req, res) => {
   res.sendFile(__dirname + "/files/themeColorChange.html");
 });
-app.get("/theme2", (req, res) => {
+app.get("/themee", (req, res) => {
   res.sendFile(__dirname + "/files/themeColorChange2.html");
 });
 
