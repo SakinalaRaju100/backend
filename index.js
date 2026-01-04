@@ -63,12 +63,6 @@ app.get("/anil", (req, res) => {
 app.get("/slves", (req, res) => {
   res.sendFile(__dirname + "/files/slves.html");
 });
-app.get("/raju", (req, res) => {
-  res.sendFile(__dirname + "/files/themeColorMain.html");
-});
-app.get("/theme", (req, res) => {
-  res.sendFile(__dirname + "/files/themeColorChange.html");
-});
 
 // Handle 404 routes
 app.use((req, res) => {
