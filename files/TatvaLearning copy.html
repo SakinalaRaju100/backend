@@ -14,20 +14,6 @@
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
     />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
-      rel="stylesheet"
-    />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
-      rel="stylesheet"
-    />
-
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
@@ -61,22 +47,16 @@
         margin: 0;
         background-color: rgb(58, 187, 251);
         overflow-x: hidden;
-        font-family: "playfair display";
       }
 
       .hero-gradient {
-        background: #f5f1ea !important;
-
-        /* background: linear-gradient(135deg, #e8eef1 0%, #f5f1ea, 100%); */
+        background: linear-gradient(135deg, #e8eef1 0%, #82ecf6 100%);
         padding: 60px 0;
         position: relative;
         overflow: hidden;
       }
       .hero-gradient-bg {
-        /* background: #2c3e50 !important; */
-        background: #f5f1ea !important;
-
-        /* background: linear-gradient(135deg, #d4eaf6 0%, #f5f1ea, 100%); */
+        background: linear-gradient(135deg, #d4eaf6 0%, #82ecf6 100%);
       }
 
       /* Animation Classes */
@@ -94,8 +74,7 @@
       }
 
       .glass-panel {
-        background: #faefdc !important;
-
+        background: rgba(206, 254, 209, 0.7) !important;
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.3);
       }
@@ -122,20 +101,6 @@
         Grow,
       } = MaterialUI;
 
-      // const theme = createTheme({
-      //   palette: {
-      //     primary: { main: "#0d1488" },
-      //     secondary: { main: "#1e293b" },
-      //     background: { default: "#f8fafc" },
-      //   },
-      //   typography: {
-      //     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-      //     h2: { fontWeight: 700, letterSpacing: "-0.02em" },
-      //     h4: { fontWeight: 600 },
-      //   },
-      // });
-
-      // Updated Theme Configuration
       const theme = createTheme({
         palette: {
           primary: { main: "#0d1488" },
@@ -143,39 +108,9 @@
           background: { default: "#f8fafc" },
         },
         typography: {
-          // Setting default to Inter (Subtext/Bullets)
-          fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-          // Explicitly setting Main Text variants to Playfair Display
-          h1: { fontFamily: '"Playfair Display", serif', fontWeight: 700 },
-          h2: {
-            fontFamily: '"Playfair Display", serif',
-            fontWeight: 700,
-            letterSpacing: "-0.02em",
-          },
-          h3: { fontFamily: '"Playfair Display", serif', fontWeight: 600 },
-          h4: { fontFamily: '"Playfair Display", serif', fontWeight: 600 },
-          h5: { fontFamily: '"Playfair Display", serif', fontWeight: 500 },
-          h6: { fontFamily: '"Playfair Display", serif', fontWeight: 600 },
-          button: {
-            fontFamily: '"Inter", sans-serif',
-            fontWeight: 600,
-            textTransform: "none",
-          },
-          body1: { fontFamily: '"Inter", sans-serif' },
-          body2: { fontFamily: '"Inter", sans-serif' },
-          overline: { fontFamily: '"Inter", sans-serif', fontWeight: 700 },
-        },
-        components: {
-          MuiCssBaseline: {
-            styleOverrides: `
-              body {
-                font-family: "Inter", sans-serif;
-              }
-              h1, h2, h3, h4, h5, h6 {
-                font-family: "Playfair Display", serif !important;
-              }
-            `,
-          },
+          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+          h2: { fontWeight: 700, letterSpacing: "-0.02em" },
+          h4: { fontWeight: 600 },
         },
       });
 
@@ -193,13 +128,7 @@
             <Box className="hero-gradient">
               <Container
                 maxWidth="md"
-                sx={{
-                  textAlign: "center",
-                  position: "relative",
-                  zIndex: 1,
-                  // fontFamily: "playfair display",
-                  // fontFamily: "inter",
-                }}
+                sx={{ textAlign: "center", position: "relative", zIndex: 1 }}
               >
                 <Box className="floating-icon">
                   <Icon sx={{ fontSize: 82, color: "warning.main", mb: 2 }}>
@@ -212,18 +141,14 @@
                     variant="h2"
                     component="h1"
                     gutterBottom
-                    sx={{ color: "#2F2F2F" }}
+                    sx={{ color: "secondary.main" }}
                   >
-                    Tatva{" "}
-                    <span style={{ color: "#0d1488", fontWeight: 300 }}>
-                      {" "}
-                      Learning
-                    </span>
+                    Tatva Learning
                   </Typography>
                   <Typography
                     variant="h5"
                     sx={{
-                      color: "#5A5A5A",
+                      color: "text.secondary",
                       mb: 2,
                       fontWeight: 400,
                       maxWidth: 600,
@@ -236,7 +161,7 @@
                   <Typography
                     variant="overline"
                     sx={{
-                      color: "#5A5A5A",
+                      // color: "primary.main",
                       letterSpacing: 4,
                       fontWeight: 700,
                       display: "block",
@@ -255,14 +180,15 @@
                       py: 2,
                       fontSize: "1.2rem",
                       textTransform: "none",
-                      color: "#2C3E50",
-                      backgroundColor: "#3abdfb",
+                      color: "white",
+                      backgroundColor: "#3abbfb",
 
                       // boxShadow: "0 10px 20px -5px rgba(13, 148, 136, 0.4)",
                       transition: "transform 0.2s",
                       "&:hover": {
                         transform: "translateY(-3px)",
-                        backgroundColor: "#faefdc",
+                        backgroundColor: "#43e5f7",
+
                         boxShadow: "0 15px 25px -5px rgba(13, 148, 136, 0.5)",
                       },
                     }}
@@ -273,7 +199,7 @@
               </Container>
             </Box>
 
-            <Box className="hero-gradient-bg" sx={{}}>
+            <Box className="hero-gradient-bg">
               {/* Offerings Excellence in Every Section */}
 
               <Container maxWidth="lg" sx={{ py: 3 }}>
@@ -291,7 +217,7 @@
                     sx={{
                       // pb: 2,
                       mb: 3,
-                      color: "#2F2F2F",
+                      color: "secondary.main",
                       // borderBottom: 1,
                     }}
                   >
@@ -344,13 +270,11 @@
                             // mb: 4,
                             // gap: 3,
                             // p: 2,
-                            color: "#5A5A5A",
                             borderRadius: 4,
                             transition: "transform 0.3s",
                             "&:hover": {
                               transform: "translateY(-10px)",
-                              bgcolor: "#f5f1ea",
-                              color: "secondary.main",
+                              bgcolor: "white",
                               boxShadow: "0 10px 25px -5px rgba(0,0,0,0.05)",
                             },
                           }}
@@ -369,6 +293,7 @@
                           <Typography
                             variant="body1"
                             sx={{
+                              color: "secondary.main",
                               fontSize: "1.1rem",
                               fontWeight: 500,
                             }}
@@ -399,7 +324,7 @@
                       pb: 2,
                       mb: 3,
                       // borderBottom: 1,
-                      color: "#2F2F2F",
+                      color: "secondary.main",
                     }}
                   >
                     Flexible & Consistent
@@ -429,8 +354,6 @@
                       <Grid item xs={12} md={4} key={idx}>
                         <Box
                           sx={{
-                            color: "#5A5A5A",
-
                             transition: "transform 0.3s",
                             "&:hover": { transform: "translateY(-10px)" },
                           }}
@@ -440,7 +363,6 @@
                               bgcolor: `${item.color}.main`,
                               mx: "auto",
                               mb: 3,
-
                               width: 70,
                               height: 70,
                               boxShadow: 3,
@@ -451,10 +373,7 @@
                           <Typography variant="h6" gutterBottom>
                             {item.title}
                           </Typography>
-                          <Typography
-                            variant="body2"
-                            // color="#5A5A5A"
-                          >
+                          <Typography variant="body2" color="text.secondary">
                             {item.desc}
                           </Typography>
                         </Box>
@@ -473,14 +392,11 @@
             >
               <Button
                 variant="outlined"
-                // color="#2C3E50"
+                color="primary"
                 onClick={handleRequestDemo}
                 sx={{
                   borderRadius: 50,
                   px: 6,
-                  color: "#2C3E50",
-                  backgroundColor: "#faefdc",
-                  // backgroundColor: "#F5F1EA",
                   py: 1.5,
                   mb: 6,
                   borderWidth: 2,
@@ -491,7 +407,11 @@
               </Button>
               <Container maxWidth="sm">
                 <Divider sx={{ mb: 4 }} />
-                <Typography variant="body2" color="#5A5A5A" sx={{ opacity: 1 }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ opacity: 0.7 }}
+                >
                   © 2026 Tatva Learning. All rights reserved.
                   <br />
                   High-impact personalised education delivered live worldwide.
