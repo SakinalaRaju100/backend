@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tatva Learning | Personalised 1-on-1 Learning</title>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-25px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      body {
+        margin: 0;
+        background-color: rgb(58, 187, 251);
+        overflow-x: hidden;
+      }
+
+      .hero-gradient {
+        background: linear-gradient(135deg, #e8eef1 0%, #82ecf6 100%);
+        padding: 60px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-gradient-bg {
+        background: linear-gradient(135deg, #d4eaf6 0%, #82ecf6 100%);
+      }
+
+      /* Animation Classes */
+      .animate-fade-in {
+        animation: fadeInUp 0.8s ease-out forwards;
+      }
+
+      .floating-icon {
+        animation: float 4s ease-in-out infinite;
+      }
+
+      .feature-card:hover {
+        transform: scale(1.03);
+        transition: all 0.3s ease;
+      }
+
+      .glass-panel {
+        background: rgba(206, 254, 209, 0.7) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const {
+        Box,
+        Button,
+        Container,
+        Grid,
+        Paper,
+        Typography,
+        ThemeProvider,
+        createTheme,
+        CssBaseline,
+        Avatar,
+        Divider,
+        Icon,
+        Fade,
+        Grow,
+      } = MaterialUI;
+
+      const theme = createTheme({
+        palette: {
+          primary: { main: "#0d1488" },
+          secondary: { main: "#1e293b" },
+          background: { default: "#f8fafc" },
+        },
+        typography: {
+          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+          h2: { fontWeight: 700, letterSpacing: "-0.02em" },
+          h4: { fontWeight: 600 },
+        },
+      });
+
+      const TatvaLanding = () => {
+        const handleRequestDemo = () => {
+          window.location.href =
+            "https://docs.google.com/forms/d/e/1FAIpQLScQnXd5WrJpEO6-awvrmix-H_MoTRUVpTDfqOEt_vwLGfTDrw/viewform";
+        };
+
+        return (
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+
+            {/* Hero Section */}
+            <Box className="hero-gradient">
+              <Container
+                maxWidth="md"
+                sx={{ textAlign: "center", position: "relative", zIndex: 1 }}
+              >
+                <Box className="floating-icon">
+                  <Icon sx={{ fontSize: 82, color: "warning.main", mb: 2 }}>
+                    insights
+                  </Icon>
+                </Box>
+
+                <Box className="animate-fade-in">
+                  <Typography
+                    variant="h2"
+                    component="h1"
+                    gutterBottom
+                    sx={{ color: "secondary.main" }}
+                  >
+                    Tatva Learning
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: "text.secondary",
+                      mb: 2,
+                      fontWeight: 400,
+                      maxWidth: 600,
+                      mx: "auto",
+                    }}
+                  >
+                    Personalised 1-on-1 Online Learning for International
+                    Students
+                  </Typography>
+                  <Typography
+                    variant="overline"
+                    sx={{
+                      // color: "primary.main",
+                      letterSpacing: 4,
+                      fontWeight: 700,
+                      display: "block",
+                      mb: 4,
+                    }}
+                  >
+                    GRADES 2–12
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    onClick={handleRequestDemo}
+                    sx={{
+                      borderRadius: 50,
+                      px: 8,
+                      py: 2,
+                      fontSize: "1.2rem",
+                      textTransform: "none",
+                      color: "white",
+                      backgroundColor: "#3abbfb",
+
+                      // boxShadow: "0 10px 20px -5px rgba(13, 148, 136, 0.4)",
+                      transition: "transform 0.2s",
+                      "&:hover": {
+                        transform: "translateY(-3px)",
+                        backgroundColor: "#43e5f7",
+
+                        boxShadow: "0 15px 25px -5px rgba(13, 148, 136, 0.5)",
+                      },
+                    }}
+                  >
+                    Request Free Demo
+                  </Button>
+                </Box>
+              </Container>
+            </Box>
+
+            <Box className="hero-gradient-bg">
+              {/* Offerings Excellence in Every Section */}
+
+              <Container maxWidth="lg" sx={{ py: 3 }}>
+                <Paper
+                  elevation={0}
+                  className="glass-panel"
+                  sx={{
+                    p: { xs: 3, md: 6 },
+                    borderRadius: 4,
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      // pb: 2,
+                      mb: 3,
+                      color: "secondary.main",
+                      // borderBottom: 1,
+                    }}
+                  >
+                    Excellence in Every Session
+                  </Typography>
+                  <Grid container spacing={6}>
+                    {[
+                      {
+                        icon: "groups",
+                        title: "1-on-1 live online instruction",
+                        // desc: "Flexible across all time zones",
+                        color: "primary",
+                      },
+                      {
+                        icon: "science",
+                        title: "Math, Science & Indian languages",
+                        // desc: "Flexible across all time zones",
+                        color: "primary",
+                      },
+                      {
+                        icon: "insights",
+                        title: "Complimentary demo session",
+                        // desc: "Flexible across all time zones",
+                        color: "warning",
+                      },
+                      {
+                        icon: "verified",
+                        title: "Complimentary demo session",
+                        // desc: "Flexible across all time zones",
+                        color: "warning",
+                      },
+                      {
+                        icon: "edit_note",
+                        title: "Homework support & revision",
+                        // desc: "Flexible across all time zones",
+                        color: "info",
+                      },
+                      {
+                        icon: "psychology",
+                        title: "Concept-focused sessions",
+                        // desc: "Flexible across all time zones",
+                        color: "info",
+                      },
+                    ].map((item, idx) => (
+                      <Grid item xs={12} md={6} key={idx}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            // mb: 4,
+                            // gap: 3,
+                            // p: 2,
+                            borderRadius: 4,
+                            transition: "transform 0.3s",
+                            "&:hover": {
+                              transform: "translateY(-10px)",
+                              bgcolor: "white",
+                              boxShadow: "0 10px 25px -5px rgba(0,0,0,0.05)",
+                            },
+                          }}
+                        >
+                          <Avatar
+                            sx={{
+                              bgcolor: `${item.color}.main`,
+                              m: 2,
+                              width: 70,
+                              height: 70,
+                              boxShadow: 3,
+                            }}
+                          >
+                            <Icon sx={{ fontSize: 35 }}>{item.icon}</Icon>
+                          </Avatar>
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              color: "secondary.main",
+                              fontSize: "1.1rem",
+                              fontWeight: 500,
+                            }}
+                            gutterBottom
+                          >
+                            {item.title}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Paper>
+              </Container>
+              {/* Consistency Section */}
+              <Container maxWidth="lg" sx={{ py: 3 }}>
+                <Paper
+                  elevation={0}
+                  className="glass-panel"
+                  sx={{
+                    p: { xs: 3, md: 6 },
+                    borderRadius: 4,
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      pb: 2,
+                      mb: 3,
+                      // borderBottom: 1,
+                      color: "secondary.main",
+                    }}
+                  >
+                    Flexible & Consistent
+                  </Typography>
+
+                  <Grid container spacing={6}>
+                    {[
+                      {
+                        icon: "schedule",
+                        title: "Global Scheduling",
+                        desc: "Flexible across all time zones",
+                        color: "primary",
+                      },
+                      {
+                        icon: "person",
+                        title: "Mentor Continuity",
+                        desc: "Learn with the same teacher every time",
+                        color: "info",
+                      },
+                      {
+                        icon: "auto_graph",
+                        title: "Targeted Learning",
+                        desc: "Focus on your specific difficult topics",
+                        color: "success",
+                      },
+                    ].map((item, idx) => (
+                      <Grid item xs={12} md={4} key={idx}>
+                        <Box
+                          sx={{
+                            transition: "transform 0.3s",
+                            "&:hover": { transform: "translateY(-10px)" },
+                          }}
+                        >
+                          <Avatar
+                            sx={{
+                              bgcolor: `${item.color}.main`,
+                              mx: "auto",
+                              mb: 3,
+                              width: 70,
+                              height: 70,
+                              boxShadow: 3,
+                            }}
+                          >
+                            <Icon sx={{ fontSize: 35 }}>{item.icon}</Icon>
+                          </Avatar>
+                          <Typography variant="h6" gutterBottom>
+                            {item.title}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {item.desc}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Paper>
+              </Container>
+            </Box>
+
+            {/* Footer */}
+            <Box
+              component="footer"
+              className="hero-gradient"
+              sx={{ py: 8, textAlign: "center" }}
+            >
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleRequestDemo}
+                sx={{
+                  borderRadius: 50,
+                  px: 6,
+                  py: 1.5,
+                  mb: 6,
+                  borderWidth: 2,
+                  "&:hover": { borderWidth: 2 },
+                }}
+              >
+                Start Your Journey
+              </Button>
+              <Container maxWidth="sm">
+                <Divider sx={{ mb: 4 }} />
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ opacity: 0.7 }}
+                >
+                  © 2024 Tatva Learning. All rights reserved.
+                  <br />
+                  High-impact personalised education delivered live worldwide.
+                </Typography>
+              </Container>
+            </Box>
+          </ThemeProvider>
+        );
+      };
+
+      ReactDOM.render(<TatvaLanding />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

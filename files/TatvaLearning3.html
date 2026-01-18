@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tatva Learning | Personalised 1-on-1 Learning</title>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@mui/material@5.14.11/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        background-color: #f8fafc;
+        overflow-x: hidden;
+      }
+      .hero-gradient {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2f1 100%);
+        padding: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const {
+        AppBar,
+        Box,
+        Button,
+        Container,
+        Grid,
+        Paper,
+        Typography,
+        ThemeProvider,
+        createTheme,
+        CssBaseline,
+        Avatar,
+        Divider,
+        Icon,
+      } = MaterialUI;
+
+      // Custom Theme to match the original Tatva Teal palette
+      const theme = createTheme({
+        palette: {
+          primary: { main: "#0d9488" }, // Teal
+          secondary: { main: "#1e293b" }, // Slate
+          background: { default: "#a8eff7" },
+        },
+        typography: {
+          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+          h1: { fontWeight: 300 },
+          h4: { fontWeight: 300 },
+        },
+      });
+
+      const FeatureItem = ({ icon, title, color }) => (
+        <Box sx={{ display: "flex", alignItems: "center", mb: 4, gap: 2 }}>
+          <Avatar sx={{ bgcolor: `${color}.100`, width: 56, height: 56 }}>
+            <Icon sx={{ color: `${color}.700` }}>{icon}</Icon>
+          </Avatar>
+          <Typography
+            variant="body1"
+            sx={{ color: "text.secondary", fontSize: "1.1rem" }}
+          >
+            {title}
+          </Typography>
+        </Box>
+      );
+
+      const TatvaLanding = () => {
+        const handleRequestDemo = () => {
+          window.location.href =
+            "mailto:info@tatvalearning.com?subject=Demo Request";
+        };
+
+        return (
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+
+            {/* Hero Section */}
+            <Box className="hero-gradient">
+              <Container maxWidth="md" sx={{ textAlign: "center" }}>
+                <Icon sx={{ fontSize: 60, color: "primary.main" }}>
+                  book_open
+                </Icon>
+                <Typography
+                  variant="h2"
+                  component="h1"
+                  gutterBottom
+                  sx={{ color: "secondary.main", mb: 1 }}
+                >
+                  Tatva Learning
+                </Typography>
+                <Typography
+                  variant="h5"
+                  sx={{ color: "text.secondary", mb: 1, fontWeight: 300 }}
+                >
+                  Personalised 1-on-1 Online Learning for International Students
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ color: "text.disabled", letterSpacing: 1.5, mb: 5 }}
+                >
+                  GRADES 2–12
+                </Typography>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={handleRequestDemo}
+                  sx={{
+                    borderRadius: 8,
+                    px: 6,
+                    py: 2,
+                    fontSize: "1.1rem",
+                    textTransform: "none",
+                    boxShadow: 4,
+                  }}
+                >
+                  Request Demo
+                </Button>
+              </Container>
+            </Box>
+
+            {/* Offerings Section */}
+            <Container sx={{ py: 4 }}>
+              <Typography variant="h4" align="center" sx={{ mb: 8 }}>
+                What We Offer
+              </Typography>
+              <Grid container spacing={4} justifyContent="center">
+                <Grid item xs={12} md={5}>
+                  <FeatureItem
+                    icon="groups"
+                    title="1-on-1 live online instruction"
+                    color="primary"
+                  />
+                  <FeatureItem
+                    icon="science"
+                    title="Math, Science & Indian languages"
+                    color="info"
+                  />
+                  <FeatureItem
+                    icon="insights"
+                    title="Tailored learning plans"
+                    color="success"
+                  />
+                </Grid>
+                <Grid item xs={12} md={5}>
+                  <FeatureItem
+                    icon="verified"
+                    title="Complimentary demo session"
+                    color="warning"
+                  />
+                  <FeatureItem
+                    icon="edit_note"
+                    title="Homework support & revision"
+                    color="error"
+                  />
+                  <FeatureItem
+                    icon="psychology"
+                    title="Concept-focused sessions"
+                    color="secondary"
+                  />
+                </Grid>
+              </Grid>
+            </Container>
+
+            {/* Consistency Section */}
+            <Box sx={{ bgcolor: "white", py: 4 }}>
+              <Container maxWidth="lg">
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 6,
+                    borderRadius: 6,
+                    bgcolor: "#f1f5f9",
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography variant="h4" sx={{ mb: 6 }}>
+                    Flexible & Consistent
+                  </Typography>
+                  <Grid container spacing={4}>
+                    <Grid item xs={12} md={4}>
+                      <Avatar
+                        sx={{ bgcolor: "primary.main", mx: "auto", mb: 2 }}
+                      >
+                        <Icon>schedule</Icon>
+                      </Avatar>
+                      <Typography variant="h6">Global Scheduling</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Flexible across all time zones
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                      <Avatar sx={{ bgcolor: "info.main", mx: "auto", mb: 2 }}>
+                        <Icon>person</Icon>
+                      </Avatar>
+                      <Typography variant="h6">Mentor Continuity</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Learn with the same teacher every time
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                      <Avatar
+                        sx={{ bgcolor: "success.main", mx: "auto", mb: 2 }}
+                      >
+                        <Icon>auto_graph</Icon>
+                      </Avatar>
+                      <Typography variant="h6">Targeted Learning</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Focus on your specific difficult topics
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </Container>
+            </Box>
+
+            {/* Footer */}
+            <Box component="footer" sx={{ py: 4, textAlign: "center" }}>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleRequestDemo}
+                sx={{ borderRadius: 8, px: 5, mb: 4 }}
+              >
+                Request Demo
+              </Button>
+              <Divider sx={{ mb: 4, maxWidth: 400, mx: "auto" }} />
+              <Typography variant="body2" color="text.disabled">
+                © 2024 Tatva Learning. Excellence in personalised education, All
+                sessions conducted live online.
+              </Typography>
+            </Box>
+          </ThemeProvider>
+        );
+      };
+
+      ReactDOM.render(<TatvaLanding />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

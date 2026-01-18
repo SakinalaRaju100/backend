@@ -63,6 +63,9 @@ app.get("/anil", (req, res) => {
 app.get("/slves", (req, res) => {
   res.sendFile(__dirname + "/files/slves.html");
 });
+app.get("/tatva", (req, res) => {
+  res.sendFile(__dirname + "/files/TatvaLearning.html");
+});
 
 // Handle 404 routes
 app.use((req, res) => {
