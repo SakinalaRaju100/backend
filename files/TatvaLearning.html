@@ -245,6 +245,32 @@
                   >
                     GRADES 2–12
                   </Typography>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: "#5A5A5A",
+                      mb: 2,
+                      fontWeight: 200,
+                      fontSize: 12,
+                      maxWidth: 600,
+                      mx: "auto",
+                    }}
+                  >
+                    • Math • Science • Indian Languages
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: "#5A5A5A",
+                      mb: 2,
+                      fontWeight: 300,
+                      fontSize: 12,
+                      maxWidth: 600,
+                      mx: "auto",
+                    }}
+                  >
+                    • Live classes • Flexible timings • Complimentary demo
+                  </Typography>
                   <Button
                     variant="contained"
                     size="large"
@@ -276,6 +302,63 @@
             </Box>
 
             <Box className="hero-gradient-bg" sx={{}}>
+              {/* Mentor Section */}
+              <Container maxWidth="lg" sx={{ py: 3 }}>
+                <Paper
+                  elevation={0}
+                  className="glass-panel"
+                  sx={{
+                    p: { xs: 3, md: 6 },
+                    borderRadius: 4,
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      pb: 2,
+                      mb: 3,
+                      // borderBottom: 1,
+                      color: "#2F2F2F",
+                    }}
+                  >
+                    THE APPROACH
+                  </Typography>
+
+                  <Grid container spacing={6}>
+                    {[
+                      {
+                        icon: "auto_graph",
+                        title:
+                          "We offer 1-on-1 live online classes designed for students studying in international school systems.",
+                        desc: "Each student receives individual attention, a structured learning plan, and steady academic guidance aligned with their school curriculum and learning pace.",
+                        color: "primary",
+                      },
+                    ].map((item, idx) => (
+                      <Grid item xs={12} md={12} key={idx}>
+                        <Box
+                          sx={{
+                            color: "#5A5A5A",
+
+                            transition: "transform 0.3s",
+                            "&:hover": { transform: "translateY(-10px)" },
+                          }}
+                        >
+                          <Typography variant="h6" gutterBottom>
+                            {item.title}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            // color="#5A5A5A"
+                          >
+                            {item.desc}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Paper>
+              </Container>
               {/* Offerings Excellence in Every Section */}
 
               <Container maxWidth="lg" sx={{ py: 3 }}>
@@ -384,6 +467,63 @@
                   </Grid>
                 </Paper>
               </Container>
+              {/* Mentor Section */}
+              <Container maxWidth="lg" sx={{ py: 3 }}>
+                <Paper
+                  elevation={0}
+                  className="glass-panel"
+                  sx={{
+                    p: { xs: 3, md: 6 },
+                    borderRadius: 4,
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      pb: 2,
+                      mb: 3,
+                      // borderBottom: 1,
+                      color: "#2F2F2F",
+                    }}
+                  >
+                    Mentor
+                  </Typography>
+
+                  <Grid container spacing={6}>
+                    {[
+                      {
+                        icon: "auto_graph",
+                        title:
+                          "All tutors go through a screening and onboarding process and are familiar with international school curricula",
+                        desc: "They focus on clarity, consistency, and adapting explanations to the student’s level of understanding.",
+                        color: "primary",
+                      },
+                    ].map((item, idx) => (
+                      <Grid item xs={12} md={12} key={idx}>
+                        <Box
+                          sx={{
+                            color: "#5A5A5A",
+
+                            transition: "transform 0.3s",
+                            "&:hover": { transform: "translateY(-10px)" },
+                          }}
+                        >
+                          <Typography variant="h6" gutterBottom>
+                            {item.title}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            // color="#5A5A5A"
+                          >
+                            {item.desc}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Paper>
+              </Container>
               {/* Consistency Section */}
               <Container maxWidth="lg" sx={{ py: 3 }}>
                 <Paper
@@ -480,13 +620,20 @@
                 sx={{
                   borderRadius: 50,
                   px: 6,
-                  color: "#2C3E50",
-                  backgroundColor: "#faefdc",
-                  // backgroundColor: "#F5F1EA",
+                  color: "primary.main",
+                  // backgroundColor: "#faefdc",
+                  // color: "#F5F1EA",
+                  // backgroundColor: "2C3E50",
+                  backgroundColor: "#F5F1EA",
                   py: 1.5,
                   mb: 6,
                   borderWidth: 2,
-                  "&:hover": { borderWidth: 2 },
+                  "&:hover": {
+                    borderWidth: 2,
+                    color: "#2F2F2F",
+
+                    backgroundColor: "#faefdc",
+                  },
                 }}
               >
                 Start Your Journey
