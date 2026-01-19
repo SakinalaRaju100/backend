@@ -215,7 +215,7 @@
                     sx={{ color: "#2F2F2F" }}
                   >
                     Tatva{" "}
-                    <span style={{ color: "#0d1488", fontWeight: 300 }}>
+                    <span style={{ color: "#2C3E50", fontWeight: 300 }}>
                       {" "}
                       Learning
                     </span>
@@ -255,13 +255,15 @@
                       py: 2,
                       fontSize: "1.2rem",
                       textTransform: "none",
-                      color: "#2C3E50",
-                      backgroundColor: "#3abdfb",
+                      color: "#F5F1EA",
+                      backgroundColor: "2C3E50",
 
                       // boxShadow: "0 10px 20px -5px rgba(13, 148, 136, 0.4)",
                       transition: "transform 0.2s",
                       "&:hover": {
                         transform: "translateY(-3px)",
+                        color: "#2F2F2F",
+
                         backgroundColor: "#faefdc",
                         boxShadow: "0 15px 25px -5px rgba(13, 148, 136, 0.5)",
                       },
@@ -315,25 +317,25 @@
                         icon: "insights",
                         title: "Grade-wise learning plans tailored",
                         // desc: "Flexible across all time zones",
-                        color: "warning",
+                        color: "primary",
                       },
                       {
                         icon: "verified",
                         title: "Complimentary demo session",
                         // desc: "Flexible across all time zones",
-                        color: "warning",
+                        color: "primary",
                       },
                       {
                         icon: "edit_note",
                         title: "Homework support & revision",
                         // desc: "Flexible across all time zones",
-                        color: "info",
+                        color: "primary",
                       },
                       {
                         icon: "psychology",
                         title: "Concept-focused sessions",
                         // desc: "Flexible across all time zones",
-                        color: "info",
+                        color: "primary",
                       },
                     ].map((item, idx) => (
                       <Grid item xs={12} md={6} key={idx}>
@@ -417,13 +419,13 @@
                         icon: "person",
                         title: "Mentor Continuity",
                         desc: "Learn with the same teacher every time",
-                        color: "info",
+                        color: "primary",
                       },
                       {
                         icon: "auto_graph",
                         title: "Targeted Learning",
                         desc: "Focus on your specific difficult topics",
-                        color: "success",
+                        color: "primary",
                       },
                     ].map((item, idx) => (
                       <Grid item xs={12} md={4} key={idx}>
